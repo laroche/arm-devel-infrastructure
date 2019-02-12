@@ -27,7 +27,7 @@ if true ; then
 fi
 
 # arm64 build of op-tee with qemu:
-if false ; then
+if true ; then
   if ! test -d optee-qemu_v8 ; then
     mkdir optee-qemu_v8
     pushd optee-qemu_v8
