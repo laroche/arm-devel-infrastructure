@@ -259,7 +259,6 @@ if test $ARM = 64 ; then
     $CDROM
 else
   # -M vexpress-a9 -cpu cortex-a9 -dtb $iso/install/device-tree/vexpress-v2p-ca9.dtb
-  # -append "root=/dev/mmcblk0p1" -sd $hd
   QEMU_AUDIO_DRV=none $qemu \
     -M virt \
     -kernel $KERNEL -initrd $INITRD -append "$APPEND" \
