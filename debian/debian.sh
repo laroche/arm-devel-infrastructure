@@ -72,7 +72,7 @@ if test $DEBIAN = testing ; then
     label="Debian testing armhf n"
   fi
 else
-  VERSION="9.7.0"
+  VERSION="9.8.0"
   if test $ARM = 64 ; then
     if test $ISO = cd ; then
       img=debian-$VERSION-arm64-netinst.iso
