@@ -250,7 +250,7 @@ fi
 if test $ARM = 64 ; then
   # -bios QEMU_EFI.fd
   QEMU_AUDIO_DRV=none $qemu \
-    -M virt -cpu cortex-a53 -smp 4 -m 1024 -nographic \
+    -M virt -cpu cortex-a53 -smp 4 -m 2048 -nographic \
     -drive if=pflash,format=raw,file=QEMU_EFI.img,readonly=on \
     -drive if=pflash,file=$hd.varstore \
     -drive if=virtio,file=$hd \
