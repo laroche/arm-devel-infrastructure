@@ -249,7 +249,7 @@ fi
 # Change from *-device to  *-pci once all kernels support this.
 if test $ARM = 64 ; then
   # -bios QEMU_EFI.fd
-  $qemu \
+  QEMU_AUDIO_DRV=none $qemu \
     -M virt -cpu cortex-a53 -smp 4 -m 1024 -nographic \
     -drive if=pflash,format=raw,file=QEMU_EFI.img,readonly=on \
     -drive if=pflash,file=$hd.varstore \
@@ -260,7 +260,7 @@ if test $ARM = 64 ; then
 else
   # -M vexpress-a9 -cpu cortex-a9 -dtb $iso/install/device-tree/vexpress-v2p-ca9.dtb
   # -append "root=/dev/mmcblk0p1" -sd $hd
-  $qemu \
+  QEMU_AUDIO_DRV=none $qemu \
     -M virt \
     -kernel $KERNEL -initrd $INITRD -append "$APPEND" \
     -smp 4 -m 1024 -nographic \
@@ -270,7 +270,7 @@ else
     -netdev user,id=net0$PORT \
     -device virtio-net-device,netdev=net0
   if test $NEWINSTALL = 1 ; then
-    sudo virt-ls -a $hd /boot/
+    sudo virt-ls -l -a $hd /boot/
     if test $DEBIAN = testing ; then
       echo sudo virt-copy-out -a $hd /boot/vmlinuz-4.19.0-2-armmp-lpae /boot/initrd.img-4.19.0-2-armmp-lpae .
       sudo virt-copy-out -a $hd /boot/vmlinuz-4.19.0-2-armmp-lpae /boot/initrd.img-4.19.0-2-armmp-lpae .
