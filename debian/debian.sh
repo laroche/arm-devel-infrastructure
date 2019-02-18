@@ -11,7 +11,10 @@
 # sudo apt install qemu-system-arm qemu-efi libarchive-tools xorriso libguestfs-tools
 #
 # TODO:
+# - arm32 stable version 9.8.0 seems to be broken, 9.7.0 still worked with qemu.
+#   What has changed for the kernel config?
 # - change cdrom grub entry to immediately start an installation for arm64
+# - complete the preseed config files to include answers to all questions
 # - optionally add serial interface/output during installation
 # - look at different EFI versions, use current upstream release
 # - add more config for ssh-server, sudo, ntp
@@ -49,11 +52,6 @@ fi
 # If set to 1, we will only listen on 127.0.0.1, so ssh connections are
 # not possible from remote but only from the local host.
 PORTSECURE=1
-
-# This script changes quit a few files in this directory, so please make
-# sure you have looked through this file and execute it within a new directory.
-echo "Please check this script and remove the 'exit 1' to really be able to use it."
-exit 1
 
 # Name of the harddisk file we install Debian on:
 hd=debian.img.$ARM.$DEBIAN
