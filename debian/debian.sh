@@ -28,7 +28,8 @@ else
   ARM=64
 fi
 
-# Select Debian "stable" or "testing":
+# Select Debian "stable", "testing" or "unstable":
+# For "unstable" you also have to edit the preseed file.
 if test "X$2" != X ; then
   DEBIAN="$2"
 else
@@ -61,7 +62,7 @@ hd=debian.img.$ARM.$DEBIAN
 iso=$hd.iso
 
 # Database of all URLs to the different Debian releases:
-if test $DEBIAN = testing ; then
+if test $DEBIAN = testing -o $DEBIAN = unstable ; then
   if test $ARM = 64 ; then
     img=debian-testing-arm64-netinst.iso
     url=http://cdimage.debian.org/cdimage/daily-builds/daily/arch-latest/arm64/iso-cd/$img
@@ -137,6 +138,9 @@ if test $ARM = 32 ; then
   if test $DEBIAN = testing ; then
     KERNEL=vmlinuz-4.19.0-2-armmp-lpae
     INITRD=initrd.img-4.19.0-2-armmp-lpae
+  elif test $DEBIAN = unstable ; then
+    KERNEL=vmlinuz-4.19.0-3-armmp-lpae
+    INITRD=initrd.img-4.19.0-3-armmp-lpae
   else
     KERNEL=vmlinuz-4.9.0-8-armmp-lpae
     INITRD=initrd.img-4.9.0-8-armmp-lpae
@@ -273,6 +277,9 @@ else
     if test $DEBIAN = testing ; then
       echo sudo virt-copy-out -a $hd /boot/vmlinuz-4.19.0-2-armmp-lpae /boot/initrd.img-4.19.0-2-armmp-lpae .
       sudo virt-copy-out -a $hd /boot/vmlinuz-4.19.0-2-armmp-lpae /boot/initrd.img-4.19.0-2-armmp-lpae .
+    elif test $DEBIAN = unstable ; then
+      echo sudo virt-copy-out -a $hd /boot/vmlinuz-4.19.0-3-armmp-lpae /boot/initrd.img-4.19.0-3-armmp-lpae .
+      sudo virt-copy-out -a $hd /boot/vmlinuz-4.19.0-3-armmp-lpae /boot/initrd.img-4.19.0-3-armmp-lpae .
     else
       echo sudo virt-copy-out -a $hd /boot/vmlinuz-4.9.0-8-armmp-lpae /boot/initrd.img-4.9.0-8-armmp-lpae .
       sudo virt-copy-out -a $hd /boot/vmlinuz-4.9.0-8-armmp-lpae /boot/initrd.img-4.9.0-8-armmp-lpae .
