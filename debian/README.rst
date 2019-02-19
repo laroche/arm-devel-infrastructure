@@ -5,10 +5,8 @@ current "stable", "testing" or "unstable" distributions.
 
 Example usage::
 
-  ./debian.sh 32 unstable 2222
   ./debian.sh 32 testing  2222
   ./debian.sh 64 stable   2222
-  ./debian.sh 64 unstable 2222
   ./debian.sh 64 testing  2222
 
 
