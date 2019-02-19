@@ -58,6 +58,8 @@ hd=debian.img.$ARM.$DEBIAN
 
 # Extract the ISO image into this subdirectory:
 iso=$hd.iso
+# Newly created ISO image of that:
+piso=$hd.iso.preseed
 
 # Database of all URLs to the different Debian releases:
 if test $DEBIAN = testing -o $DEBIAN = unstable ; then
@@ -150,9 +152,9 @@ if ! test -f $hd ; then
   # Create new disk for the client and add the install iso:
   qemu-img create -f qcow2 $hd 128G
   if test $ARM = 64 ; then
-    CDROM="-drive if=virtio,format=raw,file=$img.preseed"
+    CDROM="-drive if=virtio,format=raw,file=$piso"
   else
-    CDROM="-drive if=none,file=$img.preseed,format=raw,id=hd1 -device virtio-blk-device,drive=hd1"
+    CDROM="-drive if=none,file=$piso,format=raw,id=hd1 -device virtio-blk-device,drive=hd1"
     # "auto" is the same as "auto=true priority=critical"
     APPEND="auto locale=en_US country=US language=en keymap=us file=/preseed.cfg"
     KERNEL=$iso/install/netboot/vmlinuz
@@ -165,7 +167,7 @@ if ! test -f $hd ; then
   fi
 
   # Re-create the installer image to include preseed information:
-  if ! test -f $img.preseed ; then
+  if ! test -f $piso ; then
     mkdir $iso
     bsdtar -C $iso -xf $img
     #xorriso -osirrox on -indev $img -extract / $iso
@@ -221,7 +223,7 @@ if ! test -f $hd ; then
     if test $ARM = 64 ; then
       xorriso -as mkisofs \
         -r -checksum_algorithm_iso md5,sha1,sha256,sha512 -V "$label" \
-        -o "$img.preseed" \
+        -o "$piso" \
         -J -joliet-long -cache-inodes \
         -e boot/grub/efi.img \
         -no-emul-boot \
@@ -231,7 +233,7 @@ if ! test -f $hd ; then
     else
       xorriso -as mkisofs \
         -r -checksum_algorithm_iso md5,sha1,sha256,sha512 -V "$label" \
-        -o "$img.preseed" \
+        -o "$piso" \
         -J -joliet-long -cache-inodes \
         $iso
     fi
@@ -286,7 +288,7 @@ else
 fi
 if test $NEWINSTALL = 1 ; then
   chmod +w -R $iso
-  rm -fr $iso $img.preseed efi.img
+  rm -fr $iso $piso efi.img
   qemu-img convert -O qcow2 $hd $hd.new && mv $hd.new $hd
   qemu-img snapshot -c install $hd
 fi
