@@ -3,6 +3,7 @@ current "stable", "testing" or "unstable" distributions.
 
 
 Example usage::
+
   ./debian 32 unstable 2222
   ./debian 32 testing  2222
   ./debian 64 stable   2222
