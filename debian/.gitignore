@@ -1,13 +1,10 @@
+*.iso.preseed
 QEMU_EFI.img
 efi.img
 debian-9.?.0-arm64-netinst.iso
-debian-9.?.0-arm64-netinst.iso.preseed
 debian-9.?.0-armhf-netinst.iso
-debian-9.?.0-armhf-netinst.iso.preseed
 debian-testing-arm64-netinst.iso
-debian-testing-arm64-netinst.iso.preseed
 debian-testing-armhf-netinst.iso
-debian-testing-armhf-netinst.iso.preseed
 debian.img.32.stable
 debian.img.32.stable.iso
 debian.img.32.testing
