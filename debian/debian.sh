@@ -10,6 +10,11 @@
 # Requirements for this script on Debian/Ubuntu hosts:
 # sudo apt install qemu-system-arm qemu-efi libarchive-tools xorriso libguestfs-tools
 #
+# qemu arm specialties/options:
+# - qemu comes up in EL1, for EL2 pass on "-machine virtualization=on" (needed for KVM)
+# - default CPU is 32-bit, to change pass "-cpu max"
+# - default GIC is GICv2, for GICv3 use "-machine gic-version=max"
+#
 # TODO:
 # - arm32 stable version 9.8.0 seems to be broken, 9.7.0 still worked with qemu.
 #   What has changed for the kernel config?
@@ -87,6 +92,7 @@ else
       label="Debian $VERSION arm64 1"
     fi
   else
+    #VERSION="9.7.0"
     if test $ISO = cd ; then
       img=debian-$VERSION-armhf-netinst.iso
       #img=debian-$VERSION-armhf-xfce-CD-1.iso
