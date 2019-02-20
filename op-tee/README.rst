@@ -3,7 +3,7 @@ key projects that are worth looking at in more detail:
 
 - `EDK II Project`_ (UEFI)
 - `Trusted Firmware-A`_
-  - `Docs for ATF`_
+   - `Docs for ATF`_
 - `OP-TEE Trusted OS`_
 - `Linux Kernel`_
 - `Buildroot`_ Embedded Linux
