@@ -3,6 +3,7 @@ key projects that are worth looking at in more detail:
 
 - `EDK II Project`_ (UEFI)
 - `Trusted Firmware-A`_
+  - `Docs for ATF`_
 - `OP-TEE Trusted OS`_
 - `Linux Kernel`_
 - `Buildroot`_ Embedded Linux
@@ -12,5 +13,6 @@ key projects that are worth looking at in more detail:
 .. _EDK II Project: https://github.com/tianocore/edk2
 .. _Trusted Firmware-A: https://github.com/ARM-software/arm-trusted-firmware
 .. _OP-TEE Trusted OS: https://github.com/OP-TEE/optee_os
+.. _Docs for ATF: https://github.com/ARM-software/arm-trusted-firmware/tree/master/docs
 .. _Linux Kernel: https://github.com/torvalds/linux
 .. _Buildroot: https://github.com/buildroot/buildroot
