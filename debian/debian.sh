@@ -198,22 +198,34 @@ if ! test -f $hd ; then
     else
       chmod +w -R $iso/install/ $iso/md5sum.txt
     fi
+    # For 64bit copy the preseed.cfg file into the new ISO image,
+    # for 32bit append it to the initrd. We automatically modify
+    # the preseed.cfg file with sed to adapt it to different
+    # Debian installations.
+    # For debugging add this to the kernel commandline: DEBCONF_DEBUG=5
+    # Use the following lines on the installed system to find configs:
+    # debconf-get-selections --installer > preseed.cfg
+    # debconf-get-selections >> preseed.cfg
+    cp preseed.cfg $iso/preseed.cfg
+    if test $DEBIAN = unstable ; then
+      sed -i -e 's/^#DIUNSTABLE//g' $iso/preseed.cfg
+    fi
+    if test $ARM = 32 ; then
+      sed -i -e 's/^#DI32//g' $iso/preseed.cfg
+    fi
     if test $ARM = 64 ; then
-      #gunzip $iso/install.a64/initrd.gz
-      #echo preseed.cfg | cpio -H newc -o -A --owner=0:0 -F $iso/install.a64/initrd
-      #gzip -9 $iso/install.a64/initrd
-      cp preseed64.cfg $iso/preseed.cfg
-      # cdrom-detect\/load_media=false
-      # DEBCONF_DEBUG=5
-      # debconf-get-selections --installer > preseed.cfg
-      # debconf-get-selections >> preseed.cfg
+      # Changing $iso/install.a64/initrd.gz did not work for 64bit.
+      # cdrom-detect\/load_media=false hw-detect\/load_media=false
       sed -i -e 's/vmlinuz \? ---/vmlinuz auto locale=en_US country=US language=en keymap=us cdrom-detect\/manual_config=true cdrom-detect\/cdrom_module=none cdrom-detect\/cdrom_device=\/dev\/vdb file=\/cdrom\/preseed.cfg ---/g' \
 	$iso/boot/grub/grub.cfg
     else
       # Append the preseed.cfg file into the compressed cpio archive:
       gunzip $iso/install/netboot/initrd.gz
-      echo preseed.cfg | cpio -H newc -o -A --owner=0:0 -F $iso/install/netboot/initrd
+      pushd $iso
+      echo preseed.cfg | cpio -H newc -o -A --owner=0:0 -F install/netboot/initrd
+      popd
       gzip -9 $iso/install/netboot/initrd
+      rm -f $iso/preseed.cfg
     fi
 
     if test $ARM = 64 ; then
