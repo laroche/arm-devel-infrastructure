@@ -16,8 +16,8 @@
 # - default GIC is GICv2, for GICv3 use "-machine gic-version=max"
 #
 # TODO:
-# - arm32 stable version 9.8.0 seems to be broken, 9.7.0 still worked with qemu.
-#   What has changed for the kernel config?
+# - arm32 stable version 9.8.0 seems to be broken, 9.7.0 still worked with qemu:
+#   See: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=922478
 # - change cdrom grub entry to immediately start an installation for arm64
 # - complete the preseed config files to include answers to all questions
 # - optionally add serial interface/output during installation
