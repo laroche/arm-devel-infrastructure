@@ -58,6 +58,21 @@ fi
 # not possible from remote but only from the local host.
 PORTSECURE=1
 
+##############################################################################
+# No edits should be needed below this line.
+
+# Check some of the parameters/configurations:
+case "$ARM" in
+  32|64) ;;
+  *)     echo "Wrong parameters."
+         exit 1
+esac
+case "$DEBIAN" in
+  stable|testing|unstable) ;;
+  *)     echo "Wrong parameters."
+         exit 1
+esac
+
 # Name of the harddisk file we install Debian on:
 hd=debian.img.$ARM.$DEBIAN
 
