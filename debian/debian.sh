@@ -281,6 +281,9 @@ if test "X$PORT" != X ; then
     PORT=",hostfwd=tcp::${PORT}-:22"
   fi
 fi
+# Quick adjustments to enable http/http-alt port forwarding:
+#PORT="$PORT,hostfwd=tcp:127.0.0.1:8080-:8080"
+#PORT="$PORT,hostfwd=tcp:127.0.0.1:80-:80"
 
 # Invoke the guest system either for installation or to just start an existing system:
 # Change from *-device to  *-pci once all kernels support this.
