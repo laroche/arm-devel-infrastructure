@@ -18,6 +18,7 @@
 # TODO:
 # - arm32 stable version 9.8.0 seems to be broken, 9.7.0 still worked with qemu:
 #   See: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=922478
+#   Best to use the 9.7.0 ISO to start the install, the installed kernel is ok now.
 # - change cdrom grub entry to immediately start an installation for arm64
 # - complete the preseed config files to include answers to all questions
 # - optionally add serial interface/output during installation
@@ -283,6 +284,7 @@ if test "X$PORT" != X ; then
 fi
 # Quick adjustments to enable http/http-alt port forwarding:
 #PORT="$PORT,hostfwd=tcp:127.0.0.1:8080-:8080"
+# Port 80 is below 1024, so is only available if you run as root:
 #PORT="$PORT,hostfwd=tcp:127.0.0.1:80-:80"
 
 # Invoke the guest system either for installation or to just start an existing system:
