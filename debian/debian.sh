@@ -28,6 +28,9 @@
 # - debian kernel git repo: git clone https://salsa.debian.org/kernel-team/linux.git
 # - optionally add the syzkaller and ltp tests
 # - try to get rid of sudo to extract the kernel/initrd, extract from deb files?
+# - For enough entropy we pass on /dev/urandom into the guest system. Please check out
+#   this report: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=912087
+#   Alternatively add the kernel option: random.trust_cpu=on or rng_core.default_quality=700
 #
 
 # Select "32" or "64" bit ARM:
@@ -298,7 +301,9 @@ if test $ARM = 64 ; then
     -drive if=virtio,file=$hd \
     -netdev user,id=net0$PORT \
     -device virtio-net-device,netdev=net0 \
-    $CDROM
+    $CDROM \
+    -object rng-random,filename=/dev/urandom,id=rng0 \
+    -device virtio-rng-pci,rng=rng0
 else
   # -M vexpress-a9 -cpu cortex-a9 -dtb $iso/install/device-tree/vexpress-v2p-ca9.dtb
   QEMU_AUDIO_DRV=none $qemu \
@@ -309,7 +314,9 @@ else
     -drive if=none,file=$hd,id=hd0 \
     -device virtio-blk-device,drive=hd0 \
     -netdev user,id=net0$PORT \
-    -device virtio-net-device,netdev=net0
+    -device virtio-net-device,netdev=net0 \
+    -object rng-random,filename=/dev/urandom,id=rng0 \
+    -device virtio-rng-pci,rng=rng0
   if test $NEWINSTALL = 1 ; then
     sudo virt-ls -l -a $hd /boot/
     if test $DEBIAN = testing ; then
