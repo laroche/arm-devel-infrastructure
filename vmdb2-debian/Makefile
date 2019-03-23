@@ -5,12 +5,14 @@ debian.img: debian.yaml
 	sudo chown $(USER) debian.img debian.log
 
 release: debian.img README.md
-	ln debian.img debian-server-$(DATE).img
-	zip debian-server-$(DATE).zip README.md debian-server-$(DATE).img
-	rm -f debian-server-$(DATE).img
+	mkdir debian-server-$(DATE)
+	ln README.md debian-server-$(DATE)/README-$(DATE).md
+	ln debian.img debian-server-$(DATE)/debian-server-$(DATE).img
+	zip debian-server-$(DATE).zip debian-server-$(DATE)
+	rm -fr debian-server-$(DATE)
 
 clean:
-	rm -f debian.img debian.log debian-server-*.zip debian-server-*.img
+	rm -fr debian.img debian.log debian-server-*
 
 distclean: clean
 	rm -f debian.tar.gz
