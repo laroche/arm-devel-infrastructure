@@ -37,16 +37,18 @@ extend your second Linux partition to grow until the end of your device and
 also create a swap partition and the end of your device. This can be done
 with parted and it is easy to specify e.g. the last 1024MB of your device
 via negative numbers like -1024. First the partition size is changed, then
-the actual filesystem is grown:
+the actual filesystem is grown.
 
 ```shell
-wget https://github.com/laroche/arm-devel-infrastructure/releases/debian-server-20190323.zip
+wget https://github.com/laroche/arm-devel-infrastructure/releases/download/v20190323/debian-server-20190323.zip
 unzip -x debian-server-20190323.zip
+# plug in your SD-card or USB-stick. umount any automatically mounted existing partitions.
 sudo dd if=debian-server-20190323.img of=/dev/sdX bs=4M oflag=dsync status=progress
 sudo parted /dev/sdX
 (parted) mkpart primary linux-swap -1024 -0
 (parted) resizepart 2 -1024
-sudo mkswap -L debswap /dev/sdX
+(parted) quit
+sudo mkswap -L debswap /dev/sdX3
 sudo e2fsck -f /dev/sdX2
 sudo resize2fs /dev/sdX2
 ```
@@ -68,7 +70,7 @@ You should have Debian testing or newer installed to run these scripts
 yourself:
 
 ```shell
-sudo apt install vmdb2 dosfstools qemu make
+sudo apt install vmdb2 dosfstools qemu make #zip
 git clone https://github.com/laroche/arm-devel-infrastructure
 cd arm-devel-infrastructure/vmdb2-debian
 edit debian.yaml
