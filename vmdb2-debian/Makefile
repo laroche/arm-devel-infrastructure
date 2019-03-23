@@ -16,5 +16,7 @@ distclean: clean
 	rm -f debian.tar.gz
 
 tag:
-	git tag v$(DATE)
+	git tag -m "release v$(DATE)" v$(DATE)
+	git push origin v($DATE)
+	#git push origin --follow-tags
 
