@@ -181,6 +181,9 @@ steps:
       sed -i -e 's/.dev.mmcblk0p2/LABEL=debroot/g' /boot/firmware/cmdline.txt
       sed -i -e 's,^#ROOTPART=/dev/mmcblk0p2$,ROOTPART="LABEL=debroot",g' /etc/default/raspi3-firmware
 
+      # https://unix.stackexchange.com/questions/318824/vim-cutpaste-not-working-in-stretch-debian-9
+      # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=864074
+      # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=837761#76
       sed -i -e '/has.*mouse/,+2s/^/"/' /usr/share/vim/vim81/defaults.vim
 
   - shell: |
