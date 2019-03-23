@@ -44,7 +44,7 @@ wget https://github.com/laroche/arm-devel-infrastructure/releases/download/v2019
 unzip -x debian-server-20190323.zip
 # Plug in your SD-card or USB-stick.
 # Umount any automatically mounted existing partitions in /media/$USER/*.
-sudo dd if=debian-server-20190323.img of=/dev/sdX bs=4M oflag=dsync status=progress
+sudo dd if=debian-server-20190323/debian-server-20190323.img of=/dev/sdX bs=4M oflag=dsync status=progress
 sudo parted /dev/sdX
 (parted) help
 (parted) print
