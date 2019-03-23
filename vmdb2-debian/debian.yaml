@@ -1,0 +1,189 @@
+
+steps:
+  - mkimg: "{{ output }}"
+    size: 2048M
+
+  #- mklabel: gpt
+  - mklabel: msdos
+    device: "{{ output }}"
+
+  - mkpart: primary
+    fs-type: 'fat32'
+    device: "{{ output }}"
+    start: 0%
+    end: 160M
+    tag: firmware-fs
+
+  - mkpart: primary
+    device: "{{ output }}"
+    start: 160M
+    end: 100%
+    tag: rootfs
+
+  - kpartx: "{{ output }}"
+
+  - mkfs: vfat
+    partition: firmware-fs
+    label: debfirm
+
+  - mkfs: ext4
+    partition: rootfs
+    label: debroot
+
+  - mount: rootfs
+
+  - mount: firmware-fs
+    mount-on: rootfs
+    dirname: '/boot/firmware'
+
+  - unpack-rootfs: rootfs
+
+  - qemu-debootstrap: buster
+    mirror: http://deb.debian.org/debian
+    arch: arm64
+    target: rootfs
+    components:
+    - main
+    - contrib
+    - non-free
+    unless: rootfs_unpacked
+
+  - apt: install
+    packages:
+    - unattended-upgrades
+    - locales
+    - keyboard-configuration
+    - console-setup
+    - psmisc
+    - strace
+    - htop
+    - tree
+    - gpm
+    - man
+    - parted
+    - dosfstools
+    - vim
+    - sudo
+    - net-tools
+    - traceroute
+    #- mtr
+    - wakeonlan
+    - bind9-host
+    - dnsutils
+    - tcpdump
+    - iptables-persistent
+    - ntp
+    - ssh
+    - screen
+    - tmux
+    - rsync
+    - curl
+    - wget
+    - git-core
+    - unzip
+    - zip
+    - xz-utils
+    #- ansible
+    - reportbug
+    - firmware-brcm80211
+    - wireless-tools
+    - wpasupplicant
+    - raspi3-firmware
+    - linux-image-arm64
+    #- linux-image-amd64
+    tag: rootfs
+    unless: rootfs_unpacked
+
+  - cache-rootfs: rootfs
+    unless: rootfs_unpacked
+
+    #  - grub: bios/uefi
+    #tag: rootfs
+    #efi: firmware-fs
+    #console: serial
+    #- grub: bios
+    #root-fs: root-fs
+    #root-part: root-part
+    #device: "{{ output }}"
+
+  - shell: |
+      echo "debian" > "${ROOT?}/etc/hostname"
+
+      # Unset the root password:
+      #sed -i -e 's/^root:[^:]*:/root::/g' "${ROOT?}/etc/shadow"
+
+      #sed -i -e 's,#PermitRootLogin prohibit-password,PermitRootLogin yes,g' "${ROOT?}/etc/ssh/sshd_config"
+
+      if test -f authorized_keys ; then
+        mkdir -p -m 0700 "${ROOT?}/root/.ssh"
+        install -m 600 -o root -g root authorized_keys "${ROOT?}/root/.ssh/authorized_keys"
+      fi
+
+      echo "LABEL=debroot / ext4 rw 0 1" > "${ROOT?}/etc/fstab"
+      echo "LABEL=debfirm /boot/firmware vfat rw 0 2" >> "${ROOT?}/etc/fstab"
+      echo "proc /proc proc defaults 0 0" >> "${ROOT?}/etc/fstab"
+      echo "LABEL=debswap swap swap defaults 0 0" >> "${ROOT?}/etc/fstab"
+
+      echo "auto eth0" > "${ROOT?}/etc/network/interfaces.d/eth0"
+      echo "iface eth0 inet dhcp" >> "${ROOT?}/etc/network/interfaces.d/eth0"
+
+      echo "deb http://deb.debian.org/debian/ buster main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
+      echo "deb-src http://deb.debian.org/debian/ buster main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+      echo >> ${ROOT?}/etc/apt/sources.list
+      echo "deb http://security.debian.org/debian-security buster/updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+      echo "deb-src http://security.debian.org/debian-security buster/updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+
+      echo "deb http://deb.debian.org/debian/ experimental main" > "${ROOT?}/etc/apt/sources.list.d/experimental.list"
+
+      install -m 644 -o root -g root ssh-generate-host-keys.service "${ROOT?}/etc/systemd/system"
+      mkdir -p "${ROOT?}/etc/systemd/system/multi-user.target.requires/"
+      ln -s /etc/systemd/system/ssh-generate-host-keys.service "${ROOT?}/etc/systemd/system/multi-user.target.requires/ssh-generate-host-keys.service"
+      rm -f ${ROOT?}/etc/ssh/ssh_host_*_key*
+
+      rm -f ${ROOT?}/usr/lib/raspi3-firmware/kernel*.img ${ROOT?}/boot/firmware/kernel*.img
+
+    root-fs: rootfs
+
+  - chroot: rootfs
+    shell: |
+      echo "tzdata tzdata/Areas select Europe" | debconf-set-selections
+      echo "tzdata tzdata/Zones/Europe select Berlin" | debconf-set-selections
+      echo "Europe/Berlin" > /etc/timezone
+      ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+      dpkg-reconfigure --frontend=noninteractive tzdata
+
+      echo "locales locales/default_environment_locale select de_DE.UTF-8" | debconf-set-selections
+      echo "locales locales/locales_to_be_generated multiselect de_DE.UTF-8 UTF-8" | debconf-set-selections
+      rm -f /etc/locale.gen
+      dpkg-reconfigure --frontend noninteractive locales
+
+      echo "console-setup console-setup/charmap47 select UTF-8" | debconf-set-selections
+      sed -i -e 's/^CHARMAP=.*/CHARMAP="UTF-8"/g' /etc/default/console-setup
+      # This errors on the output file that /proc is not mounted:
+      dpkg-reconfigure --frontend noninteractive console-setup
+
+      sed -i -e 's/^XKBLAYOUT=.*/XKBLAYOUT="de"/g' /etc/default/keyboard
+      sed -i -e 's/^XKBVARIANT=.*/XKBVARIANT="nodeadkeys"/g' /etc/default/keyboard
+      sed -i -e 's/^XKBOPTIONS=.*/XKBOPTIONS="terminate:ctrl_alt_bksp"/g' /etc/default/keyboard
+      #d-i console-keymaps-at/keymap select de-latin1-nodeadkeys
+      #echo "keyboard-configuration keyboard-configuration/layoutcode string de" | debconf-set-selections
+      #echo "keyboard-configuration keyboard-configuration/layout select German" | debconf-set-selections
+      #echo "keyboard-configuration keyboard-configuration/variantcode string nodeadkeys" | debconf-set-selections
+      #echo "keyboard-configuration keyboard-configuration/toggle select No toggling" | debconf-set-selections
+      #echo "keyboard-configuration keyboard-configuration/xkb-keymap select de" | debconf-set-selections
+      dpkg-reconfigure --frontend noninteractive keyboard-configuration
+
+      sed -i -e 's,^SHELL=/bin/sh,SHELL=/bin/bash,g' /etc/default/useradd
+
+      apt-get clean
+      rm -rf /var/lib/apt/lists
+
+      sed -i -e 's/.dev.mmcblk0p2/LABEL=debroot/g' /boot/firmware/cmdline.txt
+      sed -i -e 's,^#ROOTPART=/dev/mmcblk0p2$,ROOTPART="LABEL=debroot",g' /etc/default/raspi3-firmware
+
+      sed -i -e '/has.*mouse/,+2s/^/"/' /usr/share/vim/vim81/defaults.vim
+
+  - shell: |
+      rm "${ROOT?}/etc/resolv.conf"
+    root-fs: rootfs
+

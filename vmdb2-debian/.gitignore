@@ -1,0 +1,6 @@
+authorized_keys
+debian.log
+debian.img
+debian.tar.gz
+debian-server-*.img
+debian-server-*.zip
