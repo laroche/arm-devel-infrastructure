@@ -4,6 +4,9 @@ A Debian ARM64 image from their testing repository with mostly (text based)
 basic server applications. This image should run fine on Raspberry-Pi 3A+
 and also on Qemu.
 
+Default upstream repository for this is at
+https://github.com/laroche/arm-devel-infrastructure/tree/master/vmdb2-debian.
+
 Debian has repositories for stable (which is now Debian 9), testing (which
 should become the next stable release of Debian-10 later in 2019) and unstable.
 Single even newer packages can be found on Debian experimental.
@@ -65,9 +68,9 @@ You should have Debian testing or newer installed to run these scripts
 yourself:
 
 ```shell
-sudo apt install vmdb2 dosfstools qemu
+sudo apt install vmdb2 dosfstools qemu make
 git clone https://github.com/laroche/arm-devel-infrastructure
-cd arm-devel-infrastructure/debian-vmdb2
+cd arm-devel-infrastructure/vmdb2-debian
 edit debian.yaml
 make
 ```

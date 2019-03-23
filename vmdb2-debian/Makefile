@@ -15,3 +15,6 @@ clean:
 distclean: clean
 	rm -f debian.tar.gz
 
+tag:
+	git tag v$(DATE)
+
