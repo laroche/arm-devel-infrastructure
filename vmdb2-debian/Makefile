@@ -8,7 +8,7 @@ release: debian.img README.md
 	mkdir debian-server-$(DATE)
 	ln README.md debian-server-$(DATE)/README-$(DATE).md
 	ln debian.img debian-server-$(DATE)/debian-server-$(DATE).img
-	zip debian-server-$(DATE).zip debian-server-$(DATE)
+	zip -r debian-server-$(DATE).zip debian-server-$(DATE)
 	rm -fr debian-server-$(DATE)
 
 clean:
