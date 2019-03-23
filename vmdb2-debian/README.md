@@ -42,9 +42,11 @@ the actual filesystem is grown.
 ```shell
 wget https://github.com/laroche/arm-devel-infrastructure/releases/download/v20190323/debian-server-20190323.zip
 unzip -x debian-server-20190323.zip
-# plug in your SD-card or USB-stick. umount any automatically mounted existing partitions.
+# plug in your SD-card or USB-stick. umount any automatically mounted existing partitions in /media/$USER/*.
 sudo dd if=debian-server-20190323.img of=/dev/sdX bs=4M oflag=dsync status=progress
 sudo parted /dev/sdX
+(parted) help
+(parted) print
 (parted) mkpart primary linux-swap -1024 -0
 (parted) resizepart 2 -1024
 (parted) quit
@@ -59,9 +61,19 @@ if it is actually used ok.
 If you reconnect your image device again to your Linux machine, the
 filesystems are usually mounted automatically in /media/$USER/debroot
 and /media/$USER/debfirm.
-You can now change /etc/shadow for your root pasword and /etc/ssh/sshd_config
+You can now change /etc/shadow for your root password and /etc/ssh/sshd_config
 for your openssh server configuration.
-Best is to create the file /root/.ssh/authorized_keys for remote login.
+Best is to create the file /root/.ssh/authorized_keys for remote login:
+
+```shell
+# plug in your SD-card or USB-stick. Usually partitions are auto-mounted on /media/$USER/debfirm and /media/$USER/debroot.
+edit /media/$USER/debfirm/config.txt          # firmware options
+edit /media/$USER/debfirm/cmdline.txt         # Linux kernel boot parameters
+edit /media/$USER/debroot/etc/shadow          # root pasword
+edit /media/$USER/debroot/etc/ssh/sshd_config # openssh server options
+mkdir -m 700 /media/$USER/debroot/root/.ssh   # authorized keys for remote login
+cp ~/.ssh/id_rsa.pub /media/$USER/debroot/root/.ssh/authorized_keys
+```
 
 
 ## building your own image
