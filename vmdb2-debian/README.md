@@ -1,8 +1,8 @@
 # Debian server image for ARM64
 
 A Debian ARM64 image from their testing repository with mostly (text based)
-basic server applications. This image should run fine on Raspberry-Pi 3A+
-and also on Qemu.
+basic server applications. This image should run fine on Raspberry Pi 3
+Model B and B+ and also on Qemu.
 
 Default upstream repository for this is at
 https://github.com/laroche/arm-devel-infrastructure/tree/master/vmdb2-debian.
@@ -19,9 +19,9 @@ This is based mostly on http://git.liw.fi/vmdb2/ as included in Debian testing a
 Download a binary image release from
 https://github.com/laroche/arm-devel-infrastructure/releases.
 
-Raspberry-Pi 3A and 3A+ should boot this image fine from a SD-card or from
-a USB-stick. Here some information on how to write this image from a Linux
-machine.
+Raspberry Pi 3 Model B and B+ should boot this image fine from a SD-card or
+from a USB-stick. Here some information on how to write this image from a
+Linux machine.
 
 Normally the SD-card or USB-sticks are named devices like /dev/sdX. Make sure
 you really find the correct device and not overwrite your harddisk or other
@@ -29,7 +29,7 @@ devices. Check the size of the device and check your syslog messages that show
 up on connecting the device to your Linux machine.
 
 The image contains an MS-DOS partition table with two partitions. The first
-is a MS-DOS partition labeled debfirm with firmware files from Raspberry-Pi
+is a MS-DOS partition labeled debfirm with firmware files from Raspberry Pi
 and a Linux kernel and initrd file. The second partition is an ext4 filesystem
 labeled debroot with your complete Linux installation.
 Since your device should have more room at the end of the image, you should
@@ -80,7 +80,7 @@ umount /media/$USER/debroot
 ```
 
 Now remove the SD-card or the USB-stick from your Linux machine, insert it
-into your Raspberry-Pi and start it.
+into your Raspberry Pi and start it.
 
 
 ## building your own image
