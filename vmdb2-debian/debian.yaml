@@ -143,6 +143,22 @@ steps:
 
       rm -f ${ROOT?}/usr/lib/raspi3-firmware/kernel*.img ${ROOT?}/boot/firmware/kernel*.img
 
+      echo "alias ..='cd ..'"      > "${ROOT?}/root/.bash_aliases"
+      echo "alias ...='cd ../..'" >> "${ROOT?}/root/.bash_aliases"
+      echo "alias o=less"         >> "${ROOT?}/root/.bash_aliases"
+      echo "alias l='ls -la'"     >> "${ROOT?}/root/.bash_aliases"
+
+      cp "${ROOT?}/root/.bash_aliases" "${ROOT?}/etc/skel/.bash_aliases"
+
+      echo                                                    >> "${ROOT?}/root/.bashrc"
+      echo "HISTCONTROL=ignoreboth"                           >> "${ROOT?}/root/.bashrc"
+      echo "# append to the history file, don't overwrite it" >> "${ROOT?}/root/.bashrc"
+      echo "shopt -s histappend"                              >> "${ROOT?}/root/.bashrc"
+      echo "HISTSIZE=1000"                                    >> "${ROOT?}/root/.bashrc"
+      echo "HISTFILESIZE=2000"                                >> "${ROOT?}/root/.bashrc"
+      echo                                                    >> "${ROOT?}/root/.bashrc"
+      echo ". ~/.bash_aliases"                                >> "${ROOT?}/root/.bashrc"
+
     root-fs: rootfs
 
   - chroot: rootfs
@@ -186,6 +202,9 @@ steps:
       # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=864074
       # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=837761#76
       sed -i -e '/has.*mouse/,+2s/^/"/' /usr/share/vim/vim81/defaults.vim
+
+      #adduser --gecos "Max Mustermann" --add_extra_groups max
+      #adduser max sudo
 
   - shell: |
       rm "${ROOT?}/etc/resolv.conf"
