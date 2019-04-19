@@ -11,12 +11,12 @@ steps:
     fs-type: 'fat32'
     device: "{{ output }}"
     start: 0%
-    end: 160M
+    end: 128M
     tag: firmware-fs
 
   - mkpart: primary
     device: "{{ output }}"
-    start: 160M
+    start: 128M
     end: 100%
     tag: rootfs
 
@@ -142,6 +142,8 @@ steps:
       rm -f ${ROOT?}/etc/ssh/ssh_host_*_key*
 
       rm -f ${ROOT?}/usr/lib/raspi3-firmware/kernel*.img ${ROOT?}/boot/firmware/kernel*.img
+
+      sed -i -e 's/^COMPRESS=.*/COMPRESS=lz4/g' ${ROOT?}/etc/initramfs-tools/initramfs.conf
 
       echo "alias ..='cd ..'"      > "${ROOT?}/root/.bash_aliases"
       echo "alias ...='cd ../..'" >> "${ROOT?}/root/.bash_aliases"
