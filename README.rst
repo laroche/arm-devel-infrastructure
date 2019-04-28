@@ -15,9 +15,9 @@ Most Linux distributions do not update qemu to current versions, but
 you can compile the current qemu release yourself. A good target for
 installation is `/opt/qemu` (Check `qemu download`_ as reference.)::
 
-  wget https://download.qemu.org/qemu-3.1.0.tar.xz
-  tar xJf qemu-3.1.0.tar.xz
-  cd qemu-3.1.0
+  wget https://download.qemu.org/qemu-4.0.0.tar.xz
+  tar xJf qemu-4.0.0.tar.xz
+  cd qemu-4.0.0
   ./configure --prefix=/opt/qemu
   make
   sudo make install
