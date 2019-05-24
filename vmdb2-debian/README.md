@@ -35,8 +35,8 @@ labeled debroot with your complete Linux installation.
 Since your device should have more room at the end of the image, you should
 extend your second Linux partition to grow until the end of your device and
 also create a swap partition and the end of your device. This can be done
-with parted and it is easy to specify e.g. the last 1024MB of your device
-via negative numbers like -1024. First the partition size is changed, then
+with parted and it is easy to specify e.g. the last 2048MB of your device
+via negative numbers like -2048. First the partition size is changed, then
 the actual filesystem is grown.
 
 ```shell
@@ -48,8 +48,8 @@ sudo dd if=debian-server-20190323/debian-server-20190323.img of=/dev/sdX bs=4M o
 sudo parted /dev/sdX
 (parted) help
 (parted) print
-(parted) mkpart primary linux-swap -1024 -0
-(parted) resizepart 2 -1024
+(parted) mkpart primary linux-swap -2048 -0
+(parted) resizepart 2 -2048
 (parted) quit
 sudo mkswap -L debswap /dev/sdX3
 sudo e2fsck -f /dev/sdX2
