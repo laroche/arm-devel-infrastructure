@@ -66,6 +66,7 @@ steps:
     - sudo
     - net-tools
     - traceroute
+    - nmap
     #- mtr
     - wakeonlan
     - bind9-host
@@ -74,6 +75,7 @@ steps:
     - iptables-persistent
     - ntp
     - ssh
+    - openssh-server
     - screen
     - tmux
     - rsync
@@ -85,9 +87,11 @@ steps:
     - xz-utils
     #- ansible
     - reportbug
-    - firmware-brcm80211
+    # wifi:
     - wireless-tools
     - wpasupplicant
+    # raspberry pi:
+    - firmware-brcm80211
     - raspi3-firmware
     - linux-image-arm64
     #- linux-image-amd64
@@ -113,6 +117,7 @@ steps:
       #sed -i -e 's/^root:[^:]*:/root::/g' "${ROOT?}/etc/shadow"
 
       #sed -i -e 's,#PermitRootLogin prohibit-password,PermitRootLogin yes,g' "${ROOT?}/etc/ssh/sshd_config"
+      #systemctrl enable ssh.service
 
       if test -f authorized_keys ; then
         mkdir -p -m 0700 "${ROOT?}/root/.ssh"
