@@ -24,11 +24,11 @@ steps:
 
   - mkfs: vfat
     partition: firmware-fs
-    label: debfirm
+    label: DEBFIRM
 
   - mkfs: ext4
     partition: rootfs
-    label: debroot
+    label: DEBROOT
 
   - mount: rootfs
 
@@ -124,8 +124,8 @@ steps:
         install -m 600 -o root -g root authorized_keys "${ROOT?}/root/.ssh/authorized_keys"
       fi
 
-      echo "LABEL=debroot / ext4 rw 0 1" > "${ROOT?}/etc/fstab"
-      echo "LABEL=debfirm /boot/firmware vfat rw 0 2" >> "${ROOT?}/etc/fstab"
+      echo "LABEL=DEBROOT / ext4 rw 0 1" > "${ROOT?}/etc/fstab"
+      echo "LABEL=DEBFIRM /boot/firmware vfat rw 0 2" >> "${ROOT?}/etc/fstab"
       echo "proc /proc proc defaults 0 0" >> "${ROOT?}/etc/fstab"
       echo "LABEL=debswap swap swap defaults 0 0" >> "${ROOT?}/etc/fstab"
 
@@ -202,8 +202,8 @@ steps:
       apt-get clean
       rm -rf /var/lib/apt/lists
 
-      sed -i -e 's/.dev.mmcblk0p2/LABEL=debroot/g' /boot/firmware/cmdline.txt
-      sed -i -e 's,^#ROOTPART=/dev/mmcblk0p2$,ROOTPART="LABEL=debroot",g' /etc/default/raspi3-firmware
+      sed -i -e 's/.dev.mmcblk0p2/LABEL=DEBROOT/g' /boot/firmware/cmdline.txt
+      sed -i -e 's,^#ROOTPART=/dev/mmcblk0p2$,ROOTPART="LABEL=DEBROOT",g' /etc/default/raspi3-firmware
 
       # https://unix.stackexchange.com/questions/318824/vim-cutpaste-not-working-in-stretch-debian-9
       # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=864074
