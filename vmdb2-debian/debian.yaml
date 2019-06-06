@@ -221,6 +221,11 @@ steps:
 
       #adduser --gecos "Max Mustermann" --add_extra_groups --disabled-password max
       #adduser max sudo
+      #if test -f /root/.ssh/authorized_keys ; then
+      #  mkdir --mode=0700 ~max/.ssh
+      #  chown max.max ~max/.ssh
+      #  install --owner=max --group=max --mode=0644 /root/.ssh/authorized_keys ~max/.ssh/authorized_keys
+      #fi
 
   - shell: |
       rm "${ROOT?}/etc/resolv.conf"
