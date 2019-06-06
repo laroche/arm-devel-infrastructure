@@ -89,7 +89,7 @@ You should have Debian testing or newer installed to run these scripts
 yourself:
 
 ```shell
-sudo apt install vmdb2 dosfstools qemu make #zip
+sudo apt install vmdb2 dosfstools qemu qemu-user-static make #zip
 git clone https://github.com/laroche/arm-devel-infrastructure
 cd arm-devel-infrastructure/vmdb2-debian
 edit debian.yaml
