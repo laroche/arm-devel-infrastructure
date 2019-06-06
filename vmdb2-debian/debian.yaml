@@ -210,7 +210,7 @@ steps:
       # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=837761#76
       sed -i -e '/has.*mouse/,+2s/^/"/' /usr/share/vim/vim81/defaults.vim
 
-      #adduser --gecos "Max Mustermann" --add_extra_groups max
+      #adduser --gecos "Max Mustermann" --add_extra_groups --disabled-password max
       #adduser max sudo
 
   - shell: |
