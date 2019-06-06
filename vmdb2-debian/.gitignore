@@ -1,5 +1,9 @@
 authorized_keys
+cntlm.conf
 debian.log
 debian.img
 debian.tar.gz
+debian-x86.log
+debian-x86.img
+debian-x86.tar.gz
 debian-server-*.zip
