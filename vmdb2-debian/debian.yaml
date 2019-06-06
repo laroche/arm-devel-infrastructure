@@ -106,7 +106,7 @@ steps:
     #efi: firmware-fs
     #console: serial
     #- grub: bios
-    #root-fs: root-fs
+    #root-fs: rootfs
     #root-part: root-part
     #device: "{{ output }}"
 
