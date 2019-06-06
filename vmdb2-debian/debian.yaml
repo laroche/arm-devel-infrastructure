@@ -94,7 +94,9 @@ steps:
     - firmware-brcm80211
     - raspi3-firmware
     - linux-image-arm64
-    #- linux-image-amd64
+    # company dependent:
+    #- cntlm
+    #- svn
     tag: rootfs
     unless: rootfs_unpacked
 
@@ -122,6 +124,10 @@ steps:
       if test -f authorized_keys ; then
         mkdir -p -m 0700 "${ROOT?}/root/.ssh"
         install -m 600 -o root -g root authorized_keys "${ROOT?}/root/.ssh/authorized_keys"
+      fi
+
+      if test -f cntlm.conf ; then
+        install -m 600 -o root -g root cntlm.conf "${ROOT?}/etc/cntlm.conf"
       fi
 
       echo "LABEL=DEBROOT / ext4 rw 0 1" > "${ROOT?}/etc/fstab"
