@@ -25,7 +25,6 @@ steps:
 
   - qemu-debootstrap: buster
     mirror: http://deb.debian.org/debian
-    #arch: arm64
     arch: amd64
     target: rootfs
     components:
@@ -76,11 +75,8 @@ steps:
     # wifi:
     - wireless-tools
     - wpasupplicant
-    # raspberry pi:
-    #- firmware-brcm80211
-    #- raspi3-firmware
-    #- linux-image-arm64
     # x86:
+    - grub-pc
     - firmware-linux
     - linux-image-amd64
     - linux-image-rt-amd64
@@ -104,7 +100,7 @@ steps:
     unless: rootfs_unpacked
 
   - shell: |
-      echo "debian" > "${ROOT?}/etc/hostname"
+      echo "debian01" > "${ROOT?}/etc/hostname"
 
       # Unset the root password:
       sed -i -e 's/^root:[^:]*:/root::/g' "${ROOT?}/etc/shadow"
