@@ -4,38 +4,22 @@ steps:
     size: 2048M
     #size: 3072M
 
-  #- mklabel: gpt
   - mklabel: msdos
     device: "{{ output }}"
 
   - mkpart: primary
-    fs-type: 'fat32'
     device: "{{ output }}"
     start: 0%
-    end: 128M
-    tag: firmware-fs
-
-  - mkpart: primary
-    device: "{{ output }}"
-    start: 128M
     end: 100%
     tag: rootfs
 
   - kpartx: "{{ output }}"
-
-  - mkfs: vfat
-    partition: firmware-fs
-    label: DEBFIRM
 
   - mkfs: ext4
     partition: rootfs
     label: DEBROOT
 
   - mount: rootfs
-
-  - mount: firmware-fs
-    mount-on: rootfs
-    dirname: '/boot/firmware'
 
   - unpack-rootfs: rootfs
 
@@ -111,7 +95,7 @@ steps:
     #- qttools5-dev
     #- qttools5-dev-tools
     # company dependent:
-    #- cntlm
+    - cntlm
     #- svn
     tag: rootfs
     unless: rootfs_unpacked
@@ -119,23 +103,14 @@ steps:
   - cache-rootfs: rootfs
     unless: rootfs_unpacked
 
-    #  - grub: bios/uefi
-    #tag: rootfs
-    #efi: firmware-fs
-    #console: serial
-    #- grub: bios
-    #root-fs: rootfs
-    #root-part: root-part
-    #device: "{{ output }}"
-
   - shell: |
       echo "debian" > "${ROOT?}/etc/hostname"
 
       # Unset the root password:
-      #sed -i -e 's/^root:[^:]*:/root::/g' "${ROOT?}/etc/shadow"
+      sed -i -e 's/^root:[^:]*:/root::/g' "${ROOT?}/etc/shadow"
 
-      #sed -i -e 's,#PermitRootLogin prohibit-password,PermitRootLogin yes,g' "${ROOT?}/etc/ssh/sshd_config"
-      #systemctrl enable ssh.service
+      sed -i -e 's,#PermitRootLogin prohibit-password,PermitRootLogin yes,g' "${ROOT?}/etc/ssh/sshd_config"
+      systemctrl enable ssh.service
 
       if test -f authorized_keys ; then
         mkdir -p -m 0700 "${ROOT?}/root/.ssh"
@@ -145,11 +120,6 @@ steps:
       if test -f cntlm.conf ; then
         install -m 600 -o root -g root cntlm.conf "${ROOT?}/etc/cntlm.conf"
       fi
-
-      echo "LABEL=DEBROOT / ext4 rw 0 1" > "${ROOT?}/etc/fstab"
-      echo "LABEL=DEBFIRM /boot/firmware vfat rw 0 2" >> "${ROOT?}/etc/fstab"
-      echo "proc /proc proc defaults 0 0" >> "${ROOT?}/etc/fstab"
-      echo "LABEL=debswap swap swap defaults 0 0" >> "${ROOT?}/etc/fstab"
 
       echo "auto eth0" > "${ROOT?}/etc/network/interfaces.d/eth0"
       echo "iface eth0 inet dhcp" >> "${ROOT?}/etc/network/interfaces.d/eth0"
@@ -168,11 +138,6 @@ steps:
       ln -s /etc/systemd/system/ssh-generate-host-keys.service "${ROOT?}/etc/systemd/system/multi-user.target.requires/ssh-generate-host-keys.service"
       rm -f ${ROOT?}/etc/ssh/ssh_host_*_key*
 
-      rm -f ${ROOT?}/usr/lib/raspi3-firmware/kernel*.img ${ROOT?}/boot/firmware/kernel*.img
-
-      test -f ${ROOT?}/etc/initramfs-tools/initramfs.conf && \
-        sed -i -e 's/^COMPRESS=.*/COMPRESS=lz4/g' ${ROOT?}/etc/initramfs-tools/initramfs.conf
-
       echo "alias ..='cd ..'"      > "${ROOT?}/root/.bash_aliases"
       echo "alias ...='cd ../..'" >> "${ROOT?}/root/.bash_aliases"
       echo "alias o=less"         >> "${ROOT?}/root/.bash_aliases"
@@ -190,6 +155,10 @@ steps:
       echo ". ~/.bash_aliases"                                >> "${ROOT?}/root/.bashrc"
 
     root-fs: rootfs
+
+  - grub: bios
+    tag: rootfs
+    device: "{{ output }}"
 
   - chroot: rootfs
     shell: |
@@ -224,11 +193,6 @@ steps:
 
       apt-get clean
       rm -rf /var/lib/apt/lists
-
-      test -f /boot/firmware/cmdline.txt && \
-        sed -i -e 's/.dev.mmcblk0p2/LABEL=DEBROOT/g' /boot/firmware/cmdline.txt
-      test -f /etc/default/raspi3-firmware && \
-        sed -i -e 's,^#ROOTPART=/dev/mmcblk0p2$,ROOTPART="LABEL=DEBROOT",g' /etc/default/raspi3-firmware
 
       # https://unix.stackexchange.com/questions/318824/vim-cutpaste-not-working-in-stretch-debian-9
       # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=864074
