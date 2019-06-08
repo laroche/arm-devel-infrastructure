@@ -1,6 +1,6 @@
 DATE := $(shell date +%Y%m%d)
 
-all: debian-amd64.img debian-rpi3-arm64.img debian-rpi3-armhf.img
+all: debian-amd64.img debian-rpi3-arm64.img
 
 debian-amd64.img: debian-amd64.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-amd64.tar.gz --output debian-amd64.img debian-amd64.yaml --log debian-amd64.log --log-mode 0644
@@ -11,14 +11,6 @@ debian-rpi3-arm64.img: debian-rpi3-arm64.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-rpi3-arm64.tar.gz --output debian-rpi3-arm64.img debian-rpi3-arm64.yaml --log debian-rpi3-arm64.log --log-mode 0644
 	sudo chown $(USER) debian-rpi3-arm64.img debian-rpi3-arm64.log
 	#env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-rpi3-arm64.tar.gz --output debian-rpi3-arm64.img debian-rpi3-arm64.yaml --log debian-rpi3-arm64.log --log-mode 0644
-
-debian-rpi3-armhf.yaml: debian-rpi3-arm64.yaml
-	sed -e 's/arm64/armhf/g' < debian-rpi3-arm64.yaml > debian-rpi3-armhf.yaml
-
-debian-rpi3-armhf.img: debian-rpi3-armhf.yaml
-	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-rpi3-armhf.tar.gz --output debian-rpi3-armhf.img debian-rpi3-armhf.yaml --log debian-rpi3-armhf.log --log-mode 0644
-	sudo chown $(USER) debian-rpi3-armhf.img debian-rpi3-armhf.log
-	#env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-rpi3-armhf.tar.gz --output debian-rpi3-armhf.img debian-rpi3-armhf.yaml --log debian-rpi3-armhf.log --log-mode 0644
 
 release: README.md all
 	mkdir debian-buster-amd64-core-$(DATE)
@@ -31,17 +23,12 @@ release: README.md all
 	ln debian-rpi3-arm64.img debian-buster-rpi3-arm64-core-$(DATE)/debian-buster-rpi3-arm64-core-$(DATE).img
 	zip -r debian-buster-rpi3-arm64-core-$(DATE).zip debian-buster-rpi3-arm64-core-$(DATE)
 	rm -fr debian-buster-rpi3-arm64-core-$(DATE)
-	mkdir debian-buster-rpi3-armhf-core-$(DATE)
-	ln README.md debian-buster-rpi3-armhf-core-$(DATE)/README-$(DATE).md
-	ln debian-rpi3-armhf.img debian-buster-rpi3-armhf-core-$(DATE)/debian-buster-rpi3-armhf-core-$(DATE).img
-	zip -r debian-buster-rpi3-armhf-core-$(DATE).zip debian-buster-rpi3-armhf-core-$(DATE)
-	rm -fr debian-buster-rpi3-armhf-core-$(DATE)
 
 clean:
 	rm -fr debian-*.log debian-*.img debian-*.zip
 
 distclean: clean
-	rm -f debian-*.tar.gz debian-rpi3-armhf.yaml
+	rm -f debian-*.tar.gz
 
 tag:
 	git tag -m "release v$(DATE)" v$(DATE)
