@@ -91,7 +91,7 @@ steps:
     #- qttools5-dev
     #- qttools5-dev-tools
     # company dependent:
-    - cntlm
+    #- cntlm
     #- svn
     tag: rootfs
     unless: rootfs_unpacked
@@ -117,8 +117,14 @@ steps:
         install -m 600 -o root -g root cntlm.conf "${ROOT?}/etc/cntlm.conf"
       fi
 
+      # The following config line is still commented out:
+      echo "#LABEL=DEBSWAP swap swap defaults 0 0" >> "${ROOT?}/etc/fstab"
+
       echo "auto eth0" > "${ROOT?}/etc/network/interfaces.d/eth0"
       echo "iface eth0 inet dhcp" >> "${ROOT?}/etc/network/interfaces.d/eth0"
+
+      # Note: Disabling IPv6 is prepared, but the config file still has it commented out:
+      echo "#net.ipv6.conf.all.disable_ipv6 = 1" > "${ROOT?}/etc/sysctl.d/01-disable-ipv6.conf"
 
       echo "deb http://deb.debian.org/debian/ buster main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
       echo "deb-src http://deb.debian.org/debian/ buster main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
@@ -196,6 +202,7 @@ steps:
       sed -i -e '/has.*mouse/,+2s/^/"/' /usr/share/vim/vim81/defaults.vim
 
       #adduser --gecos "Max Mustermann" --add_extra_groups --disabled-password max
+      #sed -i -e 's/^max:[^:]*:/max::/g' /etc/shadow
       #adduser max sudo
       #if test -f /root/.ssh/authorized_keys ; then
       #  mkdir --mode=0700 ~max/.ssh
