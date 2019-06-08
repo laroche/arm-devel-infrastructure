@@ -1,7 +1,7 @@
 
 steps:
   - mkimg: "{{ output }}"
-    size: 2048M
+    size: 3072M
 
   - mklabel: msdos
     device: "{{ output }}"
@@ -80,13 +80,13 @@ steps:
     - linux-image-amd64
     - linux-image-rt-amd64
     # graphical user interface:
-    #- xfce4
-    #- lightdm
-    #- synaptic
-    #- menu
-    #- firefox-esr
-    #- chromium
-    #- vlc
+    - xfce4
+    - lightdm
+    - synaptic
+    - menu
+    - firefox-esr
+    - chromium
+    - vlc
     #- qttools5-dev
     #- qttools5-dev-tools
     # company dependent:
