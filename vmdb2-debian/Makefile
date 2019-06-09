@@ -48,6 +48,6 @@ distclean: clean
 
 tag:
 	git tag -m "release v$(DATE)" v$(DATE)
-	git push origin v($DATE)
+	git push origin v$(DATE)
 	#git push origin --follow-tags
 
