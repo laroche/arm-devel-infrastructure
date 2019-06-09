@@ -1,7 +1,7 @@
 
 steps:
   - mkimg: "{{ output }}"
-    size: 3072M
+    size: 5120M
 
   - mklabel: msdos
     device: "{{ output }}"
@@ -85,8 +85,11 @@ steps:
     - synaptic
     - menu
     - firefox-esr
+    #- firefox-l10n-de
     - chromium
     - vlc
+    #- libreoffice-help-de
+    #- libreoffice-l10n-de
     #- qttools5-dev
     #- qttools5-dev-tools
     # company dependent:
