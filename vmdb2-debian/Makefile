@@ -2,9 +2,9 @@ DATE := $(shell date +%Y%m%d)
 
 .PHONY: all release clean distclean tag
 
-all: debian-amd64.img debian-amd64-xfce.img debian-rpi3-arm64.img debian-rpi3-armhf.img
+all: debian-amd64.img debian-rpi3-arm64.img debian-rpi3-armhf.img # debian-amd64-xfce.img
 
-release: debian-buster-amd64-core-$(DATE).zip debian-buster-amd64-xfce-$(DATE).zip debian-buster-rpi3-arm64-core-$(DATE).zip debian-buster-rpi3-armhf-core-$(DATE).zip
+release: debian-buster-amd64-core-$(DATE).zip debian-buster-rpi3-arm64-core-$(DATE).zip debian-buster-rpi3-armhf-core-$(DATE).zip # debian-buster-amd64-xfce-$(DATE).zip
 
 debian-amd64.img: debian-amd64.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-amd64.tar.gz --output debian-amd64.img debian-amd64.yaml --log debian-amd64.log --log-mode 0644
