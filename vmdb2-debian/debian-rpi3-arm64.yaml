@@ -93,19 +93,6 @@ steps:
     - firmware-brcm80211
     - raspi3-firmware
     - linux-image-arm64
-    # graphical user interface:
-    #- xfce4
-    #- lightdm
-    #- synaptic
-    #- menu
-    #- firefox-esr
-    #- chromium
-    #- vlc
-    #- qttools5-dev
-    #- qttools5-dev-tools
-    # company dependent:
-    #- cntlm
-    #- svn
     tag: rootfs
     unless: rootfs_unpacked
 
