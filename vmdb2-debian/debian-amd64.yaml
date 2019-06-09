@@ -74,7 +74,7 @@ steps:
     # wifi:
     - wireless-tools
     - wpasupplicant
-    # x86:
+    # amd64:
     - grub-pc
     - firmware-linux
     - linux-image-amd64
