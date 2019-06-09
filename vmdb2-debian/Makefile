@@ -1,5 +1,7 @@
 DATE := $(shell date +%Y%m%d)
 
+.PHONY: all release clean distclean tag
+
 all: debian-amd64.img debian-amd64-xfce.img debian-rpi3-arm64.img debian-rpi3-armhf.img
 
 release: debian-buster-amd64-core-$(DATE).zip debian-buster-amd64-xfce-$(DATE).zip debian-buster-rpi3-arm64-core-$(DATE).zip debian-buster-rpi3-armhf-core-$(DATE).zip
