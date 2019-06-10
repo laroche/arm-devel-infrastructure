@@ -108,7 +108,7 @@ steps:
       sed -i -e 's/^root:[^:]*:/root::/g' "${ROOT?}/etc/shadow"
 
       #sed -i -e 's,#PermitRootLogin prohibit-password,PermitRootLogin yes,g' "${ROOT?}/etc/ssh/sshd_config"
-      systemctrl enable ssh.service
+      systemctl enable ssh.service
 
       if test -f authorized_keys ; then
         mkdir -p -m 0700 "${ROOT?}/root/.ssh"
