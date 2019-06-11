@@ -85,7 +85,7 @@ steps:
     - synaptic
     - menu
     - firefox-esr
-    #- firefox-l10n-de
+    - firefox-esr-l10n-de
     - chromium
     - vlc
     #- libreoffice-help-de
