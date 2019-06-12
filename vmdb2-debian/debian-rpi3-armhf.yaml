@@ -128,6 +128,7 @@ steps:
 
       # Note: Disabling IPv6 is prepared, but the config file still has it commented out:
       echo "#net.ipv6.conf.all.disable_ipv6 = 1" > "${ROOT?}/etc/sysctl.d/01-disable-ipv6.conf"
+      echo "#net.ipv6.conf.default.disable_ipv6 = 1" >> "${ROOT?}/etc/sysctl.d/01-disable-ipv6.conf"
 
       echo "deb http://deb.debian.org/debian/ buster main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
       echo "deb-src http://deb.debian.org/debian/ buster main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
