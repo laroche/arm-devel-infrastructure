@@ -75,7 +75,6 @@ steps:
     - wireless-tools
     - wpasupplicant
     # amd64:
-    - grub-pc
     - firmware-linux
     - linux-image-amd64
     - linux-image-rt-amd64
