@@ -227,6 +227,8 @@ steps:
       #  install --owner=max --group=max --mode=0644 /root/.ssh/authorized_keys ~max/.ssh/authorized_keys
       #fi
 
+      dd if=/dev/zero of=/ZERO; rm -f /ZERO # zero unused filesystem
+
   - shell: |
       rm "${ROOT?}/etc/resolv.conf"
     root-fs: rootfs
