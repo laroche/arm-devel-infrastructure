@@ -53,6 +53,7 @@ steps:
     - locales
     - keyboard-configuration
     - console-setup
+    - locate
     - psmisc
     - strace
     - htop
@@ -70,6 +71,7 @@ steps:
     - wakeonlan
     - bind9-host
     - dnsutils
+    - whois
     - tcpdump
     - iptables-persistent
     - ntp

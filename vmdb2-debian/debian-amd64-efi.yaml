@@ -53,6 +53,7 @@ steps:
     - locales
     - keyboard-configuration
     - console-setup
+    - locate
     - psmisc
     - strace
     - htop
@@ -70,6 +71,7 @@ steps:
     - wakeonlan
     - bind9-host
     - dnsutils
+    - whois
     - tcpdump
     - iptables-persistent
     - ntp
@@ -90,6 +92,7 @@ steps:
     - wireless-tools
     - wpasupplicant
     # amd64:
+    - memtest86+
     - firmware-linux
     - linux-image-amd64
     - linux-image-rt-amd64
