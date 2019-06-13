@@ -77,6 +77,7 @@ steps:
     - wireless-tools
     - wpasupplicant
     # amd64:
+    - grub-pc
     - memtest86+
     - firmware-linux
     - linux-image-amd64
@@ -110,7 +111,6 @@ steps:
       sed -i -e 's/^root:[^:]*:/root::/g' "${ROOT?}/etc/shadow"
 
       #sed -i -e 's,#PermitRootLogin prohibit-password,PermitRootLogin yes,g' "${ROOT?}/etc/ssh/sshd_config"
-      systemctl enable ssh.service
 
       if test -f authorized_keys ; then
         mkdir -p -m 0700 "${ROOT?}/root/.ssh"
@@ -169,6 +169,11 @@ steps:
 
     root-fs: rootfs
 
+  - chroot: rootfs
+    shell: |
+      apt update
+      systemctl enable ssh.service
+
   - grub: bios
     tag: rootfs
     device: "{{ output }}"
@@ -204,7 +209,7 @@ steps:
 
       sed -i -e 's,^SHELL=/bin/sh,SHELL=/bin/bash,g' /etc/default/useradd
 
-      apt-get clean
+      apt clean
       rm -rf /var/lib/apt/lists
 
       # https://unix.stackexchange.com/questions/318824/vim-cutpaste-not-working-in-stretch-debian-9

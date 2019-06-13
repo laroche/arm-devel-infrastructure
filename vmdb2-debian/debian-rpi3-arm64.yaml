@@ -108,7 +108,6 @@ steps:
       #sed -i -e 's/^root:[^:]*:/root::/g' "${ROOT?}/etc/shadow"
 
       #sed -i -e 's,#PermitRootLogin prohibit-password,PermitRootLogin yes,g' "${ROOT?}/etc/ssh/sshd_config"
-      systemctl enable ssh.service
 
       if test -f authorized_keys ; then
         mkdir -p -m 0700 "${ROOT?}/root/.ssh"
@@ -176,6 +175,8 @@ steps:
 
   - chroot: rootfs
     shell: |
+      systemctl enable ssh.service
+
       echo "tzdata tzdata/Areas select Europe" | debconf-set-selections
       echo "tzdata tzdata/Zones/Europe select Berlin" | debconf-set-selections
       echo "Europe/Berlin" > /etc/timezone
@@ -205,7 +206,7 @@ steps:
 
       sed -i -e 's,^SHELL=/bin/sh,SHELL=/bin/bash,g' /etc/default/useradd
 
-      apt-get clean
+      apt clean
       rm -rf /var/lib/apt/lists
 
       test -f /boot/firmware/cmdline.txt && \
