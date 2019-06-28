@@ -99,3 +99,11 @@ make
 If you create a file "authorized_keys" this will get automatically added as
 /root/.ssh/authorized_keys in the image.
 
+
+## todo list
+
+Things that could be improved in the future:
+- For msdos partitioning the 'boot' flag is not set.
+- Check if the partioning is aligned properly.
+- Easy switching to Debian unstable.
+
