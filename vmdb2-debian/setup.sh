@@ -36,11 +36,16 @@ if false ; then
   apt install libreoffice libreoffice-help-de libreoffice-l10n-de
 fi
 # Company dependent apps:
-if true ; then
-  #apt install subversion
-  #apt install cntlm
-  #apt install qttools5-dev qttools5-dev-tools
+if false ; then
+  apt install cntlm
+  apt install qttools5-dev qttools5-dev-tools
 fi
+
+# Generic devel environment:
+apt install gawk bc make git-email ccache indent
+#apt install subversion git-svn
+#apt install openjdk-8-jdk cmake
+#apt install qemu-system-arm qemu-efi minicom
 
 # Checkout some devel projects:
 if true ; then
