@@ -42,7 +42,9 @@ if false ; then
 fi
 
 # Generic devel environment:
-apt install gawk bc make git-email ccache indent
+apt install build-essential autoconf libtool libtool-bin bison flex git libacl1-dev libssl-dev
+apt install gawk bc make git-email ccache indent gperf
+#apt install python perl clang golang
 #apt install subversion git-svn
 #apt install openjdk-8-jdk cmake
 #apt install qemu-system-arm qemu-efi minicom
@@ -58,6 +60,6 @@ if true ; then
   if ! test -d ~max/data/ltp ; then
     su max -c "cd ~/data && git clone --depth 1 https://github.com/linux-test-project/ltp"
   fi
-  apt install build-essential autoconf libtool libtool-bin bison flex git libacl1-dev libssl-dev
+  #apt install build-essential autoconf libtool libtool-bin bison flex git libacl1-dev libssl-dev
 fi
 
