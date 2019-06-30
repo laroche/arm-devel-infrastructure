@@ -219,6 +219,8 @@ steps:
       # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=837761#76
       sed -i -e '/has.*mouse/,+2s/^/"/' /usr/share/vim/vim81/defaults.vim
 
+      update-alternatives --set editor /usr/bin/vim.basic
+
       #adduser --gecos "Max Mustermann" --add_extra_groups --disabled-password max
       #sed -i -e 's/^max:[^:]*:/max::/g' /etc/shadow
       #adduser max sudo
