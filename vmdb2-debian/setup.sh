@@ -7,10 +7,23 @@
 # not suited for a server image with security hardening.
 #
 
+# check if we run as root
+if test "X$UID" != "X0" ; then
+  echo "Please run as root."
+  exit 1
+fi
+
 # Add NOPASSWD so that all users in the sudo group do not have to type in their password:
 sed -i -e 's/^%sudo.*/%sudo\tALL=(ALL:ALL) NOPASSWD: ALL/g' /etc/sudoers
+
 # vim package updates overwrite this change, so we need to fix this periodically:
 sed -i -e '/has.*mouse/,+2s/^/"/' /usr/share/vim/vim81/defaults.vim
+
+# disable ipv6
+#sed -i -e 's/^#//g' /etc/sysctl.d/01-disable-ipv6.conf
+
+# enable swap
+#sed -i -e 's/^#LABEL/LABEL/g' /etc/fstab
 
 # Add myself:
 if ! test -d /home/max ; then
@@ -48,6 +61,8 @@ apt install gawk bc make git-email ccache indent gperf
 #apt install subversion git-svn
 #apt install openjdk-8-jdk cmake
 #apt install qemu-system-arm qemu-efi minicom
+#apt install gcc-arm-none-eabi g++-aarch64-linux-gnu
+apt install virtinst virt-manager
 
 # Checkout some devel projects:
 if true ; then
@@ -56,10 +71,25 @@ if true ; then
   fi
   apt install vmdb2 dosfstools qemu qemu-user-static make zip
 fi
-if true ; then
+if ! test -d /opt/ltp ; then
+  #apt install build-essential autoconf libtool libtool-bin bison flex git libacl1-dev libssl-dev
   if ! test -d ~max/data/ltp ; then
     su max -c "cd ~/data && git clone --depth 1 https://github.com/linux-test-project/ltp"
+    # make autotools
+    # ./configure
+    # make -j 6
+    # sudo make install
   fi
-  #apt install build-essential autoconf libtool libtool-bin bison flex git libacl1-dev libssl-dev
+fi
+if ! test -d /opt/qemu ; then
+  apt install libglib2.0-dev pkg-config libpixman-1-dev
+  if ! test -f ~flaroche/data/qemu-4.0.0.tar.xz ; then
+    su flaroche -c "cd ~/data && wget https://download.qemu.org/qemu-4.0.0.tar.xz"
+  fi
+  #tar xJf qemu-4.0.0.tar.xz
+  #cd qemu-4.0.0
+  #./configure --prefix=/opt/qemu
+  #make -j 4
+  #sudo make install
 fi
 
