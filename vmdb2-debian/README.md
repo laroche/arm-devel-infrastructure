@@ -106,4 +106,10 @@ Things that could be improved in the future:
 - For msdos partitioning the 'boot' flag is not set.
 - Check if the partioning is aligned properly.
 - Easy switching to Debian unstable.
+- Test rpi3 armhf image. Compile own kernel for armhf.
+- Change name of own rpi3 kernel. Can then an image be made with
+  generic arm64 efi boot which also has a rpi3 kernel?
+  (EFI partition not the first one?)
+- Install chromium directly from Google or are newer versions
+  available?
 
