@@ -13,6 +13,18 @@ if test "X$UID" != "X0" ; then
   exit 1
 fi
 
+# On first boot with the new Linux system, extend the filesystem to the
+# end of the disk and add a Linux swap-partition to the end of the disk
+# with the following commands:
+# - parted /dev/sda
+#   (parted) mkpart primary linux-swap -4096 -0
+#   (parted) resizepart 1
+#     -4096
+# - resize2fs /dev/sda1
+# - mkswap -L DEBSWAP /dev/sda2
+# - edit /etc/fstab
+# - swapon -a
+
 # Add NOPASSWD so that all users in the sudo group do not have to type in their password:
 sed -i -e 's/^%sudo.*/%sudo\tALL=(ALL:ALL) NOPASSWD: ALL/g' /etc/sudoers
 
