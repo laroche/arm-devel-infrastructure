@@ -113,3 +113,8 @@ Things that could be improved in the future:
 - Install chromium directly from Google or are newer versions
   available?
 
+
+## link list
+
+- https://wiki.debian.org/InstallingDebianOn/OdroidHC1
+
