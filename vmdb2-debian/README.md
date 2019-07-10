@@ -51,7 +51,7 @@ sudo parted /dev/sdX
 (parted) mkpart primary linux-swap -2048 -0
 (parted) resizepart 2 -2048
 (parted) quit
-sudo mkswap -L debswap /dev/sdX3
+sudo mkswap -L DEBSWAP /dev/sdX3
 sudo e2fsck -f /dev/sdX2
 sudo resize2fs /dev/sdX2
 ```

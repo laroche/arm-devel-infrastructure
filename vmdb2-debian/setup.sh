@@ -64,7 +64,7 @@ if false ; then
 fi
 # Company dependent apps:
 if false ; then
-  apt -q -y install cntlm
+  apt -q -y install cntlm rdesktop
   apt -q -y install qttools5-dev qttools5-dev-tools
 fi
 
