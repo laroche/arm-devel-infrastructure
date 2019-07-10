@@ -97,7 +97,7 @@ if test $DEBIAN = testing -o $DEBIAN = unstable ; then
     label="Debian testing armhf n"
   fi
 else
-  VERSION="9.8.0"
+  VERSION="10.0.0"
   if test $ARM = 64 ; then
     if test $ISO = cd ; then
       img=debian-$VERSION-arm64-netinst.iso
@@ -161,14 +161,14 @@ CDROM=""
 if test $ARM = 32 ; then
   APPEND="root=/dev/vda2" # quiet
   if test $DEBIAN = testing ; then
-    KERNEL=vmlinuz-4.19.0-2-armmp-lpae
-    INITRD=initrd.img-4.19.0-2-armmp-lpae
+    KERNEL=vmlinuz-4.19.0-5-armmp-lpae
+    INITRD=initrd.img-4.19.0-5-armmp-lpae
   elif test $DEBIAN = unstable ; then
-    KERNEL=vmlinuz-4.19.0-3-armmp-lpae
-    INITRD=initrd.img-4.19.0-3-armmp-lpae
+    KERNEL=vmlinuz-4.19.0-5-armmp-lpae
+    INITRD=initrd.img-4.19.0-5-armmp-lpae
   else
-    KERNEL=vmlinuz-4.9.0-8-armmp-lpae
-    INITRD=initrd.img-4.9.0-8-armmp-lpae
+    KERNEL=vmlinuz-4.19.0-5-armmp-lpae
+    INITRD=initrd.img-4.19.0-5-armmp-lpae
   fi
 fi
 NEWINSTALL=0
@@ -320,14 +320,14 @@ else
   if test $NEWINSTALL = 1 ; then
     sudo virt-ls -l -a $hd /boot/
     if test $DEBIAN = testing ; then
-      echo sudo virt-copy-out -a $hd /boot/vmlinuz-4.19.0-2-armmp-lpae /boot/initrd.img-4.19.0-2-armmp-lpae .
-      sudo virt-copy-out -a $hd /boot/vmlinuz-4.19.0-2-armmp-lpae /boot/initrd.img-4.19.0-2-armmp-lpae .
+      echo sudo virt-copy-out -a $hd /boot/vmlinuz-4.19.0-5-armmp-lpae /boot/initrd.img-4.19.0-5-armmp-lpae .
+      sudo virt-copy-out -a $hd /boot/vmlinuz-4.19.0-5-armmp-lpae /boot/initrd.img-4.19.0-5-armmp-lpae .
     elif test $DEBIAN = unstable ; then
-      echo sudo virt-copy-out -a $hd /boot/vmlinuz-4.19.0-3-armmp-lpae /boot/initrd.img-4.19.0-3-armmp-lpae .
-      sudo virt-copy-out -a $hd /boot/vmlinuz-4.19.0-3-armmp-lpae /boot/initrd.img-4.19.0-3-armmp-lpae .
+      echo sudo virt-copy-out -a $hd /boot/vmlinuz-4.19.0-5-armmp-lpae /boot/initrd.img-4.19.0-5-armmp-lpae .
+      sudo virt-copy-out -a $hd /boot/vmlinuz-4.19.0-5-armmp-lpae /boot/initrd.img-4.19.0-5-armmp-lpae .
     else
-      echo sudo virt-copy-out -a $hd /boot/vmlinuz-4.9.0-8-armmp-lpae /boot/initrd.img-4.9.0-8-armmp-lpae .
-      sudo virt-copy-out -a $hd /boot/vmlinuz-4.9.0-8-armmp-lpae /boot/initrd.img-4.9.0-8-armmp-lpae .
+      echo sudo virt-copy-out -a $hd /boot/vmlinuz-4.19.0-5-armmp-lpae /boot/initrd.img-4.19.0-5-armmp-lpae .
+      sudo virt-copy-out -a $hd /boot/vmlinuz-4.19.0-5-armmp-lpae /boot/initrd.img-4.19.0-5-armmp-lpae .
     fi
   fi
 fi
