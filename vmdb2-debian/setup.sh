@@ -76,6 +76,7 @@ apt -q -y install gawk bc make git-email ccache indent gperf
 #apt -q -y install openjdk-8-jdk cmake
 #apt -q -y install qemu-system-arm qemu-efi minicom
 #apt -q -y install gcc-arm-none-eabi g++-aarch64-linux-gnu
+#apt -q -y install gcc-9-aarch64-linux-gnu gcc-9-arm-linux-gnueabihf
 apt -q -y install virtinst virt-manager
 
 # Checkout some devel projects:
