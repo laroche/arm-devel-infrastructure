@@ -1,8 +1,8 @@
 *.iso.preseed
 QEMU_EFI.img
 efi.img
-debian-9.?.0-arm64-netinst.iso
-debian-9.?.0-armhf-netinst.iso
+debian-10.?.0-arm64-netinst.iso
+debian-10.?.0-armhf-netinst.iso
 debian-testing-arm64-netinst.iso
 debian-testing-armhf-netinst.iso
 debian.img.32.stable
@@ -22,5 +22,3 @@ debian.img.64.unstable.iso
 debian.img.64.unstable.varstore
 vmlinuz-4.19.0-?-armmp-lpae
 initrd.img-4.19.0-?-armmp-lpae
-vmlinuz-4.9.0-8-armmp-lpae
-initrd.img-4.9.0-8-armmp-lpae

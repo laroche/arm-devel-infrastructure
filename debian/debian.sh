@@ -182,8 +182,8 @@ if ! test -f $hd ; then
     CDROM="-drive if=none,file=$piso,format=raw,id=hd1 -device virtio-blk-device,drive=hd1"
     # "auto" is the same as "auto=true priority=critical"
     APPEND="auto locale=en_US country=US language=en keymap=us file=/preseed.cfg"
-    KERNEL=$iso/install/netboot/vmlinuz
-    INITRD=$iso/install/netboot/initrd.gz
+    KERNEL=$iso/install.ahf/netboot/vmlinuz
+    INITRD=$iso/install.ahf/netboot/initrd.gz
   fi
 
   # Download the installer image:
@@ -200,7 +200,7 @@ if ! test -f $hd ; then
     if test $ARM = 64 ; then
       chmod +w -R $iso/install.a64/ $iso/boot/grub/ $iso/md5sum.txt
     else
-      chmod +w -R $iso/install/ $iso/md5sum.txt
+      chmod +w -R $iso/install.ahf/ $iso/md5sum.txt
     fi
     # For 64bit copy the preseed.cfg file into the new ISO image,
     # for 32bit append it to the initrd. We automatically modify
@@ -224,11 +224,11 @@ if ! test -f $hd ; then
 	$iso/boot/grub/grub.cfg
     else
       # Append the preseed.cfg file into the compressed cpio archive:
-      gunzip $iso/install/netboot/initrd.gz
+      gunzip $iso/install.ahf/netboot/initrd.gz
       pushd $iso
-      echo preseed.cfg | cpio -H newc -o -A --owner=0:0 -F install/netboot/initrd
+      echo preseed.cfg | cpio -H newc -o -A --owner=0:0 -F install.ahf/netboot/initrd
       popd
-      gzip -9 $iso/install/netboot/initrd
+      gzip -9 $iso/install.ahf/netboot/initrd
       rm -f $iso/preseed.cfg
     fi
 
@@ -255,7 +255,7 @@ if ! test -f $hd ; then
     if test $ARM = 64 ; then
       chmod -w -R $iso/install.a64/ $iso/boot/grub/ $iso/md5sum.txt
     else
-      chmod -w -R $iso/install/ $iso/md5sum.txt
+      chmod -w -R $iso/install.ahf/ $iso/md5sum.txt
     fi
     if test $ARM = 64 ; then
       xorriso -as mkisofs \
@@ -295,7 +295,7 @@ fi
 if test $ARM = 64 ; then
   # -bios QEMU_EFI.fd
   QEMU_AUDIO_DRV=none $qemu \
-    -M virt -cpu cortex-a53 -smp 4 -m 2048 -nographic \
+    -M virt -cpu cortex-a53 -smp 4 -m 4096 -nographic \
     -drive if=pflash,format=raw,file=QEMU_EFI.img,readonly=on \
     -drive if=pflash,file=$hd.varstore \
     -drive if=virtio,file=$hd \
@@ -305,11 +305,11 @@ if test $ARM = 64 ; then
     -object rng-random,filename=/dev/urandom,id=rng0 \
     -device virtio-rng-pci,rng=rng0
 else
-  # -M vexpress-a9 -cpu cortex-a9 -dtb $iso/install/device-tree/vexpress-v2p-ca9.dtb
+  # -M vexpress-a9 -cpu cortex-a9 -dtb $iso/install.ahf/device-tree/vexpress-v2p-ca9.dtb
   QEMU_AUDIO_DRV=none $qemu \
     -M virt \
     -kernel $KERNEL -initrd $INITRD -append "$APPEND" \
-    -smp 4 -m 1024 -nographic \
+    -smp 4 -m 2048 -nographic \
     $CDROM \
     -drive if=none,file=$hd,id=hd0 \
     -device virtio-blk-device,drive=hd0 \
