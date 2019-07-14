@@ -61,6 +61,14 @@ if false ; then
   tasksel install gnome-desktop --new-install
   apt -q -y install firefox-esr firefox-esr-l10n-de chromium chromium-l10n vlc
   apt -q -y install libreoffice libreoffice-help-de libreoffice-l10n-de
+  apt -q -y install rdesktop dconf-editor
+  # https://superuser.com/questions/394376/how-to-prevent-gnome-shells-alttab-from-grouping-windows-from-similar-apps
+  #dconf write /org/gnome/desktop/wm/keybindings/switch-applications
+  #dconf write /org/gnome/desktop/wm/keybindings/switch-applications-backward
+  #dconf write /org/gnome/desktop/wm/keybindings/switch-windows "['<Super>Tab', '<Alt>Tab']"
+  #dconf write /org/gnome/desktop/wm/keybindings/switch-windows-backward "['<Shift><Super>Tab', '<Shift><Alt>Tab']"
+  #gsettings set org.gnome.desktop.wm.keybindings switch-applications "[]"
+  #gsettings set org.gnome.shell.window-switcher current-workspace-only true
 fi
 # Company dependent apps:
 if false ; then
