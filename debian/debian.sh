@@ -8,7 +8,8 @@
 # together with the emulator Qemu.
 #
 # Requirements for this script on Debian/Ubuntu hosts:
-# sudo apt install qemu-system-arm qemu-efi libarchive-tools xorriso libguestfs-tools
+# sudo apt install qemu-system-arm qemu-efi libarchive-tools xorriso libguestfs-tools isolinux
+# Based on: https://wiki.debian.org/RepackBootableISO
 #
 # qemu arm specialties/options:
 # - qemu comes up in EL1, for EL2 pass on "-machine virtualization=on" (needed for KVM)
@@ -67,7 +68,7 @@ PORTSECURE=1
 
 # Check some of the parameters/configurations:
 case "$ARM" in
-  32|64) ;;
+  32|64|x86) ;;
   *)     echo "Wrong parameters."
          exit 1
 esac
@@ -87,7 +88,11 @@ piso=$hd.iso.preseed
 
 # Database of all URLs to the different Debian releases:
 if test $DEBIAN = testing -o $DEBIAN = unstable ; then
-  if test $ARM = 64 ; then
+  if test $ARM = x86 ; then
+    img=debian-testing-amd64-netinst.iso
+    url=http://cdimage.debian.org/cdimage/daily-builds/daily/arch-latest/amd64/iso-cd/$img
+    label="Debian testing amd64 n"
+  elif test $ARM = 64 ; then
     img=debian-testing-arm64-netinst.iso
     url=http://cdimage.debian.org/cdimage/daily-builds/daily/arch-latest/arm64/iso-cd/$img
     label="Debian testing arm64 n"
@@ -132,7 +137,12 @@ fi
 # - ./configure --prefix=/opt/qemu; make; sudo make install
 
 # Select qemu version:
-if test $ARM = 64 ; then
+if test $ARM = x86 ; then
+  qemu=/opt/qemu/bin/qemu-system-x86_64
+  if ! test -x $qemu ; then
+    qemu=qemu-system-x86_64
+  fi
+elif test $ARM = 64 ; then
   qemu=/opt/qemu/bin/qemu-system-aarch64
   if ! test -x $qemu ; then
     qemu=qemu-system-aarch64
@@ -176,7 +186,9 @@ if ! test -f $hd ; then
   NEWINSTALL=1
   # Create new disk for the client and add the install iso:
   qemu-img create -f qcow2 $hd 128G
-  if test $ARM = 64 ; then
+  if test $ARM = x86 ; then
+    CDROM="-drive if=virtio,format=raw,file=$piso"
+  elif test $ARM = 64 ; then
     CDROM="-drive if=virtio,format=raw,file=$piso"
   else
     CDROM="-drive if=none,file=$piso,format=raw,id=hd1 -device virtio-blk-device,drive=hd1"
@@ -197,7 +209,9 @@ if ! test -f $hd ; then
     bsdtar -C $iso -xf $img
     #xorriso -osirrox on -indev $img -extract / $iso
     #7z x -o$iso $img
-    if test $ARM = 64 ; then
+    if test $ARM = x86 ; then
+      chmod +w -R $iso/install.amd/ $iso/isolinux/ $iso/boot/grub/ $iso/md5sum.txt
+    elif test $ARM = 64 ; then
       chmod +w -R $iso/install.a64/ $iso/boot/grub/ $iso/md5sum.txt
     else
       chmod +w -R $iso/install.ahf/ $iso/md5sum.txt
@@ -217,11 +231,16 @@ if ! test -f $hd ; then
     if test $ARM = 32 ; then
       sed -i -e 's/^#DI32//g' $iso/preseed.cfg
     fi
-    if test $ARM = 64 ; then
+    if test $ARM = x86 ; then
+      #sed -i -e 's/vmlinuz vga=788 ---/vmlinuz vga=788 auto locale=en_US country=US language=en keymap=us file=\/cdrom\/preseed.cfg ---/g' \
+        #$iso/boot/grub/grub.cfg
+      sed -i -e 's/append vga=788 initrd/append vga=788 auto locale=en_US country=US language=en keymap=us file=\/cdrom\/preseed.cfg initrd/g' \
+        $iso/isolinux/txt.cfg
+    elif test $ARM = 64 ; then
       # Changing $iso/install.a64/initrd.gz did not work for 64bit.
       # cdrom-detect\/load_media=false hw-detect\/load_media=false
       sed -i -e 's/vmlinuz \? ---/vmlinuz auto locale=en_US country=US language=en keymap=us cdrom-detect\/manual_config=true cdrom-detect\/cdrom_module=none cdrom-detect\/cdrom_device=\/dev\/vdb file=\/cdrom\/preseed.cfg ---/g' \
-	$iso/boot/grub/grub.cfg
+        $iso/boot/grub/grub.cfg
     else
       # Append the preseed.cfg file into the compressed cpio archive:
       gunzip $iso/install.ahf/netboot/initrd.gz
@@ -252,12 +271,23 @@ if ! test -f $hd ; then
     pushd $iso
       md5sum `find -follow -type f 2>/dev/null` > md5sum.txt
     popd
-    if test $ARM = 64 ; then
+    if test $ARM = x86 ; then
+      chmod -w -R $iso/install.amd/ $iso/isolinux/ $iso/boot/grub/ $iso/md5sum.txt
+    elif test $ARM = 64 ; then
       chmod -w -R $iso/install.a64/ $iso/boot/grub/ $iso/md5sum.txt
     else
       chmod -w -R $iso/install.ahf/ $iso/md5sum.txt
     fi
-    if test $ARM = 64 ; then
+    if test $ARM = x86 ; then
+      xorriso -as mkisofs \
+        -r -checksum_algorithm_iso md5,sha1,sha256,sha512 -V "$label" \
+        -o "$piso" \
+        -J -joliet-long -cache-inodes \
+        -isohybrid-mbr /usr/lib/ISOLINUX/isohdpfx.bin -b isolinux/isolinux.bin -c isolinux/boot.cat \
+        -boot-load-size 4 -boot-info-table -no-emul-boot \
+        -eltorito-alt-boot -e boot/grub/efi.img -no-emul-boot -isohybrid-gpt-basdat -isohybrid-apm-hfsplus \
+        $iso
+    elif test $ARM = 64 ; then
       xorriso -as mkisofs \
         -r -checksum_algorithm_iso md5,sha1,sha256,sha512 -V "$label" \
         -o "$piso" \
@@ -292,7 +322,16 @@ fi
 
 # Invoke the guest system either for installation or to just start an existing system:
 # Change from *-device to  *-pci once all kernels support this.
-if test $ARM = 64 ; then
+if test $ARM = x86 ; then
+  QEMU_AUDIO_DRV=none $qemu \
+    -M q35 -smp 4 -m 4096 -nographic \
+    -drive if=virtio,file=$hd \
+    -netdev user,id=net0$PORT \
+    -device virtio-net-pci,netdev=net0 \
+    $CDROM \
+    -object rng-random,filename=/dev/urandom,id=rng0 \
+    -device virtio-rng-pci,rng=rng0
+elif test $ARM = 64 ; then
   # -bios QEMU_EFI.fd
   QEMU_AUDIO_DRV=none $qemu \
     -M virt -cpu cortex-a53 -smp 4 -m 4096 -nographic \
