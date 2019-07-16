@@ -103,7 +103,9 @@ If you create a file "authorized_keys" this will get automatically added as
 ## todo list
 
 Things that could be improved in the future:
-- For msdos partitioning the 'boot' flag is not set.
+- grub configuration includes all local drives from my local PC,
+  this should be limited to only the newly generated device.
+- For msdos partitioning the 'boot' flag is not set. (No real problem.)
 - Check if the partioning is aligned properly.
 - Easy switching to Debian unstable.
 - Compile own kernel for armhf.
@@ -111,7 +113,7 @@ Things that could be improved in the future:
   generic arm64 efi boot which also has a rpi3 kernel?
   (EFI partition not the first one?)
 - Install chromium directly from Google or are newer versions
-  available?
+  available for stable? Resolve this by using unstable for now.
 
 
 ## link list
