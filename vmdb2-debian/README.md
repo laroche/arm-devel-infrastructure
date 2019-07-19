@@ -105,6 +105,8 @@ If you create a file "authorized_keys" this will get automatically added as
 Things that could be improved in the future:
 - grub configuration includes all local drives from my local PC,
   this should be limited to only the newly generated device.
+  These additional entries are removed by running "update-grub" on the new system.
+- grub installed into partition instead of full disk?
 - For msdos partitioning the 'boot' flag is not set. (No real problem.)
 - Check if the partioning is aligned properly.
 - Easy switching to Debian unstable.
@@ -112,6 +114,10 @@ Things that could be improved in the future:
 - Change name of own rpi3 kernel. Can then an image be made with
   generic arm64 efi boot which also has a rpi3 kernel?
   (EFI partition not the first one?)
+- Automatically recompile new Debian kernels on each checkin into their
+  git server 'salsa'.
+- Provide a Debian repository with newer kernels instead of downloads.
+- Crosscompile the armhf/arm64 kernels on x86 for faster compile times.
 - Install chromium directly from Google or are newer versions
   available for stable? Resolve this by using unstable for now.
 
