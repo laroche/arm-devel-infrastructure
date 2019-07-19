@@ -17,7 +17,7 @@ fi
 
 if ! test -f $DISK ; then
   qemu-img convert -O qcow2 debian-amd64.img $DISK
-  qemu-img resize $DISK +50G
+  qemu-img resize $DISK +80G
   qemu-img snapshot -c start $DISK
   #qemu-img snapshot -l $DISK
   virt-install --name $TARGET --memory 4096 --cpu host --vcpus 4 --boot hd --disk $DISK
