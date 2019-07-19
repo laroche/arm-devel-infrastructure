@@ -14,3 +14,9 @@ Official github repository is [https://github.com/laroche/arm-devel-infrastructu
 
 Documentation is available at [https://laroche.github.io/arm-devel-infrastructure](https://laroche.github.io/arm-devel-infrastructure)
 
+
+Further documentation
+---------------------
+
+- [general notes about Debian](Debian.md)
+
