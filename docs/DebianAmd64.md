@@ -12,7 +12,7 @@ Install disk size requirements
 
 Very small systems are doable with a 4GB disk. Recommended are 16GB or more. Let alone
 compiling the Debian kernel package can use up to 55GB of disk space, so devel environments
-should have minimum 128GB.
+should have a minimum of 128GB.
 
 Here more detailed information on disk size usage:
 The provided raw/plain disk image (*.img) is 2GB in size. This must be written to the beginning
@@ -46,16 +46,17 @@ TODO
 How to use a Linux system to write the image onto a USB-Stick or a new harddisk
 -------------------------------------------------------------------------------
 
-  # Download the current Debian Amd64 image:
-  wget https://github.com/laroche/arm-devel-infrastructure/releases/download/v20190628/debian-buster-amd64-core-20190628.zip
-  # Unpack the zip archive to get the raw image *.img:
-  unzip debian-buster-amd64-core-20190628.zip
-  # Make sure your install disk is not mounted:
-  #umount /media/$USER/XXX
-  # For USB check your devices:
-  #lsusb
-  # Write the disk image to USB-disk or normal harddisk:
-  dd if=debian-buster-amd64-core-20190628/debian-buster-amd64-core-20190628.img of=/dev/sdX
+    # Download the current Debian Amd64 image:
+    wget https://github.com/laroche/arm-devel-infrastructure/releases/download/v20190628/debian-buster-amd64-core-20190628.zip
+    # Unpack the zip archive to get the raw image *.img:
+    unzip debian-buster-amd64-core-20190628.zip
+    # Make sure your install disk is not mounted:
+    #umount /media/$USER/XXX
+    # For USB check your devices:
+    #lsusb
+    # Write the disk image to USB-disk or normal harddisk:
+    dd if=debian-buster-amd64-core-20190628/debian-buster-amd64-core-20190628.img of=/dev/sdX
+
 
 On a Linux system, how to create a Linux KVM guest system
 ---------------------------------------------------------
@@ -87,7 +88,6 @@ On a Linux system, how to install on an existing harddisk into a new partition
 ------------------------------------------------------------------------------
 
 TODO
-
 
 
 Bootup
