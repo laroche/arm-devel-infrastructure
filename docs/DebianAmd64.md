@@ -67,21 +67,34 @@ Other Linux distributions should be similar.
 This is using the Linux KVM hypervisor. Make sure you have qemu-img, virsh, virt-inst, virt-manager
 installed.
 
-    # Download the current Debian Amd64 image:
-    wget https://github.com/laroche/arm-devel-infrastructure/releases/download/v20190628/debian-buster-amd64-core-20190628.zip
-    unzip debian-buster-amd64-core-20190628.zip
-    # Convert the plain/raw image file into qcow2 format:
-    qemu-img convert -O qcow2 debian-buster-amd64-core-20190628/debian-buster-amd64-core-20190628.img debian.qcow2
-    # Remove the release/download to save disk space:
-    rm -fr debian-buster-amd64-core-20190628
-    # Add additional space to the image:
-    qemu-img resize debian.qcow2 +80G
-    # Create a snapshot of the current state:
-    qemu-img snapshot -c start debian.qcow2
-    # List all available snapshots:
-    qemu-img snapshot -l debian.qcow2
-    # Start a new guest system with this image:
-    virt-install --name debian01 --memory 4096 --cpu host --vcpus 4 --boot hd --disk debian.qcow2
+Use the following shell script to download the current release and start a new guest system:
+[install.sh](https://github.com/laroche/arm-devel-infrastructure/blob/master/vmdb2-debian/install.sh).
+
+TODO: Use virtio for the harddisk?
+
+If you are new to virtualization, please look at the following commands and how they work:
+
+    # Install the needed software for Debian or Ubuntu systems:
+    sudo apt install virtinst virt-manager
+    # List all available guest/virtualized systems:
+    virsh list --all
+    # start/boot a guest system:
+    virsh start debian01
+    # Look at the console/screen output of a guest system:
+    virt-viewer debian01
+    # Regular shutdown of a guest system:
+    virsh shutdown debian01
+    # Hard shutdown of a guest system:
+    virsh destroy debian01
+    # Delete a guest system completely. Sometimes you need to remove the harddisk then manually:
+    virsh undefine debian01
+    # qemu-img to handel disk images and convert them.
+
+
+How to use other virtualization programs to start a guest system
+----------------------------------------------------------------
+
+TODO document VirtualBox on Linux/Windows
 
 
 On a Linux system, how to install on an existing harddisk into a new partition
@@ -93,15 +106,21 @@ TODO
 Bootup
 ------
 
-Root password, network setup for 'eth0', disk partitions.
-
-How to configure local network or wireless.
-
+Here a summary on what you have on the first bootup:
+- You have one harddisk. It has legacy 'msdos' partitioning and the first
+  partition contains an ext4 Linux filesystem with a generic Debian Amd64
+  installation.
+- No root password is set. And now additional users are setup. Just login as 'root'.
+- sshd is unchanged default configuration, so root login over network is not
+  allowed. (Edit /etc/ssh/sshd_config to change this.)
+- 'eth0' is setup as local network adapter and configured via dhcp. Change the file
+  /etc/network/interfaces.d/eth0 to change configuration. (Static IPs?)
 
 Now log into this new system as root and execute the following commands to
-add a swap partition with 4GB size to the end of the disk image and resize
-your current filesystem to the new size (By using negative numbers, the swap
-partition is created at the end of the disk image.):
+add a swap partition with 4GB size and DEBSWAP as label to the end of the
+disk image and resize your current filesystem to the new size.
+By using negative numbers for parted, the swap partition is created at the end
+of the disk image.:
 
     parted /dev/sda
     (parted) mkpart primary linux-swap -4096 -0
@@ -114,18 +133,13 @@ partition is created at the end of the disk image.):
     swapon -a
     free
 
-Here some more commands for virtualization:
-
-    sudo apt install virtinst virt-manager
-    virsh list --all
-    virsh start debian01
-    virt-viewer debian01
-    virsh shutdown debian01
-    virsh destroy debian01
-    virsh undefine debian01
-
-Root passwords for amd64, armhf/arm64.
-Software-update: apt update; apt dist-upgrade
-How to change from stable to unstable.
-Installing the RT-kernel.
+Here a few things you want todo on first login:
+- Login as 'root'.
+- Change the root password: passwd
+- Change sshd-server configuration: vim /etc/ssh/sshd_config
+- Change eth0 network configuration: vim /etc/network/interfaces.d/eth0
+- Configure a wireless adaptor.
+- Update your software: apt update; apt dist-upgrade; apt autoremove
+- How to change from stable to unstable.
+- Install an RT-kernel.
 
