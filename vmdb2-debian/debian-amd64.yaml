@@ -106,6 +106,8 @@ steps:
         install -m 600 -o root -g root cntlm.conf "${ROOT?}/etc/cntlm.conf"
       fi
 
+      install -m 700 -o root -g root setup.sh "${ROOT?}/root/setup.sh"
+
       # The following config line is still commented out:
       echo "#LABEL=DEBSWAP swap swap defaults 0 0" >> "${ROOT?}/etc/fstab"
 

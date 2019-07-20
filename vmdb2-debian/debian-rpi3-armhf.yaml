@@ -120,6 +120,8 @@ steps:
         install -m 600 -o root -g root cntlm.conf "${ROOT?}/etc/cntlm.conf"
       fi
 
+      install -m 700 -o root -g root setup.sh "${ROOT?}/root/setup.sh"
+
       echo "LABEL=DEBROOT / ext4 rw 0 1" > "${ROOT?}/etc/fstab"
       echo "LABEL=DEBFIRM /boot/firmware vfat rw 0 2" >> "${ROOT?}/etc/fstab"
       echo "proc /proc proc defaults 0 0" >> "${ROOT?}/etc/fstab"

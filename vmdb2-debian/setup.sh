@@ -22,8 +22,7 @@ fi
 
 if false ; then
 if test -b /dev/sda && ! test -b /dev/sda2 ; then
-  parted -s /dev/sda mkpart primary linux-swap -4096 -0
-  parted -s /dev/sda resizepart 1 -4096
+  parted -s -- /dev/sda mkpart primary linux-swap -4096 -0
   if test -b /dev/sda2 ; then
     mkswap -L DEBSWAP /dev/sda2
   fi
@@ -31,7 +30,10 @@ if test -b /dev/sda && ! test -b /dev/sda2 ; then
   sed -i -e 's/^#LABEL/LABEL/g' /etc/fstab
   swapon -a
   #free
-  exit 1
+  # Resizing sda1 does not work with parted, you need
+  # to execute this manually:
+  #parted -s -- /dev/sda resizepart 1 -4096
+  #resize2fs /dev/sda1
 fi
 fi
 
@@ -92,6 +94,8 @@ if false ; then
 
   # virtualization support:
   $apt install virtinst virt-manager
+
+  $apt install qemu-system-arm qemu-efi minicom
 fi
 # Company dependent apps:
 if false ; then
@@ -105,7 +109,6 @@ $apt install gawk bc make git-email ccache indent gperf
 #$apt install python perl clang golang
 #$apt install subversion git-svn
 #$apt install openjdk-8-jdk cmake
-#$apt install qemu-system-arm qemu-efi minicom
 #$apt install gcc-arm-none-eabi g++-aarch64-linux-gnu
 #$apt install g++-9-aarch64-linux-gnu g++-9-arm-linux-gnueabihf
 
