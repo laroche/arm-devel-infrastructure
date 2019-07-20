@@ -47,6 +47,8 @@ Link List
 ---------
 - [https://tracker.debian.org/pkg/linux](https://tracker.debian.org/pkg/linux)
 - [https://wiki.debian.org/KernelFAQ](https://wiki.debian.org/KernelFAQ)
+- [https://kernel-team.pages.debian.net/kernel-handbook/ch-common-tasks.html#s-common-official](https://kernel-team.pages.debian.net/kernel-handbook/ch-common-tasks.html#s-common-official)
 - [https://wiki.debian.org/HowToUpgradeKernel](https://wiki.debian.org/HowToUpgradeKernel)
 - [https://wiki.debian.org/DebianExperimental](https://wiki.debian.org/DebianExperimental)
+- [https://wiki.debian.org/HowToCrossBuildAnOfficialDebianKernelPackage](https://wiki.debian.org/HowToCrossBuildAnOfficialDebianKernelPackage)
 
