@@ -15,6 +15,26 @@ fi
 
 apt="apt -q -y"
 
+unstable="0"
+if grep -q unstable /etc/apt/sources.list ; then
+  unstable="1"
+fi
+
+if false ; then
+if test -b /dev/sda && ! test -b /dev/sda2 ; then
+  parted -s /dev/sda mkpart primary linux-swap -4096 -0
+  parted -s /dev/sda resizepart 1 -4096
+  if test -b /dev/sda2 ; then
+    mkswap -L DEBSWAP /dev/sda2
+  fi
+  # enable swap
+  sed -i -e 's/^#LABEL/LABEL/g' /etc/fstab
+  swapon -a
+  #free
+  exit 1
+fi
+fi
+
 # On first boot with the new Linux system, extend the filesystem to the
 # end of the disk and add a Linux swap-partition to the end of the disk
 # with the following commands:
@@ -36,9 +56,6 @@ sed -i -e '/has.*mouse/,+2s/^/"/' /usr/share/vim/vim81/defaults.vim
 
 # disable ipv6
 #sed -i -e 's/^#//g' /etc/sysctl.d/01-disable-ipv6.conf
-
-# enable swap
-sed -i -e 's/^#LABEL/LABEL/g' /etc/fstab
 
 # Add myself:
 if ! test -d /home/max ; then
