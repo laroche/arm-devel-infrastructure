@@ -120,6 +120,8 @@ Things that could be improved in the future:
 - Crosscompile the armhf/arm64 kernels on x86 for faster compile times.
 - Install chromium directly from Google or are newer versions
   available for stable? Resolve this by using unstable for now.
+- For documentation, check out https://github.com/jekyll/jekyll and hugo
+  and improve appearance.
 
 
 ## link list
