@@ -13,6 +13,8 @@ if test "X$UID" != "X0" ; then
   exit 1
 fi
 
+apt="apt -q -y"
+
 # On first boot with the new Linux system, extend the filesystem to the
 # end of the disk and add a Linux swap-partition to the end of the disk
 # with the following commands:
@@ -53,16 +55,16 @@ fi
 
 # Run updates:
 apt update
-apt -q -y dist-upgrade
+$apt dist-upgrade
 
 # Install some GUI and desktop apps:
 if false ; then
-  #apt -q -y install xfce4 lightdm synaptic menu
-  apt -q -y install aptitude
+  #$apt install xfce4 lightdm synaptic menu
+  $apt install aptitude
   tasksel install gnome-desktop --new-install
-  apt -q -y install firefox-esr firefox-esr-l10n-de chromium chromium-l10n vlc
-  apt -q -y install libreoffice libreoffice-help-de libreoffice-l10n-de
-  apt -q -y install rdesktop dconf-editor
+  $apt install firefox-esr firefox-esr-l10n-de chromium chromium-l10n vlc
+  $apt install libreoffice libreoffice-help-de libreoffice-l10n-de
+  $apt install rdesktop dconf-editor
   # https://superuser.com/questions/394376/how-to-prevent-gnome-shells-alttab-from-grouping-windows-from-similar-apps
   #dconf write /org/gnome/desktop/wm/keybindings/switch-applications
   #dconf write /org/gnome/desktop/wm/keybindings/switch-applications-backward
@@ -70,33 +72,35 @@ if false ; then
   #dconf write /org/gnome/desktop/wm/keybindings/switch-windows-backward "['<Shift><Super>Tab', '<Shift><Alt>Tab']"
   #gsettings set org.gnome.desktop.wm.keybindings switch-applications "[]"
   #gsettings set org.gnome.shell.window-switcher current-workspace-only true
+
+  # virtualization support:
+  $apt install virtinst virt-manager
 fi
 # Company dependent apps:
 if false ; then
-  apt -q -y install cntlm rdesktop
-  apt -q -y install qttools5-dev qttools5-dev-tools
+  $apt install cntlm rdesktop
+  $apt install qttools5-dev qttools5-dev-tools
 fi
 
 # Generic devel environment:
-apt -q -y install build-essential autoconf libtool libtool-bin bison flex git libacl1-dev libssl-dev
-apt -q -y install gawk bc make git-email ccache indent gperf
-#apt -q -y install python perl clang golang
-#apt -q -y install subversion git-svn
-#apt -q -y install openjdk-8-jdk cmake
-#apt -q -y install qemu-system-arm qemu-efi minicom
-#apt -q -y install gcc-arm-none-eabi g++-aarch64-linux-gnu
-#apt -q -y install g++-9-aarch64-linux-gnu g++-9-arm-linux-gnueabihf
-apt -q -y install virtinst virt-manager
+$apt install build-essential autoconf libtool libtool-bin bison flex git libacl1-dev libssl-dev
+$apt install gawk bc make git-email ccache indent gperf
+#$apt install python perl clang golang
+#$apt install subversion git-svn
+#$apt install openjdk-8-jdk cmake
+#$apt install qemu-system-arm qemu-efi minicom
+#$apt install gcc-arm-none-eabi g++-aarch64-linux-gnu
+#$apt install g++-9-aarch64-linux-gnu g++-9-arm-linux-gnueabihf
 
 # Checkout some devel projects:
 if true ; then
   if ! test -d ~max/data/arm-devel-infrastructure ; then
     su max -c "cd ~/data && git clone https://github.com/laroche/arm-devel-infrastructure"
   fi
-  apt -q -y install vmdb2 dosfstools qemu qemu-user-static make zip
+  $apt install vmdb2 dosfstools qemu qemu-user-static make zip
 fi
 if ! test -d /opt/ltp ; then
-  #apt -q -y install build-essential autoconf libtool libtool-bin bison flex git libacl1-dev libssl-dev
+  #$apt install build-essential autoconf libtool libtool-bin bison flex git libacl1-dev libssl-dev
   if ! test -d ~max/data/ltp ; then
     su max -c "cd ~/data && git clone --depth 1 https://github.com/linux-test-project/ltp"
     # make autotools
@@ -106,7 +110,7 @@ if ! test -d /opt/ltp ; then
   fi
 fi
 if ! test -d /opt/qemu ; then
-  apt -q -y install libglib2.0-dev pkg-config libpixman-1-dev
+  $apt install libglib2.0-dev pkg-config libpixman-1-dev
   if ! test -f ~flaroche/data/qemu-4.1.0-rc1.tar.xz ; then
     su flaroche -c "cd ~/data && wget https://download.qemu.org/qemu-4.1.0-rc1.tar.xz"
   fi
