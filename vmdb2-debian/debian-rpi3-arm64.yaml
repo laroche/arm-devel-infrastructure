@@ -131,6 +131,10 @@ steps:
       echo "#net.ipv6.conf.all.disable_ipv6 = 1" > "${ROOT?}/etc/sysctl.d/01-disable-ipv6.conf"
       echo "#net.ipv6.conf.default.disable_ipv6 = 1" >> "${ROOT?}/etc/sysctl.d/01-disable-ipv6.conf"
 
+      if grep -q unstable ${ROOT?}/etc/apt/sources.list ; then
+      echo "deb http://deb.debian.org/debian/ unstable main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
+      echo "deb-src http://deb.debian.org/debian/ unstable main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+      else
       echo "deb http://deb.debian.org/debian/ buster main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
       echo "deb-src http://deb.debian.org/debian/ buster main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
       echo >> ${ROOT?}/etc/apt/sources.list
@@ -142,6 +146,7 @@ steps:
       echo >> ${ROOT?}/etc/apt/sources.list
       echo "deb http://security.debian.org/debian-security buster/updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
       echo "deb-src http://security.debian.org/debian-security buster/updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+      fi
 
       echo "deb http://deb.debian.org/debian/ experimental main contrib non-free" > "${ROOT?}/etc/apt/sources.list.d/experimental.list"
       echo "deb-src http://deb.debian.org/debian/ experimental main contrib non-free" >> "${ROOT?}/etc/apt/sources.list.d/experimental.list"

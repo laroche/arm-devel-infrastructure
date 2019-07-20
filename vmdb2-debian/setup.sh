@@ -26,6 +26,7 @@ fi
 # - swapon -a
 
 # Add NOPASSWD so that all users in the sudo group do not have to type in their password:
+# This is not recommended and insecure, but handy on some devel machines.
 sed -i -e 's/^%sudo.*/%sudo\tALL=(ALL:ALL) NOPASSWD: ALL/g' /etc/sudoers
 
 # vim package updates overwrite this change, so we need to fix this periodically:
@@ -35,7 +36,7 @@ sed -i -e '/has.*mouse/,+2s/^/"/' /usr/share/vim/vim81/defaults.vim
 #sed -i -e 's/^#//g' /etc/sysctl.d/01-disable-ipv6.conf
 
 # enable swap
-#sed -i -e 's/^#LABEL/LABEL/g' /etc/fstab
+sed -i -e 's/^#LABEL/LABEL/g' /etc/fstab
 
 # Add myself:
 if ! test -d /home/max ; then

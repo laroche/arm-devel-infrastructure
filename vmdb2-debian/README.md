@@ -117,6 +117,7 @@ Things that could be improved in the future:
 - Automatically recompile new Debian kernels on each checkin into their
   git server 'salsa'.
 - Provide a Debian repository with newer kernels instead of downloads.
+  Also use github pages for this?
 - Crosscompile the armhf/arm64 kernels on x86 for faster compile times.
 - Install chromium directly from Google or are newer versions
   available for stable? Resolve this by using unstable for now.

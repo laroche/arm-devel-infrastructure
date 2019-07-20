@@ -10,6 +10,8 @@ Also include useful links to some key Linux development projects (for arm).
 Arm disk images are prepared for generic armhf or arm64 devices,
 there are extra images for [Raspberry-PI](https://www.raspberrypi.org/).
 
+Disc images can be downloaded from [https://github.com/laroche/arm-devel-infrastructure/releases](https://github.com/laroche/arm-devel-infrastructure/releases)
+
 Official github repository is [https://github.com/laroche/arm-devel-infrastructure](https://github.com/laroche/arm-devel-infrastructure)
 
 Documentation is available at [https://laroche.github.io/arm-devel-infrastructure](https://laroche.github.io/arm-devel-infrastructure)

@@ -12,10 +12,10 @@ DISK=$TARGET.qcow2
 
 # Download newest release and unpack:
 if ! test -f debian-amd64.img ; then
-  wget https://github.com/laroche/arm-devel-infrastructure/releases/download/v20190628/debian-buster-amd64-core-20190628.zip
-  unzip debian-buster-amd64-core-20190628.zip
-  mv debian-buster-amd64-core-20190628/debian-buster-amd64-core-20190628.img debian-amd64.img
-  rm -fr debian-buster-amd64-core-20190628
+  wget https://github.com/laroche/arm-devel-infrastructure/releases/download/v20190720/debian-stable-amd64-20190720.zip
+  unzip debian-stable-amd64-20190720.zip
+  mv debian-stable-amd64-20190720/debian-stable-amd64-20190720.img debian-amd64.img
+  rm -fr debian-stable-amd64-20190720
 fi
 
 if ! test -f $DISK ; then

@@ -53,15 +53,15 @@ How to use a Linux system to write the image onto a USB-Stick or a new harddisk
 
 ```shell
 # Download the current Debian Amd64 image:
-wget https://github.com/laroche/arm-devel-infrastructure/releases/download/v20190628/debian-buster-amd64-core-20190628.zip
+wget https://github.com/laroche/arm-devel-infrastructure/releases/download/v20190720/debian-stable-amd64-20190720.zip
 # Unpack the zip archive to get the raw image *.img:
-unzip debian-buster-amd64-core-20190628.zip
+unzip debian-stable-amd64-20190720.zip
 # Make sure your install disk is not mounted:
 #umount /media/$USER/XXX
 # For USB check your devices:
 #lsusb
 # Write the disk image to USB-disk or normal harddisk:
-dd if=debian-buster-amd64-core-20190628/debian-buster-amd64-core-20190628.img of=/dev/sdX
+dd if=debian-stable-amd64-20190720/debian-stable-amd64-20190720.img of=/dev/sdX
 ```
 
 
