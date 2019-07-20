@@ -1,3 +1,9 @@
+Debian Linux Kernel Handbook
+----------------------------
+
+Please read the reference [Debian Linux Kernel Handbook](https://kernel-team.pages.debian.net/kernel-handbook/index.html).
+
+
 How to compile your own kernel from current Debian git sources
 --------------------------------------------------------------
 
@@ -47,7 +53,6 @@ Link List
 ---------
 - [https://tracker.debian.org/pkg/linux](https://tracker.debian.org/pkg/linux)
 - [https://wiki.debian.org/KernelFAQ](https://wiki.debian.org/KernelFAQ)
-- [https://kernel-team.pages.debian.net/kernel-handbook/ch-common-tasks.html#s-common-official](https://kernel-team.pages.debian.net/kernel-handbook/ch-common-tasks.html#s-common-official)
 - [https://wiki.debian.org/HowToUpgradeKernel](https://wiki.debian.org/HowToUpgradeKernel)
 - [https://wiki.debian.org/DebianExperimental](https://wiki.debian.org/DebianExperimental)
 - [https://wiki.debian.org/HowToCrossBuildAnOfficialDebianKernelPackage](https://wiki.debian.org/HowToCrossBuildAnOfficialDebianKernelPackage)
