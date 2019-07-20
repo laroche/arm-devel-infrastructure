@@ -45,7 +45,8 @@ apt install linux-image-5.0.0-trunk-arm64
 
 Link List
 ---------
+- [https://tracker.debian.org/pkg/linux](https://tracker.debian.org/pkg/linux)
+- [https://wiki.debian.org/KernelFAQ](https://wiki.debian.org/KernelFAQ)
 - [https://wiki.debian.org/HowToUpgradeKernel](https://wiki.debian.org/HowToUpgradeKernel)
 - [https://wiki.debian.org/DebianExperimental](https://wiki.debian.org/DebianExperimental)
-- [https://tracker.debian.org/pkg/linux](https://tracker.debian.org/pkg/linux)
 

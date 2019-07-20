@@ -22,4 +22,5 @@ Further documentation
 - [installing and booting Debian Amd64 disk images](DebianAmd64.md)
 - [compile a current qemu release](Qemu.md)
 - [compiling and installing newer kernels](DebianKernel.md)
+- [installing 32bit compat libs onto a 64bit system](DebianCompatLibs.md)
 
