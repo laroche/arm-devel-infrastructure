@@ -14,18 +14,3 @@ Official github repository is [https://github.com/laroche/arm-devel-infrastructu
  
 Documentation is available at [https://laroche.github.io/arm-devel-infrastructure](https://laroche.github.io/arm-devel-infrastructure)
 
-
-locally compile current Qemu
-----------------------------
-
-Most Linux distributions do not update qemu to current versions, but
-you can compile the current qemu release yourself. A good target for
-installation is `/opt/qemu` (Check [qemu download](https://www.qemu.org/download/#source) as reference.):
-
-  wget https://download.qemu.org/qemu-4.0.0.tar.xz
-  tar xJf qemu-4.0.0.tar.xz
-  cd qemu-4.0.0
-  ./configure --prefix=/opt/qemu
-  make
-  sudo make install
-
