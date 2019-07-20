@@ -21,4 +21,5 @@ Further documentation
 - [general notes about Debian](Debian.md)
 - [installing and booting Debian Amd64 disk images](DebianAmd64.md)
 - [compile a current qemu release](Qemu.md)
+- [compiling and installing newer kernels](DebianKernel.md)
 

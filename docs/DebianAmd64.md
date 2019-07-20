@@ -8,7 +8,7 @@ for amd64 systems. You can install this amd64 disk image onto a USB-disk, a norm
 
 To understand all details of this disc image, please look at the vmdb2
 configuration file for this image: [debian-amd64.yaml](https://github.com/laroche/arm-devel-infrastructure/blob/master/vmdb2-debian/debian-amd64.yaml).
-It contaains a list of all software packages to include and a few configuration changes
+It contains a list of all software packages to include and a few configuration changes
 done with shell scripting.
 
 
@@ -128,8 +128,8 @@ Here a summary on what you have on the first bootup:
 Now log into this new system as root and execute the following commands to
 add a swap partition with 4GB size and DEBSWAP as label to the end of the
 disk image and resize your current filesystem to the new size.
-By using negative numbers for parted, the swap partition is created at the end
-of the disk image.:
+By using negative numbers for parted, they are relative to the end of the disk.
+So the swap partition is created at the end of the disk image:
 
 ```shell
 parted /dev/sda

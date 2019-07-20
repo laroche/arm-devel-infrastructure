@@ -11,6 +11,6 @@ Arm disk images are prepared for generic armhf or arm64 devices,
 there are extra images for [Raspberry-PI](https://www.raspberrypi.org/).
 
 Official github repository is [https://github.com/laroche/arm-devel-infrastructure](https://github.com/laroche/arm-devel-infrastructure)
- 
+
 Documentation is available at [https://laroche.github.io/arm-devel-infrastructure](https://laroche.github.io/arm-devel-infrastructure)
 

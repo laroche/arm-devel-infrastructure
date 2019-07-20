@@ -16,7 +16,7 @@ Other resources you might want to check out:
 
 - Many discussions take place via email on the [Debian mailinglists](https://lists.debian.org/).
 - The [Debian gitlab server](https://salsa.debian.org/) with e.g.
-  the [Debian Linux kernel source repository](https://salsa.debian.org/kernel-team/linux).
+  the [Debian Linux kernel source repository](https://salsa.debian.org/kernel-team/linux/commits/master).
 - The [Debian bug database](https://www.debian.org/Bugs/).
 - [Development server machines](https://db.debian.org/machines.cgi) at Debian.
 - [Debian build server](https://buildd.debian.org/status/)

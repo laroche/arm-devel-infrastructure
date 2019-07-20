@@ -122,6 +122,7 @@ Things that could be improved in the future:
   available for stable? Resolve this by using unstable for now.
 - For documentation, check out https://github.com/jekyll/jekyll and hugo
   and improve appearance.
+  https://help.github.com/en/articles/customizing-css-and-html-in-your-jekyll-theme
 
 
 ## link list
