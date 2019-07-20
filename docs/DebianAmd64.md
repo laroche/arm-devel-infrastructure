@@ -51,16 +51,18 @@ TODO
 How to use a Linux system to write the image onto a USB-Stick or a new harddisk
 -------------------------------------------------------------------------------
 
-    # Download the current Debian Amd64 image:
-    wget https://github.com/laroche/arm-devel-infrastructure/releases/download/v20190628/debian-buster-amd64-core-20190628.zip
-    # Unpack the zip archive to get the raw image *.img:
-    unzip debian-buster-amd64-core-20190628.zip
-    # Make sure your install disk is not mounted:
-    #umount /media/$USER/XXX
-    # For USB check your devices:
-    #lsusb
-    # Write the disk image to USB-disk or normal harddisk:
-    dd if=debian-buster-amd64-core-20190628/debian-buster-amd64-core-20190628.img of=/dev/sdX
+```shell
+# Download the current Debian Amd64 image:
+wget https://github.com/laroche/arm-devel-infrastructure/releases/download/v20190628/debian-buster-amd64-core-20190628.zip
+# Unpack the zip archive to get the raw image *.img:
+unzip debian-buster-amd64-core-20190628.zip
+# Make sure your install disk is not mounted:
+#umount /media/$USER/XXX
+# For USB check your devices:
+#lsusb
+# Write the disk image to USB-disk or normal harddisk:
+dd if=debian-buster-amd64-core-20190628/debian-buster-amd64-core-20190628.img of=/dev/sdX
+```
 
 
 On a Linux system, how to create a Linux KVM guest system
@@ -79,21 +81,23 @@ TODO: Use virtio for the harddisk?
 
 If you are new to virtualization, please look at the following commands and how they work:
 
-    # Install the needed software for Debian or Ubuntu systems:
-    sudo apt install virtinst virt-manager
-    # List all available guest/virtualized systems:
-    virsh list --all
-    # start/boot a guest system:
-    virsh start debian01
-    # Look at the console/screen output of a guest system:
-    virt-viewer debian01
-    # Regular shutdown of a guest system:
-    virsh shutdown debian01
-    # Hard shutdown of a guest system:
-    virsh destroy debian01
-    # Delete a guest system completely. Sometimes you need to remove the harddisk then manually:
-    virsh undefine debian01
-    # qemu-img to handel disk images and convert them.
+```shell
+# Install the needed software for Debian or Ubuntu systems:
+sudo apt install virtinst virt-manager
+# List all available guest/virtualized systems:
+virsh list --all
+# start/boot a guest system:
+virsh start debian01
+# Look at the console/screen output of a guest system:
+virt-viewer debian01
+# Regular shutdown of a guest system:
+virsh shutdown debian01
+# Hard shutdown of a guest system:
+virsh destroy debian01
+# Delete a guest system completely. Sometimes you need to remove the harddisk then manually:
+virsh undefine debian01
+# qemu-img to handel disk images and convert them.
+```
 
 
 How to use other virtualization programs to start a guest system
@@ -127,24 +131,26 @@ disk image and resize your current filesystem to the new size.
 By using negative numbers for parted, the swap partition is created at the end
 of the disk image.:
 
-    parted /dev/sda
-    (parted) mkpart primary linux-swap -4096 -0
-    (parted) resizepart 1
-    (parted)     -4096
-    (parted) quit
-    resize2fs /dev/sda1
-    mkswap -L DEBSWAP /dev/sda2
-    vim /etc/fstab
-    swapon -a
-    free
+```shell
+parted /dev/sda
+  (parted) mkpart primary linux-swap -4096 -0
+  (parted) resizepart 1
+  (parted)     -4096
+  (parted) quit
+resize2fs /dev/sda1
+mkswap -L DEBSWAP /dev/sda2
+vim /etc/fstab
+swapon -a
+free
+```
 
 Here a few things you want todo on first login:
-- Login as 'root'.
-- Change the root password: passwd
-- Change sshd-server configuration: vim /etc/ssh/sshd_config
-- Change eth0 network configuration: vim /etc/network/interfaces.d/eth0
+- Login as `root`.
+- Change the root password: `passwd`
+- Change sshd-server configuration: `vim /etc/ssh/sshd_config`
+- Change eth0 network configuration: `vim /etc/network/interfaces.d/eth0`
 - Configure a wireless adaptor.
-- Update your software: apt update; apt dist-upgrade; apt autoremove
+- Update your software: `apt update; apt dist-upgrade; apt autoremove`
 - How to change from stable to unstable.
 - Install an RT-kernel.
 
