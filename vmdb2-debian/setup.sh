@@ -106,11 +106,11 @@ if ! test -d /opt/ltp ; then
 fi
 if ! test -d /opt/qemu ; then
   apt -q -y install libglib2.0-dev pkg-config libpixman-1-dev
-  if ! test -f ~flaroche/data/qemu-4.1.0-rc0.tar.xz ; then
-    su flaroche -c "cd ~/data && wget https://download.qemu.org/qemu-4.1.0-rc0.tar.xz"
+  if ! test -f ~flaroche/data/qemu-4.1.0-rc1.tar.xz ; then
+    su flaroche -c "cd ~/data && wget https://download.qemu.org/qemu-4.1.0-rc1.tar.xz"
   fi
-  #tar xJf qemu-4.1.0-rc0.tar.xz
-  #cd qemu-4.1.0-rc0
+  #tar xJf qemu-4.1.0-rc1.tar.xz
+  #cd qemu-4.1.0-rc1
   #./configure --prefix=/opt/qemu
   #make -j 4
   #sudo make install
