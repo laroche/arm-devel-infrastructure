@@ -3,10 +3,10 @@ Install and boot Debian Amd64 disk image
 
 Naming: Debian uses 'amd64' to refer to 64bit x86 systems, sometimes also called x86_64.
 
-The release contains one disk image file (*.img) with a ready to use generic Debian installation
+The release contains one disk image file (\*.img) with a ready to use generic Debian installation
 for amd64 systems. You can install this amd64 disk image onto a USB-disk, a normal harddisk or a virtual guest system.
 
-To understand all details of this disc image, please look at the vmdb2
+To understand all details of this disk image, please look at the vmdb2
 configuration file for this image: [debian-amd64.yaml](https://github.com/laroche/arm-devel-infrastructure/blob/master/vmdb2-debian/debian-amd64.yaml).
 It contains a list of all software packages to include and a few configuration changes
 done with shell scripting.
@@ -15,23 +15,22 @@ done with shell scripting.
 Install disk size requirements
 ------------------------------
 
-Very small systems are doable with a 4GB disk. Recommended are 16GB or more. Let alone
-compiling the Debian kernel package can use up to 55GB of disk space, so devel environments
-should have a minimum of 128GB.
+Very tiny text-based server systems are doable with a 4GB disk. Recommended
+are 16GB or more for most systems. Let alone compiling the Debian kernel
+package can use up to 55GB of disk space, so devel environments should have
+a minimum of 128GB.
 
-Here more detailed information on disk size usage:
-The provided raw/plain disk image (*.img) is 2GB in size. This must be written to the beginning
-of a 2GB or greater install disk. As you want to install additional software
-and also create a swap partition with the size of your RAM, you should need at least 4GB for a small
-text-based server system.
-If you want to install the gnome desktop, you need at least 8GB of disk size. And you normally add a swap
-partition that has the same size as your RAM.
+Here more detailed information on disk size usage: The provided raw/plain disk
+image (\*.img) is 2GB in size. This must be written to the beginning of a 2GB
+or greater install disk. If you want to install the gnome desktop, you need at
+least 8GB of disk size. And you normally add a swap partition that has the
+same size as your RAM.
 
 
 Disk layout
 -----------
 
-The release image (*.img) contains one big harddisk image with a legacy 'msdos' partition table
+The release image (\*.img) contains one big harddisk image with a legacy 'msdos' partition table
 and one partition with an ext4 filesystem with the generic Debian installation.
 
 

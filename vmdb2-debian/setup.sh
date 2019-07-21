@@ -125,7 +125,7 @@ if ! test -d /opt/ltp ; then
     su max -c "cd ~/data && git clone --depth 1 https://github.com/linux-test-project/ltp"
     # make autotools
     # ./configure
-    # make -j 6
+    # make -j 8
     # sudo make install
   fi
 fi
@@ -137,7 +137,7 @@ if ! test -d /opt/qemu ; then
   #tar xJf qemu-4.1.0-rc1.tar.xz
   #cd qemu-4.1.0-rc1
   #./configure --prefix=/opt/qemu
-  #make -j 4
+  #make -j 8
   #sudo make install
 fi
 

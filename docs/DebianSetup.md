@@ -6,4 +6,5 @@ additional software and configure your system for convenient use.
 
 Please check the following script and adapt it for your own use:
 [setup.sh](https://github.com/laroche/arm-devel-infrastructure/blob/master/vmdb2-debian/setup.sh).
+This is also copied onto the disk images as `/root/setup.sh`.
 
