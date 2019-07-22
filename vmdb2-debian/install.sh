@@ -19,7 +19,7 @@ DISK="$TARGET.qcow2"
 
 # Download newest release and unpack:
 if ! test -f debian-amd64.img ; then
-  wget https://github.com/laroche/arm-devel-infrastructure/releases/download/v$RDATE/debian-stable-amd64-$RDATE.zip
+  wget -q https://github.com/laroche/arm-devel-infrastructure/releases/download/v$RDATE/debian-stable-amd64-$RDATE.zip
   unzip debian-stable-amd64-$RDATE.zip
   mv debian-stable-amd64-$RDATE/debian-stable-amd64-$RDATE.img debian-amd64.img
   rm -fr debian-stable-amd64-$RDATE

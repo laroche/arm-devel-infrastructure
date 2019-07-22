@@ -157,7 +157,7 @@ fi
 # Select EFI ROM for ARM64:
 if test $ARM = 64 ; then
   if ! test -f QEMU_EFI.img ; then
-    wget http://snapshots.linaro.org/components/kernel/leg-virt-tianocore-edk2-upstream/latest/QEMU-AARCH64/RELEASE_GCC5/QEMU_EFI.img.gz
+    wget -q http://snapshots.linaro.org/components/kernel/leg-virt-tianocore-edk2-upstream/latest/QEMU-AARCH64/RELEASE_GCC5/QEMU_EFI.img.gz
     gunzip QEMU_EFI.img.gz
     #cp /usr/share/qemu-efi/QEMU_EFI.fd QEMU_EFI.img
   fi
@@ -200,7 +200,7 @@ if ! test -f $hd ; then
 
   # Download the installer image:
   if ! test -f $img ; then
-    wget $url
+    wget -q $url
   fi
 
   # Re-create the installer image to include preseed information:

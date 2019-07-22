@@ -24,7 +24,7 @@ via negative numbers like -2048. First the partition size is changed, then
 the actual filesystem is grown.
 
 ```shell
-wget https://github.com/laroche/arm-devel-infrastructure/releases/download/v20190323/debian-server-20190323.zip
+wget -q https://github.com/laroche/arm-devel-infrastructure/releases/download/v20190323/debian-server-20190323.zip
 unzip debian-server-20190323.zip
 # Plug in your SD-card or USB-stick.
 # Umount any automatically mounted existing partitions in /media/$USER/*.

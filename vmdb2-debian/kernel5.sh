@@ -46,7 +46,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 #exit 0
-test -f orig/linux_$KVER.orig.tar.xz || wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
+test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
 cd linux-5
 test -f ../orig/linux_$KVER.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py ../linux-$KVER.tar.xz
 # Just to safe disk space and have a faster compile:

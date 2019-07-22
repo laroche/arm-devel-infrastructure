@@ -53,7 +53,7 @@ How to use a Linux system to write the image onto a USB-Stick or a new harddisk
 
 ```shell
 # Download the current Debian Amd64 image:
-wget https://github.com/laroche/arm-devel-infrastructure/releases/download/v20190720/debian-stable-amd64-20190720.zip
+wget -q https://github.com/laroche/arm-devel-infrastructure/releases/download/v20190720/debian-stable-amd64-20190720.zip
 # Unpack the zip archive to get the raw image *.img:
 unzip debian-stable-amd64-20190720.zip
 # Make sure your install disk is not mounted:
