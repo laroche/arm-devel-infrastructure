@@ -1,23 +1,7 @@
 # Debian server image for ARM64
 
-A Debian ARM64 image from their testing repository with mostly (text based)
-basic server applications. This image should run fine on Raspberry Pi 3
+This image should run fine on Raspberry Pi 3
 Model B and B+ and also on Qemu.
-
-Default upstream repository for this is at
-https://github.com/laroche/arm-devel-infrastructure/tree/master/vmdb2-debian.
-
-Debian has repositories for stable (which is now Debian 9), testing (which
-should become the next stable release of Debian-10 later in 2019) and unstable.
-Single even newer packages can be found on Debian experimental.
-
-This is based mostly on http://git.liw.fi/vmdb2/ as included in Debian testing and newer.
-
-
-## download a release image and prepare the image before booting
-
-Download a binary image release from
-https://github.com/laroche/arm-devel-infrastructure/releases.
 
 Raspberry Pi 3 Model B and B+ should boot this image fine from a SD-card or
 from a USB-stick. Here some information on how to write this image from a
@@ -83,23 +67,6 @@ Now remove the SD-card or the USB-stick from your Linux machine, insert it
 into your Raspberry Pi and start it.
 
 
-## building your own image
-
-You should have Debian testing or newer installed to run these scripts
-yourself:
-
-```shell
-sudo apt install vmdb2 dosfstools qemu qemu-user-static make #zip
-git clone https://github.com/laroche/arm-devel-infrastructure
-cd arm-devel-infrastructure/vmdb2-debian
-edit debian.yaml
-make
-```
-
-If you create a file "authorized_keys" this will get automatically added as
-/root/.ssh/authorized_keys in the image.
-
-
 ## todo list
 
 Things that could be improved in the future:
@@ -110,7 +77,6 @@ Things that could be improved in the future:
 - grub installed into partition instead of full disk?
 - For msdos partitioning the 'boot' flag is not set. (No real problem.)
 - Check if the partioning is aligned properly.
-- Easy switching to Debian unstable.
 - Compile own kernel for armhf.
 - Change name of own rpi3 kernel. Can then an image be made with
   generic arm64 efi boot which also has a rpi3 kernel?
@@ -118,7 +84,7 @@ Things that could be improved in the future:
 - Automatically recompile new Debian kernels on each checkin into their
   git server 'salsa'.
 - Provide a Debian repository with newer kernels instead of downloads.
-  Also use github pages for this?
+  Use github pages for this?
 - Crosscompile the armhf/arm64 kernels on x86 for faster compile times.
 - Install chromium directly from Google or are newer versions
   available for stable? Resolve this by using unstable for now.
@@ -129,5 +95,7 @@ Things that could be improved in the future:
 
 ## link list
 
+- https://github.com/UMRnInside/RPi-arm64
+- https://github.com/openfans-community-offical/Debian-Pi-Aarch64
 - https://wiki.debian.org/InstallingDebianOn/OdroidHC1
 

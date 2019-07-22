@@ -5,6 +5,7 @@ Naming: Debian uses 'amd64' to refer to 64bit x86 systems, sometimes also called
 
 The release contains one disk image file (\*.img) with a ready to use generic Debian installation
 for amd64 systems. You can install this amd64 disk image onto a USB-disk, a normal harddisk or a virtual guest system.
+Disk images can be downloaded from the [release-page](https://github.com/laroche/arm-devel-infrastructure/releases).
 
 To understand all details of this disk image, please look at the vmdb2
 configuration file for this image: [debian-amd64.yaml](https://github.com/laroche/arm-devel-infrastructure/blob/master/vmdb2-debian/debian-amd64.yaml).
