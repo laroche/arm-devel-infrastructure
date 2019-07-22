@@ -54,7 +54,7 @@ steps:
     - locales
     - keyboard-configuration
     - console-setup
-    - locate
+    #- locate
     - psmisc
     - strace
     - htop
