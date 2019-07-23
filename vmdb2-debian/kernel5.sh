@@ -21,7 +21,7 @@ fi
 sudo apt install build-essential fakeroot rsync git
 sudo apt build-dep linux
 if test $CROSS = 1 ; then
-  sudo apt install kernel-wedge quilt ccache flex bison libssl-dev crossbuild-essential-arm64
+  sudo apt install kernel-wedge quilt ccache flex bison libssl-dev crossbuild-essential-arm64 crossbuild-essential-armhf
 fi
 
 KVER=5.2.1
