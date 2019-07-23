@@ -5,8 +5,8 @@
 #
 
 # Build requirements:
-sudo apt install build-essential fakeroot rsync git
-sudo apt build-dep linux
+sudo apt -q -y install build-essential fakeroot rsync git
+sudo apt -q -y build-dep linux
 
 KVER=4.19.37
 
@@ -24,6 +24,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   cd rpi-linux
   git format-patch -o ../rpi-patches-$RVER 7a6bfa08b938d33ba0a2b80d4f717d4f0dbf9170
   cd ..
+  #rm -fr rpi-linux
 fi
 
 if ! test -d linux ; then

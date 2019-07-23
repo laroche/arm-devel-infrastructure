@@ -6,30 +6,39 @@
 # https://wiki.debian.org/HowToCrossBuildAnOfficialDebianKernelPackage
 #
 
-CROSS=0
-ARCH=
-if test "X$1" = "Xarm64" ; then
-  CROSS=1
-  ARCH=arm64
-fi
-if test "X$1" = "Xarmhf" ; then
-  CROSS=1
-  ARCH=armhf
-fi
-
-# Build requirements:
-sudo apt install build-essential fakeroot rsync git
-sudo apt build-dep linux
-if test $CROSS = 1 ; then
-  sudo apt install kernel-wedge quilt ccache flex bison libssl-dev crossbuild-essential-arm64 crossbuild-essential-armhf
-fi
-
-KVER=5.2.1
-
 # Should we apply the raspberry-pi kernel patches?
 RPIPATCHES=0
 if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
+fi
+
+CROSS=0
+ARCH=
+if test "X$1" = "Xarm64" -o "X$1" = "Xrpi-arm64" ; then
+  CROSS=1
+  ARCH=arm64
+  if test "X$1" = "Xrpi-arm64" ; then
+    RPIPATCHES=1
+  fi
+fi
+if test "X$1" = "Xarmhf" -o "X$1" = "Xrpi-armhf" ; then
+  CROSS=1
+  ARCH=armhf
+  if test "X$1" = "Xrpi-armhf" ; then
+    RPIPATCHES=1
+  fi
+fi
+
+# Build requirements:
+sudo apt -q -y install build-essential fakeroot rsync git
+sudo apt -q -y build-dep linux
+if test $CROSS = 1 ; then
+  sudo apt -q -y install kernel-wedge quilt ccache flex bison libssl-dev crossbuild-essential-arm64 crossbuild-essential-armhf
+fi
+
+KVER=5.2.1
+
+if test $RPIPATCHES = 1 ; then
   RVER=$KVER
   #RVER=5.2.1
 fi
@@ -40,6 +49,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   cd rpi-linux-5
   git format-patch -o ../rpi-patches-$RVER 527a3db363a3bd7e6ae0a77da809e01847a9931c
   cd ..
+  #rm -fr rpi-linux-5
 fi
 
 if ! test -d linux-5 ; then
@@ -57,8 +67,9 @@ if test "$RPIPATCHES" = 1 ; then
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     ls bugfix/rpi/*.patch >> series
   popd
-  # Current 5.2.y does not compile with CONFIG_RTL8192CU
+  # Current 5.2.y does not compile with CONFIG_RTL8192CU/EE
   sed -i -e 's/CONFIG_RTL8192CU=m/CONFIG_RTL8192CU=n/g' debian/config/config
+  sed -i -e 's/CONFIG_RTL8192EE=m/CONFIG_RTL8192EE=n/g' debian/config/config
 fi
 
 if test $CROSS = 0 ; then
