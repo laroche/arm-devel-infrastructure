@@ -3,6 +3,13 @@
 # Recompile a debian kernel. On arm apply the raspberry-pi kernel
 # patches to the debian kernel.
 #
+# The following params are possible:
+# - no param: compile for the current arch a current Debian kernel
+# - "armhf": cross-compile a current generic armhf Debian kernel
+# - "arm64": cross-compile a current generic arm64 Debian kernel
+# - "rpi-armhf": cross-compile a current armhf Debian kernel including all raspberry-pi patches
+# - "rpi-arm64": cross-compile a current arm64 Debian kernel including all raspberry-pi patches
+#
 # https://wiki.debian.org/HowToCrossBuildAnOfficialDebianKernelPackage
 #
 
