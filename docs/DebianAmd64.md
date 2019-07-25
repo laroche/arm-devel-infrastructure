@@ -99,6 +99,9 @@ virsh undefine debian01
 # qemu-img to handel disk images and convert them.
 ```
 
+virt-viewer can sometimes hang. Just restarting it helps and you should try
+this before restarting a guest system.
+
 
 How to use other virtualization programs to start a guest system
 ----------------------------------------------------------------

@@ -37,10 +37,15 @@ If you compile your own kernel images and don't want official kernels to be
 installed automatically, you can change the dpkg status from 'install' to 'hold':
 
 ```shell
+# list all installed linux-image deb packages:
 dpkg -l | grep linux-image
+# change one specific package to 'hold'
 echo linux-image-amd64 hold | sudo dpkg --set-selections
+# list current status of the package:
 dpkg -l linux-image-amd64
+# reset status to normal 'install':
 echo linux-image-amd64 install | sudo dpkg --set-selections
+# list current status of the package:
 dpkg -l linux-image-amd64
 ```
 
@@ -66,6 +71,7 @@ apt install linux-image-5.0.0-trunk-arm64
 Link List
 ---------
 - [https://tracker.debian.org/pkg/linux](https://tracker.debian.org/pkg/linux)
+- [https://lists.debian.org/debian-kernel/](https://lists.debian.org/debian-kernel/)
 - [https://wiki.debian.org/KernelFAQ](https://wiki.debian.org/KernelFAQ)
 - [https://wiki.debian.org/HowToUpgradeKernel](https://wiki.debian.org/HowToUpgradeKernel)
 - [https://wiki.debian.org/DebianExperimental](https://wiki.debian.org/DebianExperimental)
