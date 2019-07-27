@@ -7,6 +7,8 @@
 # not suited for a server image with security hardening.
 #
 
+NEWUSER=max
+
 # check if we run as root
 if test "X$UID" != "X0" ; then
   echo "Please run as root."
@@ -60,16 +62,16 @@ sed -i -e '/has.*mouse/,+2s/^/"/' /usr/share/vim/vim81/defaults.vim
 #sed -i -e 's/^#//g' /etc/sysctl.d/01-disable-ipv6.conf
 
 # Add myself:
-if ! test -d /home/max ; then
-  adduser --gecos "Max Mustermann" --add_extra_groups --disabled-password max
-  sed -i -e 's/^max:[^:]*:/max::/g' /etc/shadow
-  adduser max sudo
+if ! test -d /home/$NEWUSER ; then
+  adduser --gecos "Max Mustermann" --add_extra_groups --disabled-password $NEWUSER
+  sed -i -e "s/^$NEWUSER:[^:]*:/$NEWUSER::/g" /etc/shadow
+  adduser $NEWUSER sudo
 fi
-if ! test -d ~max/data ; then
-  su max -c "mkdir -p ~/data"
+if ! test -d ~$NEWUSER/data ; then
+  su $NEWUSER -c "mkdir -p ~/data"
 fi
-if ! test -d ~max/.ssh ; then
-  su max -c "mkdir -m 0700 -p ~/.ssh"
+if ! test -d ~$NEWUSER/.ssh ; then
+  su $NEWUSER -c "mkdir -m 0700 -p ~/.ssh"
 fi
 
 # Run updates:
@@ -114,15 +116,15 @@ $apt install gawk bc make git-email ccache indent gperf
 
 # Checkout some devel projects:
 if true ; then
-  if ! test -d ~max/data/arm-devel-infrastructure ; then
-    su max -c "cd ~/data && git clone https://github.com/laroche/arm-devel-infrastructure"
+  if ! test -d ~$NEWUSER/data/arm-devel-infrastructure ; then
+    su $NEWUSER -c "cd ~/data && git clone https://github.com/laroche/arm-devel-infrastructure"
   fi
   $apt install vmdb2 dosfstools qemu qemu-user-static make zip
 fi
 if ! test -d /opt/ltp ; then
   #$apt install build-essential autoconf libtool libtool-bin bison flex git libacl1-dev libssl-dev
-  if ! test -d ~max/data/ltp ; then
-    su max -c "cd ~/data && git clone --depth 1 https://github.com/linux-test-project/ltp"
+  if ! test -d ~$NEWUSER/data/ltp ; then
+    su $NEWUSER -c "cd ~/data && git clone --depth 1 https://github.com/linux-test-project/ltp"
     # make autotools
     # ./configure
     # make -j 8
