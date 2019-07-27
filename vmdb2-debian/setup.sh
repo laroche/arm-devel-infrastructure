@@ -67,10 +67,10 @@ if ! test -d /home/$NEWUSER ; then
   sed -i -e "s/^$NEWUSER:[^:]*:/$NEWUSER::/g" /etc/shadow
   adduser $NEWUSER sudo
 fi
-if ! test -d ~$NEWUSER/data ; then
+if ! test -d /home/$NEWUSER/data ; then
   su $NEWUSER -c "mkdir -p ~/data"
 fi
-if ! test -d ~$NEWUSER/.ssh ; then
+if ! test -d /home/$NEWUSER/.ssh ; then
   su $NEWUSER -c "mkdir -m 0700 -p ~/.ssh"
 fi
 
@@ -116,14 +116,14 @@ $apt install gawk bc make git-email ccache indent gperf
 
 # Checkout some devel projects:
 if true ; then
-  if ! test -d ~$NEWUSER/data/arm-devel-infrastructure ; then
+  if ! test -d /home/$NEWUSER/data/arm-devel-infrastructure ; then
     su $NEWUSER -c "cd ~/data && git clone https://github.com/laroche/arm-devel-infrastructure"
   fi
   $apt install vmdb2 dosfstools qemu qemu-user-static make zip
 fi
 if ! test -d /opt/ltp ; then
   #$apt install build-essential autoconf libtool libtool-bin bison flex git libacl1-dev libssl-dev
-  if ! test -d ~$NEWUSER/data/ltp ; then
+  if ! test -d /home/$NEWUSER/data/ltp ; then
     su $NEWUSER -c "cd ~/data && git clone --depth 1 https://github.com/linux-test-project/ltp"
     # make autotools
     # ./configure
@@ -133,7 +133,7 @@ if ! test -d /opt/ltp ; then
 fi
 if ! test -d /opt/qemu ; then
   $apt install libglib2.0-dev pkg-config libpixman-1-dev
-  if ! test -f ~$NEWUSER/data/qemu-4.1.0-rc1.tar.xz ; then
+  if ! test -f /home/$NEWUSER/data/qemu-4.1.0-rc1.tar.xz ; then
     su $NEWUSER -c "cd ~/data && wget -q https://download.qemu.org/qemu-4.1.0-rc1.tar.xz"
   fi
   #tar xJf qemu-4.1.0-rc1.tar.xz
