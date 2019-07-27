@@ -33,6 +33,14 @@ if ! test -f "$DISK" ; then
   # Create a snapshot/backup so you can always revert back to this state:
   qemu-img snapshot -c start "$DISK"
   #qemu-img snapshot -l "$DISK"
+  # If a locally modified setup.sh and a new kernel exist, copy those into the new image:
+  if test -f setup.sh ; then
+    #sudo virt-ls -l -a "$DISK" /
+    sudo virt-copy-in -a "$DISK" -m /dev/sda1 setup.sh /root/
+  fi
+  if test -f linux-image-5.2.0-trunk-amd64-unsigned_5.2.2-1~exp1_amd64.deb ; then
+    sudo virt-copy-in -a "$DISK" -m /dev/sda1 linux-image-5.2.0-trunk-amd64-unsigned_5.2.2-1~exp1_amd64.deb /root/
+  fi
   virt-install --name "$TARGET" --memory 4096 --cpu host --vcpus 4 --boot hd --disk "$DISK"
   # --os-variant debiansqueeze
   # --boot hd,uefi

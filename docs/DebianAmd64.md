@@ -76,6 +76,8 @@ installed.
 
 Use the following shell script to download the current release and start a new guest system:
 [install.sh](https://github.com/laroche/arm-devel-infrastructure/blob/master/vmdb2-debian/install.sh).
+You can adjust the RAM size and number of CPUs in the script. It can also copy a modified setup.sh
+script into the image and e.g. the newest kernel. This allows automated adapted installs.
 
 TODO: Use virtio for the hard disk?
 
