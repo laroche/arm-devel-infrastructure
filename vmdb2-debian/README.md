@@ -8,7 +8,7 @@ from a USB-stick. Here some information on how to write this image from a
 Linux machine.
 
 Normally the SD-card or USB-sticks are named devices like /dev/sdX. Make sure
-you really find the correct device and not overwrite your harddisk or other
+you really find the correct device and not overwrite your hard disk or other
 devices. Check the size of the device and check your syslog messages that show
 up on connecting the device to your Linux machine.
 
@@ -98,4 +98,6 @@ Things that could be improved in the future:
 - https://github.com/UMRnInside/RPi-arm64
 - https://github.com/openfans-community-offical/Debian-Pi-Aarch64
 - https://wiki.debian.org/InstallingDebianOn/OdroidHC1
+- https://pete.akeo.ie/2019/07/installing-debian-arm64-on-raspberry-pi.html
+- https://www.armbian.com/
 

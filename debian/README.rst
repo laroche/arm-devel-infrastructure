@@ -13,7 +13,7 @@ Example usage::
   ./debian.sh 64 unstable 2222
 
 On the first invocation the corresponding ISO install image
-is downloaded and a new harddisk image is created. With subsequent
+is downloaded and a new hard disk image is created. With subsequent
 invocations, the existing harddisk image is started.
 
 .. _qemu: https://www.qemu.org/

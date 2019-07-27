@@ -9,13 +9,13 @@ See [https://www.debian.org/releases/](https://www.debian.org/releases/) for mor
 'testing' refers to the next stable release (named bullseye, Debian 11).
 The 'unstable' distribution is always named 'sid'.
 
-If you are a developer and interested in newest developments, I recommend
+If you are a developer and interested in the newest developments, I recommend
 installing the 'unstable' distribution.
 
 Other resources you might want to check out:
 
 - [Debian Documentation](https://www.debian.org/doc/)
-- Many discussions take place via email on the [Debian mailinglists](https://lists.debian.org/).
+- Many discussions take place via email on the [Debian mailing lists](https://lists.debian.org/).
 - The [Debian gitlab server](https://salsa.debian.org/) with e.g.
   the [Debian Linux kernel source repository](https://salsa.debian.org/kernel-team/linux/commits/master).
 - The [Debian bug database](https://www.debian.org/Bugs/).

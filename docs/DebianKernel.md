@@ -53,7 +53,7 @@ dpkg -l linux-image-amd64
 How to install a kernel from the experimental distribution
 ----------------------------------------------------------
 
-Sometimes newer kernels are pushed to the experimentl distribution, so you might
+Sometimes newer kernels are pushed to the experimental distribution, so you might
 want to check there for a newer Debian kernel. This is probably best done if
 your local system is Debian testing or Debian unstable:
 

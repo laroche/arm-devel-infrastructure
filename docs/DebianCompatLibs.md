@@ -1,7 +1,7 @@
 32bit compat libs for arm64
 ---------------------------
 
-If you are on a 64bit system (kernel and userlevel) like e.g. arm64,
+If you are on a 64bit system (kernel and user level) like e.g. arm64,
 you can add armhf as secondary arch. This is written into '/var/lib/dpkg/arch'.
 
 Install 32bit compat libs on arm64 Debian:

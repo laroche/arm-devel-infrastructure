@@ -6,7 +6,7 @@
 # release date to use
 RDATE="20190720"
 
-# This is the name of the new system as well as the name of the harddisk for it:
+# This is the name of the new system as well as the name of the hard disk for it:
 if test "X$1" != "X" ; then
   TARGET="$1"
 else

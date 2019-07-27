@@ -78,7 +78,7 @@ case "$DEBIAN" in
          exit 1
 esac
 
-# Name of the harddisk file we install Debian on:
+# Name of the hard disk file we install Debian on:
 hd=debian.img.$ARM.$DEBIAN
 
 # Extract the ISO image into this subdirectory:
