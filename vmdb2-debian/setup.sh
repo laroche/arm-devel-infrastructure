@@ -32,7 +32,7 @@ if test -b /dev/sda && ! test -b /dev/sda2 ; then
   sed -i -e 's/^#LABEL/LABEL/g' /etc/fstab
   swapon -a
   #free
-  # Resizing sda1 does not work with parted, you need
+  # Automated resizing sda1 does not work with parted, you need
   # to execute this manually:
   #parted -s -- /dev/sda resizepart 1 -4096
   #resize2fs /dev/sda1
@@ -56,6 +56,9 @@ fi
 sed -i -e 's/^%sudo.*/%sudo\tALL=(ALL:ALL) NOPASSWD: ALL/g' /etc/sudoers
 
 # vim package updates overwrite this change, so we need to fix this periodically:
+# https://unix.stackexchange.com/questions/318824/vim-cutpaste-not-working-in-stretch-debian-9
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=864074
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=837761#76
 sed -i -e '/has.*mouse/,+2s/^/"/' /usr/share/vim/vim81/defaults.vim
 
 # disable ipv6
@@ -133,11 +136,11 @@ if ! test -d /opt/ltp ; then
 fi
 if ! test -d /opt/qemu ; then
   $apt install libglib2.0-dev pkg-config libpixman-1-dev
-  if ! test -f /home/$NEWUSER/data/qemu-4.1.0-rc1.tar.xz ; then
-    su $NEWUSER -c "cd ~/data && wget -q https://download.qemu.org/qemu-4.1.0-rc1.tar.xz"
+  if ! test -f /home/$NEWUSER/data/qemu-4.1.0-rc2.tar.xz ; then
+    su $NEWUSER -c "cd ~/data && wget -q https://download.qemu.org/qemu-4.1.0-rc2.tar.xz"
   fi
-  #tar xJf qemu-4.1.0-rc1.tar.xz
-  #cd qemu-4.1.0-rc1
+  #tar xJf qemu-4.1.0-rc2.tar.xz
+  #cd qemu-4.1.0-rc2
   #./configure --prefix=/opt/qemu
   #make -j 8
   #sudo make install
