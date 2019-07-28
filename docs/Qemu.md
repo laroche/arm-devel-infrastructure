@@ -7,9 +7,9 @@ installation is `/opt/qemu` (Check [qemu download](https://www.qemu.org/download
 
 ```shell
 apt install libglib2.0-dev pkg-config libpixman-1-dev
-wget -q https://download.qemu.org/qemu-4.1.0-rc1.tar.xz
-tar xJf qemu-4.1.0-rc1.tar.xz
-cd qemu-4.1.0-rc1
+wget -q https://download.qemu.org/qemu-4.1.0-rc2.tar.xz
+tar xJf qemu-4.1.0-rc2.tar.xz
+cd qemu-4.1.0-rc2
 ./configure --prefix=/opt/qemu
 make -j 8
 sudo make install
