@@ -68,6 +68,44 @@ apt install linux-image-5.0.0-trunk-arm64
 ```
 
 
+Linux Test Project LTP
+----------------------
+- http://linux-test-project.github.io/
+  - https://github.com/linux-test-project/ltp
+  - http://lists.linux.it/pipermail/ltp/
+
+Compile and install ltp into `/opt/ltp`:
+
+```shell
+sudo apt install build-essential autoconf libtool libtool-bin bison flex git libacl1-dev libssl-dev
+git clone --depth 1 https://github.com/linux-test-project/ltp
+pushd ltp
+make autotools
+./configure
+make -j 8
+sudo make install
+popd
+# Execute the tests:
+sudo /opt/ltp/runltp
+```
+
+Syzkaller
+---------
+- https://github.com/google/syzkaller
+- https://syzkaller.appspot.com/
+- https://groups.google.com/forum/#!forum/syzkaller
+
+
+Automated Linux Kernel Testing
+------------------------------
+- https://kernelci.org/
+- https://lwn.net/Articles/777421/
+- https://lwn.net/Articles/514278/
+- https://01.org/lkp/documentation/0-day-brief-introduction
+- https://01.org/lkp/documentation/0-day-test-service
+- https://github.com/ruscur/snowpatch
+
+
 Link List
 ---------
 - [https://tracker.debian.org/pkg/linux](https://tracker.debian.org/pkg/linux)
