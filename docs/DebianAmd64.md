@@ -150,6 +150,7 @@ free
 ```
 
 Here a few things you want todo on first login:
+
 - Login as `root`.
 - Change the root password: `passwd`
 - Change sshd-server configuration: `vim /etc/ssh/sshd_config`
