@@ -79,6 +79,7 @@ if test "$RPIPATCHES" = 1 ; then
   # Current 5.2.y does not compile with CONFIG_RTL8192CU/EE
   sed -i -e 's/CONFIG_RTL8192CU=m/CONFIG_RTL8192CU=n/g' debian/config/config
   sed -i -e 's/CONFIG_RTL8192EE=m/CONFIG_RTL8192EE=n/g' debian/config/config
+  sed -i -e 's/CONFIG_VIDEO_BCM2835=m/CONFIG_VIDEO_BCM2835=n/g' debian/config/arm64/config
 fi
 
 if test $CROSS = 0 ; then
