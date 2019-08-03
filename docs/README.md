@@ -20,12 +20,12 @@ Documentation is available at [https://laroche.github.io/arm-devel-infrastructur
 Further documentation
 ---------------------
 
-- [general notes about Debian](Debian)
-- [installing and booting Debian Amd64 disk images](DebianAmd64)
-- [scripting additional software installations and system configuration](DebianSetup)
-- [creating your own Debian disk images](DebianImageRebuild)
-- [compile a current qemu release](Qemu)
-- [compiling and installing newer kernels](DebianKernel)
-- [realtime kernels](DebianRealTime)
-- [installing 32bit compat libs onto a 64bit system](DebianCompatLibs)
+- [general notes about Debian](Debian.md)
+- [installing and booting Debian Amd64 disk images](DebianAmd64.md)
+- [scripting additional software installations and system configuration](DebianSetup.md)
+- [creating your own Debian disk images](DebianImageRebuild.md)
+- [compile a current qemu release](Qemu.md)
+- [compiling and installing newer kernels](DebianKernel.md)
+- [realtime kernels](DebianRealTime.md)
+- [installing 32bit compat libs onto a 64bit system](DebianCompatLibs.md)
 
