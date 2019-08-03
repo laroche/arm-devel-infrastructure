@@ -70,9 +70,9 @@ apt install linux-image-5.0.0-trunk-arm64
 
 Linux Test Project LTP
 ----------------------
-- http://linux-test-project.github.io/
-  - https://github.com/linux-test-project/ltp
-  - http://lists.linux.it/pipermail/ltp/
+- [http://linux-test-project.github.io/](http://linux-test-project.github.io/)
+  - [https://github.com/linux-test-project/ltp](https://github.com/linux-test-project/ltp)
+  - [http://lists.linux.it/pipermail/ltp/](http://lists.linux.it/pipermail/ltp/)
 
 Compile and install ltp into `/opt/ltp`:
 
@@ -89,21 +89,22 @@ popd
 sudo /opt/ltp/runltp
 ```
 
+
 Syzkaller
 ---------
-- https://github.com/google/syzkaller
-- https://syzkaller.appspot.com/
-- https://groups.google.com/forum/#!forum/syzkaller
+- [https://github.com/google/syzkaller](https://github.com/google/syzkaller)
+- [https://syzkaller.appspot.com/](https://syzkaller.appspot.com/)
+- [https://groups.google.com/forum/#!forum/syzkaller](https://groups.google.com/forum/#!forum/syzkaller)
 
 
 Automated Linux Kernel Testing
 ------------------------------
-- https://kernelci.org/
-- https://lwn.net/Articles/777421/
-- https://lwn.net/Articles/514278/
-- https://01.org/lkp/documentation/0-day-brief-introduction
-- https://01.org/lkp/documentation/0-day-test-service
-- https://github.com/ruscur/snowpatch
+- [https://kernelci.org/](https://kernelci.org/)
+- [https://lwn.net/Articles/777421/](https://lwn.net/Articles/777421/)
+- [https://lwn.net/Articles/514278/](https://lwn.net/Articles/514278/)
+- [https://01.org/lkp/documentation/0-day-brief-introduction](https://01.org/lkp/documentation/0-day-brief-introduction)
+- [https://01.org/lkp/documentation/0-day-test-service](https://01.org/lkp/documentation/0-day-test-service)
+- [https://github.com/ruscur/snowpatch](https://github.com/ruscur/snowpatch)
 
 
 Link List
