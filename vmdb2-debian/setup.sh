@@ -136,11 +136,11 @@ if ! test -d /opt/ltp ; then
 fi
 if ! test -d /opt/qemu ; then
   $apt install libglib2.0-dev pkg-config libpixman-1-dev
-  if ! test -f /home/$NEWUSER/data/qemu-4.1.0-rc2.tar.xz ; then
-    su $NEWUSER -c "cd ~/data && wget -q https://download.qemu.org/qemu-4.1.0-rc2.tar.xz"
+  if ! test -f /home/$NEWUSER/data/qemu-4.1.0-rc3.tar.xz ; then
+    su $NEWUSER -c "cd ~/data && wget -q https://download.qemu.org/qemu-4.1.0-rc3.tar.xz"
   fi
-  #tar xJf qemu-4.1.0-rc2.tar.xz
-  #cd qemu-4.1.0-rc2
+  #tar xJf qemu-4.1.0-rc3.tar.xz
+  #cd qemu-4.1.0-rc3
   #./configure --prefix=/opt/qemu
   #make -j 8
   #sudo make install

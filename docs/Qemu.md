@@ -8,9 +8,9 @@ A good target for installation is `/opt/qemu` (Check
 
 ```shell
 apt install libglib2.0-dev pkg-config libpixman-1-dev
-wget -q https://download.qemu.org/qemu-4.1.0-rc2.tar.xz
-tar xJf qemu-4.1.0-rc2.tar.xz
-cd qemu-4.1.0-rc2
+wget -q https://download.qemu.org/qemu-4.1.0-rc3.tar.xz
+tar xJf qemu-4.1.0-rc3.tar.xz
+cd qemu-4.1.0-rc3
 ./configure --prefix=/opt/qemu
 make -j 8
 sudo make install
