@@ -7,7 +7,7 @@ A good target for installation is `/opt/qemu` (Check
 [qemu download](https://www.qemu.org/download/#source) as reference.):
 
 ```shell
-apt install libglib2.0-dev pkg-config libpixman-1-dev
+sudo apt install libglib2.0-dev pkg-config libpixman-1-dev
 wget -q https://download.qemu.org/qemu-4.1.0-rc3.tar.xz
 tar xJf qemu-4.1.0-rc3.tar.xz
 cd qemu-4.1.0-rc3
