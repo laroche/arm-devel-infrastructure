@@ -88,7 +88,7 @@ if false ; then
   tasksel install gnome-desktop --new-install
   $apt install firefox-esr firefox-esr-l10n-de chromium chromium-l10n vlc
   $apt install libreoffice libreoffice-help-de libreoffice-l10n-de
-  $apt install rdesktop dconf-editor
+  $apt install rdesktop dconf-editor imagemagick
   # https://superuser.com/questions/394376/how-to-prevent-gnome-shells-alttab-from-grouping-windows-from-similar-apps
   #dconf write /org/gnome/desktop/wm/keybindings/switch-applications
   #dconf write /org/gnome/desktop/wm/keybindings/switch-applications-backward
