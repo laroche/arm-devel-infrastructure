@@ -40,8 +40,8 @@ if ! test -f "$DISK" ; then
   fi
   # If you later on want to use virt-copy and the command does not recognize the
   # correct root partition, you might have to add this param: -m /dev/sda1
-  if test -f linux-image-5.2.0-trunk-amd64-unsigned_5.2.5-1~exp1_amd64.deb ; then
-    sudo virt-copy-in -a "$DISK" linux-image-5.2.0-trunk-amd64-unsigned_5.2.5-1~exp1_amd64.deb /root/
+  if test -f linux-image-5.2.0-trunk-amd64-unsigned_5.2.6-1~exp1_amd64.deb ; then
+    sudo virt-copy-in -a "$DISK" linux-image-5.2.0-trunk-amd64-unsigned_5.2.6-1~exp1_amd64.deb /root/
   fi
   virt-install --name "$TARGET" --memory 4096 --cpu host --vcpus 4 --boot hd --disk "$DISK"
   # --os-variant debiansqueeze
