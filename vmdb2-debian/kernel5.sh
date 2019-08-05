@@ -43,7 +43,7 @@ if test $CROSS = 1 ; then
   sudo apt -q -y install kernel-wedge quilt ccache flex bison libssl-dev crossbuild-essential-arm64 crossbuild-essential-armhf
 fi
 
-KVER=5.2.5
+KVER=5.2.6
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
