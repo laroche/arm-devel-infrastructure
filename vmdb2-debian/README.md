@@ -70,6 +70,8 @@ into your Raspberry Pi and start it.
 ## todo list
 
 Things that could be improved in the future:
+- Only the newest kernel has the keyboard mapping ok, we should re-generate
+  all initrd files after configuration changes.
 - grub configuration includes all local drives from my local PC,
   this should be limited to only the newly generated device.
   These additional entries are removed by running "update-grub" on the new system.
@@ -78,14 +80,14 @@ Things that could be improved in the future:
 - For msdos partitioning the 'boot' flag is not set. (No real problem.)
 - Check if the partioning is aligned properly.
 - Compile own kernel for armhf.
-- Change name of own rpi3 kernel. Can then an image be made with
+- Change name of own rpi3 kernel. Can an image then be made with
   generic arm64 efi boot which also has a rpi3 kernel?
   (EFI partition not the first one?)
 - Automatically recompile new Debian kernels on each checkin into their
   git server 'salsa'.
 - Provide a Debian repository with newer kernels instead of downloads.
   Use github pages for this?
-- Crosscompile the armhf/arm64 kernels on x86 for faster compile times.
+- Crosscompile the armhf/arm64 kernels on x86 for faster compile times. (done)
 - Install chromium directly from Google or are newer versions
   available for stable? Resolve this by using unstable for now.
 - For documentation, check out https://github.com/jekyll/jekyll and hugo
