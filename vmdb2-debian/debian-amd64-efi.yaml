@@ -218,6 +218,8 @@ steps:
 
       sed -i -e 's,^SHELL=/bin/sh,SHELL=/bin/bash,g' /etc/default/useradd
 
+      update-initramfs -u -k all
+
       apt clean
       rm -rf /var/lib/apt/lists
 

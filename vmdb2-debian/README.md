@@ -70,12 +70,6 @@ into your Raspberry Pi and start it.
 ## todo list
 
 Things that could be improved in the future:
-- Only the newest kernel has the keyboard mapping ok, we should re-generate
-  all initrd files after configuration changes.
-- grub configuration includes all local drives from my local PC,
-  this should be limited to only the newly generated device.
-  These additional entries are removed by running "update-grub" on the new system.
-  (Fixed already.)
 - grub installed into partition instead of full disk?
 - For msdos partitioning the 'boot' flag is not set. (No real problem.)
 - Check if the partioning is aligned properly.
