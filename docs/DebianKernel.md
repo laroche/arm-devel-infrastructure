@@ -50,6 +50,20 @@ dpkg -l linux-image-amd64
 ```
 
 
+How to install a newer kernel with unstable
+-------------------------------------------
+
+Newer kernels are pushed out with their own package names, so they do not get
+installed automatically. List all Debian packages with `linux-image` and then
+install one of the newer kernels available:
+
+```shell
+apt-cache search linux-image | sort
+apt install linux-image-5.2.0-1-amd64
+apt install linux-image-5.2.0-1-rt-amd64
+```
+
+
 How to install a kernel from the experimental distribution
 ----------------------------------------------------------
 
