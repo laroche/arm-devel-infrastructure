@@ -28,4 +28,5 @@ Further documentation
 - [compiling and installing newer kernels](DebianKernel.md)
 - [realtime kernels](DebianRealTime.md)
 - [installing 32bit compat libs onto a 64bit system](DebianCompatLibs.md)
+- [todo list](TODO.md)
 
