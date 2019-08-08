@@ -1,7 +1,6 @@
 authorized_keys
 cntlm.conf
-debian-unstable-*.yaml
-debian-*.log
 debian-*.img
+debian-*.log
 debian-*.tar.gz
 debian-*.zip

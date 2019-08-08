@@ -1,0 +1,248 @@
+
+steps:
+  - mkimg: "{{ output }}"
+    size: 2048M
+
+  - mklabel: msdos
+    device: "{{ output }}"
+
+  - mkpart: primary
+    fs-type: 'fat32'
+    device: "{{ output }}"
+    start: 0%
+    end: 128M
+    tag: firmware-fs
+
+  - mkpart: primary
+    device: "{{ output }}"
+    start: 128M
+    end: 100%
+    tag: rootfs
+
+  - kpartx: "{{ output }}"
+
+  - mkfs: vfat
+    partition: firmware-fs
+    label: DEBFIRM
+
+  - mkfs: ext4
+    partition: rootfs
+    label: DEBROOT
+
+  - mount: rootfs
+
+  - mount: firmware-fs
+    mount-on: rootfs
+    dirname: '/boot/firmware'
+
+  - unpack-rootfs: rootfs
+
+  - qemu-debootstrap: unstable
+    mirror: http://deb.debian.org/debian
+    arch: arm64
+    target: rootfs
+    components:
+    - main
+    - contrib
+    - non-free
+    unless: rootfs_unpacked
+
+  - apt: install
+    packages:
+    - unattended-upgrades
+    - irqbalance
+    - locales
+    - keyboard-configuration
+    - console-setup
+    #- locate
+    - psmisc
+    - strace
+    - htop
+    - tree
+    - gpm
+    - man
+    - parted
+    - dosfstools
+    - vim
+    - sudo
+    - net-tools
+    - traceroute
+    - nmap
+    #- mtr
+    - wakeonlan
+    - bind9-host
+    - dnsutils
+    - whois
+    - tcpdump
+    - iptables-persistent
+    - ntp
+    - ssh
+    - openssh-server
+    - screen
+    - tmux
+    - rsync
+    - curl
+    - wget
+    - git-core
+    - unzip
+    - zip
+    - xz-utils
+    #- ansible
+    - reportbug
+    # wifi:
+    - wireless-tools
+    - wpasupplicant
+    # raspberry pi:
+    - firmware-brcm80211
+    - raspi3-firmware
+    - linux-image-arm64
+    tag: rootfs
+    unless: rootfs_unpacked
+
+  - cache-rootfs: rootfs
+    unless: rootfs_unpacked
+
+  - shell: |
+      echo "debian01" > "${ROOT?}/etc/hostname"
+
+      # Unset the root password:
+      #sed -i -e 's/^root:[^:]*:/root::/g' "${ROOT?}/etc/shadow"
+
+      #sed -i -e 's,#PermitRootLogin prohibit-password,PermitRootLogin yes,g' "${ROOT?}/etc/ssh/sshd_config"
+
+      if test -f authorized_keys ; then
+        mkdir -p -m 0700 "${ROOT?}/root/.ssh"
+        install -m 600 -o root -g root authorized_keys "${ROOT?}/root/.ssh/authorized_keys"
+      fi
+
+      if test -f cntlm.conf ; then
+        install -m 600 -o root -g root cntlm.conf "${ROOT?}/etc/cntlm.conf"
+      fi
+
+      install -m 700 -o root -g root setup.sh "${ROOT?}/root/setup.sh"
+
+      echo "LABEL=DEBROOT / ext4 rw 0 1" > "${ROOT?}/etc/fstab"
+      echo "LABEL=DEBFIRM /boot/firmware vfat rw 0 2" >> "${ROOT?}/etc/fstab"
+      echo "proc /proc proc defaults 0 0" >> "${ROOT?}/etc/fstab"
+      echo "LABEL=DEBSWAP swap swap defaults 0 0" >> "${ROOT?}/etc/fstab"
+
+      echo "auto eth0" > "${ROOT?}/etc/network/interfaces.d/eth0"
+      echo "iface eth0 inet dhcp" >> "${ROOT?}/etc/network/interfaces.d/eth0"
+
+      # Note: Disabling IPv6 is prepared, but the config file still has it commented out:
+      echo "#net.ipv6.conf.all.disable_ipv6 = 1" > "${ROOT?}/etc/sysctl.d/01-disable-ipv6.conf"
+      echo "#net.ipv6.conf.default.disable_ipv6 = 1" >> "${ROOT?}/etc/sysctl.d/01-disable-ipv6.conf"
+
+      if grep -q unstable ${ROOT?}/etc/apt/sources.list ; then
+      echo "deb http://deb.debian.org/debian/ unstable main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
+      echo "deb-src http://deb.debian.org/debian/ unstable main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+      else
+      echo "deb http://deb.debian.org/debian/ buster main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
+      echo "deb-src http://deb.debian.org/debian/ buster main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+      echo >> ${ROOT?}/etc/apt/sources.list
+      echo "deb http://deb.debian.org/debian/ buster-updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+      echo "deb-src http://deb.debian.org/debian/ buster-updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+      echo >> ${ROOT?}/etc/apt/sources.list
+      echo "deb http://deb.debian.org/debian/ buster-backports main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+      echo "deb-src http://deb.debian.org/debian/ buster-backports main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+      echo >> ${ROOT?}/etc/apt/sources.list
+      echo "deb http://security.debian.org/debian-security buster/updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+      echo "deb-src http://security.debian.org/debian-security buster/updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+      fi
+
+      echo "deb http://deb.debian.org/debian/ experimental main contrib non-free" > "${ROOT?}/etc/apt/sources.list.d/experimental.list"
+      echo "deb-src http://deb.debian.org/debian/ experimental main contrib non-free" >> "${ROOT?}/etc/apt/sources.list.d/experimental.list"
+
+      install -m 644 -o root -g root ssh-generate-host-keys.service "${ROOT?}/etc/systemd/system"
+      mkdir -p "${ROOT?}/etc/systemd/system/multi-user.target.requires/"
+      ln -s /etc/systemd/system/ssh-generate-host-keys.service "${ROOT?}/etc/systemd/system/multi-user.target.requires/ssh-generate-host-keys.service"
+      rm -f ${ROOT?}/etc/ssh/ssh_host_*_key*
+
+      rm -f ${ROOT?}/usr/lib/raspi3-firmware/kernel*.img ${ROOT?}/boot/firmware/kernel*.img
+
+      test -f ${ROOT?}/etc/initramfs-tools/initramfs.conf && \
+        sed -i -e 's/^COMPRESS=.*/COMPRESS=lz4/g' ${ROOT?}/etc/initramfs-tools/initramfs.conf
+
+      echo "alias ..='cd ..'"      > "${ROOT?}/root/.bash_aliases"
+      echo "alias ...='cd ../..'" >> "${ROOT?}/root/.bash_aliases"
+      echo "alias o=less"         >> "${ROOT?}/root/.bash_aliases"
+      echo "alias l='ls -la'"     >> "${ROOT?}/root/.bash_aliases"
+
+      cp "${ROOT?}/root/.bash_aliases" "${ROOT?}/etc/skel/.bash_aliases"
+
+      echo                                                    >> "${ROOT?}/root/.bashrc"
+      echo "HISTCONTROL=ignoreboth"                           >> "${ROOT?}/root/.bashrc"
+      echo "# append to the history file, don't overwrite it" >> "${ROOT?}/root/.bashrc"
+      echo "shopt -s histappend"                              >> "${ROOT?}/root/.bashrc"
+      echo "HISTSIZE=1000"                                    >> "${ROOT?}/root/.bashrc"
+      echo "HISTFILESIZE=2000"                                >> "${ROOT?}/root/.bashrc"
+      echo                                                    >> "${ROOT?}/root/.bashrc"
+      echo ". ~/.bash_aliases"                                >> "${ROOT?}/root/.bashrc"
+
+    root-fs: rootfs
+
+  - chroot: rootfs
+    shell: |
+      systemctl enable ssh.service
+
+      echo "tzdata tzdata/Areas select Europe" | debconf-set-selections
+      echo "tzdata tzdata/Zones/Europe select Berlin" | debconf-set-selections
+      echo "Europe/Berlin" > /etc/timezone
+      ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+      dpkg-reconfigure --frontend=noninteractive tzdata
+
+      echo "locales locales/default_environment_locale select de_DE.UTF-8" | debconf-set-selections
+      echo "locales locales/locales_to_be_generated multiselect de_DE.UTF-8 UTF-8" | debconf-set-selections
+      rm -f /etc/locale.gen
+      dpkg-reconfigure --frontend noninteractive locales
+
+      echo "console-setup console-setup/charmap47 select UTF-8" | debconf-set-selections
+      sed -i -e 's/^CHARMAP=.*/CHARMAP="UTF-8"/g' /etc/default/console-setup
+      # This errors on the output file that /proc is not mounted:
+      dpkg-reconfigure --frontend noninteractive console-setup
+
+      sed -i -e 's/^XKBLAYOUT=.*/XKBLAYOUT="de"/g' /etc/default/keyboard
+      sed -i -e 's/^XKBVARIANT=.*/XKBVARIANT="nodeadkeys"/g' /etc/default/keyboard
+      sed -i -e 's/^XKBOPTIONS=.*/XKBOPTIONS="terminate:ctrl_alt_bksp"/g' /etc/default/keyboard
+      #d-i console-keymaps-at/keymap select de-latin1-nodeadkeys
+      #echo "keyboard-configuration keyboard-configuration/layoutcode string de" | debconf-set-selections
+      #echo "keyboard-configuration keyboard-configuration/layout select German" | debconf-set-selections
+      #echo "keyboard-configuration keyboard-configuration/variantcode string nodeadkeys" | debconf-set-selections
+      #echo "keyboard-configuration keyboard-configuration/toggle select No toggling" | debconf-set-selections
+      #echo "keyboard-configuration keyboard-configuration/xkb-keymap select de" | debconf-set-selections
+      dpkg-reconfigure --frontend noninteractive keyboard-configuration
+
+      sed -i -e 's,^SHELL=/bin/sh,SHELL=/bin/bash,g' /etc/default/useradd
+
+      update-initramfs -u -k all
+
+      apt clean
+      rm -rf /var/lib/apt/lists
+
+      test -f /boot/firmware/cmdline.txt && \
+        sed -i -e 's/.dev.mmcblk0p2/LABEL=DEBROOT/g' /boot/firmware/cmdline.txt
+      test -f /etc/default/raspi3-firmware && \
+        sed -i -e 's,^#ROOTPART=/dev/mmcblk0p2$,ROOTPART="LABEL=DEBROOT",g' /etc/default/raspi3-firmware
+
+      # https://unix.stackexchange.com/questions/318824/vim-cutpaste-not-working-in-stretch-debian-9
+      # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=864074
+      # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=837761#76
+      sed -i -e '/has.*mouse/,+2s/^/"/' /usr/share/vim/vim81/defaults.vim
+
+      update-alternatives --set editor /usr/bin/vim.basic
+
+      #adduser --gecos "Max Mustermann" --add_extra_groups --disabled-password max
+      #sed -i -e 's/^max:[^:]*:/max::/g' /etc/shadow
+      #adduser max sudo
+      #if test -f /root/.ssh/authorized_keys ; then
+      #  mkdir --mode=0700 ~max/.ssh
+      #  chown max.max ~max/.ssh
+      #  install --owner=max --group=max --mode=0644 /root/.ssh/authorized_keys ~max/.ssh/authorized_keys
+      #fi
+
+      dd if=/dev/zero of=/ZERO; rm -f /ZERO # zero unused filesystem
+
+  - shell: |
+      rm "${ROOT?}/etc/resolv.conf"
+    root-fs: rootfs
+
