@@ -1,9 +1,13 @@
 ## todo list
 
 Things that could be improved in the future:
+- Generated grub config shows too many entries from local system.
+  Fixed by first update-grub invocation on an installed system.
 - grub installed into partition instead of full disk?
 - For msdos partitioning the 'boot' flag is not set. (No real problem.)
 - Check if the partioning is aligned properly.
+- grub keyboard layout is us, change this to de.
+- Add de specific configurations to docu.
 - Compile own kernel for armhf.
 - Change name of own rpi3 kernel. Can an image then be made with
   generic arm64 efi boot which also has a rpi3 kernel?

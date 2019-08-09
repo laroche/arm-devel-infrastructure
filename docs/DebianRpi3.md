@@ -70,6 +70,7 @@ Bootup
 ------
 
 Here is a summary on what you have on the first bootup:
+
 - You have one hard disk. It has legacy 'msdos' partitioning and the first
   partition contains Raspberry Pi firmware on a FAT16 partition and the second
   partition contains an ext4 Linux filesystem with a generic Debian arm64/armhf
@@ -78,7 +79,7 @@ Here is a summary on what you have on the first bootup:
 - sshd is unchanged default configuration, so root login over network is not
   allowed. (Edit /etc/ssh/sshd_config to change this.)
 - 'eth0' is setup as local network adapter and configured via dhcp. Change the file
-  /etc/network/interfaces.d/eth0 to change configuration. (Static IPs?)
+  `/etc/network/interfaces.d/eth0` to change configuration. (Static IPs?)
 
 Now log into this new system as root and execute the following commands to
 add a swap partition with 4 GB size and DEBSWAP as label to the end of the
