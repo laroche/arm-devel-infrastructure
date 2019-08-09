@@ -115,7 +115,7 @@ debian-unstable-rpi3-armhf-$(DATE).zip: debian-unstable-rpi3-armhf.img README.md
 	rm -fr debian-unstable-rpi3-armhf-$(DATE)
 
 clean:
-	rm -fr debian-*.{log,img,zip}
+	rm -fr debian-*.img debian-*.log debian-*.zip
 
 distclean: clean
 	rm -f debian-*.tar.gz debian-unstable-*.yaml
