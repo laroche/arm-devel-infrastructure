@@ -10,6 +10,9 @@ debian-amd64.img: debian-amd64.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-amd64.tar.gz --output debian-amd64.img debian-amd64.yaml --log debian-amd64.log --log-mode 0644
 	sudo chown $(USER) debian-amd64.img debian-amd64.log
 
+debian-unstable-amd64.yaml: debian-amd64.yaml
+	sed 's/qemu-debootstrap: buster/qemu-debootstrap: unstable/g' < debian-amd64.yaml > debian-unstable-amd64.yaml
+
 debian-unstable-amd64.img: debian-unstable-amd64.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-unstable-amd64.tar.gz --output debian-unstable-amd64.img debian-unstable-amd64.yaml --log debian-unstable-amd64.log --log-mode 0644
 	sudo chown $(USER) debian-unstable-amd64.img debian-unstable-amd64.log
@@ -17,6 +20,9 @@ debian-unstable-amd64.img: debian-unstable-amd64.yaml
 debian-amd64-efi.img: debian-amd64-efi.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-amd64-efi.tar.gz --output debian-amd64-efi.img debian-amd64-efi.yaml --log debian-amd64-efi.log --log-mode 0644
 	sudo chown $(USER) debian-amd64-efi.img debian-amd64-efi.log
+
+debian-unstable-amd64-efi.yaml: debian-amd64-efi.yaml
+	sed 's/qemu-debootstrap: buster/qemu-debootstrap: unstable/g' < debian-amd64-efi.yaml > debian-unstable-amd64-efi.yaml
 
 debian-unstable-amd64-efi.img: debian-unstable-amd64-efi.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-unstable-amd64-efi.tar.gz --output debian-unstable-amd64-efi.img debian-unstable-amd64-efi.yaml --log debian-unstable-amd64-efi.log --log-mode 0644
@@ -26,6 +32,9 @@ debian-rpi3-arm64.img: debian-rpi3-arm64.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-rpi3-arm64.tar.gz --output debian-rpi3-arm64.img debian-rpi3-arm64.yaml --log debian-rpi3-arm64.log --log-mode 0644
 	sudo chown $(USER) debian-rpi3-arm64.img debian-rpi3-arm64.log
 
+debian-unstable-rpi3-arm64.yaml: debian-rpi3-arm64.yaml
+	sed 's/qemu-debootstrap: buster/qemu-debootstrap: unstable/g' < debian-rpi3-arm64.yaml > debian-unstable-rpi3-arm64.yaml
+
 debian-unstable-rpi3-arm64.img: debian-unstable-rpi3-arm64.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-unstable-rpi3-arm64.tar.gz --output debian-unstable-rpi3-arm64.img debian-unstable-rpi3-arm64.yaml --log debian-unstable-rpi3-arm64.log --log-mode 0644
 	sudo chown $(USER) debian-unstable-rpi3-arm64.img debian-unstable-rpi3-arm64.log
@@ -33,6 +42,9 @@ debian-unstable-rpi3-arm64.img: debian-unstable-rpi3-arm64.yaml
 debian-rpi3-armhf.img: debian-rpi3-armhf.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-rpi3-armhf.tar.gz --output debian-rpi3-armhf.img debian-rpi3-armhf.yaml --log debian-rpi3-armhf.log --log-mode 0644
 	sudo chown $(USER) debian-rpi3-armhf.img debian-rpi3-armhf.log
+
+debian-unstable-rpi3-armhf.yaml: debian-rpi3-armhf.yaml
+	sed 's/qemu-debootstrap: buster/qemu-debootstrap: unstable/g' < debian-rpi3-armhf.yaml > debian-unstable-rpi3-armhf.yaml
 
 debian-unstable-rpi3-armhf.img: debian-unstable-rpi3-armhf.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-unstable-rpi3-armhf.tar.gz --output debian-unstable-rpi3-armhf.img debian-unstable-rpi3-armhf.yaml --log debian-unstable-rpi3-armhf.log --log-mode 0644
@@ -106,7 +118,7 @@ clean:
 	rm -fr debian-*.{log,img,zip}
 
 distclean: clean
-	rm -f debian-*.tar.gz
+	rm -f debian-*.tar.gz debian-unstable-*.yaml
 
 tag:
 	git tag -m "release v$(DATE)" v$(DATE)
