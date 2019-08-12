@@ -1,6 +1,7 @@
 ## todo list
 
 Things that could be improved in the future:
+
 - Generated grub config shows too many entries from local system.
   Fixed by first update-grub invocation on an installed system.
 - grub installed into partition instead of full disk?
