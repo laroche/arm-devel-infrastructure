@@ -47,7 +47,7 @@ KVER=5.2.7
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.2.6
+  RVER=5.2.8
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -56,7 +56,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     git clone -b rpi-5.2.y https://github.com/raspberrypi/linux/ rpi-linux-5
   fi
   cd rpi-linux-5
-  git format-patch -o ../rpi-patches-$RVER ec97ca18aa3a9123b5b64339e5993347295ebf88
+  git format-patch -o ../rpi-patches-$RVER d36a8d2fb62c7c9415213bea9cf576d8b1f9071f
   cd ..
   #rm -fr rpi-linux-5
 fi
