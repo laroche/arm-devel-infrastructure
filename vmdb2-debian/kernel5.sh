@@ -37,7 +37,7 @@ if test "X$1" = "Xarmhf" -o "X$1" = "Xrpi-armhf" ; then
 fi
 
 # Build requirements:
-sudo apt -q -y install build-essential fakeroot rsync git
+sudo apt -q -y install build-essential fakeroot rsync git python-debian python3-debian
 sudo apt -q -y build-dep linux
 if test $CROSS = 1 ; then
   sudo apt -q -y install kernel-wedge quilt ccache flex bison libssl-dev crossbuild-essential-arm64 crossbuild-essential-armhf
