@@ -51,6 +51,7 @@ steps:
     packages:
     - unattended-upgrades
     - irqbalance
+    - haveged
     - locales
     - keyboard-configuration
     - console-setup
