@@ -80,6 +80,7 @@ if test "$RPIPATCHES" = 1 ; then
   sed -i -e 's/CONFIG_RTL8192CU=m/CONFIG_RTL8192CU=n/g' debian/config/config
   sed -i -e 's/CONFIG_RTL8192EE=m/CONFIG_RTL8192EE=n/g' debian/config/config
   #sed -i -e 's/CONFIG_VIDEO_BCM2835=m/CONFIG_VIDEO_BCM2835=n/g' debian/config/arm64/config
+  rm -f debian/abi/5.2.0-2/arm*
 fi
 
 if test $CROSS = 0 ; then
