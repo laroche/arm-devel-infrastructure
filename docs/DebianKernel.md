@@ -110,6 +110,9 @@ Syzkaller
 - [https://syzkaller.appspot.com/](https://syzkaller.appspot.com/)
 - [https://groups.google.com/forum/#!forum/syzkaller](https://groups.google.com/forum/#!forum/syzkaller)
 
+To start syzkaller locally for arm32 and arm64, you can use the script
+[syzkaller.sh](https://github.com/laroche/arm-devel-infrastructure/tree/master/syzkaller/syzkaller.sh).
+
 
 Automated Linux Kernel Testing
 ------------------------------
