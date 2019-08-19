@@ -38,12 +38,13 @@ fi
 
 # Build requirements:
 sudo apt -q -y install build-essential fakeroot rsync git python-debian python3-debian
+# asciidoctor ?
 sudo apt -q -y build-dep linux
 if test $CROSS = 1 ; then
   sudo apt -q -y install kernel-wedge quilt ccache flex bison libssl-dev crossbuild-essential-arm64 crossbuild-essential-armhf
 fi
 
-KVER=5.2.7
+KVER=5.2.9
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
