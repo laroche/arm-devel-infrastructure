@@ -41,7 +41,9 @@ sudo apt -q -y install build-essential fakeroot rsync git python-debian python3-
 # asciidoctor ?
 sudo apt -q -y build-dep linux
 if test $CROSS = 1 ; then
-  sudo apt -q -y install kernel-wedge quilt ccache flex bison libssl-dev crossbuild-essential-arm64 crossbuild-essential-armhf
+  sudo apt -q -y install kernel-wedge quilt ccache flex bison libssl-dev
+  sudo apt -q -y install g++-8-aarch64-linux-gnu g++-8-arm-linux-gnueabihf
+  #sudo apt -q -y install crossbuild-essential-arm64 crossbuild-essential-armhf
 fi
 
 KVER=5.2.9
