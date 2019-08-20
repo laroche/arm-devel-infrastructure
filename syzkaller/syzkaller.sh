@@ -8,6 +8,13 @@
 # Build requirements. lynx as browser for non-GUI installs:
 sudo apt install golang lynx
 
+# Cleanup:
+if test "X$1" = Xclean ; then
+  rm -fr n dl buildroot gopath
+  exit 0
+fi
+
+if test "X$1" = X ; then
 # Compile buildroot for armv7:
 if test ! -d buildroot ; then
   if test ! -d dl -a -d ~/data/dl ; then
@@ -20,6 +27,7 @@ if test ! -d buildroot ; then
     make -j 10
   popd
 fi
+else
 # Compile buildroot for aarch64:
 if test ! -d n/buildroot ; then
   mkdir -p n
@@ -34,18 +42,21 @@ if test ! -d n/buildroot ; then
     popd
   popd
 fi
+fi
 
+if test "X$1" = X ; then
 # Install syzkaller for armv7:
 if test ! -d gopath ; then
   mkdir gopath
   export GOPATH=`pwd`/gopath
   go get -u -d github.com/google/syzkaller/...
   pushd gopath/src/github.com/google/syzkaller
-    mkdir workdir workdir64
+    mkdir workdir
     patch -s -p1 < ../../../../../syzkaller.patch
     make TARGETARCH=arm
   popd
 fi
+else
 # Install syzkaller for arm64:
 if test ! -d n/gopath ; then
   pushd n
@@ -53,11 +64,12 @@ if test ! -d n/gopath ; then
   export GOPATH=`pwd`/gopath
   go get -u -d github.com/google/syzkaller/...
   pushd gopath/src/github.com/google/syzkaller
-    mkdir workdir workdir64
+    mkdir workdir64
     patch -s -p1 < ../../../../../../syzkaller.patch
     make TARGETARCH=arm64
   popd
   popd
+fi
 fi
 
 # Start syzkaller:
@@ -73,7 +85,4 @@ else
     ./bin/syz-manager -debug -config=arm.cfg
   popd
 fi
-
-# Cleanup:
-#rm -fr n dl buildroot gopath
 
