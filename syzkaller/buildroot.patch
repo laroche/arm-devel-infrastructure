@@ -2,13 +2,14 @@ diff --git a/board/qemu/arm-vexpress/linux-fragment.config b/board/qemu/arm-vexp
 index e69de29bb2..a9a1471214 100644
 --- a/board/qemu/arm-vexpress/linux-fragment.config
 +++ b/board/qemu/arm-vexpress/linux-fragment.config
-@@ -0,0 +1,39 @@
+@@ -0,0 +1,47 @@
 +CONFIG_GDB_SCRIPTS=y
 +CONFIG_KGDB=y
 +CONFIG_DEBUG_KMEMLEAK=y
++CONFIG_DEBUG_KMEMLEAK_EARLY_LOG_SIZE=16000
 +CONFIG_KCOV=y
 +CONFIG_KCOV_INSTRUMENT_ALL=y
-+# CONFIG_KCOV_ENABLE_COMPARISONS=y
++CONFIG_KCOV_ENABLE_COMPARISONS=y
 +CONFIG_KASAN=y
 +CONFIG_KASAN_INLINE=y
 +CONFIG_DEBUG_INFO=y
@@ -20,6 +21,10 @@ index e69de29bb2..a9a1471214 100644
 +CONFIG_IPC_NS=y
 +CONFIG_PID_NS=y
 +CONFIG_NET_NS=y
++CONFIG_CGROUP_PIDS=y
++CONFIG_MEMCG=y
++CONFIG_CONFIGFS_FS=y
++CONFIG_SECURITYFS=y
 +CONFIG_KALLSYMS=y
 +CONFIG_KALLSYMS_ALL=y
 +CONFIG_FAULT_INJECTION=y
@@ -42,6 +47,9 @@ index e69de29bb2..a9a1471214 100644
 +CONFIG_HARDLOCKUP_DETECTOR=y
 +CONFIG_DETECT_HUNG_TASK=y
 +CONFIG_WQ_WATCHDOG=y
++CONFIG_DEFAULT_HUNG_TASK_TIMEOUT=140
++CONFIG_RCU_CPU_STALL_TIMEOUT=100
++# CONFIG_RANDOMIZE_BASE is not set
 diff --git a/board/qemu/arm-vexpress/post-build.sh b/board/qemu/arm-vexpress/post-build.sh
 old mode 100644
 new mode 100755
@@ -99,7 +107,7 @@ index 212d779ac9..63ea4a3c7b 100644
 +BR2_LINUX_KERNEL_CONFIG_FRAGMENT_FILES="board/qemu/arm-vexpress/linux-fragment.config"
 +
 +# Gcc
-+BR2_GCC_VERSION_9_X=y
++BR2_GCC_VERSION_8_X=y
 +
 +# BR2_PACKAGE_DHCPCD=y
 +BR2_PACKAGE_IPROUTE2=y
@@ -151,7 +159,7 @@ index e52a14081e..35f1f031dd 100644
 +BR2_LINUX_KERNEL_CONFIG_FRAGMENT_FILES="board/qemu/arm-vexpress/linux-fragment.config"
 +
 +# Gcc
-+BR2_GCC_VERSION_9_X=y
++BR2_GCC_VERSION_8_X=y
 +
 +# BR2_PACKAGE_DHCPCD=y
 +BR2_PACKAGE_IPROUTE2=y
