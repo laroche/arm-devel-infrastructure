@@ -1,12 +1,19 @@
 #!/bin/bash
 #
-# Build buildroot and syzkaller for armv7 and arm64.
+# Build syzkaller together with buildroot for armv7 and arm64.
+# Documentation might go to:
+# https://github.com/laroche/arm-devel-infrastructure/blob/master/docs/DebianKernel.md#syzkaller
 #
-# Call this script with param "64" to start the arm64 client.
+# This assumes a Debian unstable distribution, Debian 10 or
+# Ubuntu should also work ok.
+#
+# Without any param, a 32-bit armv7 build is tested, with "64" as
+# param an arm64 build is started.
 #
 
 # Build requirements. lynx as browser for non-GUI installs:
 sudo apt install golang lynx
+# make git qemu patch gcc
 
 # Cleanup:
 if test "X$1" = Xclean ; then
@@ -77,12 +84,12 @@ export PATH=/opt/qemu/bin:$PATH
 if test "X$1" = X64 ; then
   export GOPATH=`pwd`/n/gopath
   pushd n/gopath/src/github.com/google/syzkaller
-    ./bin/syz-manager -debug -config=aarch64.cfg
+    ./bin/syz-manager -config=aarch64.cfg #-debug
   popd
 else
   export GOPATH=`pwd`/gopath
   pushd gopath/src/github.com/google/syzkaller
-    ./bin/syz-manager -debug -config=arm.cfg
+    ./bin/syz-manager -config=arm.cfg #-debug
   popd
 fi
 
