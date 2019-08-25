@@ -11,8 +11,8 @@ yourself.
 sudo apt install vmdb2 dosfstools qemu qemu-user-static make #zip
 git clone https://github.com/laroche/arm-devel-infrastructure
 cd arm-devel-infrastructure/vmdb2-debian
-edit debian.yaml
-make -j 8
+edit debian-amd64.yaml
+make
 ```
 
 You can also just create individual images like:
