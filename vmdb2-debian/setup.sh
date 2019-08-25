@@ -115,8 +115,7 @@ $apt install gawk bc make git-email ccache indent gperf
 #$apt install python perl clang golang
 #$apt install subversion git-svn
 #$apt install openjdk-8-jdk cmake
-#$apt install gcc-arm-none-eabi g++-aarch64-linux-gnu
-#$apt install g++-9-aarch64-linux-gnu g++-9-arm-linux-gnueabihf
+#$apt install gcc-arm-none-eabi g++-aarch64-linux-gnu g++-arm-linux-gnueabihf
 
 # Checkout some devel projects:
 if true ; then
