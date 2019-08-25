@@ -56,7 +56,7 @@ new mode 100755
 index e69de29bb2..7e86d27ca7
 --- a/board/qemu/arm-vexpress/post-build.sh
 +++ b/board/qemu/arm-vexpress/post-build.sh
-@@ -0,0 +1,12 @@
+@@ -0,0 +1,17 @@
 +#!/bin/sh
 +
 +if ! grep -q "^debugfs" ${TARGET_DIR}/etc/fstab ; then
@@ -67,6 +67,11 @@ index e69de29bb2..7e86d27ca7
 +  echo "PermitRootLogin yes"        >> ${TARGET_DIR}/etc/ssh/sshd_config
 +  echo "PasswordAuthentication yes" >> ${TARGET_DIR}/etc/ssh/sshd_config
 +  echo "PermitEmptyPasswords yes"   >> ${TARGET_DIR}/etc/ssh/sshd_config
++fi
++
++if ! test -f ${TARGET_DIR}/etc/init.d/S10kcov.sh ; then
++  echo "chmod 777 /sys/kernel/debug/kcov" > ${TARGET_DIR}/etc/init.d/S10kcov.sh
++  chmod 755 ${TARGET_DIR}/etc/init.d/S10kcov.sh
 +fi
 +
 diff --git a/configs/qemu_aarch64_virt_defconfig b/configs/qemu_aarch64_virt_defconfig
