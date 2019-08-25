@@ -2,11 +2,12 @@ diff --git a/aarch64.cfg b/aarch64.cfg
 index e69de29b..f5afeb81 100644
 --- a/aarch64.cfg
 +++ b/aarch64.cfg
-@@ -0,0 +1,21 @@
+@@ -0,0 +1,22 @@
 +{
 +	"name": "qemu-aarch64",
 +	"target": "linux/arm64",
 +	"http": "localhost:12346",
++	"rpc": "127.0.0.1:5555",
 +	"workdir": "./workdir64",
 +	"kernel_obj": "../../../../../buildroot/output/build/linux-5.2.9/vmlinux",
 +	"syzkaller": ".",
@@ -28,11 +29,12 @@ diff --git a/arm.cfg b/arm.cfg
 index e69de29b..a6384142 100644
 --- a/arm.cfg
 +++ b/arm.cfg
-@@ -0,0 +1,22 @@
+@@ -0,0 +1,23 @@
 +{
 +	"name": "qemu-arm",
 +	"target": "linux/arm",
 +	"http": "localhost:12345",
++	"rpc": "127.0.0.1:5556",
 +	"workdir": "./workdir",
 +	"kernel_obj": "../../../../../buildroot/output/build/linux-5.2.9/vmlinux",
 +	"syzkaller": ".",
