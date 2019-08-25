@@ -29,6 +29,9 @@ You can also cross-compile armhf and arm64 kernels on amd64, also adding all ras
 
 You can download already compiled kernels from the [release page](https://github.com/laroche/arm-devel-infrastructure/releases).
 
+This mailinglist discusses rpi support for the upstream/mainline kernel:
+[http://lists.infradead.org/pipermail/linux-rpi-kernel/](http://lists.infradead.org/pipermail/linux-rpi-kernel/)
+
 
 Blocking kernel updates with dpkg
 ---------------------------------
