@@ -51,6 +51,8 @@ if test ! -d n/buildroot ; then
 fi
 fi
 
+export PATH=/opt/qemu/bin:$PATH
+
 if test "X$1" = X ; then
 # Install syzkaller for armv7:
 if test ! -d gopath ; then
@@ -80,7 +82,6 @@ fi
 fi
 
 # Start syzkaller:
-export PATH=/opt/qemu/bin:$PATH
 if test "X$1" = X64 ; then
   export GOPATH=`pwd`/n/gopath
   pushd n/gopath/src/github.com/google/syzkaller
