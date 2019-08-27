@@ -46,7 +46,7 @@ if test $CROSS = 1 ; then
   #sudo apt -q -y install crossbuild-essential-arm64 crossbuild-essential-armhf
 fi
 
-KVER=5.2.9
+KVER=5.2.10
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
