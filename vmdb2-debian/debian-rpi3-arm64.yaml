@@ -151,8 +151,9 @@ steps:
       echo "deb-src http://security.debian.org/debian-security buster/updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
       fi
 
-      echo "deb http://deb.debian.org/debian/ experimental main contrib non-free" > "${ROOT?}/etc/apt/sources.list.d/experimental.list"
-      echo "deb-src http://deb.debian.org/debian/ experimental main contrib non-free" >> "${ROOT?}/etc/apt/sources.list.d/experimental.list"
+      # Keep experimental commented out:
+      echo "#deb http://deb.debian.org/debian/ experimental main contrib non-free" > "${ROOT?}/etc/apt/sources.list.d/experimental.list"
+      echo "#deb-src http://deb.debian.org/debian/ experimental main contrib non-free" >> "${ROOT?}/etc/apt/sources.list.d/experimental.list"
 
       install -m 644 -o root -g root ssh-generate-host-keys.service "${ROOT?}/etc/systemd/system"
       mkdir -p "${ROOT?}/etc/systemd/system/multi-user.target.requires/"
