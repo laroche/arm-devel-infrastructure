@@ -17,7 +17,7 @@ sudo apt install golang lynx
 
 # Cleanup:
 if test "X$1" = Xclean ; then
-  rm -fr n dl buildroot gopath
+  rm -fr n buildroot gopath #dl
   exit 0
 fi
 
@@ -27,6 +27,7 @@ if test ! -d buildroot ; then
   if test ! -d dl -a -d ~/data/dl ; then
     ln -sfn ~/data/dl .
   fi
+  mkdir -p dl
   git clone --single-branch --depth 1 https://github.com/buildroot/buildroot.git
   pushd buildroot
     patch -s -p1 < ../buildroot.patch
@@ -37,6 +38,7 @@ fi
 else
 # Compile buildroot for aarch64:
 if test ! -d n/buildroot ; then
+  mkdir -p dl
   mkdir -p n
   cp buildroot.patch n
   pushd n
