@@ -37,20 +37,21 @@ if test "X$1" = "Xarmhf" -o "X$1" = "Xrpi-armhf" ; then
 fi
 
 # Build requirements:
-sudo apt -q -y install build-essential fakeroot rsync git python-debian python3-debian
-# asciidoctor ?
+if true ; then
+sudo apt -q -y install build-essential fakeroot rsync git #python-debian python3-debian
 sudo apt -q -y build-dep linux
 if test $CROSS = 1 ; then
   sudo apt -q -y install kernel-wedge quilt ccache flex bison libssl-dev
   sudo apt -q -y install g++-8-aarch64-linux-gnu g++-8-arm-linux-gnueabihf
   #sudo apt -q -y install crossbuild-essential-arm64 crossbuild-essential-armhf
 fi
+fi
 
 KVER=5.2.10
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.2.10
+  RVER=5.2.11
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -59,7 +60,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     git clone -b rpi-5.2.y https://github.com/raspberrypi/linux/ rpi-linux-5
   fi
   cd rpi-linux-5
-  git format-patch -o ../rpi-patches-$RVER f7d5b3dc4792a5fe0a4d6b8106a8f3eb20c3c24c
+  git format-patch -o ../rpi-patches-$RVER c3915fe1bf1235dbf3b0bced734c960202915bd5
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -79,10 +80,6 @@ if test "$RPIPATCHES" = 1 ; then
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     ls bugfix/rpi/*.patch >> series
   popd
-  # Current 5.2.y does not compile with CONFIG_RTL8192CU/EE
-  sed -i -e 's/CONFIG_RTL8192CU=m/CONFIG_RTL8192CU=n/g' debian/config/config
-  sed -i -e 's/CONFIG_RTL8192EE=m/CONFIG_RTL8192EE=n/g' debian/config/config
-  #sed -i -e 's/CONFIG_VIDEO_BCM2835=m/CONFIG_VIDEO_BCM2835=n/g' debian/config/arm64/config
   rm -f debian/abi/5.2.0-2/arm*
 fi
 
