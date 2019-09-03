@@ -18,6 +18,7 @@ Things that could be improved in the future:
 - Provide a Debian repository with newer kernels instead of downloads.
   Use github pages for this?
 - Crosscompile the armhf/arm64 kernels on x86 for faster compile times. (done)
+- How to extract rpi patches for older kernel revisions?
 - Install chromium directly from Google or are newer versions
   available for stable? Resolve this by using unstable for now.
   https://wiki.debian.org/DebianRepository/Unofficial
@@ -25,4 +26,5 @@ Things that could be improved in the future:
 - For documentation, check out https://github.com/jekyll/jekyll and hugo
   and improve appearance.
   https://help.github.com/en/articles/customizing-css-and-html-in-your-jekyll-theme
+- Disable unattended apt package updates during tests.
 
