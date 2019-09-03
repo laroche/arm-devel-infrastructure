@@ -2,7 +2,7 @@ diff --git a/aarch64.cfg b/aarch64.cfg
 index e69de29b..f5afeb81 100644
 --- a/aarch64.cfg
 +++ b/aarch64.cfg
-@@ -0,0 +1,22 @@
+@@ -0,0 +1,23 @@
 +{
 +	"name": "qemu-aarch64",
 +	"target": "linux/arm64",
@@ -10,6 +10,7 @@ index e69de29b..f5afeb81 100644
 +	"rpc": "127.0.0.1:5555",
 +	"workdir": "./workdir64",
 +	"kernel_obj": "../../../../../buildroot/output/build/linux-5.2.11/vmlinux",
++	"kernel_src": "../../../../../buildroot/output/build/linux-5.2.11",
 +	"syzkaller": ".",
 +	"image": "../../../../../buildroot/output/images/rootfs.ext2",
 +	"sandbox": "namespace",
@@ -29,7 +30,7 @@ diff --git a/arm.cfg b/arm.cfg
 index e69de29b..a6384142 100644
 --- a/arm.cfg
 +++ b/arm.cfg
-@@ -0,0 +1,23 @@
+@@ -0,0 +1,24 @@
 +{
 +	"name": "qemu-arm",
 +	"target": "linux/arm",
@@ -37,6 +38,7 @@ index e69de29b..a6384142 100644
 +	"rpc": "127.0.0.1:5556",
 +	"workdir": "./workdir",
 +	"kernel_obj": "../../../../../buildroot/output/build/linux-5.2.11/vmlinux",
++	"kernel_src": "../../../../../buildroot/output/build/linux-5.2.11",
 +	"syzkaller": ".",
 +	"image": "../../../../../buildroot/output/images/rootfs.ext2",
 +	"sandbox": "namespace",
