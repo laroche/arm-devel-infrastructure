@@ -9,7 +9,8 @@ How to compile your own kernel from current Debian git sources
 
 The source code for the Debian Linux kernel is maintained within the [salsa gitlab server](https://salsa.debian.org/kernel-team/linux/commits/master).
 The [master](https://salsa.debian.org/kernel-team/linux/commits/master) branch currently is based on linux-5.3.y,
-the [sid](https://salsa.debian.org/kernel-team/linux/commits/sid) branch is based on linux-5.2.y.
+the [sid](https://salsa.debian.org/kernel-team/linux/commits/sid) branch is based on linux-5.2.y and
+the [buster](https://salsa.debian.org/kernel-team/linux/commits/buster) branch is based on linux-4.19.y.
 
 You can checkout these branches and recompile locally a current Debian kernel with
 these scripts: [kernel.sh](https://github.com/laroche/arm-devel-infrastructure/blob/master/vmdb2-debian/kernel.sh)
@@ -50,38 +51,6 @@ dpkg -l linux-image-amd64
 echo linux-image-amd64 install | sudo dpkg --set-selections
 # list current status of the package:
 dpkg -l linux-image-amd64
-```
-
-
-How to install a newer kernel with unstable
--------------------------------------------
-
-Newer kernels are pushed out with their own package names, so they do not get
-installed automatically. List all Debian packages with `linux-image` and then
-install one of the newer kernels available:
-
-```shell
-apt-cache search linux-image | sort
-apt install linux-image-5.2.0-1-amd64
-apt install linux-image-5.2.0-1-rt-amd64
-```
-
-
-How to install a kernel from the experimental distribution
-----------------------------------------------------------
-
-Sometimes newer kernels are pushed to the experimental distribution, so you might
-want to check there for a newer Debian kernel. This is probably best done if
-your local system is Debian testing or Debian unstable:
-
-```shell
-if ! test -f /etc/apt/sources.list.d/experimental.list ; then
-  echo "deb http://deb.debian.org/debian/ experimental main contrib non-free" > /etc/apt/sources.list.d/experimental.list
-  echo "deb-src http://deb.debian.org/debian/ experimental main contrib non-free" >> /etc/apt/sources.list.d/experimental.list
-fi
-apt update
-apt-cache search linux-image
-apt install linux-image-5.0.0-trunk-arm64
 ```
 
 
