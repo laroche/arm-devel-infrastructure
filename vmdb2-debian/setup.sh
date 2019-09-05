@@ -110,7 +110,7 @@ if false ; then
 fi
 
 # Generic devel environment:
-$apt install build-essential autoconf libtool libtool-bin bison flex git libacl1-dev libssl-dev
+$apt install build-essential autoconf libtool libtool-bin pkg-config bison flex git libacl1-dev libssl-dev
 $apt install gawk bc make git-email ccache indent gperf
 #$apt install python perl clang golang
 #$apt install subversion git-svn
@@ -134,8 +134,8 @@ if ! test -d /opt/ltp ; then
     # sudo make install
   fi
 fi
-if ! test -d /opt/qemu ; then
-  $apt install libglib2.0-dev pkg-config libpixman-1-dev
+if test $unstable = 0 -a ! -d /opt/qemu ; then
+  $apt install pkg-config libglib2.0-dev libpixman-1-dev
   if ! test -f /home/$NEWUSER/data/qemu-4.1.0.tar.xz ; then
     su $NEWUSER -c "cd ~/data && wget -q https://download.qemu.org/qemu-4.1.0.tar.xz"
   fi
