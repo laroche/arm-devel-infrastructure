@@ -125,7 +125,6 @@ if true ; then
   $apt install vmdb2 dosfstools qemu qemu-user-static make zip
 fi
 if ! test -d /opt/ltp ; then
-  #$apt install build-essential autoconf libtool libtool-bin bison flex git libacl1-dev libssl-dev
   if ! test -d /home/$NEWUSER/data/ltp ; then
     su $NEWUSER -c "cd ~/data && git clone --depth 1 https://github.com/linux-test-project/ltp"
     # make autotools
