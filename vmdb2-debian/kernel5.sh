@@ -38,7 +38,7 @@ fi
 
 # Build requirements:
 if true ; then
-sudo apt -q -y install build-essential fakeroot rsync git #python-debian python3-debian
+sudo apt -q -y install build-essential fakeroot rsync git python-debian python3-debian
 sudo apt -q -y build-dep linux
 if test $CROSS = 1 ; then
   sudo apt -q -y install kernel-wedge quilt ccache flex bison libssl-dev
@@ -82,6 +82,9 @@ if test "$RPIPATCHES" = 1 ; then
   popd
   rm -f debian/abi/5.2.0-2/arm*
 fi
+# 5.2.14 quick workarounds:
+rm -fr debian/abi/5.2.0-2
+sed -i -e 's/^sched-core-Schedule-new-worker-even-if-PI-blocked.patch/#sched-core-Schedule-new-worker-even-if-PI-blocked.patch/g' debian/patches-rt/series
 
 if test $CROSS = 0 ; then
 
