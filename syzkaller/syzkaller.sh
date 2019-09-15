@@ -12,7 +12,7 @@
 #
 
 # Build requirements. lynx as browser for non-GUI installs:
-sudo apt install golang lynx
+sudo apt -y -q install golang lynx
 # make git qemu patch gcc
 
 # Cleanup:
