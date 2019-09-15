@@ -4,6 +4,7 @@ RealTime (RT) Linux
 General introduction
 --------------------
 - [https://en.wikipedia.org/wiki/Real-time_computing](https://en.wikipedia.org/wiki/Real-time_computing)
+- [https://lwn.net/Articles/397422/](https://lwn.net/Articles/397422/)
 
 Current upstream developments and discussions
 ---------------------------------------------
