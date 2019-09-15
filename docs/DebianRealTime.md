@@ -8,7 +8,7 @@ General introduction
 Current upstream developments and discussions
 ---------------------------------------------
 - Newest RT patches are available at [https://cdn.kernel.org/pub/linux/kernel/projects/rt/](https://cdn.kernel.org/pub/linux/kernel/projects/rt/).
-- RT Mailinglist: [http://vger.kernel.org/vger-lists.html#linux-rt-users]([http://vger.kernel.org/vger-lists.html#linux-rt-users)
+- RT Mailinglist: [http://vger.kernel.org/vger-lists.html#linux-rt-users](http://vger.kernel.org/vger-lists.html#linux-rt-users)
 - Upstream is discussing a merge of the RT patches into the official kernel.
   Here a status note from a recent [commit message](https://github.com/torvalds/linux/commit/70e6e1b971e46f5c1c2d72217ba62401a2edc22b)
 - German article on RT merge: [https://www.heise.de/newsticker/meldung/Linux-erhaelt-Realtime-Faehigkeiten-vielleicht-schon-im-Winter-4522751.html](https://www.heise.de/newsticker/meldung/Linux-erhaelt-Realtime-Faehigkeiten-vielleicht-schon-im-Winter-4522751.html)
