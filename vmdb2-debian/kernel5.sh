@@ -78,6 +78,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
+    rm -f bugfix/rpi/0455-Ported-pcie-brcmstb-bounce-buffer-implementation-to-.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.2.0-2/arm*
