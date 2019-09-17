@@ -78,14 +78,12 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0455-Ported-pcie-brcmstb-bounce-buffer-implementation-to-.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.2.0-2/arm*
 fi
 # 5.2.14 quick workarounds:
 rm -fr debian/abi/5.2.0-2
-sed -i -e 's/^sched-core-Schedule-new-worker-even-if-PI-blocked.patch/#sched-core-Schedule-new-worker-even-if-PI-blocked.patch/g' debian/patches-rt/series
 
 if test $CROSS = 0 ; then
 
