@@ -2,7 +2,9 @@
 
 Things that could be improved in the future:
 
-partitioning and grub:
+
+partitioning and grub
+---------------------
 
 - Generated grub config shows too many entries from local system.
   Fixed by first update-grub invocation on an installed system.
@@ -12,11 +14,15 @@ partitioning and grub:
 - grub keyboard layout is us, change this to de.
 - parted: check if "-4096"-bug can be fixed upstream. Is workaround possible?
 
-docu:
+
+docu
+----
 
 - Mention de specific configurations in docu.
 
-kernel:
+
+kernel
+------
 
 - Change name of own rpi3 kernel.
 - Automatically recompile new Debian kernels on each checkin into their
@@ -25,7 +31,9 @@ kernel:
   Use github pages for this?
 - How to extract rpi patches for older kernel revisions?
 
-other:
+
+other
+-----
 
 - Install chromium directly from Google or are newer versions
   available for stable? Resolve this by using unstable for now.
