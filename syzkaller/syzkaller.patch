@@ -9,8 +9,8 @@ index e69de29b..f5afeb81 100644
 +	"http": "localhost:12346",
 +	"rpc": "127.0.0.1:5555",
 +	"workdir": "./workdir64",
-+	"kernel_obj": "../../../../../buildroot/output/build/linux-5.2.15/vmlinux",
-+	"kernel_src": "../../../../../buildroot/output/build/linux-5.2.15",
++	"kernel_obj": "../../../../../buildroot/output/build/linux-5.2.16/vmlinux",
++	"kernel_src": "../../../../../buildroot/output/build/linux-5.2.16",
 +	"syzkaller": ".",
 +	"image": "../../../../../buildroot/output/images/rootfs.ext2",
 +	"sandbox": "namespace",
@@ -37,8 +37,8 @@ index e69de29b..a6384142 100644
 +	"http": "localhost:12345",
 +	"rpc": "127.0.0.1:5556",
 +	"workdir": "./workdir",
-+	"kernel_obj": "../../../../../buildroot/output/build/linux-5.2.15/vmlinux",
-+	"kernel_src": "../../../../../buildroot/output/build/linux-5.2.15",
++	"kernel_obj": "../../../../../buildroot/output/build/linux-5.2.16/vmlinux",
++	"kernel_src": "../../../../../buildroot/output/build/linux-5.2.16",
 +	"syzkaller": ".",
 +	"image": "../../../../../buildroot/output/images/rootfs.ext2",
 +	"sandbox": "namespace",
@@ -55,19 +55,6 @@ index e69de29b..a6384142 100644
 +		"cpu": 4
 +	}
 +}
-diff --git a/pkg/osutil/osutil_linux.go b/pkg/osutil/osutil_linux.go
-index eee0a900..bc46e70c 100644
---- a/pkg/osutil/osutil_linux.go
-+++ b/pkg/osutil/osutil_linux.go
-@@ -41,7 +41,7 @@ func RemoveAll(dir string) error {
- func SystemMemorySize() uint64 {
- 	var info syscall.Sysinfo_t
- 	syscall.Sysinfo(&info)
--	return info.Totalram
-+	return uint64(info.Totalram)
- }
- 
- func removeImmutable(fname string) error {
 diff --git a/sys/targets/targets.go b/sys/targets/targets.go
 index 3299e52b..1b8b045e 100644
 --- a/sys/targets/targets.go
