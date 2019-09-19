@@ -47,7 +47,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.2.15
+KVER=5.2.16
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -69,8 +69,9 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.2.14/5.2.15/' linux-5/debian/changelog
+sed -i -e '1 s/5.2.14/5.2.16/' linux-5/debian/changelog
 sed -i -e 's,^bugfix/all/vhost-make-sure-log_num-in_num.patch,,' linux-5/debian/patches/series
+sed -i -e 's,^features/all/lockdown/0016-acpi-Ignore-acpi_rsdp-kernel-param-when-the-kernel-h.patch,,' linux-5/debian/patches/series
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
 cd linux-5
