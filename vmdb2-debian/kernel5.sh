@@ -69,13 +69,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.2.14/5.2.17/' linux-5/debian/changelog
-sed -i -e 's,^bugfix/all/vhost-make-sure-log_num-in_num.patch,,' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/Btrfs-fix-unwritten-extent-buffers-and-hangs-on-futu.patch,,' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/KVM-coalesced_mmio-add-bounds-checking.patch,,' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/rsi-fix-a-double-free-bug-in-rsi_91x_deinit.patch,,' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/x86/tools-x86_energy_perf_policy-fix-uninitialized-varia.patch,,' linux-5/debian/patches/series
-sed -i -e 's,^features/all/lockdown/0016-acpi-Ignore-acpi_rsdp-kernel-param-when-the-kernel-h.patch,,' linux-5/debian/patches/series
+#sed -i -e '1 s/5.2.14/5.2.17/' linux-5/debian/changelog
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
 cd linux-5
@@ -88,9 +82,8 @@ if test "$RPIPATCHES" = 1 ; then
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     ls bugfix/rpi/*.patch >> series
   popd
-  rm -f debian/abi/5.2.0-2/arm*
+  rm -f debian/abi/5.2.0-3/arm*
 fi
-rm -fr debian/abi/5.2.0-2
 
 if test $CROSS = 0 ; then
 
