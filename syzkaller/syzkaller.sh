@@ -13,7 +13,7 @@
 
 # Build requirements. lynx as browser for non-GUI installs:
 sudo apt -y -q install golang lynx
-# make git qemu patch gcc
+# qemu-system-arm make git patch gcc
 
 # Cleanup:
 if test "X$1" = Xclean ; then
