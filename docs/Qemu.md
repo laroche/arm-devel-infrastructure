@@ -1,3 +1,8 @@
+---
+title: locally compile current qemu
+---
+
+
 locally compile current qemu
 ----------------------------
 

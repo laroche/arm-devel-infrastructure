@@ -1,3 +1,8 @@
+---
+title: Scripting additional software installations and system configuration
+---
+
+
 Scripting additional software installations and system configuration
 --------------------------------------------------------------------
 

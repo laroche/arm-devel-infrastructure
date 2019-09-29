@@ -1,3 +1,8 @@
+---
+title: General notes about Debian
+---
+
+
 General notes about Debian
 --------------------------
 
