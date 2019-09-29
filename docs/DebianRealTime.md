@@ -24,7 +24,7 @@ Current upstream developments and discussions
   - [https://lists.elisa.tech/g/main](https://lists.elisa.tech/g/main)
   - [https://lists.elisa.tech/g/devel](https://lists.elisa.tech/g/devel)
   - [https://github.com/elisa-tech/workgroups](https://github.com/elisa-tech/workgroups)
-    - [https://github.com/elisa-tech/workgroups/issues](/github.com/elisa-tech/workgroups/issues)
+    - [https://github.com/elisa-tech/workgroups/issues](https://github.com/elisa-tech/workgroups/issues)
 - [Automotive Grade Linux (AGL) Presentation](https://static.sched.com/hosted_files/ossalsjp19/bc/ALS%202019%20Keynote%20-%20AGL%20State%20of%20the%20Alliance%20vFinal%20PDF.pdf)
 - [https://www.osadl.org/Realtime-Linux.projects-realtime-linux.0.html](https://www.osadl.org/Realtime-Linux.projects-realtime-linux.0.html)
   - [https://www.osadl.org/Latency-plots.latency-plots.0.html](https://www.osadl.org/Latency-plots.latency-plots.0.html)
