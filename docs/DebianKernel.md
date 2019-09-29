@@ -1,8 +1,3 @@
----
-title: How to compile your own kernel from current Debian git sources
----
-
-
 Debian Linux Kernel Handbook
 ----------------------------
 

@@ -1,8 +1,3 @@
----
-title: todo list
----
-
-
 ## todo list
 
 Things that could be improved in the future:

@@ -1,8 +1,3 @@
----
-title: Creating your own disk images
----
-
-
 Creating your own disk images
 -----------------------------
 

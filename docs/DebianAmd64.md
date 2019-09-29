@@ -1,8 +1,3 @@
----
-title: Install and boot Debian Amd64 disk image
----
-
-
 Install and boot Debian Amd64 disk image
 ----------------------------------------
 

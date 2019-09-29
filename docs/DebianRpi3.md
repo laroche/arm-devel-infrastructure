@@ -1,8 +1,3 @@
----
-title: Install and boot Debian rpi3 disk image
----
-
-
 Install and boot Debian rpi3 disk image
 ---------------------------------------
 

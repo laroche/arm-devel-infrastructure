@@ -1,8 +1,3 @@
----
-title: RealTime (RT) Linux
----
-
-
 RealTime (RT) Linux
 -------------------
 
