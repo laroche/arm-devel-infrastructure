@@ -4,7 +4,7 @@
 #
 
 # release date to use
-RDATE="20190913"
+RDATE="20190930"
 
 # This is the name of the new system as well as the name of the hard disk for it:
 if test "X$1" != "X" ; then
