@@ -8,7 +8,7 @@ automatic scripts for configuration.
 Also include useful links to some key Linux development projects (for arm).
 
 Arm disk images are prepared for generic armhf or arm64 devices,
-there are extra images for [Raspberry-PI](https://www.raspberrypi.org/).
+there are extra images for [Raspberry-Pi](https://www.raspberrypi.org/).
 
 Disk images can be downloaded from [https://github.com/laroche/arm-devel-infrastructure/releases](https://github.com/laroche/arm-devel-infrastructure/releases)
 
