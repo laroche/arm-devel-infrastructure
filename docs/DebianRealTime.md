@@ -18,6 +18,7 @@ Current upstream developments and discussions
     - [https://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git?h=unstable%2Fdevel%2Flatest](https://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git?h=unstable%2Fdevel%2Flatest)
   - [https://wiki.linuxfoundation.org/realtime/documentation/howto/tools/cyclictest/start](https://wiki.linuxfoundation.org/realtime/documentation/howto/tools/cyclictest/start])
 - [https://elisa.tech/](https://elisa.tech/)
+  - [https://www.youtube.com/watch?v=sUq6tJzg7nU](https://www.youtube.com/watch?v=sUq6tJzg7nU)
   - [https://docs.google.com/presentation/d/1m62n5A2229Kxkt7hGD5aYFAj5Ara_WG1NlnDy8MP7c8/edit](https://docs.google.com/presentation/d/1m62n5A2229Kxkt7hGD5aYFAj5Ara_WG1NlnDy8MP7c8/edit)
   - [https://docs.google.com/document/d/1GV45KxkyCKjVYJncrYWqC9BArN6xeNzeTmKBzs8HhiE/edit#heading=h.95vin6c5ow49](https://docs.google.com/document/d/1GV45KxkyCKjVYJncrYWqC9BArN6xeNzeTmKBzs8HhiE/edit#heading=h.95vin6c5ow49)
   - [https://drive.google.com/file/d/1_v7hZh35te9F3mmmASvkEevTir1lk2D3/view](https://drive.google.com/file/d/1_v7hZh35te9F3mmmASvkEevTir1lk2D3/view)
