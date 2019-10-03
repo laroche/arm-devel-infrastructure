@@ -21,6 +21,3 @@ You can also just create individual images like:
 make debian-amd64.img
 ```
 
-If you create a file `authorized_keys` this will get automatically added as
-`/root/.ssh/authorized_keys` in the image.
-
