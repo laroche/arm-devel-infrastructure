@@ -3,8 +3,10 @@
 # Download a generic Debian Linux image and start it as virtualized KVM image.
 #
 
-# release date to use
+# release date to use:
 RDATE="20191022"
+# Select either "stable" or "unstable":
+TYPE="stable"
 
 # This is the name of the new system as well as the name of the hard disk for it:
 if test "X$1" != "X" ; then
@@ -19,10 +21,11 @@ DISK="$TARGET.qcow2"
 
 # Download newest release and unpack:
 if ! test -f debian-amd64.img ; then
-  wget -q https://github.com/laroche/arm-devel-infrastructure/releases/download/v$RDATE/debian-stable-amd64-$RDATE.zip
-  unzip debian-stable-amd64-$RDATE.zip
-  mv debian-stable-amd64-$RDATE/debian-stable-amd64-$RDATE.img debian-amd64.img
-  rm -fr debian-stable-amd64-$RDATE
+  wget -q https://github.com/laroche/arm-devel-infrastructure/releases/download/v$RDATE/debian-${TYPE}-amd64-$RDATE.zip
+  unzip debian-${TYPE}-amd64-$RDATE.zip
+  mv debian-${TYPE}-amd64-$RDATE/debian-${TYPE}-amd64-$RDATE.img debian-amd64.img
+  rm -fr debian-${TYPE}-amd64-$RDATE
+  #rm -f debian-${TYPE}-amd64-$RDATE.zip
 fi
 
 if ! test -f "$DISK" ; then
