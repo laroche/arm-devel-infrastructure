@@ -42,25 +42,25 @@ sudo apt -q -y install build-essential fakeroot rsync git python-debian python3-
 sudo apt -q -y build-dep linux
 if test $CROSS = 1 ; then
   sudo apt -q -y install kernel-wedge quilt ccache flex bison libssl-dev
-  sudo apt -q -y install g++-8-aarch64-linux-gnu g++-8-arm-linux-gnueabihf
-  #sudo apt -q -y install crossbuild-essential-arm64 crossbuild-essential-armhf
+  #sudo apt -q -y install g++-8-aarch64-linux-gnu g++-8-arm-linux-gnueabihf
+  sudo apt -q -y install crossbuild-essential-arm64 crossbuild-essential-armhf
 fi
 fi
 
-KVER=5.2.17
+KVER=5.3.7
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.2.18
+  RVER=5.3.7
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   # Extract the raspberry-pi patches into a subdirectory:
   if test ! -d rpi-linux-5 ; then
-    git clone -b rpi-5.2.y https://github.com/raspberrypi/linux/ rpi-linux-5
+    git clone -b rpi-5.3.y https://github.com/raspberrypi/linux/ rpi-linux-5
   fi
   cd rpi-linux-5
-  git format-patch -o ../rpi-patches-$RVER 0a9d6a58b4acfa52384b3175bd3d0742467bcf65
+  git format-patch -o ../rpi-patches-$RVER 83f4462ce1557090edd040535e5055e1dcf36120
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -82,7 +82,7 @@ if test "$RPIPATCHES" = 1 ; then
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     ls bugfix/rpi/*.patch >> series
   popd
-  rm -f debian/abi/5.2.0-3/arm*
+  rm -f debian/abi/5.3.0-1/arm*
 fi
 
 if test $CROSS = 0 ; then
