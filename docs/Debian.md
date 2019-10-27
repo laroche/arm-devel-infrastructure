@@ -22,6 +22,7 @@ Other resources you might want to check out:
 - [development server machines](https://db.debian.org/machines.cgi) at Debian.
 - [Debian build server](https://buildd.debian.org/status/)
 - links for Germans:
+  - [https://www.debian-paketmanagement.de/](https://www.debian-paketmanagement.de/)
   - [https://debianforum.de/forum/](https://debianforum.de/forum/)
   - [https://www.linuxmintusers.de/index.php?action=wiki;page=Kurze_Einfuehrung](https://www.linuxmintusers.de/index.php?action=wiki;page=Kurze_Einfuehrung)
 
