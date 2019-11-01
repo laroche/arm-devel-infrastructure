@@ -59,7 +59,7 @@ unzip debian-stable-amd64-20191022.zip
 # Make sure your install disk is not mounted:
 #umount /media/$USER/XXX
 # For USB check your devices:
-#lsusb
+#lsusb; lsblk
 # Write the disk image to USB-disk or normal hard disk:
 dd if=debian-stable-amd64-20191022/debian-stable-amd64-20191022.img of=/dev/sdX
 ```
@@ -125,9 +125,9 @@ Here is a summary on what you have on the first bootup:
 - You have one hard disk. It has legacy 'msdos' partitioning and the first
   partition contains an ext4 Linux filesystem with a generic Debian Amd64
   installation.
-- No root password is set. And now additional users are setup. Just login as 'root'.
+- No root password is set. And no additional users are setup. Just login as 'root'.
 - sshd is unchanged default configuration, so root login over network is not
-  allowed. (Edit /etc/ssh/sshd_config to change this.)
+  allowed. (Edit `/etc/ssh/sshd_config` to change this.)
 - 'eth0' is setup as local network adapter and configured via dhcp. Change the file
   `/etc/network/interfaces.d/eth0` to change configuration. (Static IPs?)
 

@@ -33,7 +33,7 @@ Disk layout
 The release image (\*.img) contains one big hard disk image with a legacy 'msdos' partition table.
 The first partition is a FAT32-formatted msdos partition with the firmware files and a kernel/initrd
 which is later on mounted at `/boot/firmware`. The second partition contains a Linux ext4 filesystem
-the generic Debian installation.
+the generic Debian ARM64 installation.
 
 
 Be careful before writing the disk image
@@ -60,7 +60,7 @@ unzip debian-stable-rpi3-arm64-20191022.zip
 # Make sure your install disk is not mounted:
 #umount /media/$USER/XXX
 # For USB check your devices:
-#lsusb
+#lsusb; lsblk
 # Write the disk image to USB-disk or normal hard disk:
 dd if=debian-stable-rpi3-arm64-20191022/debian-stable-amd64-20191022.img of=/dev/sdX
 ```
@@ -75,9 +75,9 @@ Here is a summary on what you have on the first bootup:
   partition contains Raspberry Pi firmware on a FAT16 partition and the second
   partition contains an ext4 Linux filesystem with a generic Debian arm64/armhf
   installation.
-- No root password is set. And now additional users are setup. Just login as 'root'.
+- No root password is set. And no additional users are setup. Just login as 'root'.
 - sshd is unchanged default configuration, so root login over network is not
-  allowed. (Edit /etc/ssh/sshd_config to change this.)
+  allowed. (Edit `/etc/ssh/sshd_config` to change this.)
 - 'eth0' is setup as local network adapter and configured via dhcp. Change the file
   `/etc/network/interfaces.d/eth0` to change configuration. (Static IPs?)
 
