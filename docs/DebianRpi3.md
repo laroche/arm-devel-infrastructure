@@ -11,6 +11,9 @@ configuration file for this image: [debian-rpi3-arm64.yaml](https://github.com/l
 It contains a list of all software packages to include and a few configuration changes
 done with shell scripting.
 
+Please also look at this Debian project:
+[https://salsa.debian.org/raspi-team/image-specs](https://salsa.debian.org/raspi-team/image-specs)
+
 
 Install disk size requirements
 ------------------------------
