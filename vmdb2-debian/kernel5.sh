@@ -80,6 +80,8 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
+    rm -f bugfix/rpi/0451-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch \
+	  bugfix/rpi/0456-ALSA-usb-audio-Add-DSD-support-for-Gustard-U16-X26-U.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.3.0-1/arm*
