@@ -11,7 +11,7 @@ debian-amd64.img: debian-amd64.yaml
 	sudo chown $(USER) debian-amd64.img debian-amd64.log
 
 debian-unstable-amd64.yaml: debian-amd64.yaml
-	sed 's/qemu-debootstrap: buster/qemu-debootstrap: unstable/g' < debian-amd64.yaml > debian-unstable-amd64.yaml
+	sed 's/qemu-debootstrap: buster/qemu-debootstrap: unstable/g' < debian-amd64.yaml | grep -v linux-image-rt > debian-unstable-amd64.yaml
 
 debian-unstable-amd64.img: debian-unstable-amd64.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-unstable-amd64.tar.gz --output debian-unstable-amd64.img debian-unstable-amd64.yaml --log debian-unstable-amd64.log --log-mode 0644
@@ -22,7 +22,7 @@ debian-amd64-efi.img: debian-amd64-efi.yaml
 	sudo chown $(USER) debian-amd64-efi.img debian-amd64-efi.log
 
 debian-unstable-amd64-efi.yaml: debian-amd64-efi.yaml
-	sed 's/qemu-debootstrap: buster/qemu-debootstrap: unstable/g' < debian-amd64-efi.yaml > debian-unstable-amd64-efi.yaml
+	sed 's/qemu-debootstrap: buster/qemu-debootstrap: unstable/g' < debian-amd64-efi.yaml | grep -v linux-image-rt > debian-unstable-amd64-efi.yaml
 
 debian-unstable-amd64-efi.img: debian-unstable-amd64-efi.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-unstable-amd64-efi.tar.gz --output debian-unstable-amd64-efi.img debian-unstable-amd64-efi.yaml --log debian-unstable-amd64-efi.log --log-mode 0644
@@ -44,7 +44,7 @@ debian-rpi3-armhf.img: debian-rpi3-armhf.yaml
 	sudo chown $(USER) debian-rpi3-armhf.img debian-rpi3-armhf.log
 
 debian-unstable-rpi3-armhf.yaml: debian-rpi3-armhf.yaml
-	sed 's/qemu-debootstrap: buster/qemu-debootstrap: unstable/g' < debian-rpi3-armhf.yaml > debian-unstable-rpi3-armhf.yaml
+	sed 's/qemu-debootstrap: buster/qemu-debootstrap: unstable/g' < debian-rpi3-armhf.yaml | grep -v linux-image-rt > debian-unstable-rpi3-armhf.yaml
 
 debian-unstable-rpi3-armhf.img: debian-unstable-rpi3-armhf.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-unstable-rpi3-armhf.tar.gz --output debian-unstable-rpi3-armhf.img debian-unstable-rpi3-armhf.yaml --log debian-unstable-rpi3-armhf.log --log-mode 0644
