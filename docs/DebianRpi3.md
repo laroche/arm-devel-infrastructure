@@ -57,15 +57,15 @@ How to use a Linux system to write the image onto a USB-Stick or a new hard disk
 
 ```shell
 # Download the current Debian rpi3 image:
-wget -q https://github.com/laroche/arm-devel-infrastructure/releases/download/v20191022/debian-stable-rpi3-arm64-20191022.zip
+wget -q https://github.com/laroche/arm-devel-infrastructure/releases/download/v20191112/debian-stable-rpi3-arm64-20191112.zip
 # Unpack the zip archive to get the raw image *.img:
-unzip debian-stable-rpi3-arm64-20191022.zip
+unzip debian-stable-rpi3-arm64-20191112.zip
 # Make sure your install disk is not mounted:
 #umount /media/$USER/XXX
 # For USB check your devices:
 #lsusb; lsblk
 # Write the disk image to USB-disk or normal hard disk:
-dd if=debian-stable-rpi3-arm64-20191022/debian-stable-amd64-20191022.img of=/dev/sdX
+dd if=debian-stable-rpi3-arm64-20191112/debian-stable-amd64-20191112.img of=/dev/sdX
 ```
 
 
