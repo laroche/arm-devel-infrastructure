@@ -59,7 +59,11 @@ sed -i -e 's/^%sudo.*/%sudo\tALL=(ALL:ALL) NOPASSWD: ALL/g' /etc/sudoers
 # https://unix.stackexchange.com/questions/318824/vim-cutpaste-not-working-in-stretch-debian-9
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=864074
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=837761#76
-sed -i -e '/has.*mouse/,+2s/^/"/' /usr/share/vim/vim81/defaults.vim
+if test $unstable = 1 ; then
+  sed -i -e '/has.*mouse/,+6s/^/"/' /usr/share/vim/vim81/defaults.vim
+else
+  sed -i -e '/has.*mouse/,+2s/^/"/' /usr/share/vim/vim81/defaults.vim
+fi
 
 # disable ipv6
 #sed -i -e 's/^#//g' /etc/sysctl.d/01-disable-ipv6.conf
