@@ -78,7 +78,7 @@ sudo /opt/ltp/runltp
 
 Fuego Test System
 -----------------
-[http://fuegotest.org/](Fuego) packages Jenkins into a Docker container to run LTP on embedded boards.
+[Fuego](http://fuegotest.org/) packages Jenkins into a Docker container to run LTP on embedded boards.
 See also:
 
 - [https://bitbucket.org/fuegotest/fuego/src/master/](https://bitbucket.org/fuegotest/fuego/src/master/)
@@ -90,6 +90,7 @@ Syzkaller
 - [https://github.com/google/syzkaller](https://github.com/google/syzkaller)
 - [https://syzkaller.appspot.com/](https://syzkaller.appspot.com/)
 - [https://groups.google.com/forum/#!forum/syzkaller](https://groups.google.com/forum/#!forum/syzkaller)
+- [https://google.github.io/oss-fuzz/](https://google.github.io/oss-fuzz/)
 
 To start syzkaller locally for arm32 and arm64, you can use the script
 [syzkaller.sh](https://github.com/laroche/arm-devel-infrastructure/tree/master/syzkaller/syzkaller.sh).
@@ -97,6 +98,7 @@ To start syzkaller locally for arm32 and arm64, you can use the script
 
 Automated Linux Kernel Testing
 ------------------------------
+- [https://github.com/metan-ucw/runltp-ng](https://github.com/metan-ucw/runltp-ng)
 - [https://kernelci.org/](https://kernelci.org/)
 - [https://lwn.net/Articles/777421/](https://lwn.net/Articles/777421/)
 - [https://lwn.net/Articles/514278/](https://lwn.net/Articles/514278/)
