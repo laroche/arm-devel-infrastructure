@@ -76,6 +76,15 @@ sudo /opt/ltp/runltp
 ```
 
 
+Fuego Test System
+-----------------
+[http://fuegotest.org/](Fuego) packages Jenkins into a Docker container to run LTP on embedded boards.
+See also:
+
+- [https://bitbucket.org/fuegotest/fuego/src/master/](https://bitbucket.org/fuegotest/fuego/src/master/)
+- [https://bitbucket.org/fuegotest/fuego-core/src/master/](https://bitbucket.org/fuegotest/fuego-core/src/master/)
+
+
 Syzkaller
 ---------
 - [https://github.com/google/syzkaller](https://github.com/google/syzkaller)
