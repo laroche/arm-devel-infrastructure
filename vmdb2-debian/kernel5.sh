@@ -84,7 +84,7 @@ if test "$RPIPATCHES" = 1 ; then
 	  bugfix/rpi/0455-ALSA-usb-audio-Add-DSD-support-for-Gustard-U16-X26-U.patch
     ls bugfix/rpi/*.patch >> series
   popd
-  rm -f debian/abi/5.3.0-1/arm*
+  rm -f debian/abi/5.3.0-2/arm*
 fi
 
 if test $CROSS = 0 ; then
