@@ -75,6 +75,8 @@ popd
 sudo LANG=en_US.UTF-8 /opt/ltp/runltp
 ```
 
+Note: Please keep IPv6 enabled for LTP tests.
+
 
 Fuego Test System
 -----------------
