@@ -229,7 +229,11 @@ steps:
       # https://unix.stackexchange.com/questions/318824/vim-cutpaste-not-working-in-stretch-debian-9
       # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=864074
       # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=837761#76
-      sed -i -e '/has.*mouse/,+2s/^/"/' /usr/share/vim/vim81/defaults.vim
+      if grep -q unstable /etc/apt/sources.list ; then
+        sed -i -e '/has.*mouse/,+6s/^/"/' /usr/share/vim/vim81/defaults.vim
+      else
+        sed -i -e '/has.*mouse/,+2s/^/"/' /usr/share/vim/vim81/defaults.vim
+      fi
 
       update-alternatives --set editor /usr/bin/vim.basic
 
