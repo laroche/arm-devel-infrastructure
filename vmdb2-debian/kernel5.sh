@@ -51,7 +51,7 @@ KVER=5.3.9
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.3.8
+  RVER=5.3.10
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -60,7 +60,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     git clone -b rpi-5.3.y https://github.com/raspberrypi/linux/ rpi-linux-5
   fi
   cd rpi-linux-5
-  git format-patch -o ../rpi-patches-$RVER db0655e705be645ad673b0a70160921e088517c0
+  git format-patch -o ../rpi-patches-$RVER b260a0862e3a9fccdac23ec3b783911b098c1c74
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -80,8 +80,8 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0451-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch \
-	  bugfix/rpi/0456-ALSA-usb-audio-Add-DSD-support-for-Gustard-U16-X26-U.patch
+    rm -f bugfix/rpi/0450-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch \
+	  bugfix/rpi/0455-ALSA-usb-audio-Add-DSD-support-for-Gustard-U16-X26-U.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.3.0-1/arm*
