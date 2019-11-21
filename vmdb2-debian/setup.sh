@@ -133,7 +133,6 @@ if ! test -d /opt/ltp ; then
     su $NEWUSER -c "cd ~/data && git clone --depth 1 https://github.com/linux-test-project/ltp"
     cat > /opt/ltp-SKIP <<EOM
 msgstress04
-pivot_root01
 userns07
 memcg_max_usage_in_bytes
 memcg_stat
