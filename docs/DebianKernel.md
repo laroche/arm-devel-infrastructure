@@ -72,7 +72,7 @@ make -j 8
 sudo make install
 popd
 # Execute the tests:
-sudo LANG=en_US.UTF-8 /opt/ltp/runltp
+sudo LANG=en_US.UTF-8 /opt/ltp/runltp -Q
 ```
 
 Note: Please keep IPv6 enabled for LTP tests.
