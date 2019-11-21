@@ -1,5 +1,4 @@
 authorized_keys
-cntlm.conf
 debian-*.img
 debian-*.log
 debian-*.tar.gz
