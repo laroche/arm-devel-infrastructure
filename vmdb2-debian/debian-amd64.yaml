@@ -103,10 +103,6 @@ steps:
         install -m 600 -o root -g root authorized_keys "${ROOT?}/root/.ssh/authorized_keys"
       fi
 
-      if test -f cntlm.conf ; then
-        install -m 600 -o root -g root cntlm.conf "${ROOT?}/etc/cntlm.conf"
-      fi
-
       install -m 700 -o root -g root setup.sh "${ROOT?}/root/setup.sh"
 
       # The following config line is still commented out:

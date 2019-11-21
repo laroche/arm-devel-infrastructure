@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# After booting a new generic image, you can user this sample script to
-# automatically adjust your image to your personal taste/needs.
+# After booting a new generic Debian image, you can user this sample script
+# to automatically adjust your image to your personal taste/needs.
 #
 # Many items in this script are more for a personal development box and
 # not suited for a server image with security hardening.
@@ -88,7 +88,7 @@ $apt dist-upgrade
 # Install some GUI and desktop apps:
 if false ; then
   #$apt install xfce4 lightdm synaptic menu
-  $apt install aptitude
+  #$apt install aptitude
   tasksel install gnome-desktop --new-install
   $apt install firefox-esr firefox-esr-l10n-de chromium chromium-l10n vlc
   $apt install libreoffice libreoffice-help-de libreoffice-l10n-de
@@ -109,7 +109,7 @@ if false ; then
 fi
 # Company dependent apps:
 if false ; then
-  $apt install cntlm rdesktop
+  $apt install rdesktop
   $apt install qttools5-dev qttools5-dev-tools
 fi
 

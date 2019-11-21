@@ -118,10 +118,6 @@ steps:
         install -m 600 -o root -g root authorized_keys "${ROOT?}/root/.ssh/authorized_keys"
       fi
 
-      if test -f cntlm.conf ; then
-        install -m 600 -o root -g root cntlm.conf "${ROOT?}/etc/cntlm.conf"
-      fi
-
       install -m 700 -o root -g root setup.sh "${ROOT?}/root/setup.sh"
 
       echo "LABEL=DEBEFI /boot/efi vfat rw 0 2" >> "${ROOT?}/etc/fstab"
