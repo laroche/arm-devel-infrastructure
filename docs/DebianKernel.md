@@ -64,6 +64,7 @@ Compile and install ltp into `/opt/ltp`:
 
 ```shell
 sudo apt install build-essential autoconf libtool libtool-bin bison flex git libacl1-dev libssl-dev
+sudo apt install quotatool
 git clone --depth 1 https://github.com/linux-test-project/ltp
 pushd ltp
 make autotools
