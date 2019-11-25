@@ -47,29 +47,29 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.3.9
+KVER=5.4
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.3.10
+  RVER=5.4.0
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   # Extract the raspberry-pi patches into a subdirectory:
   if test ! -d rpi-linux-5 ; then
-    git clone -b rpi-5.3.y https://github.com/raspberrypi/linux/ rpi-linux-5
+    git clone -b rpi-5.4.y https://github.com/raspberrypi/linux/ rpi-linux-5
   fi
   cd rpi-linux-5
-  git format-patch -o ../rpi-patches-$RVER b260a0862e3a9fccdac23ec3b783911b098c1c74
+  git format-patch -o ../rpi-patches-$RVER af42d3466bdc8f39806b26f593604fdc54140bcb
   cd ..
   #rm -fr rpi-linux-5
 fi
 
 if ! test -d linux-5 ; then
-  git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
+  git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.2.14/5.2.17/' linux-5/debian/changelog
+#sed -i -e '1 s/5.4~rc8/5.4/' linux-5/debian/changelog
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
 cd linux-5
@@ -80,11 +80,11 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0450-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch \
-	  bugfix/rpi/0455-ALSA-usb-audio-Add-DSD-support-for-Gustard-U16-X26-U.patch
+    rm -f bugfix/rpi/0351-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch \
+	  bugfix/rpi/0356-ALSA-usb-audio-Add-DSD-support-for-Gustard-U16-X26-U.patch
     ls bugfix/rpi/*.patch >> series
   popd
-  rm -f debian/abi/5.3.0-2/arm*
+  rm -f debian/abi/5.4.0-1/arm*
 fi
 
 if test $CROSS = 0 ; then
