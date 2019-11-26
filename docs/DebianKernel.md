@@ -8,7 +8,7 @@ How to compile your own kernel from current Debian git sources
 --------------------------------------------------------------
 
 The source code for the Debian Linux kernel is maintained within the [salsa gitlab server](https://salsa.debian.org/kernel-team/linux/commits/master).
-The [master](https://salsa.debian.org/kernel-team/linux/commits/master) branch currently is based on linux-5.3.y,
+The [master](https://salsa.debian.org/kernel-team/linux/commits/master) branch currently is based on linux-5.4.y,
 the [sid](https://salsa.debian.org/kernel-team/linux/commits/sid) branch is based on linux-5.3.y and
 the [buster](https://salsa.debian.org/kernel-team/linux/commits/buster) branch is based on linux-4.19.y.
 
@@ -18,13 +18,13 @@ and [kernel5.sh](https://github.com/laroche/arm-devel-infrastructure/blob/master
 
 You can also cross-compile armhf and arm64 kernels on amd64, also adding all raspberry-pi patches is fully scripted:
 ```shell
-# cross-compile a generic 5.2.y armhf kernel:
+# cross-compile a generic armhf kernel:
 ./kernel5.sh armhf
-# cross-compile a generic 5.2.y arm64 kernel:
+# cross-compile a generic arm64 kernel:
 ./kernel5.sh arm64
-# cross-compile a 5.2.y armhf kernel with all raspbian-pi patches included:
+# cross-compile a armhf kernel with all raspbian-pi patches included:
 ./kernel5.sh rpi-armhf
-# cross-compile a 5.2.y arm64 kernel with all raspbian-pi patches included:
+# cross-compile a arm64 kernel with all raspbian-pi patches included:
 ./kernel5.sh rpi-armhf
 ```
 
