@@ -22,9 +22,9 @@ You can also cross-compile armhf and arm64 kernels on amd64, also adding all ras
 ./kernel5.sh armhf
 # cross-compile a generic arm64 kernel:
 ./kernel5.sh arm64
-# cross-compile a armhf kernel with all raspbian-pi patches included:
+# cross-compile an armhf kernel with all raspbian-pi patches included:
 ./kernel5.sh rpi-armhf
-# cross-compile a arm64 kernel with all raspbian-pi patches included:
+# cross-compile an arm64 kernel with all raspbian-pi patches included:
 ./kernel5.sh rpi-armhf
 ```
 
