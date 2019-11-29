@@ -47,11 +47,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.4
+KVER=5.4.1
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.4.0
+  RVER=5.4.1
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -60,7 +60,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     git clone -b rpi-5.4.y https://github.com/raspberrypi/linux/ rpi-linux-5
   fi
   cd rpi-linux-5
-  git format-patch -o ../rpi-patches-$RVER af42d3466bdc8f39806b26f593604fdc54140bcb
+  git format-patch -o ../rpi-patches-$RVER 79438f37a69a80822333c86acb06a71abce1bce3
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -84,7 +84,7 @@ if test "$RPIPATCHES" = 1 ; then
 	  bugfix/rpi/0356-ALSA-usb-audio-Add-DSD-support-for-Gustard-U16-X26-U.patch
     ls bugfix/rpi/*.patch >> series
   popd
-  rm -f debian/abi/5.4.0-1/arm*
+  rm -f debian/abi/5.4.1-1/arm*
 fi
 
 if test $CROSS = 0 ; then
