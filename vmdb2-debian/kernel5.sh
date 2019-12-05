@@ -47,7 +47,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.4.1
+KVER=5.4.2
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -84,7 +84,7 @@ if test "$RPIPATCHES" = 1 ; then
 	  bugfix/rpi/0356-ALSA-usb-audio-Add-DSD-support-for-Gustard-U16-X26-U.patch
     ls bugfix/rpi/*.patch >> series
   popd
-  rm -f debian/abi/5.4.1-1/arm*
+  rm -f debian/abi/5.4.2-1/arm*
 fi
 
 if test $CROSS = 0 ; then
