@@ -163,3 +163,6 @@ if test $unstable = 0 -a ! -d /opt/qemu ; then
   #sudo make install
 fi
 
+apt clean
+apt update
+
