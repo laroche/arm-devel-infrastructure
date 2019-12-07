@@ -222,6 +222,8 @@ steps:
         sed -i -e 's/.dev.mmcblk0p2/LABEL=DEBROOT/g' /boot/firmware/cmdline.txt
       test -f /etc/default/raspi3-firmware && \
         sed -i -e 's,^#ROOTPART=/dev/mmcblk0p2$,ROOTPART="LABEL=DEBROOT",g' /etc/default/raspi3-firmware
+      test -f /etc/default/raspi-firmware && \
+        sed -i -e 's,^#ROOTPART=/dev/mmcblk0p2$,ROOTPART="LABEL=DEBROOT",g' /etc/default/raspi-firmware
 
       # https://unix.stackexchange.com/questions/318824/vim-cutpaste-not-working-in-stretch-debian-9
       # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=864074
