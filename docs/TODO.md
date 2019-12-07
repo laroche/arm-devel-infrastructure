@@ -9,8 +9,7 @@ partitioning and grub
 - Generated grub config shows too many entries from local system.
   Fixed by first update-grub invocation on an installed system.
 - grub installed into partition instead of full disk?
-- For msdos partitioning the 'boot' flag is not set. (No real problem.)
-- Check if the partioning is aligned properly.
+- Check if the partitioning is aligned properly.
 - grub keyboard layout is us, change this to de.
 - parted: check if "-4096"-bug can be fixed upstream. Is workaround possible?
 

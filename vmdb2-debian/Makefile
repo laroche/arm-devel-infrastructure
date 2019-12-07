@@ -9,6 +9,7 @@ release: debian-stable-amd64-$(DATE).zip debian-stable-amd64-efi-$(DATE).zip deb
 debian-amd64.img: debian-amd64.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-amd64.tar.gz --output debian-amd64.img debian-amd64.yaml --log debian-amd64.log --log-mode 0644
 	sudo chown $(USER) debian-amd64.img debian-amd64.log
+	sudo parted -s debian-amd64.img toggle 1 boot
 
 debian-unstable-amd64.yaml: debian-amd64.yaml
 	sed 's/qemu-debootstrap: buster/qemu-debootstrap: unstable/g' < debian-amd64.yaml | grep -v linux-image-rt > debian-unstable-amd64.yaml
@@ -16,6 +17,7 @@ debian-unstable-amd64.yaml: debian-amd64.yaml
 debian-unstable-amd64.img: debian-unstable-amd64.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-unstable-amd64.tar.gz --output debian-unstable-amd64.img debian-unstable-amd64.yaml --log debian-unstable-amd64.log --log-mode 0644
 	sudo chown $(USER) debian-unstable-amd64.img debian-unstable-amd64.log
+	sudo parted -s debian-unstable-amd64.img toggle 1 boot
 
 debian-amd64-efi.img: debian-amd64-efi.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-amd64-efi.tar.gz --output debian-amd64-efi.img debian-amd64-efi.yaml --log debian-amd64-efi.log --log-mode 0644
