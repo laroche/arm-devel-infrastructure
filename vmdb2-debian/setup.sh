@@ -106,6 +106,29 @@ if false ; then
   $apt install virtinst virt-manager
 
   $apt install qemu-system-arm qemu-efi minicom
+
+  # Eclipse
+  if ! test -e /usr/bin/eclipse ; then
+    wget -q http://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/2019-09/R/eclipse-cpp-2019-09-R-linux-gtk-x86_64.tar.gz
+    tar -zxf eclipse-cpp-2019-09-R-linux-gtk-x86_64.tar.gz -C /usr
+    ln -s /usr/eclipse/eclipse /usr/bin/eclipse
+    rm -f eclipse-cpp-2019-09-R-linux-gtk-x86_64.tar.gz
+    cat > /usr/share/applications/eclipse.desktop <<EOM
+[Desktop Entry]
+Encoding=UTF-8
+Name=Eclipse IDE
+Comment=Eclipse IDE
+Exec=/usr/bin/eclipse
+Icon=/usr/eclipse/icon.xpm
+Categories=Application;Development;Java;IDE
+Version=4.8
+Type=Application
+Terminal=0
+EOM
+  fi
+  $apt install default-jre
+
+  $apt install wine
 fi
 # Company dependent apps:
 if false ; then
