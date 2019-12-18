@@ -47,7 +47,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.4.3
+KVER=5.4.4
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
