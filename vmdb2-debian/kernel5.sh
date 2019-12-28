@@ -80,11 +80,10 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0351-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch \
-	  bugfix/rpi/0356-ALSA-usb-audio-Add-DSD-support-for-Gustard-U16-X26-U.patch
+    rm -f bugfix/rpi/0351-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch
     ls bugfix/rpi/*.patch >> series
   popd
-  rm -f debian/abi/5.4.2-1/arm*
+  rm -f debian/abi/5.4.6-1/arm*
 fi
 
 if test $CROSS = 0 ; then
