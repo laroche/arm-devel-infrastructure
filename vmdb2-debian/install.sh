@@ -5,7 +5,7 @@
 
 # release date to use:
 RDATE="20191208"
-# Select either "stable" or "unstable":
+# Select either "stable", "testing" or "unstable":
 TYPE="stable"
 
 # This is the name of the new system as well as the name of the hard disk for it:
