@@ -131,9 +131,12 @@ steps:
       echo "#net.ipv6.conf.all.disable_ipv6 = 1" > "${ROOT?}/etc/sysctl.d/01-disable-ipv6.conf"
       echo "#net.ipv6.conf.default.disable_ipv6 = 1" >> "${ROOT?}/etc/sysctl.d/01-disable-ipv6.conf"
 
-      if grep -q unstable ${ROOT?}/etc/apt/sources.list ; then
-      echo "deb http://deb.debian.org/debian/ unstable main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
-      echo "deb-src http://deb.debian.org/debian/ unstable main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+      if grep -q testing ${ROOT?}/etc/apt/sources.list ; then
+        echo "deb http://deb.debian.org/debian/ testing main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ testing main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+      elif grep -q unstable ${ROOT?}/etc/apt/sources.list ; then
+        echo "deb http://deb.debian.org/debian/ unstable main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ unstable main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
       else
       echo "deb http://deb.debian.org/debian/ buster main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
       echo "deb-src http://deb.debian.org/debian/ buster main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
@@ -228,7 +231,7 @@ steps:
       # https://unix.stackexchange.com/questions/318824/vim-cutpaste-not-working-in-stretch-debian-9
       # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=864074
       # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=837761#76
-      if grep -q unstable /etc/apt/sources.list ; then
+      if grep -q unstable /etc/apt/sources.list || grep -q testing /etc/apt/sources.list ; then
         sed -i -e '/has.*mouse/,+6s/^/"/' /usr/share/vim/vim81/defaults.vim
       else
         sed -i -e '/has.*mouse/,+2s/^/"/' /usr/share/vim/vim81/defaults.vim

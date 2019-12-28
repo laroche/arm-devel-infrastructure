@@ -3,4 +3,5 @@ debian-*.img
 debian-*.log
 debian-*.tar.gz
 debian-*.zip
+debian-testing-*.yaml
 debian-unstable-*.yaml
