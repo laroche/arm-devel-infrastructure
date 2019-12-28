@@ -10,7 +10,7 @@ See [https://www.debian.org/releases/](https://www.debian.org/releases/) for mor
 The 'unstable' distribution is always named 'sid'.
 
 If you are a developer and interested in the newest developments, I recommend
-installing the 'unstable' distribution.
+installing the 'testing' distribution.
 
 Other resources you might want to check out:
 
@@ -24,5 +24,5 @@ Other resources you might want to check out:
 - links for Germans:
   - [https://www.debian-paketmanagement.de/](https://www.debian-paketmanagement.de/)
   - [https://debianforum.de/forum/](https://debianforum.de/forum/)
-  - [https://www.linuxmintusers.de/index.php?action=wiki;page=Kurze_Einfuehrung](https://www.linuxmintusers.de/index.php?action=wiki;page=Kurze_Einfuehrung)
+  - [https://www.linuxmintusers.de/index.php?action=wiki;page=Kurze\_Einfuehrung](https://www.linuxmintusers.de/index.php?action=wiki;page=Kurze_Einfuehrung)
 

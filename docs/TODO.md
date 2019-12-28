@@ -34,10 +34,6 @@ kernel
 other
 -----
 
-- Install chromium directly from Google or are newer versions
-  available for stable? Resolve this by using unstable for now.
-  [https://wiki.debian.org/DebianRepository/Unofficial](https://wiki.debian.org/DebianRepository/Unofficial)
-  deb http://dl.google.com/linux/chrome/deb/ stable main
 - For documentation, check out [https://github.com/jekyll/jekyll](https://github.com/jekyll/jekyll) and hugo
   and improve appearance.
   [https://help.github.com/en/articles/customizing-css-and-html-in-your-jekyll-theme](https://help.github.com/en/articles/customizing-css-and-html-in-your-jekyll-theme)

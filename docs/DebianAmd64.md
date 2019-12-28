@@ -158,6 +158,6 @@ Here a few things you want todo on first login:
 - Change eth0 network configuration: `vim /etc/network/interfaces.d/eth0`
 - Configure a wireless adapter.
 - Update your software: `apt update; apt dist-upgrade; apt autoremove`
-- How to change from stable to unstable.
+- How to change from stable to testing/unstable.
 - Install an RT-kernel.
 
