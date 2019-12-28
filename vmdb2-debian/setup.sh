@@ -113,14 +113,17 @@ if false ; then
   $apt install qemu-system-arm qemu-efi minicom
 
   # Google chrome browser: (https://wiki.debian.org/DebianRepository/Unofficial)
+  if test "$HOSTTYPE" = "x86_64" ; then
   #wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
   #$apt install ./google-chrome-stable_current_amd64.deb
   wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
   echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
   apt update
   $apt install google-chrome-stable
+  fi
 
   # Eclipse
+  if test "$HOSTTYPE" = "x86_64" ; then
   if ! test -e /usr/bin/eclipse ; then
     wget -q http://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/2019-09/R/eclipse-cpp-2019-09-R-linux-gtk-x86_64.tar.gz
     tar -zxf eclipse-cpp-2019-09-R-linux-gtk-x86_64.tar.gz -C /usr
@@ -140,8 +143,10 @@ Terminal=0
 EOM
   fi
   $apt install default-jre
+  fi
 
   # visual studio code from https://code.visualstudio.com/docs/setup/linux
+  if test "$HOSTTYPE" = "x86_64" ; then
   if ! test -f /usr/share/keyrings/packages.microsoft.gpg ; then
     curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /usr/share/keyrings/packages.microsoft.gpg
   fi
@@ -154,12 +159,15 @@ EOM
   #echo "fs.inotify.max_user_watches=524288" > /etc/sysctl.d/10-visual-studio-code.conf
   # Launch VS Code Quick Open (Ctrl+P): ext install ms-vscode.cpptools
   # Launch VS Code Quick Open (Ctrl+P): ext install ms-python.python
+  fi
 
+  if test "$HOSTTYPE" = "x86_64" ; then
   if ! test -f /var/lib/dpkg/arch ; then
     dpkg --add-architecture i386
     apt update
   fi
   $apt install wine winetricks wine32
+  fi
 fi
 # Company dependent apps:
 if false ; then
