@@ -3,12 +3,12 @@ DATE := $(shell date +%Y%m%d)
 .PHONY: all release clean distclean tag
 
 all: debian-amd64.img debian-amd64-efi.img debian-rpi3-arm64.img debian-rpi3-armhf.img \
-    debian-testing-amd64.img debian-testing-amd64-efi.img debian-testing-rpi3-arm64.img debian-testing-rpi3-armhf.img \
-    #debian-unstable-amd64.img debian-unstable-amd64-efi.img debian-unstable-rpi3-arm64.img debian-unstable-rpi3-armhf.img
+    debian-testing-amd64.img debian-testing-amd64-efi.img debian-unstable-rpi3-arm64.img debian-testing-rpi3-armhf.img \
+    #debian-unstable-amd64.img debian-unstable-amd64-efi.img debian-testing-rpi3-arm64.img debian-unstable-rpi3-armhf.img
 
 release: debian-stable-amd64-$(DATE).zip debian-stable-amd64-efi-$(DATE).zip debian-stable-rpi3-arm64-$(DATE).zip debian-stable-rpi3-armhf-$(DATE).zip \
-    debian-testing-amd64-$(DATE).zip debian-testing-amd64-efi-$(DATE).zip debian-testing-rpi3-arm64-$(DATE).zip debian-testing-rpi3-armhf-$(DATE).zip \
-    #debian-unstable-amd64-$(DATE).zip debian-unstable-amd64-efi-$(DATE).zip debian-unstable-rpi3-arm64-$(DATE).zip debian-unstable-rpi3-armhf-$(DATE).zip
+    debian-testing-amd64-$(DATE).zip debian-testing-amd64-efi-$(DATE).zip debian-unstable-rpi3-arm64-$(DATE).zip debian-testing-rpi3-armhf-$(DATE).zip \
+    #debian-unstable-amd64-$(DATE).zip debian-unstable-amd64-efi-$(DATE).zip debian-testing-rpi3-arm64-$(DATE).zip debian-unstable-rpi3-armhf-$(DATE).zip
 
 debian-amd64.img: debian-amd64.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-amd64.tar.gz --output debian-amd64.img debian-amd64.yaml --log debian-amd64.log --log-mode 0644
