@@ -134,10 +134,10 @@ steps:
         echo "deb http://deb.debian.org/debian/ testing main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
         echo "deb-src http://deb.debian.org/debian/ testing main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
         echo >> ${ROOT?}/etc/apt/sources.list
-        echo "#deb http://deb.debian.org/debian/ testing-updates main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
+        echo "#deb http://deb.debian.org/debian/ testing-updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
         echo "#deb-src http://deb.debian.org/debian/ testing-updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
         echo >> ${ROOT?}/etc/apt/sources.list
-        echo "#deb http://deb.debian.org/debian-security testing-security main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
+        echo "#deb http://deb.debian.org/debian-security testing-security main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
         echo "#deb-src http://deb.debian.org/debian-security testing-security main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
         echo >> ${ROOT?}/etc/apt/sources.list
         echo "#deb http://security.debian.org testing-security main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
