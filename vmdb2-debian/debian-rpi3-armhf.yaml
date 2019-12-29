@@ -117,6 +117,12 @@ steps:
         install -m 600 -o root -g root authorized_keys "${ROOT?}/root/.ssh/authorized_keys"
       fi
 
+      if grep -q testing "${ROOT?}/etc/apt/sources.list" ; then
+        wget -q http://deb.debian.org/debian/pool/non-free/r/raspi-firmware/raspi-firmware_1.20190819-2_armhf.deb
+        apt install ./raspi-firmware_1.20190819-2_armhf.deb
+        rm -f raspi-firmware_1.20190819-2_armhf.deb
+      fi
+
       install -m 700 -o root -g root setup.sh "${ROOT?}/root/setup.sh"
 
       echo "LABEL=DEBROOT / ext4 rw 0 1" > "${ROOT?}/etc/fstab"
