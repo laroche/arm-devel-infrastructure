@@ -83,7 +83,7 @@ if test "$RPIPATCHES" = 1 ; then
     rm -f bugfix/rpi/0351-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch
     ls bugfix/rpi/*.patch >> series
   popd
-  rm -f debian/abi/5.4.6-1/arm*
+  rm -f debian/abi/5.4.0-1/arm*
 fi
 
 if test $CROSS = 0 ; then
