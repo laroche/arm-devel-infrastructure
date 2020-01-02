@@ -85,6 +85,7 @@ if test "$RPIPATCHES" = 1 ; then
   popd
   rm -f debian/abi/5.4.0-1/arm*
 fi
+rm -fr debian/abi/5.4.0-1
 
 if test $CROSS = 0 ; then
 
