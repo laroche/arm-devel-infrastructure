@@ -8,8 +8,8 @@ How to compile your own kernel from current Debian git sources
 --------------------------------------------------------------
 
 The source code for the Debian Linux kernel is maintained within the [salsa gitlab server](https://salsa.debian.org/kernel-team/linux/commits/master).
-The [master](https://salsa.debian.org/kernel-team/linux/commits/master) branch currently is based on linux-5.4.y,
-the [sid](https://salsa.debian.org/kernel-team/linux/commits/sid) branch is also based on linux-5.4.y and
+The [master](https://salsa.debian.org/kernel-team/linux/commits/master) branch currently is based on linux-5.5.y,
+the [sid](https://salsa.debian.org/kernel-team/linux/commits/sid) branch is based on linux-5.4.y and
 the [buster](https://salsa.debian.org/kernel-team/linux/commits/buster) branch is based on linux-4.19.y.
 
 You can checkout these branches and recompile locally a current Debian kernel with
@@ -51,6 +51,12 @@ dpkg -l linux-image-amd64
 echo linux-image-amd64 install | sudo dpkg --set-selections
 # list current status of the package:
 dpkg -l linux-image-amd64
+```
+
+Or you can use apt directly:
+
+```shell
+apt-mark hold linux-image-amd64
 ```
 
 
