@@ -110,6 +110,9 @@ if false ; then
   #gsettings set org.gnome.desktop.wm.keybindings switch-applications-backward "[]"
   #gsettings set org.gnome.shell.window-switcher current-workspace-only true
 
+  # Allow X11 apps over ssh to work:
+  $apt install xauth
+
   # virtualization support:
   $apt install virtinst virt-manager libguestfs-tools
 
