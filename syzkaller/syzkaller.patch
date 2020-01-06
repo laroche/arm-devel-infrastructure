@@ -39,7 +39,7 @@ index e69de29b..a6384142 100644
 +	"workdir": "./workdir",
 +	"kernel_obj": "../../../../../buildroot/output/build/linux-5.4.8/vmlinux",
 +	"kernel_src": "../../../../../buildroot/output/build/linux-5.4.8",
-+	"syzkaller": "."8
++	"syzkaller": ".",
 +	"image": "../../../../../buildroot/output/images/rootfs.ext2",
 +	"sandbox": "namespace",
 +	"reproduce": false,
