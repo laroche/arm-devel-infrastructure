@@ -47,11 +47,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.4.8
+KVER=5.4.10
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.4.7
+  RVER=5.4.8
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -60,7 +60,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     git clone -b rpi-5.4.y https://github.com/raspberrypi/linux/ rpi-linux-5
   fi
   cd rpi-linux-5
-  git format-patch -o ../rpi-patches-$RVER 122179cb7d648a6f36b20dd6bf34f953cb384c30
+  git format-patch -o ../rpi-patches-$RVER 5825c88e96518d8793f99e8c70aa0b0396642b45
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -69,7 +69,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.4~rc8/5.4/' linux-5/debian/changelog
+sed -i -e '1 s/5.4.8-2/5.4.10-2/' linux-5/debian/changelog
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
 cd linux-5
