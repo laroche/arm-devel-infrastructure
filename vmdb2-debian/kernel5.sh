@@ -47,11 +47,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.4.11
+KVER=5.4.12
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.4.8
+  RVER=5.4.11
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -60,7 +60,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     git clone -b rpi-5.4.y https://github.com/raspberrypi/linux/ rpi-linux-5
   fi
   cd rpi-linux-5
-  git format-patch -o ../rpi-patches-$RVER 5825c88e96518d8793f99e8c70aa0b0396642b45
+  git format-patch -o ../rpi-patches-$RVER 9d61432efb21c224b710f397809f3a4fef281f9c
   cd ..
   #rm -fr rpi-linux-5
 fi
