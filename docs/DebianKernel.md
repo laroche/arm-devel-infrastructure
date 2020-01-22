@@ -33,6 +33,9 @@ You can download already compiled kernels from the [release page](https://github
 This mailinglist discusses rpi support for the upstream/mainline kernel:
 [http://lists.infradead.org/pipermail/linux-rpi-kernel/](http://lists.infradead.org/pipermail/linux-rpi-kernel/)
 
+German Heise to current Raspi-4 Support:
+[https://www.heise.de/ct/artikel/Linux-5-5-Raspi-4-Unterstuetzung-reift-32-Bit-x86-Support-verkuemmert-4605827.html](https://www.heise.de/ct/artikel/Linux-5-5-Raspi-4-Unterstuetzung-reift-32-Bit-x86-Support-verkuemmert-4605827.html)
+
 
 Blocking kernel updates with dpkg
 ---------------------------------

@@ -69,7 +69,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.4.12-1/5.4.13-1/' linux-5/debian/changelog
+#sed -i -e '1 s/5.4.12-1/5.4.13-1/' linux-5/debian/changelog
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
 cd linux-5
