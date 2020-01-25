@@ -9,6 +9,21 @@
 
 NEWUSER=max
 
+# Non-root adjustments that can be done after running setup.sh as root:
+if test "X$UID" != "X0" ; then
+  # https://superuser.com/questions/394376/how-to-prevent-gnome-shells-alttab-from-grouping-windows-from-similar-apps
+  #dconf write /org/gnome/desktop/wm/keybindings/switch-applications
+  #dconf write /org/gnome/desktop/wm/keybindings/switch-applications-backward
+  #dconf write /org/gnome/desktop/wm/keybindings/switch-windows "['<Super>Tab', '<Alt>Tab']"
+  #dconf write /org/gnome/desktop/wm/keybindings/switch-windows-backward "['<Shift><Super>Tab', '<Shift><Alt>Tab']"
+  gsettings set org.gnome.desktop.wm.keybindings switch-applications "[]"
+  gsettings set org.gnome.desktop.wm.keybindings switch-applications-backward "[]"
+  gsettings set org.gnome.desktop.wm.keybindings switch-windoes "['<Super>Tab', '<Alt>Tab']"
+  gsettings set org.gnome.desktop.wm.keybindings switch-windoes-backward "['<Shift><Super>Tab', '<Shift><Alt>Tab']"
+  #gsettings set org.gnome.shell.window-switcher current-workspace-only true
+  exit 0
+fi
+
 # check if we run as root
 if test "X$UID" != "X0" ; then
   echo "Please run as root."
@@ -101,14 +116,6 @@ if false ; then
   $apt install libreoffice libreoffice-help-de libreoffice-l10n-de
   $apt install rdesktop dconf-editor imagemagick mesa-utils inxi
   $apt install network-manager-openconnect-gnome
-  # https://superuser.com/questions/394376/how-to-prevent-gnome-shells-alttab-from-grouping-windows-from-similar-apps
-  #dconf write /org/gnome/desktop/wm/keybindings/switch-applications
-  #dconf write /org/gnome/desktop/wm/keybindings/switch-applications-backward
-  #dconf write /org/gnome/desktop/wm/keybindings/switch-windows "['<Super>Tab', '<Alt>Tab']"
-  #dconf write /org/gnome/desktop/wm/keybindings/switch-windows-backward "['<Shift><Super>Tab', '<Shift><Alt>Tab']"
-  #gsettings set org.gnome.desktop.wm.keybindings switch-applications "[]"
-  #gsettings set org.gnome.desktop.wm.keybindings switch-applications-backward "[]"
-  #gsettings set org.gnome.shell.window-switcher current-workspace-only true
 
   # Allow X11 apps over ssh to work:
   $apt install xauth
@@ -120,12 +127,12 @@ if false ; then
 
   # Google chrome browser: (https://wiki.debian.org/DebianRepository/Unofficial)
   if test "$HOSTTYPE" = "x86_64" ; then
-  #wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-  #$apt install ./google-chrome-stable_current_amd64.deb
-  wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-  echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
-  apt update
-  $apt install google-chrome-stable
+    #wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    #$apt install ./google-chrome-stable_current_amd64.deb
+    wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
+    apt update
+    $apt install google-chrome-stable
   fi
 
   # Eclipse
@@ -168,11 +175,11 @@ EOM
   fi
 
   if test "$HOSTTYPE" = "x86_64" ; then
-  if ! test -f /var/lib/dpkg/arch ; then
-    dpkg --add-architecture i386
-    apt update
-  fi
-  $apt install wine winetricks wine32
+    if ! test -f /var/lib/dpkg/arch ; then
+      dpkg --add-architecture i386
+      apt update
+    fi
+    $apt install wine winetricks wine32
   fi
 fi
 # Company dependent apps:
