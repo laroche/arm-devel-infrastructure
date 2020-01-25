@@ -80,10 +80,10 @@ steps:
     - wpasupplicant
     # amd64:
     - grub-pc
-    - memtest86+
+    #- memtest86+
     - firmware-linux
     - linux-image-amd64
-    - linux-image-rt-amd64
+    #- linux-image-rt-amd64
     tag: rootfs
     unless: rootfs_unpacked
 

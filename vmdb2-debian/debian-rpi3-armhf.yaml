@@ -97,7 +97,7 @@ steps:
     - firmware-brcm80211
     - raspi3-firmware
     - linux-image-armmp
-    - linux-image-rt-armmp
+    #- linux-image-rt-armmp
     tag: rootfs
     unless: rootfs_unpacked
 
@@ -193,6 +193,7 @@ steps:
 
   - chroot: rootfs
     shell: |
+      apt update
       systemctl enable ssh.service
 
       echo "tzdata tzdata/Areas select Europe" | debconf-set-selections

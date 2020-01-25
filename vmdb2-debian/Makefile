@@ -16,7 +16,7 @@ debian-amd64.img: debian-amd64.yaml
 	sudo parted -s debian-amd64.img toggle 1 boot
 
 debian-testing-amd64.yaml: debian-amd64.yaml
-	sed 's/qemu-debootstrap: buster/qemu-debootstrap: testing/g' < debian-amd64.yaml | grep -v linux-image-rt > debian-testing-amd64.yaml
+	sed 's/qemu-debootstrap: buster/qemu-debootstrap: testing/g' < debian-amd64.yaml > debian-testing-amd64.yaml
 
 debian-testing-amd64.img: debian-testing-amd64.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-testing-amd64.tar.gz --output debian-testing-amd64.img debian-testing-amd64.yaml --log debian-testing-amd64.log --log-mode 0644
@@ -24,7 +24,7 @@ debian-testing-amd64.img: debian-testing-amd64.yaml
 	sudo parted -s debian-testing-amd64.img toggle 1 boot
 
 debian-unstable-amd64.yaml: debian-amd64.yaml
-	sed 's/qemu-debootstrap: buster/qemu-debootstrap: unstable/g' < debian-amd64.yaml | grep -v linux-image-rt > debian-unstable-amd64.yaml
+	sed 's/qemu-debootstrap: buster/qemu-debootstrap: unstable/g' < debian-amd64.yaml > debian-unstable-amd64.yaml
 
 debian-unstable-amd64.img: debian-unstable-amd64.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-unstable-amd64.tar.gz --output debian-unstable-amd64.img debian-unstable-amd64.yaml --log debian-unstable-amd64.log --log-mode 0644
@@ -36,14 +36,14 @@ debian-amd64-efi.img: debian-amd64-efi.yaml
 	sudo chown $(USER) debian-amd64-efi.img debian-amd64-efi.log
 
 debian-testing-amd64-efi.yaml: debian-amd64-efi.yaml
-	sed 's/qemu-debootstrap: buster/qemu-debootstrap: testing/g' < debian-amd64-efi.yaml | grep -v linux-image-rt > debian-testing-amd64-efi.yaml
+	sed 's/qemu-debootstrap: buster/qemu-debootstrap: testing/g' < debian-amd64-efi.yaml > debian-testing-amd64-efi.yaml
 
 debian-testing-amd64-efi.img: debian-testing-amd64-efi.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-testing-amd64-efi.tar.gz --output debian-testing-amd64-efi.img debian-testing-amd64-efi.yaml --log debian-testing-amd64-efi.log --log-mode 0644
 	sudo chown $(USER) debian-testing-amd64-efi.img debian-testing-amd64-efi.log
 
 debian-unstable-amd64-efi.yaml: debian-amd64-efi.yaml
-	sed 's/qemu-debootstrap: buster/qemu-debootstrap: unstable/g' < debian-amd64-efi.yaml | grep -v linux-image-rt > debian-unstable-amd64-efi.yaml
+	sed 's/qemu-debootstrap: buster/qemu-debootstrap: unstable/g' < debian-amd64-efi.yaml > debian-unstable-amd64-efi.yaml
 
 debian-unstable-amd64-efi.img: debian-unstable-amd64-efi.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-unstable-amd64-efi.tar.gz --output debian-unstable-amd64-efi.img debian-unstable-amd64-efi.yaml --log debian-unstable-amd64-efi.log --log-mode 0644
@@ -72,14 +72,14 @@ debian-rpi3-armhf.img: debian-rpi3-armhf.yaml
 	sudo chown $(USER) debian-rpi3-armhf.img debian-rpi3-armhf.log
 
 debian-testing-rpi3-armhf.yaml: debian-rpi3-armhf.yaml
-	sed 's/qemu-debootstrap: buster/qemu-debootstrap: testing/g' < debian-rpi3-armhf.yaml | grep -v linux-image-rt | sed -e "s/- raspi3-firmware/- raspi-firmware/g" > debian-testing-rpi3-armhf.yaml
+	sed 's/qemu-debootstrap: buster/qemu-debootstrap: testing/g' < debian-rpi3-armhf.yaml | sed -e "s/- raspi3-firmware/- raspi-firmware/g" > debian-testing-rpi3-armhf.yaml
 
 debian-testing-rpi3-armhf.img: debian-testing-rpi3-armhf.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-testing-rpi3-armhf.tar.gz --output debian-testing-rpi3-armhf.img debian-testing-rpi3-armhf.yaml --log debian-testing-rpi3-armhf.log --log-mode 0644
 	sudo chown $(USER) debian-testing-rpi3-armhf.img debian-testing-rpi3-armhf.log
 
 debian-unstable-rpi3-armhf.yaml: debian-rpi3-armhf.yaml
-	sed 's/qemu-debootstrap: buster/qemu-debootstrap: unstable/g' < debian-rpi3-armhf.yaml | grep -v linux-image-rt | sed -e "s/- raspi3-firmware/- raspi-firmware/g" > debian-unstable-rpi3-armhf.yaml
+	sed 's/qemu-debootstrap: buster/qemu-debootstrap: unstable/g' < debian-rpi3-armhf.yaml | sed -e "s/- raspi3-firmware/- raspi-firmware/g" > debian-unstable-rpi3-armhf.yaml
 
 debian-unstable-rpi3-armhf.img: debian-unstable-rpi3-armhf.yaml
 	sudo env -i LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-unstable-rpi3-armhf.tar.gz --output debian-unstable-rpi3-armhf.img debian-unstable-rpi3-armhf.yaml --log debian-unstable-rpi3-armhf.log --log-mode 0644
