@@ -109,10 +109,7 @@ if false ; then
   #$apt install xfce4 lightdm synaptic menu
   #$apt install aptitude
   tasksel install gnome-desktop --new-install
-  $apt install firefox-esr firefox-esr-l10n-de vlc
-  if test $testing = 0 ; then
-    $apt install chromium chromium-l10n
-  fi
+  $apt install firefox-esr firefox-esr-l10n-de vlc chromium chromium-l10n
   $apt install libreoffice libreoffice-help-de libreoffice-l10n-de
   $apt install rdesktop dconf-editor imagemagick mesa-utils inxi
   $apt install network-manager-openconnect-gnome
