@@ -47,7 +47,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.4.15
+KVER=5.4.16
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -69,9 +69,10 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.4.13-2/5.4.15-2/' linux-5/debian/changelog
+sed -i -e '1 s/5.4.13-2/5.4.16-2/' linux-5/debian/changelog
 sed -i -e 's,bugfix/all/i40e-prevent-memory-leak-in-i40e_setup_macvlans.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,bugfix/all/ipmi-Fix-memory-leak-in-__ipmi_bmc_register.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,bugfix/all/do_last-fetch-directory-i_mode-and-i_uid-before-it-s.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,workqueue-Convert-for_each_wq-to-use-built-in-list-c.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
@@ -84,7 +85,8 @@ if test "$RPIPATCHES" = 1 ; then
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     rm -f bugfix/rpi/0351-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch \
-          bugfix/rpi/0428-net-usb-lan78xx-limit-size-of-local-TSO-packets.patch
+          bugfix/rpi/0428-net-usb-lan78xx-limit-size-of-local-TSO-packets.patch \
+          bugfix/rpi/0435-net-usb-lan78xx-Add-.ndo_features_check.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.4.0-?/arm*
