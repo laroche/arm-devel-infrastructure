@@ -51,7 +51,7 @@ KVER=5.4.16
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.4.13
+  RVER=5.4.16
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -60,7 +60,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     git clone -b rpi-5.4.y https://github.com/raspberrypi/linux/ rpi-linux-5
   fi
   cd rpi-linux-5
-  git format-patch -o ../rpi-patches-$RVER ba19874032074ca5a3817ae82ebae27bd3343551
+  git format-patch -o ../rpi-patches-$RVER 60b6aa2b71efa7e0bd5393ce292ace4a0cf2e71b
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -84,9 +84,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0351-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch \
-          bugfix/rpi/0428-net-usb-lan78xx-limit-size-of-local-TSO-packets.patch \
-          bugfix/rpi/0435-net-usb-lan78xx-Add-.ndo_features_check.patch
+    rm -f bugfix/rpi/0351-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.4.0-?/arm*
