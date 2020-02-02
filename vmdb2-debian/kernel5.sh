@@ -47,7 +47,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.4.16
+KVER=5.4.17
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -69,7 +69,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.4.13-2/5.4.16-2/' linux-5/debian/changelog
+sed -i -e '1 s/5.4.13-2/5.4.17-2/' linux-5/debian/changelog
 sed -i -e 's,bugfix/all/i40e-prevent-memory-leak-in-i40e_setup_macvlans.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,bugfix/all/ipmi-Fix-memory-leak-in-__ipmi_bmc_register.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,bugfix/all/do_last-fetch-directory-i_mode-and-i_uid-before-it-s.patch,,g' linux-5/debian/patches/series
@@ -84,7 +84,8 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0351-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch
+    rm -f bugfix/rpi/0351-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch \
+          bugfix/rpi/0303-hid-usb-Add-device-quirks-for-Freeway-Airmouse-T3-an.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.4.0-?/arm*
