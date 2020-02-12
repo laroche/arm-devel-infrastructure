@@ -59,7 +59,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   if test ! -d rpi-linux-5 ; then
     git clone -b rpi-5.4.y https://github.com/raspberrypi/linux/ rpi-linux-5
   fi
-  cd rpi-linux-5
+  cd rpi-linux-5 || exit 1
   git format-patch -o ../rpi-patches-$RVER 58c72057f662cee4ec2aaab9be1abeced884814a
   cd ..
   #rm -fr rpi-linux-5
@@ -74,7 +74,7 @@ fi
 #sed -i -e 's,workqueue-Convert-for_each_wq-to-use-built-in-list-c.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
-cd linux-5
+cd linux-5 || exit 1
 test -f ../orig/linux_$KVER.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py ../linux-$KVER.tar.xz
 # Just to safe disk space and have a faster compile:
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
@@ -82,7 +82,9 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0351-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch
+    rm -f bugfix/rpi/0351-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch \
+          bugfix/rpi/0084-OF-DT-Overlay-configfs-interface.patch \
+          bugfix/rpi/0121-of-configfs-Use-of_overlay_fdt_apply-API-call.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.4.0-?/arm*
