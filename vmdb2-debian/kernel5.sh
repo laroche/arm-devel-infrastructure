@@ -71,7 +71,7 @@ fi
 # Change Debian source to new version:
 sed -i -e '1 s/5.4.19-1/5.4.20-1/' linux-5/debian/changelog
 #sed -i -e 's,bugfix/all/i40e-prevent-memory-leak-in-i40e_setup_macvlans.patch,,g' linux-5/debian/patches/series
-#sed -i -e 's,workqueue-Convert-for_each_wq-to-use-built-in-list-c.patch,,g' linux-5/debian/patches-rt/series
+sed -i -e 's,powerpc-pseries-iommu-Use-a-locallock-instead-local_ir.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
 cd linux-5 || exit 1
