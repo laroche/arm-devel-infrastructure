@@ -4,7 +4,7 @@
 #
 
 # release date to use:
-RDATE="20200125"
+RDATE="20200219"
 # Select either "stable", "testing" or "unstable":
 TYPE="testing"
 
