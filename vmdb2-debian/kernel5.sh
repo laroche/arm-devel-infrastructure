@@ -70,7 +70,8 @@ if ! test -d linux-5 ; then
 fi
 # Change Debian source to new version:
 sed -i -e '1 s/5.4.19-1/5.4.22-1/' linux-5/debian/changelog
-#sed -i -e 's,bugfix/all/i40e-prevent-memory-leak-in-i40e_setup_macvlans.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,bugfix/all/tools-lib-api-fs-fs.c-fix-misuse-of-strncpy.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,bugfix/all/usbip-network-fix-unaligned-member-access.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,powerpc-pseries-iommu-Use-a-locallock-instead-local_ir.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's,0006-jbd2-Make-state-lock-a-spinlock.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
