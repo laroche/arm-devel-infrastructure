@@ -47,11 +47,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.4.21
+KVER=5.4.22
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.4.18
+  RVER=5.4.22
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -60,7 +60,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     git clone -b rpi-5.4.y https://github.com/raspberrypi/linux/ rpi-linux-5
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 58c72057f662cee4ec2aaab9be1abeced884814a
+  git format-patch -o ../rpi-patches-$RVER f22dcb31727e3cf31a9143437f134ea133021982
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -69,9 +69,10 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.4.19-1/5.4.21-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.4.19-1/5.4.22-1/' linux-5/debian/changelog
 #sed -i -e 's,bugfix/all/i40e-prevent-memory-leak-in-i40e_setup_macvlans.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,powerpc-pseries-iommu-Use-a-locallock-instead-local_ir.patch,,g' linux-5/debian/patches-rt/series
+sed -i -e 's,0006-jbd2-Make-state-lock-a-spinlock.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
 cd linux-5 || exit 1
