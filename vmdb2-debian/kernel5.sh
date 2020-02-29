@@ -72,14 +72,15 @@ fi
 sed -i -e '1 s/5.4.19-1/5.4.22-1/' linux-5/debian/changelog
 sed -i -e 's,bugfix/all/tools-lib-api-fs-fs.c-fix-misuse-of-strncpy.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,bugfix/all/usbip-network-fix-unaligned-member-access.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,powerpc-pseries-iommu-Use-a-locallock-instead-local_ir.patch,,g' linux-5/debian/patches-rt/series
-sed -i -e 's,0006-jbd2-Make-state-lock-a-spinlock.patch,,g' linux-5/debian/patches-rt/series
+#sed -i -e 's,powerpc-pseries-iommu-Use-a-locallock-instead-local_ir.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
 cd linux-5 || exit 1
 test -f ../orig/linux_$KVER.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py ../linux-$KVER.tar.xz
 # Just to safe disk space and have a faster compile:
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
+# Disable RT builds:
+sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
 if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
