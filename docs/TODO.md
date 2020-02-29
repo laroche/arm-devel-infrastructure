@@ -10,14 +10,14 @@ partitioning and grub
   Fixed by first update-grub invocation on an installed system.
 - grub installed into partition instead of full disk?
 - Check if the partitioning is aligned properly.
-- grub keyboard layout is us, change this to de.
+- grub keyboard layout is "us", change this to "de".
 - parted: check if "-4096"-bug can be fixed upstream. Is workaround possible?
 
 
 docu
 ----
 
-- Mention de specific configurations in docu.
+- Mention "de" specific configurations in docu.
 
 
 kernel
@@ -38,4 +38,6 @@ other
   and improve appearance.
   [https://help.github.com/en/articles/customizing-css-and-html-in-your-jekyll-theme](https://help.github.com/en/articles/customizing-css-and-html-in-your-jekyll-theme)
 - Disable unattended apt package updates during tests.
+- In setup.sh can we check if "apt update" fails, so we can exit early?
+- If not connected to the Internet, ntpd logs often about failed DNS resolver. Rate limit logging.
 
