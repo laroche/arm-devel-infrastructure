@@ -19,6 +19,8 @@ Other resources you might want to check out:
 - The [Debian gitlab server](https://salsa.debian.org/) with e.g.
   the [Debian Linux kernel source repository](https://salsa.debian.org/kernel-team/linux/commits/master).
 - The [Debian bug database](https://www.debian.org/Bugs/).
+- For individual Debian packages, a nice overview page e.g. for the Linux kernel is available
+  at [https://tracker.debian.org/pkg/linux](https://tracker.debian.org/pkg/linux).
 - [development server machines](https://db.debian.org/machines.cgi) at Debian.
 - [Debian build server](https://buildd.debian.org/status/)
 - links for Germans:
