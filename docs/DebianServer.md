@@ -11,4 +11,5 @@ Webserver and SSL certificates
 - https://ssl-config.mozilla.org/
 - https://wiki.mozilla.org/Security/Server_Side_TLS
 - https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices
+- https://istlsfastyet.com/
 
