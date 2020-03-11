@@ -18,8 +18,8 @@ if test "X$UID" != "X0" ; then
   #dconf write /org/gnome/desktop/wm/keybindings/switch-windows-backward "['<Shift><Super>Tab', '<Shift><Alt>Tab']"
   gsettings set org.gnome.desktop.wm.keybindings switch-applications "[]"
   gsettings set org.gnome.desktop.wm.keybindings switch-applications-backward "[]"
-  gsettings set org.gnome.desktop.wm.keybindings switch-windoes "['<Super>Tab', '<Alt>Tab']"
-  gsettings set org.gnome.desktop.wm.keybindings switch-windoes-backward "['<Shift><Super>Tab', '<Shift><Alt>Tab']"
+  gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Super>Tab', '<Alt>Tab']"
+  gsettings set org.gnome.desktop.wm.keybindings switch-windows-backward "['<Shift><Super>Tab', '<Shift><Alt>Tab']"
   #gsettings set org.gnome.shell.window-switcher current-workspace-only true
   exit 0
 fi
