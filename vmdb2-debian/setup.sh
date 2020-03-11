@@ -21,6 +21,8 @@ if test "X$UID" != "X0" ; then
   gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Super>Tab', '<Alt>Tab']"
   gsettings set org.gnome.desktop.wm.keybindings switch-windows-backward "['<Shift><Super>Tab', '<Shift><Alt>Tab']"
   #gsettings set org.gnome.shell.window-switcher current-workspace-only true
+  # add min/max to title:
+  gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
   exit 0
 fi
 
