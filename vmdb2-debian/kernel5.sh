@@ -47,11 +47,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.4.24
+KVER=5.4.25
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.4.22
+  RVER=5.4.24
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -60,7 +60,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     git clone -b rpi-5.4.y https://github.com/raspberrypi/linux/ rpi-linux-5
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER f22dcb31727e3cf31a9143437f134ea133021982
+  git format-patch -o ../rpi-patches-$RVER cff670b3eb68257029e2977a6bfeac7d9b829e9a
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -69,7 +69,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.4.19-1/5.4.24-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.4.19-1/5.4.25-1/' linux-5/debian/changelog
 sed -i -e 's,bugfix/all/tools-lib-api-fs-fs.c-fix-misuse-of-strncpy.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,bugfix/all/usbip-network-fix-unaligned-member-access.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,powerpc-pseries-iommu-Use-a-locallock-instead-local_ir.patch,,g' linux-5/debian/patches-rt/series
@@ -85,9 +85,9 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0351-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch \
-          bugfix/rpi/0084-OF-DT-Overlay-configfs-interface.patch \
-          bugfix/rpi/0121-of-configfs-Use-of_overlay_fdt_apply-API-call.patch
+    rm -f bugfix/rpi/0351-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch
+#          bugfix/rpi/0084-OF-DT-Overlay-configfs-interface.patch \
+#          bugfix/rpi/0121-of-configfs-Use-of_overlay_fdt_apply-API-call.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.4.0-?/arm*
