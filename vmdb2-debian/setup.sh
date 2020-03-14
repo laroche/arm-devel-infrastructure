@@ -105,6 +105,7 @@ fi
 # Run updates:
 apt update
 $apt dist-upgrade
+apt autoremove
 
 # Install some GUI and desktop apps:
 if false ; then
