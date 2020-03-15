@@ -72,6 +72,10 @@ fi
 sed -i -e '1 s/5.4.19-1/5.4.25-1/' linux-5/debian/changelog
 sed -i -e 's,bugfix/all/tools-lib-api-fs-fs.c-fix-misuse-of-strncpy.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,bugfix/all/usbip-network-fix-unaligned-member-access.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,features/all/db-mok-keyring/0006-Make-get_cert_list-not-complain-about-cert-lists-tha.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,features/all/db-mok-keyring/0001-MODSIGN-do-not-load-mok-when-secure-boot-disabled.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,features/all/db-mok-keyring/0002-MODSIGN-load-blacklist-from-MOKx.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,features/all/db-mok-keyring/0004-MODSIGN-check-the-attributes-of-db-and-mok.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,powerpc-pseries-iommu-Use-a-locallock-instead-local_ir.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
@@ -85,9 +89,8 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0351-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch
-#          bugfix/rpi/0084-OF-DT-Overlay-configfs-interface.patch \
-#          bugfix/rpi/0121-of-configfs-Use-of_overlay_fdt_apply-API-call.patch
+    rm -f bugfix/rpi/0351-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch \
+          bugfix/rpi/0487-ASoC-pcm512x-Fix-unbalanced-regulator-enable-call-in.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.4.0-?/arm*
