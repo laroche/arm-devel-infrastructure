@@ -77,6 +77,8 @@ sed -i -e 's,features/all/db-mok-keyring/0001-MODSIGN-do-not-load-mok-when-secur
 sed -i -e 's,features/all/db-mok-keyring/0002-MODSIGN-load-blacklist-from-MOKx.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,features/all/db-mok-keyring/0004-MODSIGN-check-the-attributes-of-db-and-mok.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,powerpc-pseries-iommu-Use-a-locallock-instead-local_ir.patch,,g' linux-5/debian/patches-rt/series
+sed -i -e 's/^CONFIG_PCI_AARDVARK=y/# CONFIG_PCI_AARDVARK is not set/' linux-5/debian/config/arm64/config
+sed -i -e 's/^CONFIG_PCIE_ROCKCHIP_HOST=y/# CONFIG_PCIE_ROCKCHIP_HOST is not set/' linux-5/debian/config/arm64/config
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
 cd linux-5 || exit 1
