@@ -60,7 +60,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     git clone -b rpi-5.5.y https://github.com/raspberrypi/linux/ rpi-linux-5
   else
     pushd rpi-linux-5
-    git checkout rpi-5.4.y
+    git checkout rpi-5.5.y
     popd
   fi
   cd rpi-linux-5 || exit 1
