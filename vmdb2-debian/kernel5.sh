@@ -58,6 +58,10 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   # Extract the raspberry-pi patches into a subdirectory:
   if test ! -d rpi-linux-5 ; then
     git clone -b rpi-5.4.y https://github.com/raspberrypi/linux/ rpi-linux-5
+  else
+    pushd rpi-linux-5
+    git checkout rpi-5.4.y
+    popd
   fi
   cd rpi-linux-5 || exit 1
   git format-patch -o ../rpi-patches-$RVER cff670b3eb68257029e2977a6bfeac7d9b829e9a
