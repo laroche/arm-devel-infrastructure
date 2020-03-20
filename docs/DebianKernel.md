@@ -37,7 +37,7 @@ This mailinglist discusses rpi support for the upstream/mainline kernel:
 German Heise to current Raspi-4 Support:
 [https://www.heise.de/ct/artikel/Linux-5-5-Raspi-4-Unterstuetzung-reift-32-Bit-x86-Support-verkuemmert-4605827.html](https://www.heise.de/ct/artikel/Linux-5-5-Raspi-4-Unterstuetzung-reift-32-Bit-x86-Support-verkuemmert-4605827.html)
 
-UEFI firmware for Raspberry Pi 4B: https://rpi4-uefi.dev/
+UEFI firmware for Raspberry Pi 4B: [https://rpi4-uefi.dev/](https://rpi4-uefi.dev/)
 
 
 Blocking kernel updates with dpkg
