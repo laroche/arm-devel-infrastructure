@@ -6,7 +6,8 @@ current versions, but you can compile the current qemu release yourself.
 A good target for installation is `/opt/qemu`. (Check
 [qemu download](https://www.qemu.org/download/#source) as reference.)
 
-As of december 2019, Debian testing/unstable contains qemu-4.1.0.
+As of feb 2020, Debian testing/unstable contains qemu-4.2.0:
+[https://tracker.debian.org/pkg/qemu](https://tracker.debian.org/pkg/qemu).
 
 Download, compile and install a current qemu to `/opt/qemu`:
 ```shell
