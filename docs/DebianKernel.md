@@ -13,8 +13,9 @@ the [sid](https://salsa.debian.org/kernel-team/linux/commits/sid) branch is base
 the [buster](https://salsa.debian.org/kernel-team/linux/commits/buster) branch is based on linux-4.19.y.
 
 You can checkout these branches and recompile locally a current Debian kernel with
-these scripts: [kernel.sh](https://github.com/laroche/arm-devel-infrastructure/blob/master/vmdb2-debian/kernel.sh)
-and [kernel5.sh](https://github.com/laroche/arm-devel-infrastructure/blob/master/vmdb2-debian/kernel.sh).
+these scripts: [kernel.sh](https://github.com/laroche/arm-devel-infrastructure/blob/master/vmdb2-debian/kernel.sh),
+[kernel5.sh](https://github.com/laroche/arm-devel-infrastructure/blob/master/vmdb2-debian/kernel5.sh) and
+[kernel55.sh](https://github.com/laroche/arm-devel-infrastructure/blob/master/vmdb2-debian/kernel55.sh).
 
 You can also cross-compile armhf and arm64 kernels on amd64, also adding all raspberry-pi patches is fully scripted:
 ```shell
