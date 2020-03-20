@@ -3,11 +3,14 @@ RealTime (RT) Linux
 
 General introduction
 --------------------
+
 - [https://en.wikipedia.org/wiki/Real-time_computing](https://en.wikipedia.org/wiki/Real-time_computing)
 - [https://lwn.net/Articles/397422/](https://lwn.net/Articles/397422/)
 
+
 Current upstream developments and discussions
 ---------------------------------------------
+
 - Newest RT patches are available at [https://cdn.kernel.org/pub/linux/kernel/projects/rt/](https://cdn.kernel.org/pub/linux/kernel/projects/rt/).
 - RT Mailinglist: [http://vger.kernel.org/vger-lists.html#linux-rt-users](http://vger.kernel.org/vger-lists.html#linux-rt-users)
 - Upstream is discussing a merge of the RT patches into the official kernel.
@@ -30,6 +33,7 @@ Current upstream developments and discussions
 - [https://www.osadl.org/Realtime-Linux.projects-realtime-linux.0.html](https://www.osadl.org/Realtime-Linux.projects-realtime-linux.0.html)
   - [https://www.osadl.org/Latency-plots.latency-plots.0.html](https://www.osadl.org/Latency-plots.latency-plots.0.html)
 - [https://www.osadl.org/Safety-Critical-Linux.safety-critical-linux.0.html](https://www.osadl.org/Safety-Critical-Linux.safety-critical-linux.0.html)
+
 
 Related
 -------

@@ -40,6 +40,12 @@ German Heise to current Raspi-4 Support:
 UEFI firmware for Raspberry Pi 4B: [https://rpi4-uefi.dev/](https://rpi4-uefi.dev/)
 
 
+openocd and JTAG
+----------------
+
+openocd and JTAG setup for RaspberryPi 3B: [https://metebalci.com/blog/bare-metal-raspberry-pi-3b-jtag/](https://metebalci.com/blog/bare-metal-raspberry-pi-3b-jtag/)
+
+
 Blocking kernel updates with dpkg
 ---------------------------------
 
