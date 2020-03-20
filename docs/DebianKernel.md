@@ -26,7 +26,7 @@ You can also cross-compile armhf and arm64 kernels on amd64, also adding all ras
 # cross-compile an armhf kernel with all raspbian-pi patches included:
 ./kernel5.sh rpi-armhf
 # cross-compile an arm64 kernel with all raspbian-pi patches included:
-./kernel5.sh rpi-armhf
+./kernel5.sh rpi-arm64
 ```
 
 You can download already compiled kernels from the [release page](https://github.com/laroche/arm-devel-infrastructure/releases).
