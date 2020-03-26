@@ -115,13 +115,15 @@ if false ; then
   $apt install firefox-esr firefox-esr-l10n-de vlc chromium chromium-l10n
   $apt install libreoffice libreoffice-help-de libreoffice-l10n-de
   $apt install rdesktop dconf-editor imagemagick mesa-utils inxi
-  $apt install network-manager-openconnect-gnome
+  $apt install network-manager-openconnect-gnome openvpn
 
   # Allow X11 apps over ssh to work:
   $apt install xauth
 
   # virtualization support:
   $apt install virtinst virt-manager libguestfs-tools
+
+  $apt install meld
 
   $apt install qemu-system-arm qemu-efi minicom
 
