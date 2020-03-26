@@ -47,7 +47,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.5.11
+KVER=5.5.13
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -73,7 +73,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.5.8-1/5.5.11-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.5.8-1/5.5.13-1/' linux-5/debian/changelog
 sed -i -e 's,features/all/db-mok-keyring/0006-Make-get_cert_list-not-complain-about-cert-lists-tha.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,features/all/db-mok-keyring/0001-MODSIGN-do-not-load-mok-when-secure-boot-disabled.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,features/all/db-mok-keyring/0002-MODSIGN-load-blacklist-from-MOKx.patch,,g' linux-5/debian/patches/series

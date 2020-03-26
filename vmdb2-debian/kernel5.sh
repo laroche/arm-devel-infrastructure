@@ -47,7 +47,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.4.27
+KVER=5.4.28
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -73,7 +73,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.4.19-1/5.4.27-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.4.19-1/5.4.28-1/' linux-5/debian/changelog
 sed -i -e 's,bugfix/all/tools-lib-api-fs-fs.c-fix-misuse-of-strncpy.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,bugfix/all/usbip-network-fix-unaligned-member-access.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,features/all/db-mok-keyring/0006-Make-get_cert_list-not-complain-about-cert-lists-tha.patch,,g' linux-5/debian/patches/series
