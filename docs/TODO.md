@@ -31,6 +31,13 @@ kernel
 - How to extract rpi patches for older kernel revisions?
 
 
+installed apps
+--------------
+
+- maybe install chrony instead of ntp, fake-hwclock, rng-tools instead of haveged
+- sysstat
+
+
 other
 -----
 
