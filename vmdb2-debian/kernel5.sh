@@ -51,7 +51,7 @@ KVER=5.4.28
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.4.27
+  RVER=5.4.28
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -64,7 +64,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 585e0cc080690239f0689973c119459ff69db473
+  git format-patch -o ../rpi-patches-$RVER 462afcd6e7ea94a7027a96a3bb12d0140b0b4216
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -95,8 +95,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0351-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch \
-          bugfix/rpi/0487-ASoC-pcm512x-Fix-unbalanced-regulator-enable-call-in.patch
+    rm -f bugfix/rpi/0351-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.4.0-?/arm*
