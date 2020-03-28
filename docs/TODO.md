@@ -36,15 +36,16 @@ installed apps
 
 - maybe install chrony instead of ntp, fake-hwclock, rng-tools instead of haveged
 - sysstat
+- With a minimal system "systemctl" shows errors with "console-setup.service": [Debian bug 846256](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=846256)
 
 
 other
 -----
 
-- For documentation, check out [https://github.com/jekyll/jekyll](https://github.com/jekyll/jekyll) and hugo
+- For documentation, check out [jekyll](https://github.com/jekyll/jekyll) and [hugo](https://gohugo.io/)
   and improve appearance.
   [https://help.github.com/en/articles/customizing-css-and-html-in-your-jekyll-theme](https://help.github.com/en/articles/customizing-css-and-html-in-your-jekyll-theme)
 - Disable unattended apt package updates during tests.
-- In setup.sh can we check if "apt update" fails, so we can exit early?
+- In "setup.sh" can we check if "apt update" fails, so we can exit early?
 - If not connected to the Internet, ntpd logs often about failed DNS resolver. Rate limit logging.
 
