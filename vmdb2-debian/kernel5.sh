@@ -101,6 +101,7 @@ if test "$RPIPATCHES" = 1 ; then
   rm -f debian/abi/5.4.0-?/arm*
 fi
 rm -fr debian/abi/5.4.0-?
+patch -s -p1 < ../debian-kernel.patch
 
 if test $CROSS = 0 ; then
 
