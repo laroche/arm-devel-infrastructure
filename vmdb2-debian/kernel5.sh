@@ -47,24 +47,24 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.4.28
+KVER=5.5.13
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.4.28
+  RVER=5.5.13
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   # Extract the raspberry-pi patches into a subdirectory:
   if test ! -d rpi-linux-5 ; then
-    git clone -b rpi-5.4.y https://github.com/raspberrypi/linux/ rpi-linux-5
+    git clone -b rpi-5.5.y https://github.com/raspberrypi/linux/ rpi-linux-5
   else
     pushd rpi-linux-5
-    git checkout rpi-5.4.y
+    git checkout rpi-5.5.y
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 462afcd6e7ea94a7027a96a3bb12d0140b0b4216
+  git format-patch -o ../rpi-patches-$RVER fe5ae687d01e74854ed33666c932a9c11e22139c
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -73,35 +73,25 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.4.19-1/5.4.28-1/' linux-5/debian/changelog
-sed -i -e 's,bugfix/all/tools-lib-api-fs-fs.c-fix-misuse-of-strncpy.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,bugfix/all/usbip-network-fix-unaligned-member-access.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,features/all/db-mok-keyring/0006-Make-get_cert_list-not-complain-about-cert-lists-tha.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,features/all/db-mok-keyring/0001-MODSIGN-do-not-load-mok-when-secure-boot-disabled.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,features/all/db-mok-keyring/0002-MODSIGN-load-blacklist-from-MOKx.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,features/all/db-mok-keyring/0004-MODSIGN-check-the-attributes-of-db-and-mok.patch,,g' linux-5/debian/patches/series
+#sed -i -e '1 s/5.5.13-2/5.5.13-2/' linux-5/debian/changelog
+#sed -i -e 's,features/all/db-mok-keyring/0004-MODSIGN-check-the-attributes-of-db-and-mok.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,powerpc-pseries-iommu-Use-a-locallock-instead-local_ir.patch,,g' linux-5/debian/patches-rt/series
-sed -i -e 's/^CONFIG_PCI_AARDVARK=y/# CONFIG_PCI_AARDVARK is not set/' linux-5/debian/config/arm64/config
-sed -i -e 's/^CONFIG_PCIE_ROCKCHIP_HOST=y/# CONFIG_PCIE_ROCKCHIP_HOST is not set/' linux-5/debian/config/arm64/config
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
 cd linux-5 || exit 1
 test -f ../orig/linux_$KVER.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py ../linux-$KVER.tar.xz
 # Just to safe disk space and have a faster compile:
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
-# Disable RT builds:
-sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
 if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0351-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch
+    rm -f bugfix/rpi/0339-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch
     ls bugfix/rpi/*.patch >> series
   popd
-  rm -f debian/abi/5.4.0-?/arm*
+  rm -f debian/abi/5.5.0-?/arm*
 fi
-rm -fr debian/abi/5.4.0-?
-patch -s -p1 < ../debian-kernel.patch
+rm -fr debian/abi/5.5.0-?
 
 if test $CROSS = 0 ; then
 
