@@ -73,8 +73,10 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.5.13-2/5.5.14-1/' linux-5/debian/changelog
-#sed -i -e 's,features/all/db-mok-keyring/0004-MODSIGN-check-the-attributes-of-db-and-mok.patch,,g' linux-5/debian/patches/series
+sed -i -e '1 s/5.5.13-3/5.5.14-1/' linux-5/debian/changelog
+sed -i -e 's,features/all/wireguard/0005-crypto-chacha20poly1305-add-back-missing-test-vector.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,features/all/wireguard/0009-crypto-arm64-chacha-correctly-walk-through-blocks.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,bugfix/all/bpf-Undo-incorrect-__reg_bound_offset32-handling.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,powerpc-pseries-iommu-Use-a-locallock-instead-local_ir.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
