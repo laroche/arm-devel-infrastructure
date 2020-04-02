@@ -112,7 +112,7 @@ index 212d779ac9..3a868bb622 100644
 +BR2_LINUX_KERNEL_CONFIG_FRAGMENT_FILES="board/qemu/arm-vexpress/linux-fragment.config"
 +
 +# Gcc
-+BR2_GCC_VERSION_8_X=y
++BR2_GCC_VERSION_9_X=y
 +
 +# BR2_PACKAGE_DHCPCD=y
 +BR2_PACKAGE_IPROUTE2=y
@@ -166,7 +166,7 @@ index e52a14081e..2dec6b3e45 100644
 +BR2_LINUX_KERNEL_CONFIG_FRAGMENT_FILES="board/qemu/arm-vexpress/linux-fragment.config"
 +
 +# Gcc
-+BR2_GCC_VERSION_8_X=y
++BR2_GCC_VERSION_9_X=y
 +
 +# BR2_PACKAGE_DHCPCD=y
 +BR2_PACKAGE_IPROUTE2=y
