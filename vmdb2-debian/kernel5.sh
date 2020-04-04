@@ -47,7 +47,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.5.14
+KVER=5.5.15
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -73,9 +73,8 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.5.13-3/5.5.14-1/' linux-5/debian/changelog
-sed -i -e 's,features/all/wireguard/0005-crypto-chacha20poly1305-add-back-missing-test-vector.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,features/all/wireguard/0009-crypto-arm64-chacha-correctly-walk-through-blocks.patch,,g' linux-5/debian/patches/series
+sed -i -e '1 s/5.5.13-3/5.5.15-1/' linux-5/debian/changelog
+sed -i -e 's,^features/all/wireguard,#features/all/wireguard,g' linux-5/debian/patches/series
 sed -i -e 's,bugfix/all/bpf-Undo-incorrect-__reg_bound_offset32-handling.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,powerpc-pseries-iommu-Use-a-locallock-instead-local_ir.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
