@@ -76,6 +76,7 @@ fi
 #sed -i -e '1 s/5.6.2-1~exp1/5.6.2-1/' linux-5/debian/changelog
 sed -i -e 's,^features/all/lockdown,#features/all/lockdown,g' linux-5/debian/patches/series
 sed -i -e 's,^features/all/db-mok-keyring,#features/all/db-mok-keyring,g' linux-5/debian/patches/series
+sed -i -e '/CONFIG_LOCK_DOWN_IN_EFI_SECURE_BOOT/d' linux-5/debian/bin/gencontrol_signed.py
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
 cd linux-5 || exit 1
