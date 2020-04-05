@@ -87,12 +87,12 @@ fi
 if test "X$1" = X64 ; then
   export GOPATH=`pwd`/n/gopath
   pushd n/gopath/src/github.com/google/syzkaller
-    ./bin/syz-manager -config=aarch64.cfg #-debug
+    ./bin/syz-manager -config=aarch64.cfg $2 #-debug
   popd
 else
   export GOPATH=`pwd`/gopath
   pushd gopath/src/github.com/google/syzkaller
-    ./bin/syz-manager -config=arm.cfg #-debug
+    ./bin/syz-manager -config=arm.cfg $2 #-debug
   popd
 fi
 
