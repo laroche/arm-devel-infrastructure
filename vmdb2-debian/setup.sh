@@ -8,6 +8,7 @@
 #
 
 NEWUSER=max
+GECOS="Max Mustermann"
 
 # Non-root adjustments that can be done after running setup.sh as root:
 if test "X$UID" != "X0" ; then
@@ -130,7 +131,7 @@ fi
 
 # Add myself:
 if ! test -d /home/$NEWUSER ; then
-  adduser --gecos "Max Mustermann" --add_extra_groups --disabled-password $NEWUSER
+  adduser --gecos $GECOS --add_extra_groups --disabled-password $NEWUSER
   sed -i -e "s/^$NEWUSER:[^:]*:/$NEWUSER::/g" /etc/shadow
   adduser $NEWUSER sudo
 fi
