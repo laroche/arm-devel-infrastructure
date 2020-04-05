@@ -43,6 +43,39 @@ if grep -q testing /etc/apt/sources.list ; then
   testing="1"
 fi
 
+delim="---------------------------------------------------------------------------------"
+newlog() {
+  echo $delim
+  echo $*
+}
+
+
+# This can be run anytime to check the status of the machine:
+if test "X$1" = Xcheck ; then
+  newlog "List failed systemctl jobs:"
+  systemctl list-units --state=failed
+  newlog "List all *.ucf-dist* files in /etc /usr:"
+  find /etc /usr -name "*.ucf-dist*"
+  newlog "List all debian packages not in state ii:"
+  dpkg -l | grep -v ^ii
+  newlog "List all debian packages named linux-image:"
+  dpkg -l | grep linux-image
+  newlog "List all regular files in /tmp /var/tmp:"
+  find /tmp /var/tmp -type f
+  newlog "List all regular files in /var/cache/apt:"
+  find /var/cache/apt -type f
+  newlog "Run updates via apt:"
+  apt update
+  $apt dist-upgrade
+  #$apt autoremove
+  #newlog "List all regular files in /var/cache/apt:"
+  #find /var/cache/apt -type f
+  #apt clean
+  newlog "All checks finished."
+  exit 0
+fi
+
+
 if false ; then
 if test -b /dev/sda && ! test -b /dev/sda2 ; then
   parted -s -- /dev/sda mkpart primary linux-swap -4096 -0
