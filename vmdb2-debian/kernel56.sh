@@ -47,11 +47,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.6.2
+KVER=5.6.3
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.6.0
+  RVER=5.6.2
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -64,7 +64,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 7111951b8d4973bda27ff663f2cf18b663d15b48
+  git format-patch -o ../rpi-patches-$RVER 9fbe5c87eaa9b72db08425c52c373eb5f6537a0a
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -73,7 +73,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.6.2-1~exp1/5.6.2-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.6.2-1~exp1/5.6.3-1/' linux-5/debian/changelog
 sed -i -e 's,^features/all/lockdown,#features/all/lockdown,g' linux-5/debian/patches/series
 sed -i -e 's,^features/all/db-mok-keyring,#features/all/db-mok-keyring,g' linux-5/debian/patches/series
 sed -i -e '/CONFIG_LOCK_DOWN_IN_EFI_SECURE_BOOT/d' linux-5/debian/bin/gencontrol_signed.py
