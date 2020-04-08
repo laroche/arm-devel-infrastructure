@@ -47,11 +47,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.5.15
+KVER=5.5.16
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.5.14
+  RVER=5.5.15
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -64,7 +64,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 2b67aa6438c56ae68b4dfe60341e2c624ef360aa
+  git format-patch -o ../rpi-patches-$RVER 43bc68e28bc817379b769d9e6352d72f1bfea233
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -73,7 +73,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.5.13-3/5.5.15-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.5.13-3/5.5.16-1/' linux-5/debian/changelog
 sed -i -e 's,^features/all/wireguard,#features/all/wireguard,g' linux-5/debian/patches/series
 sed -i -e 's,bugfix/all/bpf-Undo-incorrect-__reg_bound_offset32-handling.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,powerpc-pseries-iommu-Use-a-locallock-instead-local_ir.patch,,g' linux-5/debian/patches-rt/series
