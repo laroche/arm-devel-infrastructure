@@ -38,7 +38,7 @@ fi
 
 # Build requirements:
 if true ; then
-sudo apt -q -y install build-essential fakeroot rsync git python-debian python3-debian
+sudo apt -q -y install build-essential fakeroot rsync git python-debian python3-debian libcap-dev
 sudo apt -q -y build-dep linux
 if test $CROSS = 1 ; then
   sudo apt -q -y install kernel-wedge quilt ccache flex bison libssl-dev
@@ -47,11 +47,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.6.4
+KVER=5.6.5
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.6.2
+  RVER=5.6.4
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -64,7 +64,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 9fbe5c87eaa9b72db08425c52c373eb5f6537a0a
+  git format-patch -o ../rpi-patches-$RVER 0a27a29496060843ae3a8fe78aaec0062cbd5dfa
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -73,10 +73,13 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.6.3-1~exp1/5.6.4-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.6.4-1~exp1/5.6.5-1~exp1/' linux-5/debian/changelog
+if test $CROSS = 1 ; then
 sed -i -e 's,^features/all/lockdown,#features/all/lockdown,g' linux-5/debian/patches/series
 sed -i -e 's,^features/all/db-mok-keyring,#features/all/db-mok-keyring,g' linux-5/debian/patches/series
 sed -i -e '/CONFIG_LOCK_DOWN_IN_EFI_SECURE_BOOT/d' linux-5/debian/bin/gencontrol_signed.py
+fi
+#sed -i -e 's,^features/all/lockdown,#features/all/lockdown,g' linux-5/debian/patches/series
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
 cd linux-5 || exit 1
