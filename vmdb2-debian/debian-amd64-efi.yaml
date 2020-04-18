@@ -141,17 +141,17 @@ steps:
         echo "deb http://deb.debian.org/debian/ unstable main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
         echo "deb-src http://deb.debian.org/debian/ unstable main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
       else
-      echo "deb http://deb.debian.org/debian/ buster main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
-      echo "deb-src http://deb.debian.org/debian/ buster main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
-      echo >> ${ROOT?}/etc/apt/sources.list
-      echo "deb http://deb.debian.org/debian/ buster-updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
-      echo "deb-src http://deb.debian.org/debian/ buster-updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
-      echo >> ${ROOT?}/etc/apt/sources.list
-      echo "deb http://deb.debian.org/debian/ buster-backports main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
-      echo "deb-src http://deb.debian.org/debian/ buster-backports main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
-      echo >> ${ROOT?}/etc/apt/sources.list
-      echo "deb http://security.debian.org/debian-security buster/updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
-      echo "deb-src http://security.debian.org/debian-security buster/updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb http://deb.debian.org/debian/ buster main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ buster main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo >> ${ROOT?}/etc/apt/sources.list
+        echo "deb http://deb.debian.org/debian/ buster-updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ buster-updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo >> ${ROOT?}/etc/apt/sources.list
+        echo "deb http://deb.debian.org/debian/ buster-backports main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ buster-backports main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo >> ${ROOT?}/etc/apt/sources.list
+        echo "deb http://security.debian.org/debian-security buster/updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://security.debian.org/debian-security buster/updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
       fi
 
       # Keep experimental commented out:
@@ -227,13 +227,27 @@ steps:
       apt clean
       rm -rf /var/lib/apt/lists
 
+      unstable="0"
+      if grep -q unstable /etc/apt/sources.list ; then
+        unstable="1"
+      fi
+      testing="0"
+      if grep -q testing /etc/apt/sources.list ; then
+        testing="1"
+      fi
       # https://unix.stackexchange.com/questions/318824/vim-cutpaste-not-working-in-stretch-debian-9
       # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=864074
       # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=837761#76
-      if grep -q unstable /etc/apt/sources.list || grep -q testing /etc/apt/sources.list ; then
-        sed -i -e '/has.*mouse/,+6s/^/"/' /usr/share/vim/vim81/defaults.vim
-      else
-        sed -i -e '/has.*mouse/,+2s/^/"/' /usr/share/vim/vim81/defaults.vim
+      vim="/usr/share/vim/vim82/defaults.vim"
+      if ! test -f $vim ; then
+        vim="/usr/share/vim/vim81/defaults.vim"
+      fi
+      if test -f $vim ; then
+        if test $unstable = 1 -o $testing = 1 ; then
+          sed -i -e '/has.*mouse/,+6s/^/"/' $vim
+        else
+          sed -i -e '/has.*mouse/,+2s/^/"/' $vim
+        fi
       fi
 
       update-alternatives --set editor /usr/bin/vim.basic
