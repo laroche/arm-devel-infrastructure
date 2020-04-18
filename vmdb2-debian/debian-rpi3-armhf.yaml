@@ -112,11 +112,6 @@ steps:
 
       #sed -i -e 's,#PermitRootLogin prohibit-password,PermitRootLogin yes,g' "${ROOT?}/etc/ssh/sshd_config"
 
-      if test -f authorized_keys ; then
-        mkdir -p -m 0700 "${ROOT?}/root/.ssh"
-        install -m 600 -o root -g root authorized_keys "${ROOT?}/root/.ssh/authorized_keys"
-      fi
-
       install -m 700 -o root -g root setup.sh "${ROOT?}/root/setup.sh"
 
       echo "LABEL=DEBROOT / ext4 rw 0 1" > "${ROOT?}/etc/fstab"
@@ -251,11 +246,6 @@ steps:
       #adduser --gecos "Max Mustermann" --add_extra_groups --disabled-password max
       #sed -i -e 's/^max:[^:]*:/max::/g' /etc/shadow
       #adduser max sudo
-      #if test -f /root/.ssh/authorized_keys ; then
-      #  mkdir --mode=0700 ~max/.ssh
-      #  chown max.max ~max/.ssh
-      #  install --owner=max --group=max --mode=0644 /root/.ssh/authorized_keys ~max/.ssh/authorized_keys
-      #fi
 
       dd if=/dev/zero of=/ZERO; rm -f /ZERO # zero unused filesystem
 
