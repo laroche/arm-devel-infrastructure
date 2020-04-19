@@ -239,7 +239,7 @@ steps:
       #sed -i -e 's/^max:[^:]*:/max::/g' /etc/shadow
       #adduser max sudo
 
-      dd if=/dev/zero of=/ZERO; rm -f /ZERO # zero unused filesystem
+      dd if=/dev/zero of=/ZERO || rm -f /ZERO # zero unused filesystem
 
   - shell: |
       rm "${ROOT?}/etc/resolv.conf"
