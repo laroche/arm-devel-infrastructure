@@ -80,6 +80,8 @@ sed -i -e 's,^features/all/db-mok-keyring,#features/all/db-mok-keyring,g' linux-
 sed -i -e '/CONFIG_LOCK_DOWN_IN_EFI_SECURE_BOOT/d' linux-5/debian/bin/gencontrol_signed.py
 fi
 #sed -i -e 's,^features/all/lockdown,#features/all/lockdown,g' linux-5/debian/patches/series
+sed -i -e 's,time-sched_clock-Expire-timer-in-hardirq-context.patch,,g' linux-5/debian/patches-rt/series
+sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
 cd linux-5 || exit 1
