@@ -97,6 +97,7 @@ steps:
     - grub-efi-amd64
     #- memtest86+
     - firmware-linux
+    - firmware-iwlwifi
     - linux-image-amd64
     #- linux-image-rt-amd64
     tag: rootfs
