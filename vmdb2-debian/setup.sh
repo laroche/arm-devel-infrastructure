@@ -178,13 +178,13 @@ if false ; then
   fi
 
   # Eclipse
-  if test "$HOSTTYPE" = "x86_64" ; then
-  if ! test -e /usr/bin/eclipse ; then
-    wget -q http://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/2019-09/R/eclipse-cpp-2019-09-R-linux-gtk-x86_64.tar.gz
-    tar -zxf eclipse-cpp-2019-09-R-linux-gtk-x86_64.tar.gz -C /usr
-    ln -s /usr/eclipse/eclipse /usr/bin/eclipse
-    rm -f eclipse-cpp-2019-09-R-linux-gtk-x86_64.tar.gz
-    cat > /usr/share/applications/eclipse.desktop <<EOM
+  if true && test "$HOSTTYPE" = "x86_64" ; then
+    if ! test -e /usr/bin/eclipse ; then
+      wget -q http://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/2019-09/R/eclipse-cpp-2019-09-R-linux-gtk-x86_64.tar.gz
+      tar -zxf eclipse-cpp-2019-09-R-linux-gtk-x86_64.tar.gz -C /usr
+      ln -s /usr/eclipse/eclipse /usr/bin/eclipse
+      rm -f eclipse-cpp-2019-09-R-linux-gtk-x86_64.tar.gz
+      cat > /usr/share/applications/eclipse.desktop <<EOM
 [Desktop Entry]
 Encoding=UTF-8
 Name=Eclipse IDE
@@ -196,32 +196,47 @@ Version=4.8
 Type=Application
 Terminal=0
 EOM
-  fi
-  $apt install default-jre
+    fi
+    $apt install default-jre
   fi
 
   # visual studio code from https://code.visualstudio.com/docs/setup/linux
-  if test "$HOSTTYPE" = "x86_64" ; then
-  if ! test -f /usr/share/keyrings/packages.microsoft.gpg ; then
-    curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /usr/share/keyrings/packages.microsoft.gpg
-  fi
-  echo "deb [arch=amd64 signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list
-  #$apt install apt-transport-https
-  apt update
-  $apt install code # or code-insiders
-  $apt install gvfs-bin
-  #update-alternatives --set editor /usr/bin/code
-  #echo "fs.inotify.max_user_watches=524288" > /etc/sysctl.d/10-visual-studio-code.conf
-  # Launch VS Code Quick Open (Ctrl+P): ext install ms-vscode.cpptools
-  # Launch VS Code Quick Open (Ctrl+P): ext install ms-python.python
+  if true && test "$HOSTTYPE" = "x86_64" ; then
+    if ! test -f /usr/share/keyrings/packages.microsoft.gpg ; then
+      curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /usr/share/keyrings/packages.microsoft.gpg
+    fi
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list
+    #$apt install apt-transport-https
+    apt update
+    $apt install code # or code-insiders
+    $apt install gvfs-bin
+    #update-alternatives --set editor /usr/bin/code
+    #echo "fs.inotify.max_user_watches=524288" > /etc/sysctl.d/10-visual-studio-code.conf
+    # Launch VS Code Quick Open (Ctrl+P): ext install ms-vscode.cpptools
+    # Launch VS Code Quick Open (Ctrl+P): ext install ms-python.python
   fi
 
-  if test "$HOSTTYPE" = "x86_64" ; then
+  # Windows emu wine:
+  if true && test "$HOSTTYPE" = "x86_64" ; then
     if ! test -f /var/lib/dpkg/arch ; then
       dpkg --add-architecture i386
       apt update
     fi
     $apt install wine winetricks wine32
+  fi
+
+  # Microsoft Teams:
+  if true && test "$HOSTTYPE" = "x86_64" -a ! -x /usr/bin/teams ; then
+    wget -q -O teams.deb https://go.microsoft.com/fwlink/p/?linkid=2112886
+    dpkg -i teams.deb
+    rm -f teams.deb
+  fi
+
+  # Skype:
+  if true && test "$HOSTTYPE" = "x86_64" -a ! -x /usr/bin/skypeforlinux ; then
+    wget -q https://go.skype.com/skypeforlinux-64.deb
+    dpkg -i skypeforlinux-64.deb
+    rm -f skypeforlinux-64.deb
   fi
 fi
 # Company dependent apps:
@@ -246,7 +261,7 @@ if true ; then
   fi
   $apt install vmdb2 dosfstools qemu qemu-user-static make zip
 fi
-if ! test -d /opt/ltp ; then
+if true && ! test -d /opt/ltp ; then
   $apt install quotatool
   if ! test -d /home/$NEWUSER/data/ltp ; then
     su $NEWUSER -c "cd ~/data && git clone --depth 1 https://github.com/linux-test-project/ltp"
@@ -269,7 +284,7 @@ EOM
     # sudo make install
   fi
 fi
-if test $unstable = 0 -a $testing = 0 -a ! -d /opt/qemu ; then
+if true && test $unstable = 0 -a $testing = 0 -a ! -d /opt/qemu ; then
   $apt install pkg-config libglib2.0-dev libpixman-1-dev
   if ! test -f /home/$NEWUSER/data/qemu-4.2.0.tar.xz ; then
     su $NEWUSER -c "cd ~/data && wget -q https://download.qemu.org/qemu-4.2.0.tar.xz"
@@ -285,5 +300,5 @@ apt clean
 apt update
 
 # If this should again be used as a generic image:
-#dd if=/dev/zero of=/ZERO; rm -f /ZERO # zero unused filesystem
+#dd if=/dev/zero of=/ZERO || rm -f /ZERO # zero unused filesystem
 
