@@ -47,7 +47,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.6.5
+KVER=5.6.6
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -73,7 +73,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.6.4-1~exp2/5.6.5-1~exp2/' linux-5/debian/changelog
+sed -i -e '1 s/5.6.5-1~exp1/5.6.6-1~exp1/' linux-5/debian/changelog
 #sed -i -e 's,^features/all/lockdown,#features/all/lockdown,g' linux-5/debian/patches/series
 sed -i -e 's,time-sched_clock-Expire-timer-in-hardirq-context.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
