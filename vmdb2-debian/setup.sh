@@ -247,7 +247,7 @@ fi
 
 # Generic devel environment:
 $apt install build-essential autoconf libtool libtool-bin pkg-config bison flex git libacl1-dev libssl-dev
-$apt install gawk bc make git-email ccache indent gperf exuberant-ctags
+$apt install gawk bc make git-email ccache indent gperf exuberant-ctags patchutils
 #$apt install perl clang golang
 #$apt install python pylint pyflakes pyflakes3
 #$apt install subversion git-svn
