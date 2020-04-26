@@ -50,6 +50,7 @@ steps:
   - apt: install
     packages:
     - unattended-upgrades
+    - debsums
     - irqbalance
     - haveged
     - locales
