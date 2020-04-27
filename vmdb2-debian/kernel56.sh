@@ -38,7 +38,7 @@ fi
 
 # Build requirements:
 if true ; then
-sudo apt -q -y install build-essential fakeroot rsync git python-debian python3-debian libcap-dev
+sudo apt -q -y install build-essential fakeroot rsync git python3-debian libcap-dev
 sudo apt -q -y build-dep linux
 if test $CROSS = 1 ; then
   sudo apt -q -y install kernel-wedge quilt ccache flex bison libssl-dev
