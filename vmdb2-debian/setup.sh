@@ -13,10 +13,6 @@ GECOS="Max Mustermann"
 # Non-root adjustments that can be done after running setup.sh as root:
 if test "X$UID" != "X0" ; then
   # https://superuser.com/questions/394376/how-to-prevent-gnome-shells-alttab-from-grouping-windows-from-similar-apps
-  #dconf write /org/gnome/desktop/wm/keybindings/switch-applications
-  #dconf write /org/gnome/desktop/wm/keybindings/switch-applications-backward
-  #dconf write /org/gnome/desktop/wm/keybindings/switch-windows "['<Super>Tab', '<Alt>Tab']"
-  #dconf write /org/gnome/desktop/wm/keybindings/switch-windows-backward "['<Shift><Super>Tab', '<Shift><Alt>Tab']"
   gsettings set org.gnome.desktop.wm.keybindings switch-applications "[]"
   gsettings set org.gnome.desktop.wm.keybindings switch-applications-backward "[]"
   gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Super>Tab', '<Alt>Tab']"
@@ -27,10 +23,11 @@ if test "X$UID" != "X0" ; then
   # list of favorites on the gnome desktop
   gsettings set org.gnome.shell favorite-apps "['org.gnome.Terminal.desktop', 'google-chrome.desktop', 'firefox-esr.desktop', 'code.desktop', 'libreoffice-writer.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Software.desktop', 'yelp.desktop']"
   # Set gnome-terminal to 120x40 and dark color:
-  PROFILE=$(dconf list /org/gnome/terminal/legacy/profiles:/)
-  dconf write /org/gnome/terminal/legacy/profiles:/${PROFILE}default-size-columns 120
-  dconf write /org/gnome/terminal/legacy/profiles:/${PROFILE}default-size-rows 40
-  dconf write /org/gnome/terminal/legacy/profiles:/${PROFILE}use-theme-colors false
+  PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default)
+  PROFILE=${PROFILE:1:-1} # remove leading and trailing single quotes
+  gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE/" default-size-columns 120
+  gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE/" default-size-rows 40
+  gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE/" use-theme-colors false
   # 30 min until we disable the screen
   gsettings set org.gnome.desktop.session idle-delay 1800
   # disable screen saver
