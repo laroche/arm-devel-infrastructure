@@ -24,6 +24,17 @@ if test "X$UID" != "X0" ; then
   #gsettings set org.gnome.shell.window-switcher current-workspace-only true
   # add min/max to title:
   gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
+  # list of favorites on the gnome desktop
+  gsettings set org.gnome.shell favorite-apps "['org.gnome.Terminal.desktop', 'google-chrome.desktop', 'firefox-esr.desktop', 'code.desktop', 'libreoffice-writer.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Software.desktop', 'yelp.desktop']"
+  # Set gnome-terminal to 120x40 and dark color:
+  PROFILE=$(dconf list /org/gnome/terminal/legacy/profiles:/)
+  dconf write /org/gnome/terminal/legacy/profiles:/${PROFILE}default-size-columns 120
+  dconf write /org/gnome/terminal/legacy/profiles:/${PROFILE}default-size-rows 40
+  dconf write /org/gnome/terminal/legacy/profiles:/${PROFILE}use-theme-colors false
+  # 30 min until we disable the screen
+  gsettings set org.gnome.desktop.session idle-delay 1800
+  # disable screen saver
+  gsettings set org.gnome.desktop.screensaver lock-delay 0
   exit 0
 fi
 
