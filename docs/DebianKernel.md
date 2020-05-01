@@ -100,7 +100,7 @@ If your host is not properly configured within DNS and you want to pass
 IP lookup tests, you can add your host to /etc/hosts:
 ```shell
 echo -e "127.0.0.2\t$HOSTNAME" >> /etc/hosts
-echo -e "::2\t$HOSTNAME" >> /etc/hosts
+echo -e "::2\t\t$HOSTNAME" >> /etc/hosts
 ```
 
 
