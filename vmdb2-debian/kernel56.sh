@@ -87,6 +87,7 @@ if test "$RPIPATCHES" = 1 ; then
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     rm -f bugfix/rpi/0303-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch \
+      bugfix/rpi/0519-Revert-USB-hub-Don-t-record-a-connect-change-event-d.patch \
       bugfix/rpi/0522-dts-bcm2711-add-High-Peripheral-mode-overlay.patch
     ls bugfix/rpi/*.patch >> series
   popd
