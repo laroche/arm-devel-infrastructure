@@ -246,6 +246,9 @@ EOM
     dpkg -i skypeforlinux-64.deb
     rm -f skypeforlinux-64.deb
   fi
+
+  # If we install GUI, we don't need server network setup:
+  rm -f /etc/network/interfaces.d/eth0
 fi
 # Company dependent apps:
 if false ; then

@@ -105,6 +105,8 @@ steps:
       # The following config line is still commented out:
       echo "#LABEL=DEBSWAP swap swap defaults 0 0" >> "${ROOT?}/etc/fstab"
 
+      # This is only used for non-GUI server installs, for GUI this is again
+      # removed in setup.sh:
       echo "auto eth0" > "${ROOT?}/etc/network/interfaces.d/eth0"
       echo "iface eth0 inet dhcp" >> "${ROOT?}/etc/network/interfaces.d/eth0"
 
