@@ -202,10 +202,10 @@ steps:
 
   - grub: bios
     tag: rootfs
-    #device: /dev/loop0
-    # XXX: This works as hardcoded value:
-    #image-dev: /dev/loop0
-    image-dev: debvg
+    #root-fs: rootpv
+    # XXX: This works as hardcoded value, only a small check for sanity
+    # is added to Makefile for this:
+    image-dev: /dev/loop0
 
   - chroot: rootfs
     shell: |

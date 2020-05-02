@@ -92,7 +92,7 @@ if test -b /dev/debvg/rootfs -a -b /dev/sda1 ; then
     parted -s -- /dev/sda resizepart 1 100%
     pvresize /dev/sda1
     lvextend -L +8G /dev/debvg/rootfs
-    resize2fs /dev/dbvg/rootfs
+    resize2fs /dev/debvg/rootfs
     lvcreate --name swapfs --size 8G debvg
     if test -b /dev/debvg/swapfs ; then
       mkswap -L DEBSWAP /dev/debvg/swapfs
