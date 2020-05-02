@@ -19,15 +19,15 @@ debian-amd64.img: debian-amd64.yaml
 	$(call vmdb2,amd64)
 	sudo parted -s $@ toggle 1 boot
 
-debian-testing-amd64.yaml: debian-amd64.yaml
-	sed 's/qemu-debootstrap: buster/qemu-debootstrap: testing/g' < $^ > $@
+#debian-testing-amd64.yaml: debian-amd64.yaml
+#	sed 's/qemu-debootstrap: buster/qemu-debootstrap: testing/g' < $^ > $@
 
 debian-testing-amd64.img: debian-testing-amd64.yaml
 	$(call vmdb2,testing-amd64)
 	sudo parted -s $@ toggle 1 boot
 
-debian-unstable-amd64.yaml: debian-amd64.yaml
-	sed 's/qemu-debootstrap: buster/qemu-debootstrap: unstable/g' < $^ > $@
+debian-unstable-amd64.yaml: debian-testing-amd64.yaml
+	sed 's/qemu-debootstrap: testing/qemu-debootstrap: unstable/g' < $^ > $@
 
 debian-unstable-amd64.img: debian-unstable-amd64.yaml
 	$(call vmdb2,unstable-amd64)
@@ -108,7 +108,8 @@ clean:
 	rm -f debian-*.img debian-*.log debian-*.zip
 
 distclean: clean
-	rm -f debian-*.tar.gz debian-testing-*.yaml debian-unstable-*.yaml
+	rm -f debian-*.tar.gz debian-unstable-*.yaml #debian-testing-*.yaml
+	rm -f debian-testing-amd64-efi.yaml debian-testing-rpi3-arm64.yaml debian-testing-rpi3-armhf.yaml
 
 tag:
 	git tag -m "release v$(DATE)" v$(DATE)

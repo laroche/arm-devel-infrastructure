@@ -64,6 +64,7 @@ steps:
     - gpm
     - man
     - parted
+    - lvm2
     - dosfstools
     - vim
     - sudo

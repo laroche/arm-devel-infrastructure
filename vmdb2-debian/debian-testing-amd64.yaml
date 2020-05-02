@@ -3,41 +3,51 @@ steps:
   - mkimg: "{{ output }}"
     size: 2048M
 
-  - mklabel: gpt
+#  - mklabel: gpt
+  - mklabel: msdos
     device: "{{ output }}"
 
-  - mkpart: primary
-    fs-type: 'fat32'
-    device: "{{ output }}"
-    start: 0%
-    end: 32M
-    tag: boot-efi
+#  - mkpart: primary
+#    device: "{{ output }}"
+#    start: 4M
+#    end: 100M
+#    tag: /boot
 
   - mkpart: primary
     device: "{{ output }}"
-    start: 32M
+    start: 4M
+#    start: 100M
     end: 100%
-    tag: rootfs
+    tag: rootpv
 
   - kpartx: "{{ output }}"
 
-  - mkfs: vfat
-    partition: boot-efi
-    label: DEBEFI
+  - vgcreate: debvg
+    physical:
+      - rootpv
+
+  - lvcreate: debvg
+    name: rootfs
+#    size: 1948M
+    size: 2040M
 
   - mkfs: ext4
     partition: rootfs
     label: DEBROOT
 
+#  - mkfs: ext2
+#    partition: /boot
+#    label: DEBBOOT
+
   - mount: rootfs
 
-    #  - mount: boot-efi
-    #mount-on: rootfs
-    #dirname: '/boot/efi'
+#  - mount: /boot
+#    mount-on: rootfs
+#    dirname: /boot
 
   - unpack-rootfs: rootfs
 
-  - qemu-debootstrap: buster
+  - qemu-debootstrap: testing
     mirror: http://deb.debian.org/debian
     arch: amd64
     target: rootfs
@@ -96,7 +106,7 @@ steps:
     - wireless-tools
     - wpasupplicant
     # amd64:
-    - grub-efi-amd64
+    - grub-pc
     #- memtest86+
     - firmware-linux
     - firmware-iwlwifi
@@ -118,7 +128,6 @@ steps:
 
       install -m 700 -o root -g root setup.sh "${ROOT?}/root/setup.sh"
 
-      echo "LABEL=DEBEFI /boot/efi vfat rw 0 2" >> "${ROOT?}/etc/fstab"
       # The following config line is still commented out:
       echo "#LABEL=DEBSWAP swap swap defaults 0 0" >> "${ROOT?}/etc/fstab"
 
@@ -191,10 +200,12 @@ steps:
       apt update
       systemctl enable ssh.service
 
-  - grub: uefi
+  - grub: bios
     tag: rootfs
-    efi: boot-efi
-    device: "{{ output }}"
+    #device: /dev/loop0
+    # XXX: This works as hardcoded value:
+    #image-dev: /dev/loop0
+    image-dev: debvg
 
   - chroot: rootfs
     shell: |

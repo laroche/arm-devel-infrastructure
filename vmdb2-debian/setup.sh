@@ -84,7 +84,24 @@ if test "X$1" = Xcheck ; then
   exit 0
 fi
 
-
+if false ; then
+# Extend to a bigger disk and create a swap partition:
+if test -b /dev/debvg/rootfs -a -b /dev/sda1 ; then
+  if ! test -b /dev/debvg/swapfs ; then
+    echo "Trying to extend the disk and create a swap partition:"
+    parted -s -- /dev/sda resizepart 1 100%
+    pvresize /dev/sda1
+    lvextend -L +8G /dev/debvg/rootfs
+    resize2fs /dev/dbvg/rootfs
+    lvcreate --name swapfs --size 8G debvg
+    if test -b /dev/debvg/swapfs ; then
+      mkswap -L DEBSWAP /dev/debvg/swapfs
+      sed -i -e 's/^#LABEL/LABEL/g' /etc/fstab
+      swapon -a
+    fi
+  fi
+fi
+fi
 if false ; then
 if test -b /dev/sda && ! test -b /dev/sda2 ; then
   parted -s -- /dev/sda mkpart primary linux-swap -4096 -0
