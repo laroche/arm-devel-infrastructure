@@ -91,7 +91,7 @@ if test -b /dev/debvg/rootfs -a -b /dev/sda1 ; then
     echo "Trying to extend the disk and create a swap partition:"
     parted -s -- /dev/sda resizepart 1 100%
     pvresize /dev/sda1
-    lvextend -L +8G /dev/debvg/rootfs
+    lvextend -L +12G /dev/debvg/rootfs
     resize2fs /dev/debvg/rootfs
     lvcreate --name swapfs --size 8G debvg
     if test -b /dev/debvg/swapfs ; then
@@ -277,7 +277,7 @@ fi
 $apt install build-essential autoconf libtool libtool-bin pkg-config bison flex git libacl1-dev libssl-dev
 $apt install gawk bc make git-email ccache indent gperf exuberant-ctags patchutils
 #$apt install perl clang golang
-#$apt install python pylint pyflakes pyflakes3
+#$apt install python pylint pyflakes3 # pyflakes
 #$apt install subversion git-svn
 #$apt install openjdk-8-jdk cmake
 #$apt install gcc-arm-none-eabi g++-aarch64-linux-gnu g++-arm-linux-gnueabihf
