@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# After booting a new generic Debian image, you can user this sample script
+# After booting a new generic Debian image, you can use this sample script
 # to automatically adjust your image to your personal taste/needs.
 #
 # Many items in this script are more for a personal development box and
@@ -84,6 +84,7 @@ if test "X$1" = Xcheck ; then
   exit 0
 fi
 
+
 if false ; then
 # Extend to a bigger disk and create a swap partition:
 if test -b /dev/debvg/rootfs -a -b /dev/sda1 ; then
@@ -91,13 +92,19 @@ if test -b /dev/debvg/rootfs -a -b /dev/sda1 ; then
     echo "Trying to extend the disk and create a swap partition:"
     parted -s -- /dev/sda resizepart 1 100%
     pvresize /dev/sda1
-    lvextend -L +12G /dev/debvg/rootfs
+    lvextend -L +11G /dev/debvg/rootfs
     resize2fs /dev/debvg/rootfs
     lvcreate --name swapfs --size 8G debvg
     if test -b /dev/debvg/swapfs ; then
       mkswap -L DEBSWAP /dev/debvg/swapfs
       sed -i -e 's/^#LABEL/LABEL/g' /etc/fstab
       swapon -a
+    fi
+    lvcreate --name homefs --size 1G debvg
+    if test -b /dev/debvg/homefs ; then
+      mkfs.ext4 /dev/debvg/homefs
+      echo -e "/dev/debvg/homefs\t/home\text4\tdefaults 0 0" >> /etc/fstab
+      mount -a
     fi
   fi
 fi
@@ -242,7 +249,7 @@ EOM
   fi
 
   # Windows emu wine:
-  if true && test "$HOSTTYPE" = "x86_64" ; then
+  if false && test "$HOSTTYPE" = "x86_64" ; then
     if ! test -f /var/lib/dpkg/arch ; then
       dpkg --add-architecture i386
       apt update
@@ -322,6 +329,14 @@ if true && test $unstable = 0 -a $testing = 0 -a ! -d /opt/qemu ; then
   #./configure --prefix=/opt/qemu
   #make -j 8
   #sudo make install
+fi
+
+# Download and install newer kernel:
+if true && ! test -d /lib/modules/5.6.0-1-amd64 ; then
+  wget -q https://github.com/laroche/arm-devel-infrastructure/releases/download/v20200419/kernel-amd64-5.6.10-1.tar.gz
+  tar xzf kernel-amd64-5.6.10-1.tar.gz
+  dpkg -i kernel-amd64-5.6.10-1/linux-image-5.6.0-1-amd64-unsigned_5.6.10-1_amd64.deb
+  rm -fr kernel-amd64-5.6.10-1.tar.gz kernel-amd64-5.6.10-1
 fi
 
 apt clean
