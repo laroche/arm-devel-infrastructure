@@ -47,7 +47,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.6.8
+KVER=5.6.10
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -73,7 +73,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.6.7-2/5.6.8-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.6.7-2/5.6.10-1/' linux-5/debian/changelog
 sed -i -e 's,^bugfix/s390x/s390-mm-fix-page-table-upgrade-vs-2ndary-address-mod.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
@@ -82,6 +82,8 @@ cd linux-5 || exit 1
 test -f ../orig/linux_$KVER.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py ../linux-$KVER.tar.xz
 # Just to safe disk space and have a faster compile:
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
+# Disable RT kernel:
+sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
 if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
