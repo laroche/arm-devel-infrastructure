@@ -38,7 +38,7 @@ fi
 
 # Build requirements:
 if true ; then
-sudo apt -q -y install build-essential fakeroot rsync git python-debian python3-debian libcap-dev
+sudo apt -q -y install build-essential fakeroot rsync git python3-debian libcap-dev
 sudo apt -q -y build-dep linux
 if test $CROSS = 1 ; then
   sudo apt -q -y install kernel-wedge quilt ccache flex bison libssl-dev
@@ -47,24 +47,24 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.5.18
+KVER=5.6.10
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.5.17
+  RVER=5.6.10
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   # Extract the raspberry-pi patches into a subdirectory:
   if test ! -d rpi-linux-5 ; then
-    git clone -b rpi-5.5.y https://github.com/raspberrypi/linux/ rpi-linux-5
+    git clone -b rpi-5.6.y https://github.com/raspberrypi/linux/ rpi-linux-5
   else
     pushd rpi-linux-5
-    git checkout rpi-5.5.y
+    git checkout rpi-5.6.y
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER e7a89836a274efd5cce216fe6d20a0bbfbdfd456
+  git format-patch -o ../rpi-patches-$RVER c9feecbe2f4a6b1ca993195f5ce7baf65cf0a310
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -73,25 +73,27 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.5.17-2/5.5.18-2/' linux-5/debian/changelog
-#sed -i -e 's,^features/all/wireguard,#features/all/wireguard,g' linux-5/debian/patches/series
-#sed -i -e 's,powerpc-pseries-iommu-Use-a-locallock-instead-local_ir.patch,,g' linux-5/debian/patches-rt/series
+#sed -i -e '1 s/5.6.7-2/5.6.10-1/' linux-5/debian/changelog
+#sed -i -e 's,^bugfix/s390x/s390-mm-fix-page-table-upgrade-vs-2ndary-address-mod.patch,,g' linux-5/debian/patches/series
+#sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
 cd linux-5 || exit 1
 test -f ../orig/linux_$KVER.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py ../linux-$KVER.tar.xz
 # Just to safe disk space and have a faster compile:
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
+# Disable RT kernel:
+#sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
 if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0339-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch
+    rm -f bugfix/rpi/0303-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch
     ls bugfix/rpi/*.patch >> series
   popd
-  rm -f debian/abi/5.5.0-?/arm*
+  rm -f debian/abi/5.6.0-?/arm*
 fi
-rm -fr debian/abi/5.5.0-?
+rm -fr debian/abi/5.6.0-?
 
 if test $CROSS = 0 ; then
 
