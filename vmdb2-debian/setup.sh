@@ -212,10 +212,10 @@ if false ; then
   # Eclipse
   if true && test "$HOSTTYPE" = "x86_64" ; then
     if ! test -e /usr/bin/eclipse ; then
-      wget -q http://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/2019-09/R/eclipse-cpp-2019-09-R-linux-gtk-x86_64.tar.gz
-      tar -zxf eclipse-cpp-2019-09-R-linux-gtk-x86_64.tar.gz -C /usr
+      wget -q http://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/2020-03/R/eclipse-cpp-2020-03-R-incubation-linux-gtk-x86_64.tar.gz
+      tar -zxf eclipse-cpp-2020-03-R-incubation-linux-gtk-x86_64.tar.gz -C /usr
       ln -s /usr/eclipse/eclipse /usr/bin/eclipse
-      rm -f eclipse-cpp-2019-09-R-linux-gtk-x86_64.tar.gz
+      rm -f eclipse-cpp-2020-03-R-incubation-linux-gtk-x86_64.tar.gz
       cat > /usr/share/applications/eclipse.desktop <<EOM
 [Desktop Entry]
 Encoding=UTF-8
