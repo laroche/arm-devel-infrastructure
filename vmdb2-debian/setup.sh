@@ -332,11 +332,14 @@ if true && test $unstable = 0 -a $testing = 0 -a ! -d /opt/qemu ; then
 fi
 
 # Download and install newer kernel:
-if true && test "$HOSTTYPE" = "x86_64" && ! test -d /lib/modules/5.6.0-1-amd64 ; then
-  wget -q https://github.com/laroche/arm-devel-infrastructure/releases/download/v20200419/kernel-amd64-5.6.10-1.tar.gz
-  tar xzf kernel-amd64-5.6.10-1.tar.gz
-  dpkg -i kernel-amd64-5.6.10-1/linux-image-5.6.0-1-amd64-unsigned_5.6.10-1_amd64.deb
-  rm -fr kernel-amd64-5.6.10-1.tar.gz kernel-amd64-5.6.10-1
+KABI=5.6.0-1
+KVER=5.6.11-1
+if true && test "$HOSTTYPE" = "x86_64" && ! test -d /lib/modules/${KABI}-amd64 ; then
+  KERNEL=kernel-amd64-$KVER.tar.gz
+  wget -q https://github.com/laroche/arm-devel-infrastructure/releases/download/v20200419/$KERNEL
+  tar xzf $KERNEL
+  dpkg -i kernel-amd64-$KVER/linux-image-${KABI}-amd64-unsigned_${KVER}_amd64.deb
+  rm -fr $KERNEL kernel-amd64-$KVER
 fi
 
 apt clean
