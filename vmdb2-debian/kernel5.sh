@@ -47,7 +47,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.6.10
+KVER=5.6.11
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -88,7 +88,8 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0303-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch
+    rm -f bugfix/rpi/0303-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch \
+          bugfix/rpi/0555-ALSA-usb-audio-Correct-a-typo-of-NuPrime-DAC-10-USB-.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.6.0-?/arm*
