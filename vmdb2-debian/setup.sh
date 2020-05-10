@@ -333,7 +333,7 @@ fi
 
 # Download and install newer kernel:
 KABI=5.6.0-1
-KVER=5.6.11-1
+KVER=5.6.12-1
 if true && test "$HOSTTYPE" = "x86_64" && ! test -d /lib/modules/${KABI}-amd64 ; then
   KERNEL=kernel-amd64-$KVER.tar.gz
   wget -q https://github.com/laroche/arm-devel-infrastructure/releases/download/v20200419/$KERNEL
