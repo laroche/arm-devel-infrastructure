@@ -6,6 +6,17 @@
 # Many items in this script are more for a personal development box and
 # not suited for a server image with security hardening.
 #
+# Further configuration steps you might consider:
+# - Set password for root and $NEWUSER.
+# - Add ~$NEWUSER/.ssh/ and ~$NEWUSER/.gitconfig
+# - Add firewall rules.
+# - Gnome setup:
+#   - Vorgabe-Anwendungen: Web: Google Chrome, Musik/Video: VLC Media Player, Fotos: ImageMagick
+#   - Einstellungen/Energie: In Bereitschaft gehen: disable
+# - browsers chrome/firefox: Tabs von zuletzt verwenden
+# - Add hostname to /etc/hosts if no DNS is available (otherwise sudo to slow).
+# - If on a virtualized setup, maybe set screen size to 1600x900.
+#
 
 NEWUSER=max
 GECOS="Max Mustermann"
