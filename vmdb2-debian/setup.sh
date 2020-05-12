@@ -54,6 +54,12 @@ if test "X$UID" != "X0" ; then
   exit 1
 fi
 
+# Detect if we run for the first time:
+FIRSTRUN=1
+if test -d /home/$NEWUSER ; then
+  FIRSTRUN=0
+fi
+
 apt="apt -q -y"
 
 unstable="0"
@@ -98,6 +104,7 @@ if test "X$1" = Xcheck ; then
 fi
 
 
+if test $FIRSTRUN = 1 ; then
 if false ; then
 # Extend to a bigger disk and create a swap partition:
 if test -b /dev/debvg/rootfs -a -b /dev/sda1 ; then
@@ -136,6 +143,7 @@ if test -b /dev/sda && ! test -b /dev/sda2 ; then
   # to execute this manually:
   #parted -s -- /dev/sda resizepart 1 -4096
   #resize2fs /dev/sda1
+fi
 fi
 fi
 
@@ -358,6 +366,8 @@ fi
 apt clean
 apt update
 
-# If this should again be used as a generic image:
-#dd if=/dev/zero of=/ZERO || rm -f /ZERO # zero unused filesystem
+if test $FIRSTRUN = 1 ; then
+  # If this should again be used as a generic image:
+  #dd if=/dev/zero of=/ZERO || rm -f /ZERO # zero unused filesystem
+fi
 
