@@ -14,8 +14,10 @@
 #   - Vorgabe-Anwendungen: Web: Google Chrome, Musik/Video: VLC Media Player, Fotos: ImageMagick
 #   - Einstellungen/Energie: In Bereitschaft gehen: disable
 # - browsers chrome/firefox: Tabs von zuletzt verwenden
-# - Add hostname to /etc/hosts if no DNS is available (otherwise sudo to slow).
+# - Set a new hostname in /etc/hostname.
+# - Add hostname to /etc/hosts if no DNS is available (otherwise sudo is too slow).
 # - If on a virtualized setup, maybe set screen size to 1600x900.
+# - Setup printers.
 #
 
 NEWUSER=max
