@@ -366,9 +366,10 @@ fi
 apt clean
 apt update
 
-if test $FIRSTRUN = 1 ; then
-  :
-  # If this should again be used as a generic image:
-  #dd if=/dev/zero of=/ZERO || rm -f /ZERO # zero unused filesystem
+# If this should again be used as a generic image, we remove
+# ssh keys and write zeroes into unsued filesystem space:
+if false && test $FIRSTRUN = 1 ; then
+  dd if=/dev/zero of=/ZERO || rm -f /ZERO # zero unused filesystem
+  rm -f /etc/ssh/ssh_host_*_key*
 fi
 
