@@ -354,7 +354,7 @@ KABI=5.6.0-1
 KVER=5.6.13-1
 if true && test "$HOSTTYPE" = "x86_64" && ! test -d /lib/modules/${KABI}-amd64 ; then
   KERNEL=kernel-amd64-$KVER.tar.gz
-  wget -q https://github.com/laroche/arm-devel-infrastructure/releases/download/v20200419/$KERNEL
+  wget -q https://github.com/laroche/arm-devel-infrastructure/releases/download/v20200515/$KERNEL
   tar xzf $KERNEL
   dpkg -i kernel-amd64-$KVER/linux-image-${KABI}-amd64-unsigned_${KVER}_amd64.deb
   rm -fr $KERNEL kernel-amd64-$KVER
