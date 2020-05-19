@@ -339,11 +339,11 @@ EOM
 fi
 if true && test $unstable = 0 -a $testing = 0 -a ! -d /opt/qemu ; then
   $apt install pkg-config libglib2.0-dev libpixman-1-dev
-  if ! test -f /home/$NEWUSER/data/qemu-4.2.0.tar.xz ; then
-    su $NEWUSER -c "cd ~/data && wget -q https://download.qemu.org/qemu-4.2.0.tar.xz"
+  if ! test -f /home/$NEWUSER/data/qemu-5.0.0.tar.xz ; then
+    su $NEWUSER -c "cd ~/data && wget -q https://download.qemu.org/qemu-5.0.0.tar.xz"
   fi
-  #tar xJf qemu-4.2.0.tar.xz
-  #cd qemu-4.2.0
+  #tar xJf qemu-5.0.0.tar.xz
+  #cd qemu-5.0.0
   #./configure --prefix=/opt/qemu
   #make -j 8
   #sudo make install
