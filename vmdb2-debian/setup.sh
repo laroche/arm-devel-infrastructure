@@ -285,8 +285,8 @@ EOM
     rm -f teams.deb
   fi
 
-  # Skype:
-  if true && test "$HOSTTYPE" = "x86_64" -a ! -x /usr/bin/skypeforlinux ; then
+  # Skype (disabled by default):
+  if false && test "$HOSTTYPE" = "x86_64" -a ! -x /usr/bin/skypeforlinux ; then
     wget -q https://go.skype.com/skypeforlinux-64.deb
     dpkg -i skypeforlinux-64.deb
     rm -f skypeforlinux-64.deb
@@ -352,7 +352,8 @@ fi
 # Download and install newer kernel:
 KABI=5.6.0-1
 KVER=5.6.14-1
-if true && test "$HOSTTYPE" = "x86_64" && ! test -d /lib/modules/${KABI}-amd64 ; then
+# Disabled by default as check for KABI is not enough:
+if false && test "$HOSTTYPE" = "x86_64" && ! test -d /lib/modules/${KABI}-amd64 ; then
   KERNEL=kernel-amd64-$KVER.tar.gz
   wget -q https://github.com/laroche/arm-devel-infrastructure/releases/download/v20200515/$KERNEL
   tar xzf $KERNEL
