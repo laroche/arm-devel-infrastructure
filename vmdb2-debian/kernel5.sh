@@ -47,11 +47,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.6.15
+KVER=5.6.16
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.6.14
+  RVER=5.6.16
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -64,7 +64,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER e3ac9117b18596b7363d5b7904ab03a7d782b40c
+  git format-patch -o ../rpi-patches-$RVER 960a4cc3ec49f8292d0f837f0a6b28b03c54f042
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -73,7 +73,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.6.14-2/5.6.15-2/' linux-5/debian/changelog
+sed -i -e '1 s/5.6.14-2/5.6.16-2/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/s390x/s390-mm-fix-page-table-upgrade-vs-2ndary-address-mod.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
@@ -88,10 +88,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0303-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch \
-          bugfix/rpi/0295-kbuild-Allow-.dtbo-overlays-to-be-built-piecemeal.patch \
-          bugfix/rpi/0359-Kbuild-Allow-.dtbo-overlays-to-be-built-adjust.patch \
-          bugfix/rpi/0514-component-Silence-bind-error-on-EPROBE_DEFER.patch
+    rm -f bugfix/rpi/0303-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.6.0-?/arm*
