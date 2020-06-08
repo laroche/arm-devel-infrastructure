@@ -47,7 +47,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.6.16
+KVER=5.6.17
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -73,8 +73,11 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.6.14-2/5.6.16-2/' linux-5/debian/changelog
+sed -i -e '1 s/5.6.14-2/5.6.17-2/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/s390x/s390-mm-fix-page-table-upgrade-vs-2ndary-address-mod.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/fs-binfmt_elf.c-allocate-initialized-memory-in-fill_.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/kernel-relay.c-handle-alloc_percpu-returning-NULL-in.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/mm-Fix-mremap-not-considering-huge-pmd-devmap.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
