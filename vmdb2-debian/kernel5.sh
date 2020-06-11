@@ -47,11 +47,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.6.17
+KVER=5.6.18
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.6.16
+  RVER=5.6.17
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -64,7 +64,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 960a4cc3ec49f8292d0f837f0a6b28b03c54f042
+  git format-patch -o ../rpi-patches-$RVER 5117c0a56aeeb3ab18fb91bd611e739fec3df9c0
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -73,11 +73,16 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.6.14-2/5.6.17-2/' linux-5/debian/changelog
+sed -i -e '1 s/5.6.14-2/5.6.18-2/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/s390x/s390-mm-fix-page-table-upgrade-vs-2ndary-address-mod.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,^bugfix/all/fs-binfmt_elf.c-allocate-initialized-memory-in-fill_.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,^bugfix/all/kernel-relay.c-handle-alloc_percpu-returning-NULL-in.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,^bugfix/all/mm-Fix-mremap-not-considering-huge-pmd-devmap.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/x86/srbds/0001-x86-cpu-Add-a-steppings-field-to-struct-x86_cpu_id.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/x86/srbds/0002-x86-cpu-Add-table-argument-to-cpu_matches.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/x86/srbds/0003-x86-speculation-Add-Special-Register-Buffer-Data-Sam.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/x86/srbds/0004-x86-speculation-Add-SRBDS-vulnerability-and-mitigati.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/x86/srbds/0005-x86-speculation-Add-Ivy-Bridge-to-affected-list.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
