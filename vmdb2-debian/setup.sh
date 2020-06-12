@@ -82,8 +82,9 @@ newlog() {
 if test "X$1" = Xcheck ; then
   newlog "List failed systemctl jobs:"
   systemctl list-units --state=failed
-  newlog "List all *.ucf-dist* files in /etc /usr:"
+  newlog "List all *.ucf-dist* and *.dpkg-dist files in /etc /usr:"
   find /etc /usr -name "*.ucf-dist*"
+  find /etc /usr -name "*.dpkg-dist"
   newlog "List all debian packages not in state ii:"
   dpkg -l | grep -v ^ii
   newlog "List all debian packages named linux-image:"
