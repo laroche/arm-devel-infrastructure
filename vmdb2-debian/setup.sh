@@ -400,6 +400,14 @@ EOM
     $apt install wine winetricks wine32
   fi
 
+  # signal.ch messenger:
+  if false && test "$HOSTTYPE" = "x86_64" ; then
+    curl -s https://updates.signal.org/desktop/apt/keys.asc | apt-key add -
+    echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" > /etc/apt/sources.list.d/signal-xenial.list
+    $apt update
+    $apt install signal-desktop
+  fi
+
   # Microsoft Teams:
   if true && test "$HOSTTYPE" = "x86_64" -a ! -x /usr/bin/teams ; then
     wget -q -O teams.deb https://go.microsoft.com/fwlink/p/?linkid=2112886
@@ -481,6 +489,38 @@ if false && test "$HOSTTYPE" = "x86_64" && ! test -d /lib/modules/${KABI}-amd64 
   tar xzf $KERNEL
   dpkg -i kernel-amd64-$KVER/linux-image-${KABI}-amd64-unsigned_${KVER}_amd64.deb
   rm -fr $KERNEL kernel-amd64-$KVER
+fi
+
+if test "X$SYSTYPE" != Xlxc ; then
+# squid http proxy:
+if false ; then
+  $apt install squid
+  # Listen on all interfaces to provide proxy to the whole network:
+  sed -i -e 's/^http_port .*/http_port 0.0.0.0:3128/g' /etc/squid/squid.conf
+  cat > /etc/squid/conf.d/myproxy.conf <<-EOM
+	http_access allow localnet
+	# 2000 MB squid cache in two-level directory
+	cache_dir diskd /var/spool/squid 2000 16 256
+	# Default is 30 seconds and slows down reboots too much:
+	shutdown_lifetime 10 seconds
+EOM
+fi
+
+# lxc server:
+if false ; then
+  $apt install lxc
+  #lxc-checkconfig
+  cat > /etc/lxc/default.conf <<-EOM
+	#lxc.net.0.type = empty
+	lxc.net.0.type = veth
+	lxc.net.0.link = lxcbr0
+	lxc.net.0.flags = up
+	lxc.net.0.name = eth0
+	lxc.apparmor.profile = generated
+	lxc.apparmor.allow_nesting = 0
+EOM
+  echo 'USE_LXC_BRIDGE="true"' > /etc/default/lxc-net
+fi
 fi
 
 $apt clean
