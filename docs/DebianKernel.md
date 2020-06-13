@@ -15,6 +15,7 @@ the [buster](https://salsa.debian.org/kernel-team/linux/commits/buster) branch i
 You can checkout these branches and recompile locally a current Debian kernel with
 these scripts: [kernel.sh](https://github.com/laroche/arm-devel-infrastructure/blob/master/vmdb2-debian/kernel.sh) and
 [kernel5.sh](https://github.com/laroche/arm-devel-infrastructure/blob/master/vmdb2-debian/kernel5.sh).
+This uses about 6 GB of disk space.
 
 You can also cross-compile armhf and arm64 kernels on amd64, also adding all raspberry-pi patches is fully scripted:
 ```shell
@@ -121,6 +122,7 @@ Syzkaller
 
 To start syzkaller locally for arm32 and arm64, you can use the script
 [syzkaller.sh](https://github.com/laroche/arm-devel-infrastructure/tree/master/syzkaller/syzkaller.sh).
+If you build both the 32bit and 64bit tests, this uses about 20 GB of disk space.
 
 
 Automated Linux Kernel Testing
