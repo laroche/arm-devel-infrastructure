@@ -46,6 +46,6 @@ other
   and improve appearance.
   [https://help.github.com/en/articles/customizing-css-and-html-in-your-jekyll-theme](https://help.github.com/en/articles/customizing-css-and-html-in-your-jekyll-theme)
 - Disable unattended apt package updates during tests.
-- In "setup.sh" can we check if "apt update" fails, so we can exit early?
+- In "setup.sh" can we check if "apt-get update" fails, so we can exit early?
 - If not connected to the Internet, ntpd logs often about failed DNS resolver. Rate limit logging.
 

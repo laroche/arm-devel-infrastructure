@@ -64,7 +64,7 @@ echo linux-image-amd64 install | sudo dpkg --set-selections
 dpkg -l linux-image-amd64
 ```
 
-Or you can use apt directly:
+Or you can use apt-mark directly:
 
 ```shell
 apt-mark hold linux-image-amd64
@@ -80,8 +80,8 @@ Linux Test Project LTP
 Compile and install ltp into `/opt/ltp`:
 
 ```shell
-sudo apt install build-essential autoconf libtool libtool-bin bison flex git libacl1-dev libssl-dev
-sudo apt install quotatool
+sudo apt-get install build-essential autoconf libtool libtool-bin bison flex git libacl1-dev libssl-dev
+sudo apt-get install quotatool
 git clone --depth 1 https://github.com/linux-test-project/ltp
 pushd ltp
 make autotools

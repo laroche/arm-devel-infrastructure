@@ -11,7 +11,7 @@ As of mai 2020, Debian testing/unstable contains qemu-5.0.0:
 
 Download, compile and install a current qemu to `/opt/qemu`:
 ```shell
-sudo apt install pkg-config libglib2.0-dev libpixman-1-dev
+sudo apt-get install pkg-config libglib2.0-dev libpixman-1-dev
 wget -q https://download.qemu.org/qemu-5.0.0.tar.xz
 tar xJf qemu-5.0.0.tar.xz
 cd qemu-5.0.0

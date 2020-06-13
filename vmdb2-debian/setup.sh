@@ -20,8 +20,13 @@
 # - Setup printers.
 #
 
+# New user to setup:
 NEWUSER=max
 GECOS="Max Mustermann"
+
+# Do we have a http proxy on this network? (IP:port or Hostname:port)
+HTTP_PROXY=""
+
 
 # Non-root adjustments that can be done after running setup.sh as root:
 if test "X$UID" != "X0" ; then
@@ -60,14 +65,16 @@ if test -d /home/$NEWUSER ; then
   FIRSTRUN=0
 fi
 
-apt="apt -q -y"
+SYSTYPE="$(systemd-detect-virt)"
+
+apt="apt-get -qq -y"
 
 unstable="0"
 if grep -q unstable /etc/apt/sources.list ; then
   unstable="1"
 fi
 testing="0"
-if grep -q testing /etc/apt/sources.list ; then
+if grep -q testing /etc/apt/sources.list || grep -qw sid /etc/apt/sources.list ; then
   testing="1"
 fi
 
@@ -94,12 +101,12 @@ if test "X$1" = Xcheck ; then
   newlog "List all regular files in /var/cache/apt:"
   find /var/cache/apt -type f
   newlog "Run updates via apt:"
-  apt update
+  $apt update
   $apt dist-upgrade
   #$apt autoremove
   #newlog "List all regular files in /var/cache/apt:"
   #find /var/cache/apt -type f
-  #apt clean
+  #$apt clean
   newlog "All checks finished."
   exit 0
 fi
@@ -160,6 +167,110 @@ fi
 # - edit /etc/fstab
 # - swapon -a
 
+# Bash configuration (aliases and .bashrc):
+if ! test -f /root/.bash_aliases ; then
+  echo "alias ..='cd ..'"      > /root/.bash_aliases
+  echo "alias ...='cd ../..'" >> /root/.bash_aliases
+  echo "alias o=less"         >> /root/.bash_aliases
+  echo "alias l='ls -la'"     >> /root/.bash_aliases
+fi
+if ! test -f /etc/skel/.bash_aliases ; then
+  cp /root/.bash_aliases /etc/skel/.bash_aliases
+fi
+if ! grep -q bash_aliases /root/.bashrc ; then
+  echo                                                    >> /root/.bashrc
+  echo "HISTCONTROL=ignoreboth"                           >> /root/.bashrc
+  echo "# append to the history file, don't overwrite it" >> /root/.bashrc
+  echo "shopt -s histappend"                              >> /root/.bashrc
+  echo "HISTSIZE=1000"                                    >> /root/.bashrc
+  echo "HISTFILESIZE=2000"                                >> /root/.bashrc
+  echo                                                    >> /root/.bashrc
+  echo ". ~/.bash_aliases"                                >> /root/.bashrc
+fi
+
+# disable ipv6
+#sed -i -e 's/^#//g' /etc/sysctl.d/01-disable-ipv6.conf
+
+if test "X$SYSTYPE" = Xlxc ; then
+  # TODO XXX: Best would be to detect if we are running over ssh with "bash -s":
+  export DEBIAN_FRONTEND=noninteractive
+fi
+
+if test "X$HTTP_PROXY" != "X" ; then
+  if ! test -f /etc/apt/apt.conf.d/65proxy ; then
+    cat > /etc/apt/apt.conf.d/65proxy <<'EOM'
+	Acquire::http::Proxy "http://$HTTP_PROXY/";
+	#Acquire::https::Proxy "https://$HTTP_PROXY/";
+EOM
+  fi
+  if test -d /etc/environment.d ; then
+    if ! test -f /etc/environment.d/50proxy.conf ; then
+      cat > /etc/environment.d/50proxy.conf <<'EOM'
+	http_proxy=http://$HTTP_PROXY/
+	https_proxy=http://$HTTP_PROXY/
+	ftp_proxy=http://$HTTP_PROXY/
+	no_proxy=localhost
+EOM
+    fi
+  elif ! grep -q http_proxy /etc/environment ; then
+    cat >> /etc/environment <<'EOM'
+	http_proxy=http://$HTTP_PROXY/
+	https_proxy=http://$HTTP_PROXY/
+	ftp_proxy=http://$HTTP_PROXY/
+	no_proxy=localhost
+EOM
+  fi
+fi
+
+# Run updates:
+#$apt clean
+$apt update
+$apt dist-upgrade
+$apt autoremove
+
+if test "X$SYSTYPE" = Xlxc && test $FIRSTRUN = 1 ; then
+  # Write complete sources.list file:
+  if test $testing = 1 ; then
+    echo "deb http://deb.debian.org/debian/ testing main contrib non-free" > /etc/apt/sources.list
+    echo "deb-src http://deb.debian.org/debian/ testing main contrib non-free" >> /etc/apt/sources.list
+    echo >> /etc/apt/sources.list
+    echo "#deb http://deb.debian.org/debian/ testing-updates main contrib non-free" >> /etc/apt/sources.list
+    echo "#deb-src http://deb.debian.org/debian/ testing-updates main contrib non-free" >> /etc/apt/sources.list
+    echo >> /etc/apt/sources.list
+    echo "#deb http://deb.debian.org/debian-security testing-security main contrib non-free" >> /etc/apt/sources.list
+    echo "#deb-src http://deb.debian.org/debian-security testing-security main contrib non-free" >> /etc/apt/sources.list
+    echo >> /etc/apt/sources.list
+    echo "#deb http://security.debian.org testing-security main contrib non-free" >> /etc/apt/sources.list
+  elif test $unstable = 1 ; then
+    echo "deb http://deb.debian.org/debian/ unstable main contrib non-free" > /etc/apt/sources.list
+    echo "deb-src http://deb.debian.org/debian/ unstable main contrib non-free" >> /etc/apt/sources.list
+  else
+    echo "deb http://deb.debian.org/debian/ buster main contrib non-free" > /etc/apt/sources.list
+    echo "deb-src http://deb.debian.org/debian/ buster main contrib non-free" >> /etc/apt/sources.list
+    echo >> /etc/apt/sources.list
+    echo "deb http://deb.debian.org/debian/ buster-updates main contrib non-free" >> /etc/apt/sources.list
+    echo "deb-src http://deb.debian.org/debian/ buster-updates main contrib non-free" >> /etc/apt/sources.list
+    echo >> /etc/apt/sources.list
+    echo "deb http://deb.debian.org/debian/ buster-backports main contrib non-free" >> /etc/apt/sources.list
+    echo "deb-src http://deb.debian.org/debian/ buster-backports main contrib non-free" >> /etc/apt/sources.list
+    echo >> /etc/apt/sources.list
+    echo "deb http://security.debian.org/debian-security buster/updates main contrib non-free" >> /etc/apt/sources.list
+    echo "deb-src http://security.debian.org/debian-security buster/updates main contrib non-free" >> /etc/apt/sources.list
+  fi
+  # Keep experimental commented out:
+  echo "#deb http://deb.debian.org/debian/ experimental main contrib non-free" > /etc/apt/sources.list.d/experimental.list
+  echo "#deb-src http://deb.debian.org/debian/ experimental main contrib non-free" >> /etc/apt/sources.list.d/experimental.list
+  # My own definition of a small Debian system:
+  $apt install unattended-upgrades debsums irqbalance locales keyboard-configuration console-setup \
+    locate psmisc strace htop tree man parted lvm2 dosfstools vim sudo net-tools traceroute nmap \
+    wakeonlan bind9-host dnsutils whois tcpdump iptables-persistent ssh openssh-server \
+    screen tmux rsync curl wget git-core unzip zip xz-utils reportbug \
+    less apt-utils
+  # TODO: why less and apt-utils, they are already included in vmdb2
+  # Things not included as less useful without the real hardware:
+  # haveged ntp gpm wireless-tools wpasupplicant grub-pc firmware* linux-image*
+fi
+
 # Add NOPASSWD so that all users in the sudo group do not have to type in their password:
 # This is not recommended and insecure, but handy on some devel machines.
 sed -i -e 's/^%sudo.*/%sudo\tALL=(ALL:ALL) NOPASSWD: ALL/g' /etc/sudoers
@@ -180,13 +291,17 @@ if test -f $vim ; then
   fi
 fi
 
-# disable ipv6
-#sed -i -e 's/^#//g' /etc/sysctl.d/01-disable-ipv6.conf
+update-alternatives --set editor /usr/bin/vim.basic
+
+sed -i -e 's,^SHELL=/bin/sh,SHELL=/bin/bash,g' /etc/default/useradd
 
 # Add myself:
 if ! test -d /home/$NEWUSER ; then
   adduser --gecos "$GECOS" --add_extra_groups --disabled-password $NEWUSER
-  sed -i -e "s/^$NEWUSER:[^:]*:/$NEWUSER::/g" /etc/shadow
+  # Disable password only for machines with a desktop and local login:
+  if test "X$SYSTYPE" != Xlxc ; then
+    sed -i -e "s/^$NEWUSER:[^:]*:/$NEWUSER::/g" /etc/shadow
+  fi
   adduser $NEWUSER sudo
 fi
 if ! test -d /home/$NEWUSER/data ; then
@@ -195,14 +310,13 @@ fi
 if ! test -d /home/$NEWUSER/.ssh ; then
   su $NEWUSER -c "mkdir -m 0700 -p ~/.ssh"
 fi
-
-# Run updates:
-apt update
-$apt dist-upgrade
-$apt autoremove
+if test -f /root/.ssh/authorized_keys && ! test -f /home/$NEWUSER/.ssh/authorized_keys ; then
+  cp /root/.ssh/authorized_keys /home/$NEWUSER/.ssh/authorized_keys
+  chown $NEWUSER.$NEWUSER /home/$NEWUSER/.ssh/authorized_keys
+fi
 
 # Install some GUI and desktop apps:
-if false ; then
+if false && test "X$SYSTYPE" != Xlxc ; then
   #$apt install xfce4 lightdm synaptic menu
   #$apt install aptitude
   tasksel install gnome-desktop --new-install
@@ -227,7 +341,7 @@ if false ; then
     #$apt install ./google-chrome-stable_current_amd64.deb
     wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
     echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
-    apt update
+    $apt update
     $apt install google-chrome-stable
   fi
 
@@ -238,17 +352,17 @@ if false ; then
       tar -zxf eclipse-cpp-2020-03-R-incubation-linux-gtk-x86_64.tar.gz -C /usr
       ln -s /usr/eclipse/eclipse /usr/bin/eclipse
       rm -f eclipse-cpp-2020-03-R-incubation-linux-gtk-x86_64.tar.gz
-      cat > /usr/share/applications/eclipse.desktop <<EOM
-[Desktop Entry]
-Encoding=UTF-8
-Name=Eclipse IDE
-Comment=Eclipse IDE
-Exec=/usr/bin/eclipse
-Icon=/usr/eclipse/icon.xpm
-Categories=Application;Development;Java;IDE
-Version=4.8
-Type=Application
-Terminal=0
+      cat > /usr/share/applications/eclipse.desktop <<'EOM'
+	[Desktop Entry]
+	Encoding=UTF-8
+	Name=Eclipse IDE
+	Comment=Eclipse IDE
+	Exec=/usr/bin/eclipse
+	Icon=/usr/eclipse/icon.xpm
+	Categories=Application;Development;Java;IDE
+	Version=4.8
+	Type=Application
+	Terminal=0
 EOM
     fi
     $apt install default-jre
@@ -261,7 +375,7 @@ EOM
     fi
     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list
     #$apt install apt-transport-https
-    apt update
+    $apt update
     $apt install code # or code-insiders
     $apt install gvfs-bin
     #update-alternatives --set editor /usr/bin/code
@@ -274,7 +388,7 @@ EOM
   if false && test "$HOSTTYPE" = "x86_64" ; then
     if ! test -f /var/lib/dpkg/arch ; then
       dpkg --add-architecture i386
-      apt update
+      $apt update
     fi
     $apt install wine winetricks wine32
   fi
@@ -322,15 +436,15 @@ if true && ! test -d /opt/ltp ; then
   $apt install quotatool
   if ! test -d /home/$NEWUSER/data/ltp ; then
     su $NEWUSER -c "cd ~/data && git clone --depth 1 https://github.com/linux-test-project/ltp"
-    cat > /opt/ltp-SKIP <<EOM
-bind04
-bind05
-fallocate06
-fanotify09
-fanotify15
-msgstress04
-recvmsg02
-min_free_kbytes
+    cat > /opt/ltp-SKIP <<'EOM'
+	bind04
+	bind05
+	fallocate06
+	fanotify09
+	fanotify15
+	msgstress04
+	recvmsg02
+	min_free_kbytes
 EOM
     # make autotools
     # ./configure
@@ -362,8 +476,8 @@ if false && test "$HOSTTYPE" = "x86_64" && ! test -d /lib/modules/${KABI}-amd64 
   rm -fr $KERNEL kernel-amd64-$KVER
 fi
 
-apt clean
-apt update
+$apt clean
+$apt update
 
 # If this should again be used as a generic image, we remove
 # ssh keys and write zeroes into unsued filesystem space:

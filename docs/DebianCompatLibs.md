@@ -10,8 +10,8 @@ Install 32bit compat libs on arm64 Debian:
 if ! test -f /var/lib/dpkg/arch ; then
   dpkg --add-architecture armhf
 fi
-apt update
-apt install libc6:armhf libstdc++6:armhf
+apt-get update
+apt-get install libc6:armhf libstdc++6:armhf
 ```
 
 With older installations you might need this symlink:

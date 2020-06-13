@@ -17,7 +17,7 @@ fi
 DISK="$TARGET.qcow2"
 
 # Install needed software:
-#sudo apt -q -y install virtinst virt-manager
+#sudo apt-get -qq -y install virtinst virt-manager
 
 # Download newest release and unpack:
 if ! test -f debian-amd64.img ; then

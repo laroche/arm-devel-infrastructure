@@ -38,12 +38,12 @@ fi
 
 # Build requirements:
 if true ; then
-sudo apt -q -y install build-essential fakeroot rsync git python3-debian libcap-dev
-sudo apt -q -y build-dep linux
+sudo apt-get -qq -y install build-essential fakeroot rsync git python3-debian libcap-dev
+sudo apt-get -qq -y build-dep linux
 if test $CROSS = 1 ; then
-  sudo apt -q -y install kernel-wedge quilt ccache flex bison libssl-dev
-  sudo apt -q -y install crossbuild-essential-arm64 crossbuild-essential-armhf
-  #sudo apt -q -y install g++-9-aarch64-linux-gnu g++-9-arm-linux-gnueabihf
+  sudo apt-get -qq -y install kernel-wedge quilt ccache flex bison libssl-dev
+  sudo apt-get -qq -y install crossbuild-essential-arm64 crossbuild-essential-armhf
+  #sudo apt-get -qq -y install g++-9-aarch64-linux-gnu g++-9-arm-linux-gnueabihf
 fi
 fi
 

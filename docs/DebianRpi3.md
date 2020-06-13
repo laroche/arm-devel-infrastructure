@@ -111,7 +111,7 @@ Here a few things you want todo on first login:
 - Change sshd-server configuration: `vim /etc/ssh/sshd_config`
 - Change eth0 network configuration: `vim /etc/network/interfaces.d/eth0`
 - Configure a wireless adapter.
-- Update your software: `apt update; apt dist-upgrade; apt autoremove`
+- Update your software: `apt-get update; apt-get dist-upgrade; apt-get autoremove`
 - How to change from stable to testing/unstable.
 - Install an RT-kernel.
 

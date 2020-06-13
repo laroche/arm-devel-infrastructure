@@ -8,7 +8,7 @@ You should have Debian 10 or newer installed to run these scripts
 yourself.
 
 ```shell
-sudo apt install vmdb2 dosfstools qemu qemu-user-static make #zip
+sudo apt-get install vmdb2 dosfstools qemu qemu-user-static make #zip
 git clone https://github.com/laroche/arm-devel-infrastructure
 cd arm-devel-infrastructure/vmdb2-debian
 edit debian-amd64.yaml

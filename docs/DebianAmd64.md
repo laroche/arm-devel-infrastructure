@@ -85,7 +85,7 @@ If you are new to virtualization, please look at the following commands and how 
 
 ```shell
 # Install the needed software for Debian or Ubuntu systems:
-sudo apt install virtinst virt-manager
+sudo apt-get install virtinst virt-manager
 # List all available guest/virtualized systems:
 virsh list --all
 # start/boot a guest system:
@@ -157,7 +157,7 @@ Here a few things you want todo on first login:
 - Change sshd-server configuration: `vim /etc/ssh/sshd_config`
 - Change eth0 network configuration: `vim /etc/network/interfaces.d/eth0`
 - Configure a wireless adapter.
-- Update your software: `apt update; apt dist-upgrade; apt autoremove`
+- Update your software: `apt-get update; apt-get dist-upgrade; apt-get autoremove`
 - How to change from stable to testing/unstable.
 - Install an RT-kernel.
 
