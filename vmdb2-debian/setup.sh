@@ -198,14 +198,14 @@ fi
 
 if test "X$HTTP_PROXY" != "X" ; then
   if ! test -f /etc/apt/apt.conf.d/65proxy ; then
-    cat > /etc/apt/apt.conf.d/65proxy <<'EOM'
+    cat > /etc/apt/apt.conf.d/65proxy <<-EOM
 	Acquire::http::Proxy "http://$HTTP_PROXY/";
 	#Acquire::https::Proxy "https://$HTTP_PROXY/";
 EOM
   fi
   if test -d /etc/environment.d ; then
     if ! test -f /etc/environment.d/50proxy.conf ; then
-      cat > /etc/environment.d/50proxy.conf <<'EOM'
+      cat > /etc/environment.d/50proxy.conf <<-EOM
 	http_proxy=http://$HTTP_PROXY/
 	https_proxy=http://$HTTP_PROXY/
 	ftp_proxy=http://$HTTP_PROXY/
@@ -213,7 +213,7 @@ EOM
 EOM
     fi
   elif ! grep -q http_proxy /etc/environment ; then
-    cat >> /etc/environment <<'EOM'
+    cat >> /etc/environment <<-EOM
 	http_proxy=http://$HTTP_PROXY/
 	https_proxy=http://$HTTP_PROXY/
 	ftp_proxy=http://$HTTP_PROXY/
@@ -221,12 +221,6 @@ EOM
 EOM
   fi
 fi
-
-# Run updates:
-#$apt clean
-$apt update
-$apt dist-upgrade
-$apt autoremove
 
 if test "X$SYSTYPE" = Xlxc && test $FIRSTRUN = 1 ; then
   # Write complete sources.list file:
@@ -260,6 +254,11 @@ if test "X$SYSTYPE" = Xlxc && test $FIRSTRUN = 1 ; then
   # Keep experimental commented out:
   echo "#deb http://deb.debian.org/debian/ experimental main contrib non-free" > /etc/apt/sources.list.d/experimental.list
   echo "#deb-src http://deb.debian.org/debian/ experimental main contrib non-free" >> /etc/apt/sources.list.d/experimental.list
+  # Run updates:
+  #$apt clean
+  $apt update
+  $apt dist-upgrade
+  $apt autoremove
   # My own definition of a small Debian system:
   $apt install unattended-upgrades debsums irqbalance locales keyboard-configuration console-setup \
     locate psmisc strace htop tree man parted lvm2 dosfstools vim sudo net-tools traceroute nmap \
@@ -269,11 +268,19 @@ if test "X$SYSTYPE" = Xlxc && test $FIRSTRUN = 1 ; then
   # TODO: why less and apt-utils, they are already included in vmdb2
   # Things not included as less useful without the real hardware:
   # haveged ntp gpm wireless-tools wpasupplicant grub-pc firmware* linux-image*
+else
+  # Run updates:
+  #$apt clean
+  $apt update
+  $apt dist-upgrade
+  $apt autoremove
 fi
 
 # Add NOPASSWD so that all users in the sudo group do not have to type in their password:
 # This is not recommended and insecure, but handy on some devel machines.
-sed -i -e 's/^%sudo.*/%sudo\tALL=(ALL:ALL) NOPASSWD: ALL/g' /etc/sudoers
+if test -f /etc/sudoers ; then
+  sed -i -e 's/^%sudo.*/%sudo\tALL=(ALL:ALL) NOPASSWD: ALL/g' /etc/sudoers
+fi
 
 # vim package updates overwrite this change, so we need to fix this periodically:
 # https://unix.stackexchange.com/questions/318824/vim-cutpaste-not-working-in-stretch-debian-9
@@ -352,7 +359,7 @@ if false && test "X$SYSTYPE" != Xlxc ; then
       tar -zxf eclipse-cpp-2020-03-R-incubation-linux-gtk-x86_64.tar.gz -C /usr
       ln -s /usr/eclipse/eclipse /usr/bin/eclipse
       rm -f eclipse-cpp-2020-03-R-incubation-linux-gtk-x86_64.tar.gz
-      cat > /usr/share/applications/eclipse.desktop <<'EOM'
+      cat > /usr/share/applications/eclipse.desktop <<-EOM
 	[Desktop Entry]
 	Encoding=UTF-8
 	Name=Eclipse IDE
@@ -436,7 +443,7 @@ if true && ! test -d /opt/ltp ; then
   $apt install quotatool
   if ! test -d /home/$NEWUSER/data/ltp ; then
     su $NEWUSER -c "cd ~/data && git clone --depth 1 https://github.com/linux-test-project/ltp"
-    cat > /opt/ltp-SKIP <<'EOM'
+    cat > /opt/ltp-SKIP <<-EOM
 	bind04
 	bind05
 	fallocate06
