@@ -192,7 +192,7 @@ steps:
 
   - chroot: rootfs
     shell: |
-      apt update
+      apt-get update
       systemctl enable ssh.service
 
       echo "tzdata tzdata/Areas select Europe" | debconf-set-selections
@@ -226,7 +226,7 @@ steps:
 
       update-initramfs -u -k all
 
-      apt clean
+      apt-get clean
       rm -rf /var/lib/apt/lists
 
       test -f /boot/firmware/cmdline.txt && \

@@ -6,6 +6,8 @@ Things that could be improved in the future:
 partitioning and grub
 ---------------------
 
+- For amd64 change from msdos partitioning to gpt. Test if this works with
+  some real hardware as well as virsh/qemu.
 - Generated grub config shows too many entries from local system.
   Fixed by first update-grub invocation on an installed system.
    - Check creating new images within lxc resolves this.

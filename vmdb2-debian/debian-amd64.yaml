@@ -172,7 +172,7 @@ steps:
 
   - chroot: rootfs
     shell: |
-      apt update
+      apt-get update
       systemctl enable ssh.service
 
   - grub: bios
@@ -212,7 +212,7 @@ steps:
 
       update-initramfs -u -k all
 
-      apt clean
+      apt-get clean
       rm -rf /var/lib/apt/lists
 
       unstable="0"
