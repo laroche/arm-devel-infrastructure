@@ -222,8 +222,8 @@ EOM
   fi
 fi
 
+# On new lxc systems write a complete sources.list file:
 if test "X$SYSTYPE" = Xlxc && test $FIRSTRUN = 1 ; then
-  # Write complete sources.list file:
   if test $testing = 1 ; then
     echo "deb http://deb.debian.org/debian/ testing main contrib non-free" > /etc/apt/sources.list
     echo "deb-src http://deb.debian.org/debian/ testing main contrib non-free" >> /etc/apt/sources.list
@@ -254,26 +254,31 @@ if test "X$SYSTYPE" = Xlxc && test $FIRSTRUN = 1 ; then
   # Keep experimental commented out:
   echo "#deb http://deb.debian.org/debian/ experimental main contrib non-free" > /etc/apt/sources.list.d/experimental.list
   echo "#deb-src http://deb.debian.org/debian/ experimental main contrib non-free" >> /etc/apt/sources.list.d/experimental.list
-  # Run updates:
-  #$apt clean
-  $apt update
-  $apt dist-upgrade
-  $apt autoremove
+fi
+
+# Run updates:
+#$apt clean
+$apt update
+if test $? != 0 ; then
+  echo "Error running 'apt-get update', so exiting this script."
+  exit 1
+fi
+$apt dist-upgrade
+$apt autoremove
+
+# On new lxc systems install a base set of Debian packages:
+if test "X$SYSTYPE" = Xlxc && test $FIRSTRUN = 1 ; then
   # My own definition of a small Debian system:
-  $apt install unattended-upgrades debsums irqbalance locales keyboard-configuration console-setup \
-    locate psmisc strace htop tree man parted lvm2 dosfstools vim sudo net-tools traceroute nmap \
+  $apt install unattended-upgrades debsums locales locate psmisc strace htop \
+    tree man parted lvm2 dosfstools vim sudo net-tools traceroute nmap \
     wakeonlan bind9-host dnsutils whois tcpdump iptables-persistent ssh openssh-server \
     screen tmux rsync curl wget git-core unzip zip xz-utils reportbug \
     less apt-utils
   # TODO: why less and apt-utils, they are already included in vmdb2
-  # Things not included as less useful without the real hardware:
-  # haveged ntp gpm wireless-tools wpasupplicant grub-pc firmware* linux-image*
-else
-  # Run updates:
-  #$apt clean
-  $apt update
-  $apt dist-upgrade
-  $apt autoremove
+  #
+  # Real hardware dependent packages we don't need within lxc:
+  # irqbalance console-setup keyboard-configuration haveged ntp gpm
+  # wireless-tools wpasupplicant grub-pc firmware* linux-image*
 fi
 
 # Add NOPASSWD so that all users in the sudo group do not have to type in their password:
@@ -521,6 +526,18 @@ if false ; then
 EOM
   echo 'USE_LXC_BRIDGE="true"' > /etc/default/lxc-net
 fi
+fi
+
+if test "X$SYSTYPE" = Xlxc ; then
+  if test $testing = 0 -a $unstable = 0 ; then
+    systemctl disable binfmt-support.service
+  fi
+  if test $testing = 1 ; then
+    rm -f /usr/lib/systemd/system/multi-user.target.wants/systemd-logind.service
+    if test -f /usr/lib/systemd/system/systemd-logind.service ; then
+      mv -f /usr/lib/systemd/system/systemd-logind.service /root/
+    fi
+  fi
 fi
 
 $apt clean
