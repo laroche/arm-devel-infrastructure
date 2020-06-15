@@ -9,13 +9,12 @@
 # Further configuration steps you might consider:
 # - Set password for root and $NEWUSER.
 # - Add ~$NEWUSER/.ssh/ and ~$NEWUSER/.gitconfig
-# - Add firewall rules.
 # - Gnome setup:
 #   - Vorgabe-Anwendungen: Web: Google Chrome, Musik/Video: VLC Media Player, Fotos: ImageMagick
 #   - Einstellungen/Energie: In Bereitschaft gehen: disable
 # - browsers chrome/firefox: Tabs von zuletzt verwenden
 # - Set a new hostname in /etc/hostname.
-# - Add hostname to /etc/hosts if no DNS is available (otherwise sudo is too slow).
+# - Add hostname to /etc/hosts if no DNS is available (otherwise sudo is too slow, though seems fixed now).
 # - If on a virtualized setup, maybe set screen size to 1600x900.
 # - Setup printers.
 #
@@ -327,8 +326,12 @@ if test -f /root/.ssh/authorized_keys && ! test -f /home/$NEWUSER/.ssh/authorize
   chown $NEWUSER.$NEWUSER /home/$NEWUSER/.ssh/authorized_keys
 fi
 
+INSTALLGUI=0
+if test "X$SYSTYPE" = Xlxc ; then
+  INSTALLGUI=0
+fi
 # Install some GUI and desktop apps:
-if false && test "X$SYSTYPE" != Xlxc ; then
+if test "$INSTALLGUI" = 1 ; then
   #$apt install xfce4 lightdm synaptic menu
   #$apt install aptitude
   tasksel install gnome-desktop --new-install
@@ -496,6 +499,52 @@ if false && test "$HOSTTYPE" = "x86_64" && ! test -d /lib/modules/${KABI}-amd64 
   rm -fr $KERNEL kernel-amd64-$KVER
 fi
 
+config_firewall()
+{
+  {
+    cat <<-EOM
+	*filter
+	:INPUT DROP [0:0]
+	:FORWARD ACCEPT [0:0]
+	:OUTPUT ACCEPT [0:0]
+	-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+EOM
+    for i in $1 ; do
+      echo "-A INPUT -p tcp -m tcp --dport $i -j ACCEPT"
+    done
+    cat <<-EOM
+	-A INPUT -i lo -j ACCEPT
+	-A INPUT -p icmp -j ACCEPT
+	-A -INPUT -j REJECT --reject-with icmp-host-prohibited
+	COMMIT
+	*nat
+	:PREROUTING ACCEPT [0:0]
+	:INPUT ACCEPT [0:0]
+	:POSTROUTING ACCEPT [0:0]
+	:OUTPUT ACCEPT [0:0]
+	COMMIT
+EOM
+  } > /etc/iptables/rules.v4
+  {
+    cat <<-EOM
+	*filter
+	:INPUT DROP [0:0]
+	:FORWARD ACCEPT [0:0]
+	:OUTPUT ACCEPT [0:0]
+	-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+EOM
+    for i in $2 ; do
+      echo "-A INPUT -p tcp -m tcp --dport $i -j ACCEPT"
+    done
+    cat <<-EOM
+	-A INPUT -i lo -j ACCEPT
+	-A INPUT -p ipv6-icmp -j ACCEPT
+	-A INPUT -j REJECT --reject-with icmp6-adm-prohibited
+	COMMIT
+EOM
+  } > /etc/iptables/rules.v6
+}
+
 if test "X$SYSTYPE" != Xlxc ; then
 # squid http proxy:
 if false ; then
@@ -539,6 +588,12 @@ if test "X$SYSTYPE" = Xlxc ; then
     fi
   fi
 fi
+
+# Firewall setup:
+# - Port 80 and 443 are usually for a http/https server.
+# - Port 22 is sshd.
+# - Port 3128 should be added for a squid proxy.
+#config_firewall "443 80 22" "443 80 22"
 
 $apt clean
 $apt update

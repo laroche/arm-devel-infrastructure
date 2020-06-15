@@ -48,6 +48,7 @@ installed apps
 - Use the new sshd .d config dirs for all config changes if available. Also environment.d.
 - Should we run "apt-get clean" periodically?
 - Should we change sources.list for Debian testing from "testing" to "bullseye"?
+- Maybe support lxc for firewall rules.
 
 
 other
