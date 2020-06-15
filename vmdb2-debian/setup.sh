@@ -515,7 +515,7 @@ EOM
     cat <<-EOM
 	-A INPUT -i lo -j ACCEPT
 	-A INPUT -p icmp -j ACCEPT
-	-A -INPUT -j REJECT --reject-with icmp-host-prohibited
+	-A INPUT -j REJECT --reject-with icmp-host-prohibited
 	COMMIT
 	*nat
 	:PREROUTING ACCEPT [0:0]
