@@ -47,11 +47,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.6.18
+KVER=5.6.19
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.6.17
+  RVER=5.6.19
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -64,7 +64,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 5117c0a56aeeb3ab18fb91bd611e739fec3df9c0
+  git format-patch -o ../rpi-patches-$RVER 61aba373f5708f2aebc3f72078e51949a068aa6f
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -73,7 +73,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.6.14-2/5.6.18-2/' linux-5/debian/changelog
+sed -i -e '1 s/5.6.14-3/5.6.19-3/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/s390x/s390-mm-fix-page-table-upgrade-vs-2ndary-address-mod.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,^bugfix/all/fs-binfmt_elf.c-allocate-initialized-memory-in-fill_.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,^bugfix/all/kernel-relay.c-handle-alloc_percpu-returning-NULL-in.patch,,g' linux-5/debian/patches/series
