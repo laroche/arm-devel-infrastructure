@@ -51,7 +51,7 @@ KVER=5.7.4
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.7.0
+  RVER=5.7.3
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -64,7 +64,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 9cb1fd0efd195590b828b9b865421ad345a4a145
+  git format-patch -o ../rpi-patches-$RVER 264e468fc201cb81c313ad50924bb46506a1b31c
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -88,8 +88,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0112-gpiolib-Don-t-prevent-IRQ-usage-of-output-GPIOs.patch \
-          bugfix/rpi/0294-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch
+    rm -f bugfix/rpi/0293-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.7.0-?/arm*
