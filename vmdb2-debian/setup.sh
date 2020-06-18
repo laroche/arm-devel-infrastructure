@@ -513,6 +513,7 @@ EOM
       echo "-A INPUT -p tcp -m tcp --dport $i -j ACCEPT"
     done
     cat <<-EOM
+	-A INPUT -p udp -m udp --sport 67:68 --dport 67:68 -j ACCEPT
 	-A INPUT -i lo -j ACCEPT
 	-A INPUT -p icmp -j ACCEPT
 	-A INPUT -j REJECT --reject-with icmp-host-prohibited
@@ -581,7 +582,7 @@ if test "X$SYSTYPE" = Xlxc ; then
   if test $testing = 0 -a $unstable = 0 ; then
     systemctl disable binfmt-support.service
   fi
-  if test $testing = 1 ; then
+  if test $testing = 1 -o $unstable = 1 ; then
     rm -f /usr/lib/systemd/system/multi-user.target.wants/systemd-logind.service
     if test -f /usr/lib/systemd/system/systemd-logind.service ; then
       mv -f /usr/lib/systemd/system/systemd-logind.service /root/

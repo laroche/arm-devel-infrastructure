@@ -10,7 +10,6 @@ partitioning and grub
   some real hardware as well as virsh/qemu.
 - Generated grub config shows too many entries from local system.
   Fixed by first update-grub invocation on an installed system.
-   - Check creating new images within lxc resolves this.
 - grub installed into partition instead of full disk?
 - Check if the partitioning is aligned properly.
 - grub keyboard layout is "us", change this to "de".
@@ -42,13 +41,15 @@ installed apps
 - sysstat
 - With a minimal system "systemctl" shows errors with "console-setup.service": [Debian bug 846256](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=846256)
 - Check the difference between a minimal lxc system and vmdb2. Why do we need to add less and apt-utils for lxc?
-- For lxc guests with Debian testing systemd-logind.service fails. Create upstream report.
+- For lxc guests with Debian testing/unstable systemd-logind.service fails. Create upstream report.
 - If not connected to the Internet, ntpd logs often about failed DNS resolver. Rate limit logging.
-- How to disable suspend on a laptop booting into GUI login screen. gdm?
 - Use the new sshd .d config dirs for all config changes if available. Also environment.d.
 - Should we run "apt-get clean" periodically?
-- Should we change sources.list for Debian testing from "testing" to "bullseye"?
-- Maybe support lxc for firewall rules.
+- setup.sh proposals:
+   - Should we change sources.list for Debian testing from "testing" to "bullseye"?
+   - Maybe support lxc for firewall rules.
+   - How to disable suspend on a laptop booting into GUI login screen. gdm?
+   - config_firewall: add extra option for udp ports?
 
 
 other
