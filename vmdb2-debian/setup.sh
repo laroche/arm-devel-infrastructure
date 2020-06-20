@@ -171,23 +171,27 @@ fi
 
 # Bash configuration (aliases and .bashrc):
 if ! test -f /root/.bash_aliases ; then
-  echo "alias ..='cd ..'"      > /root/.bash_aliases
-  echo "alias ...='cd ../..'" >> /root/.bash_aliases
-  echo "alias o=less"         >> /root/.bash_aliases
-  echo "alias l='ls -la'"     >> /root/.bash_aliases
+    cat > /root/.bash_aliases <<-EOM
+	alias ..='cd ..'"
+	alias ...='cd ../..'"
+	alias o=less"
+	alias l='ls -la'"
+EOM
 fi
 if ! test -f /etc/skel/.bash_aliases ; then
   cp /root/.bash_aliases /etc/skel/.bash_aliases
 fi
 if ! grep -q bash_aliases /root/.bashrc ; then
-  echo                                                    >> /root/.bashrc
-  echo "HISTCONTROL=ignoreboth"                           >> /root/.bashrc
-  echo "# append to the history file, don't overwrite it" >> /root/.bashrc
-  echo "shopt -s histappend"                              >> /root/.bashrc
-  echo "HISTSIZE=1000"                                    >> /root/.bashrc
-  echo "HISTFILESIZE=2000"                                >> /root/.bashrc
-  echo                                                    >> /root/.bashrc
-  echo ". ~/.bash_aliases"                                >> /root/.bashrc
+    cat >> /root/.bashrc <<-EOM
+
+	HISTCONTROL=ignoreboth
+	# append to the history file, don't overwrite it
+	shopt -s histappend
+	HISTSIZE=1000
+	HISTFILESIZE=2000
+
+	. ~/.bash_aliases
+EOM
 fi
 
 # disable ipv6
@@ -227,35 +231,43 @@ fi
 # On new lxc systems write a complete sources.list file:
 if test "X$SYSTYPE" = Xlxc && test $FIRSTRUN = 1 ; then
   if test $testing = 1 ; then
-    echo "deb http://deb.debian.org/debian/ testing main contrib non-free" > /etc/apt/sources.list
-    echo "deb-src http://deb.debian.org/debian/ testing main contrib non-free" >> /etc/apt/sources.list
-    echo >> /etc/apt/sources.list
-    echo "#deb http://deb.debian.org/debian/ testing-updates main contrib non-free" >> /etc/apt/sources.list
-    echo "#deb-src http://deb.debian.org/debian/ testing-updates main contrib non-free" >> /etc/apt/sources.list
-    echo >> /etc/apt/sources.list
-    echo "#deb http://deb.debian.org/debian-security testing-security main contrib non-free" >> /etc/apt/sources.list
-    echo "#deb-src http://deb.debian.org/debian-security testing-security main contrib non-free" >> /etc/apt/sources.list
-    echo >> /etc/apt/sources.list
-    echo "#deb http://security.debian.org testing-security main contrib non-free" >> /etc/apt/sources.list
+      cat > /etc/apt/sources.list <<-EOM
+	deb http://deb.debian.org/debian/ testing main contrib non-free
+	deb-src http://deb.debian.org/debian/ testing main contrib non-free
+
+	#deb http://deb.debian.org/debian/ testing-updates main contrib non-free
+	#deb-src http://deb.debian.org/debian/ testing-updates main contrib non-free
+
+	#deb http://deb.debian.org/debian-security testing-security main contrib non-free
+	#deb-src http://deb.debian.org/debian-security testing-security main contrib non-free
+
+	#deb http://security.debian.org testing-security main contrib non-free
+EOM
   elif test $unstable = 1 ; then
-    echo "deb http://deb.debian.org/debian/ unstable main contrib non-free" > /etc/apt/sources.list
-    echo "deb-src http://deb.debian.org/debian/ unstable main contrib non-free" >> /etc/apt/sources.list
+      cat > /etc/apt/sources.list <<-EOM
+	deb http://deb.debian.org/debian/ unstable main contrib non-free
+	deb-src http://deb.debian.org/debian/ unstable main contrib non-free
+EOM
   else
-    echo "deb http://deb.debian.org/debian/ buster main contrib non-free" > /etc/apt/sources.list
-    echo "deb-src http://deb.debian.org/debian/ buster main contrib non-free" >> /etc/apt/sources.list
-    echo >> /etc/apt/sources.list
-    echo "deb http://deb.debian.org/debian/ buster-updates main contrib non-free" >> /etc/apt/sources.list
-    echo "deb-src http://deb.debian.org/debian/ buster-updates main contrib non-free" >> /etc/apt/sources.list
-    echo >> /etc/apt/sources.list
-    echo "deb http://deb.debian.org/debian/ buster-backports main contrib non-free" >> /etc/apt/sources.list
-    echo "deb-src http://deb.debian.org/debian/ buster-backports main contrib non-free" >> /etc/apt/sources.list
-    echo >> /etc/apt/sources.list
-    echo "deb http://security.debian.org/debian-security buster/updates main contrib non-free" >> /etc/apt/sources.list
-    echo "deb-src http://security.debian.org/debian-security buster/updates main contrib non-free" >> /etc/apt/sources.list
+      cat > /etc/apt/sources.list <<-EOM
+	deb http://deb.debian.org/debian/ buster main contrib non-free
+	deb-src http://deb.debian.org/debian/ buster main contrib non-free
+
+	deb http://deb.debian.org/debian/ buster-updates main contrib non-free
+	deb-src http://deb.debian.org/debian/ buster-updates main contrib non-free
+
+	deb http://deb.debian.org/debian/ buster-backports main contrib non-free
+	deb-src http://deb.debian.org/debian/ buster-backports main contrib non-free
+
+	deb http://security.debian.org/debian-security buster/updates main contrib non-free
+	deb-src http://security.debian.org/debian-security buster/updates main contrib non-free
+EOM
   fi
   # Keep experimental commented out:
-  echo "#deb http://deb.debian.org/debian/ experimental main contrib non-free" > /etc/apt/sources.list.d/experimental.list
-  echo "#deb-src http://deb.debian.org/debian/ experimental main contrib non-free" >> /etc/apt/sources.list.d/experimental.list
+      cat > /etc/apt/sources.list.d/experimental.list <<-EOM
+	#deb http://deb.debian.org/debian/ experimental main contrib non-free
+	#deb-src http://deb.debian.org/debian/ experimental main contrib non-free
+EOM
 fi
 
 # Run updates:
