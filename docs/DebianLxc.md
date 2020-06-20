@@ -35,7 +35,7 @@ Here some of the lxc commands you should learn:
 
 ```shell
 # Create a new container:
-lxc-create -n debian01 -t debian -- -r testing --enable-non-free
+lxc-create -n debian01 -t debian -- -r sid --enable-non-free
 # Start the new container:
 lxc-start -n debian01
 # Information on a container:
