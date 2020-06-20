@@ -23,6 +23,7 @@ Further documentation
 - [general notes about Debian](Debian.md)
 - [installing and booting Debian Amd64 disk images](DebianAmd64.md)
 - [installing and booting Debian raspberry pi 3 disk images](DebianRpi3.md)
+- [installing and running lxc container guest disk images](DebianLxc.md)
 - [scripting additional software installations and system configuration](DebianSetup.md)
 - [creating your own Debian disk images](DebianImageRebuild.md)
 - [compile a current qemu release](Qemu.md)
