@@ -1,8 +1,8 @@
-Debian Lxc Setup
+Debian lxc setup
 ----------------
 
 
-Lxc (server) install
+lxc (server) install
 --------------------
 
 If you want to install lxc software and configure it, you can
@@ -28,7 +28,7 @@ Or you can use "/usr/libexec/lxc/lxc-net start" and verify with
 "brctrl show".
 
 
-Lxc Commands
+lxc commands
 ------------
 
 Here some of the lxc commands you should learn:
@@ -53,7 +53,7 @@ lxc-destroy -n debian01
 ```
 
 
-Lxc guest installs
+lxc guest installs
 ------------------
 
 To start a new Debian guest and configure it with "setup.sh", please use the
@@ -75,7 +75,7 @@ done
 # lxc-destroy -n debian01 -f -s
 ```
 
-I use the following wrapper script "lxc-setup.sh" to start/configure/stop my lxc
+I use the following convenient wrapper script "lxc-setup.sh" to start/configure/stop my lxc
 guest systems:
 
 ```shell
