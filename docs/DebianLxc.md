@@ -27,6 +27,10 @@ For lxc networking to come up, easiest is to just do a full reboot.
 Or you can use "/usr/libexec/lxc/lxc-net start" and verify with
 "brctrl show".
 
+Please check out "/var/cache/lxc" where basic Debian installs are
+cached on first install for quick further installs. The guest
+images are all stored below "/var/lib/lxc".
+
 
 lxc commands
 ------------
