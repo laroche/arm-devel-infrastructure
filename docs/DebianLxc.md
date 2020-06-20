@@ -86,12 +86,13 @@ guest systems:
 #!/bin/bash
 
 if test "X$1" = Xcreate ; then
-  for i in 01 02 03 ; do
-     #sudo lxc-create -n debian$i -t debian -- -r buster --enable-non-free --auth-key ~/.ssh/id_rsa.pub
-     sudo lxc-create -n debian$i --bdev lvm --lvname lxc-debian$i --vgname debvg --fssize 25G -t debian -- -r sid --enable-non-free --auth-key ~/.ssh/id_rsa.pub
-     #sudo lxc-create -n debian$i -t debian -- -r sid --enable-non-free --auth-key ~/.ssh/id_rsa.pub
-     #sudo lxc-create -n debian$i -t debian -- -r unstable --enable-non-free --auth-key ~/.ssh/id_rsa.pub
-     sudo lxc-start -n debian$i
+  for i in debian01 debian02 ; do
+    # choose Debian release from: buster, testing, unstable
+    RELEASE="testing"
+    # If you want to have guest systems within LVM:
+    #LVM="--bdev lvm --lvname lxc-$i --vgname debvg --fssize 30G"
+    sudo lxc-create -n $i $LVM -t debian -- -r $RELEASE --enable-non-free --auth-key ~/.ssh/id_rsa.pub
+    sudo lxc-start -n $i
   done
 elif test "X$1" = Xdestroy ; then
   # Get list of container names:
