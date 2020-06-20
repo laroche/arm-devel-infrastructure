@@ -172,10 +172,10 @@ fi
 # Bash configuration (aliases and .bashrc):
 if ! test -f /root/.bash_aliases ; then
     cat > /root/.bash_aliases <<-EOM
-	alias ..='cd ..'"
-	alias ...='cd ../..'"
-	alias o=less"
-	alias l='ls -la'"
+	alias ..='cd ..'
+	alias ...='cd ../..'
+	alias o=less
+	alias l='ls -la'
 EOM
 fi
 if ! test -f /etc/skel/.bash_aliases ; then
