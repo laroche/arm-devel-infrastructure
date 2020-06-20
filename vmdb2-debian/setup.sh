@@ -26,6 +26,9 @@ GECOS="Max Mustermann"
 # Do we have a http proxy on this network? (IP:port or Hostname:port)
 HTTP_PROXY=""
 
+# Set sane setting to work with in the rest of the script:
+umask 022
+
 
 # Non-root adjustments that can be done after running setup.sh as root:
 if test "X$UID" != "X0" ; then
