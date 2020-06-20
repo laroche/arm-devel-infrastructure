@@ -72,11 +72,11 @@ SYSTYPE="$(systemd-detect-virt)"
 apt="apt-get -qq -y"
 
 unstable="0"
-if grep -q unstable /etc/apt/sources.list ; then
+if grep -q unstable /etc/apt/sources.list || grep -qw sid /etc/apt/sources.list ; then
   unstable="1"
 fi
 testing="0"
-if grep -q testing /etc/apt/sources.list || grep -qw sid /etc/apt/sources.list || grep -q bullseye /etc/apt/sources.list ; then
+if grep -q testing /etc/apt/sources.list || grep -q bullseye /etc/apt/sources.list ; then
   testing="1"
 fi
 
