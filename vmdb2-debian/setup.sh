@@ -487,14 +487,25 @@ if true && ! test -d /opt/ltp ; then
   if ! test -d /home/$NEWUSER/data/ltp ; then
     su $NEWUSER -c "cd ~/data && git clone --depth 1 https://github.com/linux-test-project/ltp"
     cat > /opt/ltp-SKIP <<-EOM
-	bind04
-	bind05
 	fallocate06
-	fanotify09
 	fanotify15
 	msgstress04
-	recvmsg02
-	min_free_kbytes
+	fs_fill
+	ksm03
+	ksm03_1
+	ksm04
+	ksm04_1
+	oom03
+	oom05
+	pty04
+	userns07
+	memcg_max_usage_in_bytes
+	memcg_stat
+	memcg_use_hierarchy
+	memcg_usage_in_bytes
+	cpuset_inherit
+	cpuset_hotplug
+	crypto_user02
 EOM
     # make autotools
     # ./configure
