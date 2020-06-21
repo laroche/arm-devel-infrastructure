@@ -48,7 +48,6 @@ installed apps
 - setup.sh proposals:
    - Should we change sources.list for Debian testing from "testing" to "bullseye"?
    - Maybe support lxc for firewall rules.
-   - How to disable suspend on a laptop booting into GUI login screen. gdm?
    - config_firewall: add extra option for udp ports?
 
 

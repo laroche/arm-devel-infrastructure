@@ -561,6 +561,21 @@ EOM
   } > /etc/iptables/rules.v6
 }
 
+config_gdm()
+{
+  # At login screen do not suspend, but only blank. For AC, not for battery:
+  sed -i -e "s/^# sleep-inactive-ac-type='suspend'/sleep-inactive-ac-type='blank'/g" /etc/gdm3/greeter.dconf-defaults
+  # For corporate setups, this could be useful:
+  #sed -i -e "s/^# disable-user-list=/disable-user-list=/g" /etc/gdm3/greeter.dconf-defaults
+}
+
+automatic_login()
+{
+  sed -i -e "s/^#  AutomaticLoginEnable/AutomaticLoginEnable/g" /etc/gdm3/daemon.conf
+  sed -i -e "s/^#  AutomaticLogin/AutomaticLogin/g" /etc/gdm3/daemon.conf
+  sed -i -e "s/^AutomaticLogin = .*/AutomaticLogin = $1/g" /etc/gdm3/daemon.conf
+}
+
 if test "X$SYSTYPE" != Xlxc ; then
 # squid http proxy:
 if false ; then
@@ -610,6 +625,9 @@ fi
 # - Port 22 is sshd.
 # - Port 3128 should be added for a squid proxy.
 #config_firewall "443 80 22" "443 80 22"
+
+config_gdm
+#automatic_login $NEWUSER
 
 $apt clean
 $apt update
