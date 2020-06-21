@@ -23,6 +23,8 @@
 NEWUSER=max
 GECOS="Max Mustermann"
 
+TIMEZONE="Europe/Berlin"
+
 # Do we have a http proxy on this network? (IP:port or Hostname:port)
 HTTP_PROXY=""
 
@@ -228,6 +230,15 @@ EOM
   fi
 fi
 
+config_timezone()
+{
+  echo "$TIMEZONE" > /etc/timezone
+  ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime
+  #echo "tzdata tzdata/Areas select Europe" | debconf-set-selections
+  #echo "tzdata tzdata/Zones/Europe select Berlin" | debconf-set-selections
+  #dpkg-reconfigure --frontend=noninteractive tzdata
+}
+
 # On new lxc systems write a complete sources.list file:
 if test "X$SYSTYPE" = Xlxc && test $FIRSTRUN = 1 ; then
   if test $testing = 1 ; then
@@ -268,6 +279,7 @@ EOM
 	#deb http://deb.debian.org/debian/ experimental main contrib non-free
 	#deb-src http://deb.debian.org/debian/ experimental main contrib non-free
 EOM
+  config_timezone
 fi
 
 # Run updates:
