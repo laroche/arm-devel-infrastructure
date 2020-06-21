@@ -18,7 +18,7 @@ lxc.net.0.link = lxcbr0
 lxc.net.0.flags = up
 lxc.net.0.name = eth0
 lxc.apparmor.profile = generated
-lxc.apparmor.allow_nesting = 0
+lxc.apparmor.allow_nesting = 1
 EOM
 echo 'USE_LXC_BRIDGE="true"' > /etc/default/lxc-net
 ```
