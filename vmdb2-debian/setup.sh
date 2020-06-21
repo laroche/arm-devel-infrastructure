@@ -563,10 +563,12 @@ EOM
 
 config_gdm()
 {
-  # At login screen do not suspend, but only blank. For AC, not for battery:
-  sed -i -e "s/^# sleep-inactive-ac-type='suspend'/sleep-inactive-ac-type='blank'/g" /etc/gdm3/greeter.dconf-defaults
-  # For corporate setups, this could be useful:
-  #sed -i -e "s/^# disable-user-list=/disable-user-list=/g" /etc/gdm3/greeter.dconf-defaults
+  if test -f /etc/gdm3/greeter.dconf-defaults ; then
+    # At login screen do not suspend, but only blank. For AC, not for battery:
+    sed -i -e "s/^# sleep-inactive-ac-type='suspend'/sleep-inactive-ac-type='blank'/g" /etc/gdm3/greeter.dconf-defaults
+    # For corporate setups, this could be useful:
+    #sed -i -e "s/^# disable-user-list=/disable-user-list=/g" /etc/gdm3/greeter.dconf-defaults
+  fi
 }
 
 automatic_login()
