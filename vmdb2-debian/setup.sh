@@ -604,7 +604,7 @@ if false ; then
 	lxc.net.0.flags = up
 	lxc.net.0.name = eth0
 	lxc.apparmor.profile = generated
-	lxc.apparmor.allow_nesting = 0
+	lxc.apparmor.allow_nesting = 1
 EOM
   echo 'USE_LXC_BRIDGE="true"' > /etc/default/lxc-net
 fi
@@ -613,12 +613,6 @@ fi
 if test "X$SYSTYPE" = Xlxc ; then
   if test $testing = 0 -a $unstable = 0 ; then
     systemctl disable binfmt-support.service
-  fi
-  if test $testing = 1 -o $unstable = 1 ; then
-    rm -f /usr/lib/systemd/system/multi-user.target.wants/systemd-logind.service
-    if test -f /usr/lib/systemd/system/systemd-logind.service ; then
-      mv -f /usr/lib/systemd/system/systemd-logind.service /root/
-    fi
   fi
 fi
 
