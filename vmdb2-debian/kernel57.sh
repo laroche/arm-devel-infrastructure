@@ -47,7 +47,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.7.5
+KVER=5.7.6
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -91,7 +91,12 @@ if test "$RPIPATCHES" = 1 ; then
     rm -f bugfix/rpi/0293-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch \
           bugfix/rpi/0267-net-bcmgenet-Workaround-2-for-Pi4-Ethernet-fail.patch \
           bugfix/rpi/0334-bcmgenet-Disable-skip_umac_reset-by-default.patch \
-          bugfix/rpi/0460-media-i2c-imx219-Fix-a-bug-in-imx219_enum_frame_size.patch
+          bugfix/rpi/0460-media-i2c-imx219-Fix-a-bug-in-imx219_enum_frame_size.patch \
+          bugfix/rpi/0564-PCI-brcmstb-Assert-fundamental-reset-on-initializati.patch \
+          bugfix/rpi/0578-media-irs1125-Using-i2c_transfer-for-ic2-reads.patch \
+          bugfix/rpi/0579-media-irs1125-Refactoring-and-debug-messages.patch \
+          bugfix/rpi/0580-media-irs1125-Atomic-access-to-imager-reconfiguratio.patch \
+          bugfix/rpi/0581-media-irs1125-Keep-HW-in-sync-after-imager-reset.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.7.0-?/arm*
