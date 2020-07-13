@@ -9,8 +9,8 @@ index e69de29b..f5afeb81 100644
 +	"http": "localhost:12346",
 +	"rpc": "127.0.0.1:5555",
 +	"workdir": "./workdir64",
-+	"kernel_obj": "../../../../../buildroot/output/build/linux-5.7.6/vmlinux",
-+	"kernel_src": "../../../../../buildroot/output/build/linux-5.7.6",
++	"kernel_obj": "../../../../../buildroot/output/build/linux-5.7.8/vmlinux",
++	"kernel_src": "../../../../../buildroot/output/build/linux-5.7.8",
 +	"syzkaller": ".",
 +	"image": "../../../../../buildroot/output/images/rootfs.ext2",
 +	"sandbox": "namespace",
@@ -37,8 +37,8 @@ index e69de29b..a6384142 100644
 +	"http": "localhost:12345",
 +	"rpc": "127.0.0.1:5556",
 +	"workdir": "./workdir",
-+	"kernel_obj": "../../../../../buildroot/output/build/linux-5.7.6/vmlinux",
-+	"kernel_src": "../../../../../buildroot/output/build/linux-5.7.6",
++	"kernel_obj": "../../../../../buildroot/output/build/linux-5.7.8/vmlinux",
++	"kernel_src": "../../../../../buildroot/output/build/linux-5.7.8",
 +	"syzkaller": ".",
 +	"image": "../../../../../buildroot/output/images/rootfs.ext2",
 +	"sandbox": "namespace",
@@ -59,10 +59,10 @@ diff --git a/sys/targets/targets.go b/sys/targets/targets.go
 index 3299e52b..1b8b045e 100644
 --- a/sys/targets/targets.go
 +++ b/sys/targets/targets.go
-@@ -171,8 +171,8 @@
- 			VMArch:           "arm64",
+@@ -179,8 +179,8 @@
  			PtrSize:          4,
  			PageSize:         4 << 10,
+ 			LittleEndian:     true,
 -			CFlags:           []string{"-D__LINUX_ARM_ARCH__=6", "-march=armv6"},
 -			Triple:           "arm-linux-gnueabi",
 +			CFlags:           []string{"-D__LINUX_ARM_ARCH__=7", "-march=armv7-a"},
@@ -74,63 +74,12 @@ diff --git a/vm/qemu/qemu.go b/vm/qemu/qemu.go
 index dae8f493..6ce6050c 100644
 --- a/vm/qemu/qemu.go
 +++ b/vm/qemu/qemu.go
-@@ -332,11 +332,22 @@ func (inst *instance) boot() error {
- 		"-m", strconv.Itoa(inst.cfg.Mem),
- 		"-smp", strconv.Itoa(inst.cfg.CPU),
- 		"-net", "nic" + inst.archConfig.NicModel,
--		"-net", fmt.Sprintf("user,host=%v,hostfwd=tcp::%v-:22", hostAddr, inst.port),
-+	}
-+	if inst.cfg.ImageDevice == "vd" {
-+		args = append(args,
-+			"-netdev", fmt.Sprintf("user,id=eth0,host=%v,hostfwd=tcp::%v-:22", hostAddr, inst.port),
-+			"-device", "virtio-net-device,netdev=eth0",
-+		)
-+	} else {
-+		args = append(args,
-+			"-net", fmt.Sprintf("user,host=%v,hostfwd=tcp::%v-:22", hostAddr, inst.port),
-+		)
-+	}
-+	args = append(args,
- 		"-display", "none",
- 		"-serial", "stdio",
- 		"-no-reboot",
--	}
-+	)
- 	args = append(args, splitArgs(inst.cfg.QemuArgs, filepath.Join(inst.workdir, "template"))...)
- 	if inst.image == "9p" {
- 		args = append(args,
-@@ -344,17 +355,24 @@ func (inst *instance) boot() error {
- 			"-device", "virtio-9p-pci,fsdev=fsdev0,mount_tag=/dev/root",
- 		)
- 	} else if inst.image != "" {
--		// inst.cfg.ImageDevice can contain spaces
--		imgline := strings.Split(inst.cfg.ImageDevice, " ")
--		imgline[0] = "-" + imgline[0]
--		if strings.HasSuffix(imgline[len(imgline)-1], "file=") {
--			imgline[len(imgline)-1] = imgline[len(imgline)-1] + inst.image
-+		if inst.cfg.ImageDevice == "vd" {
-+			args = append(args,
-+				"-drive", "file="+inst.image+",if=none,format=raw,id=hd0",
-+				"-device", "virtio-blk-device,drive=hd0", "-snapshot",
-+			)
- 		} else {
--			imgline = append(imgline, inst.image)
--		}
--		args = append(args, imgline...)
--		if inst.cfg.Snapshot {
--			args = append(args, "-snapshot")
-+			// inst.cfg.ImageDevice can contain spaces
-+			imgline := strings.Split(inst.cfg.ImageDevice, " ")
-+			imgline[0] = "-" + imgline[0]
-+			if strings.HasSuffix(imgline[len(imgline)-1], "file=") {
-+				imgline[len(imgline)-1] = imgline[len(imgline)-1] + inst.image
-+			} else {
-+				imgline = append(imgline, inst.image)
-+			}
-+			args = append(args, imgline...)
-+			if inst.cfg.Snapshot {
-+				args = append(args, "-snapshot")
-+			}
- 		}
- 	}
- 	if inst.cfg.Initrd != "" {
+@@ -127,6 +127,8 @@
+ 		Qemu:      "qemu-system-aarch64",
+ 		QemuArgs:  "-machine virt,virtualization=on -cpu cortex-a57",
+ 		TargetDir: "/",
++		UseNewQemuNetOptions: true,
++		UseNewQemuImageOptions: true,
+ 		CmdLine: append(linuxCmdline,
+ 			"root=/dev/vda",
+ 			"console=ttyAMA0",
