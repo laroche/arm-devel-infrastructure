@@ -36,6 +36,8 @@ if test "X$1" = "Xarmhf" -o "X$1" = "Xrpi-armhf" ; then
   fi
 fi
 
+#export LANG=en_US.UTF-8
+
 # Build requirements:
 if true ; then
 sudo apt-get -qq -y install build-essential fakeroot rsync git python3-debian libcap-dev
@@ -47,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.7.6
+KVER=5.7.8
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.7.3
+  RVER=5.7.7
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -64,7 +66,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 264e468fc201cb81c313ad50924bb46506a1b31c
+  git format-patch -o ../rpi-patches-$RVER fb6c7905238010236cf0750b209ce9162222eb97
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -73,7 +75,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.7.4-1~exp1/5.7.5-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.7.6-2/5.7.8-2/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/s390x/s390-mm-fix-page-table-upgrade-vs-2ndary-address-mod.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
@@ -84,19 +86,16 @@ test -f ../orig/linux_$KVER.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
 # Disable RT kernel:
 #sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
+sed -i -e 's/--fuzz=0//g' debian/rules
 if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     rm -f bugfix/rpi/0293-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch \
-          bugfix/rpi/0267-net-bcmgenet-Workaround-2-for-Pi4-Ethernet-fail.patch \
-          bugfix/rpi/0334-bcmgenet-Disable-skip_umac_reset-by-default.patch \
-          bugfix/rpi/0460-media-i2c-imx219-Fix-a-bug-in-imx219_enum_frame_size.patch \
-          bugfix/rpi/0564-PCI-brcmstb-Assert-fundamental-reset-on-initializati.patch \
-          bugfix/rpi/0578-media-irs1125-Using-i2c_transfer-for-ic2-reads.patch \
-          bugfix/rpi/0579-media-irs1125-Refactoring-and-debug-messages.patch \
-          bugfix/rpi/0580-media-irs1125-Atomic-access-to-imager-reconfiguratio.patch \
-          bugfix/rpi/0581-media-irs1125-Keep-HW-in-sync-after-imager-reset.patch
+          bugfix/rpi/0576-media-irs1125-Using-i2c_transfer-for-ic2-reads.patch \
+          bugfix/rpi/0577-media-irs1125-Refactoring-and-debug-messages.patch \
+          bugfix/rpi/0578-media-irs1125-Atomic-access-to-imager-reconfiguratio.patch \
+          bugfix/rpi/0579-media-irs1125-Keep-HW-in-sync-after-imager-reset.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.7.0-?/arm*
