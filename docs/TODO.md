@@ -45,6 +45,10 @@ installed apps
 - If not connected to the Internet, ntpd logs often about failed DNS resolver. Rate limit logging.
 - Use the new sshd .d config dirs for all config changes if available. Also environment.d.
 - Should we run "apt-get clean" periodically?
+- unattended updates are per default not enabled for addon repositories, so you need
+  periodic and manual "apt dist-upgrade". Should this be changed?
+- "apt-get update" does not give an error if repos are not updated, so script error checking is limited.
+  Can apt-get get an extra option for this?
 - setup.sh proposals:
    - Should we change sources.list for Debian testing from "testing" to "bullseye"?
    - Maybe support lxc for firewall rules.
