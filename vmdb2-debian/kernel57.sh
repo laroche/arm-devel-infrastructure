@@ -49,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.7.8
+KVER=5.7.9
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.7.7
+  RVER=5.7.8
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -66,7 +66,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER fb6c7905238010236cf0750b209ce9162222eb97
+  git format-patch -o ../rpi-patches-$RVER 7977a464dcddd95c2b27de275a5f13f503d87e32
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -75,7 +75,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.7.6-2/5.7.8-2/' linux-5/debian/changelog
+sed -i -e '1 s/5.7.6-2/5.7.9-1/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/s390x/s390-mm-fix-page-table-upgrade-vs-2ndary-address-mod.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
