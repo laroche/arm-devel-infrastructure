@@ -53,7 +53,7 @@ KVER=5.7.9
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.7.8
+  RVER=5.7.9
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -66,7 +66,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 7977a464dcddd95c2b27de275a5f13f503d87e32
+  git format-patch -o ../rpi-patches-$RVER 7490e75482cc99ce9d0c32a1d028d2f834c36713
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -91,11 +91,11 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0293-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch \
-          bugfix/rpi/0576-media-irs1125-Using-i2c_transfer-for-ic2-reads.patch \
-          bugfix/rpi/0577-media-irs1125-Refactoring-and-debug-messages.patch \
-          bugfix/rpi/0578-media-irs1125-Atomic-access-to-imager-reconfiguratio.patch \
-          bugfix/rpi/0579-media-irs1125-Keep-HW-in-sync-after-imager-reset.patch
+    #rm -f bugfix/rpi/0293-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch \
+    #      bugfix/rpi/0576-media-irs1125-Using-i2c_transfer-for-ic2-reads.patch \
+    #      bugfix/rpi/0577-media-irs1125-Refactoring-and-debug-messages.patch \
+    #      bugfix/rpi/0578-media-irs1125-Atomic-access-to-imager-reconfiguratio.patch \
+    #      bugfix/rpi/0579-media-irs1125-Keep-HW-in-sync-after-imager-reset.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.7.0-?/arm*
