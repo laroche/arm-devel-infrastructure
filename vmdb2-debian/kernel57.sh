@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.7.9
+KVER=5.7.10
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -72,10 +72,14 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
 fi
 
 if ! test -d linux-5 ; then
-  git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
+  git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.7.6-2/5.7.9-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.7.6-2/5.7.10-1/' linux-5/debian/changelog
+sed -i -e 's,^bugfix/all/Revert-ath9k-Fix-general-protection-fault-in-ath9k_h.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/ACPI-configfs-Disallow-loading-ACPI-tables-when-lock.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/Revert-zram-convert-remaining-CLASS_ATTR-to-CLASS_AT.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/usb-usbtest-fix-missing-kfree-dev-buf-in-usbtest_dis.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,^bugfix/s390x/s390-mm-fix-page-table-upgrade-vs-2ndary-address-mod.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
