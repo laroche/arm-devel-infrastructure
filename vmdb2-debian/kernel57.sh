@@ -91,7 +91,11 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0293-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch
+    rm -f bugfix/rpi/0293-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch \
+          bugfix/rpi/0576-media-irs1125-Using-i2c_transfer-for-ic2-reads.patch \
+          bugfix/rpi/0577-media-irs1125-Refactoring-and-debug-messages.patch \
+          bugfix/rpi/0578-media-irs1125-Atomic-access-to-imager-reconfiguratio.patch \
+          bugfix/rpi/0579-media-irs1125-Keep-HW-in-sync-after-imager-reset.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.7.0-?/arm*
