@@ -83,3 +83,15 @@ index dae8f493..6ce6050c 100644
  		CmdLine: append(linuxCmdline,
  			"root=/dev/vda",
  			"console=ttyAMA0",
+--- a/executor/common_linux.h
++++ b/executor/common_linux.h
+@@ -2004,7 +2004,9 @@
+ #if !GOARCH_riscv64
+ #include <errno.h>
+ #include <fcntl.h>
++#if !GOARCH_arm
+ #include <linux/kvm.h>
++#endif
+ #include <stdarg.h>
+ #include <stddef.h>
+ #include <sys/ioctl.h>
