@@ -32,6 +32,7 @@ if test ! -d buildroot ; then
   pushd buildroot
     patch -s -p1 < ../buildroot.patch
     make qemu_arm_vexpress_defconfig
+    make source
     make -j 10
   popd
 fi
@@ -47,6 +48,7 @@ if test ! -d n/buildroot ; then
     pushd buildroot
       patch -s -p1 < ../buildroot.patch
       make qemu_aarch64_virt_defconfig
+      make source
       make -j 10
     popd
   popd
