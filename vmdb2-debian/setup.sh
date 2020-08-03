@@ -526,8 +526,8 @@ if true && test $unstable = 0 -a $testing = 0 -a ! -d /opt/qemu ; then
 fi
 
 # Download and install newer kernel:
-KABI=5.7.0-1
-KVER=5.7.11-1
+KABI=5.7.0-2
+KVER=5.7.12-1
 # Disabled by default as check for KABI is not enough:
 if false && test "$HOSTTYPE" = "x86_64" && ! test -d /lib/modules/${KABI}-amd64 ; then
   KERNEL=kernel-amd64-$KVER.tar.gz
