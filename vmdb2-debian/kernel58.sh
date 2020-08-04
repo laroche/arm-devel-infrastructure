@@ -45,7 +45,7 @@ sudo apt-get -qq -y build-dep linux
 if test $CROSS = 1 ; then
   sudo apt-get -qq -y install kernel-wedge quilt ccache flex bison libssl-dev
   sudo apt-get -qq -y install crossbuild-essential-arm64 crossbuild-essential-armhf
-  #sudo apt-get -qq -y install g++-9-aarch64-linux-gnu g++-9-arm-linux-gnueabihf
+  sudo apt-get -qq -y install g++-10-aarch64-linux-gnu g++-10-arm-linux-gnueabihf
 fi
 fi
 
