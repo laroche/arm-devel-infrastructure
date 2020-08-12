@@ -53,7 +53,7 @@ KVER=5.7.15
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.7.9
+  RVER=5.7.15
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -66,7 +66,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 7490e75482cc99ce9d0c32a1d028d2f834c36713
+  git format-patch -o ../rpi-patches-$RVER 0e446529d34888ac57fe059ec32e9114a381c800
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -91,7 +91,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0115-lan78xx-Debounce-link-events-to-minimize-poll-storm.patch
+    #rm -f bugfix/rpi/0115-lan78xx-Debounce-link-events-to-minimize-poll-storm.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.7.0-?/arm*
