@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.7.14
+KVER=5.7.15
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -75,7 +75,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.7.10-2/5.7.14-1/' linux-5/debian/changelog
+#sed -i -e '1 s/5.7.10-2/5.7.15-1/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/all/Revert-cifs-Fix-the-target-file-was-deleted-when-ren.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
@@ -91,11 +91,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0293-media-i2c-Add-a-driver-for-the-Infineon-IRS1125-dept.patch \
-    #      bugfix/rpi/0576-media-irs1125-Using-i2c_transfer-for-ic2-reads.patch \
-    #      bugfix/rpi/0577-media-irs1125-Refactoring-and-debug-messages.patch \
-    #      bugfix/rpi/0578-media-irs1125-Atomic-access-to-imager-reconfiguratio.patch \
-    #      bugfix/rpi/0579-media-irs1125-Keep-HW-in-sync-after-imager-reset.patch
+    rm -f bugfix/rpi/0115-lan78xx-Debounce-link-events-to-minimize-poll-storm.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.7.0-?/arm*

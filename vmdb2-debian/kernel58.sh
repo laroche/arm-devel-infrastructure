@@ -41,7 +41,7 @@ fi
 # Build requirements:
 if true ; then
 sudo apt-get -qq -y install build-essential fakeroot rsync git python3-debian libcap-dev
-sudo apt-get -qq -y build-dep linux
+sudo apt-get -qq -y build-dep linux g++-10
 if test $CROSS = 1 ; then
   sudo apt-get -qq -y install kernel-wedge quilt ccache flex bison libssl-dev
   sudo apt-get -qq -y install crossbuild-essential-arm64 crossbuild-essential-armhf
@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.8
+KVER=5.8.1
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -75,7 +75,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.8-1~exp1/5.8-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.8-1~exp1/5.8.1-1/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/all/Revert-ath9k-Fix-general-protection-fault-in-ath9k_h.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
