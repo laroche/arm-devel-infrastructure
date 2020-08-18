@@ -97,6 +97,7 @@ steps:
     - wpasupplicant
     # amd64:
     - grub-efi-amd64
+    - pciutils
     #- memtest86+
     - firmware-linux
     - firmware-iwlwifi
