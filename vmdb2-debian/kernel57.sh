@@ -45,15 +45,15 @@ sudo apt-get -qq -y build-dep linux
 if test $CROSS = 1 ; then
   sudo apt-get -qq -y install kernel-wedge quilt ccache flex bison libssl-dev
   sudo apt-get -qq -y install crossbuild-essential-arm64 crossbuild-essential-armhf
-  #sudo apt-get -qq -y install g++-9-aarch64-linux-gnu g++-9-arm-linux-gnueabihf
+  sudo apt-get -qq -y install g++-9-aarch64-linux-gnu g++-9-arm-linux-gnueabihf
 fi
 fi
 
-KVER=5.7.15
+KVER=5.7.16
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.7.15
+  RVER=5.7.16
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -66,7 +66,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 0e446529d34888ac57fe059ec32e9114a381c800
+  git format-patch -o ../rpi-patches-$RVER d036b5d2dd8fa3de540ec3357f657c436ce1d626
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -75,7 +75,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.7.10-2/5.7.15-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.7.15-1/5.7.16-1/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/all/Revert-cifs-Fix-the-target-file-was-deleted-when-ren.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0

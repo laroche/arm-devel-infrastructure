@@ -49,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.8.1
+KVER=5.8.2
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.8.1
+  RVER=5.8.2
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -66,7 +66,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 5f49ff2540e2c2799cde0cfaf6af9e1f824cd393
+  git format-patch -o ../rpi-patches-$RVER ad8c735b1497520df959f675718f39dca8cb8019
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -75,7 +75,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.8-1~exp1/5.8.1-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.8-1~exp1/5.8.2-1/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/all/Revert-ath9k-Fix-general-protection-fault-in-ath9k_h.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
