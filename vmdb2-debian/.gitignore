@@ -3,5 +3,7 @@ debian-*.log
 debian-*.tar.gz
 debian-*.zip
 #debian-testing-*.yaml
-debian-testing-amd64-efi.yaml debian-testing-rpi3-arm64.yaml debian-testing-rpi3-armhf.yaml
+debian-testing-amd64-efi.yaml
+debian-testing-rpi3-arm64.yaml
+debian-testing-rpi3-armhf.yaml
 debian-unstable-*.yaml
