@@ -124,7 +124,7 @@ if test -b /dev/debvg/rootfs -a -b /dev/sda1 ; then
     echo "Trying to extend the disk and create a swap partition:"
     parted -s -- /dev/sda resizepart 1 100%
     pvresize /dev/sda1
-    lvextend -L +11G /dev/debvg/rootfs
+    lvextend -L +13G /dev/debvg/rootfs
     resize2fs /dev/debvg/rootfs
     lvcreate --name swapfs --size 8G debvg
     if test -b /dev/debvg/swapfs ; then
@@ -132,7 +132,7 @@ if test -b /dev/debvg/rootfs -a -b /dev/sda1 ; then
       sed -i -e 's/^#LABEL/LABEL/g' /etc/fstab
       swapon -a
     fi
-    lvcreate --name homefs --size 1G debvg
+    lvcreate --name homefs --size 3G debvg
     if test -b /dev/debvg/homefs ; then
       mkfs.ext4 /dev/debvg/homefs
       echo -e "/dev/debvg/homefs\t/home\text4\tdefaults 0 0" >> /etc/fstab
