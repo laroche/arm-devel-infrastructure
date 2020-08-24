@@ -191,11 +191,19 @@ steps:
     shell: |
       apt-get update
       systemctl enable ssh.service
+      mv /etc/grub.d/30_os-prober /30_os-prober
 
   - grub: uefi
+    quiet: yes
+    timeout: 5
     tag: rootfs
     efi: boot-efi
     device: "{{ output }}"
+
+  - chroot: rootfs
+    shell: |
+      #cat /boot/grub/grub.cfg
+      mv /30_os-prober /etc/grub.d/30_os-prober
 
   - chroot: rootfs
     shell: |

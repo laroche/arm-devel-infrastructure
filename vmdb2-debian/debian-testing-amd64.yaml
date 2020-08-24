@@ -199,13 +199,22 @@ steps:
     shell: |
       apt-get update
       systemctl enable ssh.service
+      mv /etc/grub.d/30_os-prober /30_os-prober
 
   - grub: bios
+    quiet: yes
+    timeout: 5
     tag: rootfs
     #root-fs: rootpv
     # XXX: This works as hardcoded value, only a small check for sanity
     # is added to Makefile for this:
     image-dev: /dev/loop0
+    #image-dev: rootfs
+
+  - chroot: rootfs
+    shell: |
+      #cat /boot/grub/grub.cfg
+      mv /30_os-prober /etc/grub.d/30_os-prober
 
   - chroot: rootfs
     shell: |
