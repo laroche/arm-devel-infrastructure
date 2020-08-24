@@ -192,6 +192,7 @@ steps:
       apt-get update
       systemctl enable ssh.service
       mv /etc/grub.d/30_os-prober /30_os-prober
+      mount -t proc proc /proc
 
   - grub: uefi
     quiet: yes
@@ -202,6 +203,7 @@ steps:
 
   - chroot: rootfs
     shell: |
+      umount /proc
       #cat /boot/grub/grub.cfg
       mv /30_os-prober /etc/grub.d/30_os-prober
 
