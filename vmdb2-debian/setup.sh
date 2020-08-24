@@ -391,7 +391,7 @@ if test "$INSTALLGUI" = 1 ; then
   if true && test "$HOSTTYPE" = "x86_64" ; then
     if ! test -e /usr/bin/eclipse ; then
       ECLIPSEVER=2020-06
-      ECLIPSE=eclipse-cpp-${ECLPSE}-R-linux-gtk-x86_64
+      ECLIPSE=eclipse-cpp-${ECLIPSEVER}-R-linux-gtk-x86_64
       wget -q http://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/$ECLIPSEVER/R/$ECLIPSE.tar.gz
       tar -zxf $ECLIPSE.tar.gz -C /usr
       ln -s /usr/eclipse/eclipse /usr/bin/eclipse
