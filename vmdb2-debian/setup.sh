@@ -390,10 +390,12 @@ if test "$INSTALLGUI" = 1 ; then
   # Eclipse
   if true && test "$HOSTTYPE" = "x86_64" ; then
     if ! test -e /usr/bin/eclipse ; then
-      wget -q http://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/2020-06/R/eclipse-cpp-2020-06-R-linux-gtk-x86_64.tar.gz
-      tar -zxf eclipse-cpp-2020-06-R-linux-gtk-x86_64.tar.gz -C /usr
+      ECLIPSEVER=2020-06
+      ECLIPSE=eclipse-cpp-${ECLPSE}-R-linux-gtk-x86_64
+      wget -q http://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/$ECLIPSEVER/R/$ECLIPSE.tar.gz
+      tar -zxf $ECLIPSE.tar.gz -C /usr
       ln -s /usr/eclipse/eclipse /usr/bin/eclipse
-      rm -f eclipse-cpp-2020-06-R-linux-gtk-x86_64.tar.gz
+      rm -f $ECLIPSE.tar.gz
       cat > /usr/share/applications/eclipse.desktop <<-EOM
 	[Desktop Entry]
 	Encoding=UTF-8
@@ -515,11 +517,13 @@ EOM
 fi
 if true && test $unstable = 0 -a $testing = 0 -a ! -d /opt/qemu ; then
   $apt install pkg-config libglib2.0-dev libpixman-1-dev
-  if ! test -f /home/$NEWUSER/data/qemu-5.1.0.tar.xz ; then
-    su $NEWUSER -c "cd ~/data && wget -q https://download.qemu.org/qemu-5.1.0.tar.xz"
+  QEMUVER=5.1.0
+  QEMU=qemu-$QEMUVER
+  if ! test -f /home/$NEWUSER/data/$QEMU.tar.xz ; then
+    su $NEWUSER -c "cd ~/data && wget -q https://download.qemu.org/$QEMU.tar.xz"
   fi
-  #tar xJf qemu-5.1.0.tar.xz
-  #cd qemu-5.1.0
+  #tar xJf $QEMU.tar.xz
+  #cd $QEMU
   #./configure --prefix=/opt/qemu
   #make -j 8
   #sudo make install
