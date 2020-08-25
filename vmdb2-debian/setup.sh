@@ -116,6 +116,17 @@ if test "X$1" = Xcheck ; then
 fi
 
 
+config_swapfile()
+{
+  #fallocate -l 4G /swapfile
+  dd if=/dev/zero of=/swapfile bs=1M count=4096
+  chmod 600 /swapfile
+  mkswap -L DEBSWAP /swapfile
+  swapon /swapfile
+  echo "/swapfile swap swap defaults 0 0" >> /etc/fstab
+  # Use "swapon --show" or "cat /proc/swaps" or "free" to check system.
+}
+
 if test $FIRSTRUN = 1 ; then
 if false ; then
 # Extend to a bigger disk and create a swap partition:
