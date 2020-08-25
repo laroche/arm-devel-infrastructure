@@ -371,7 +371,8 @@ if test "$INSTALLGUI" = 1 ; then
   $apt install xauth
 
   # virtualization support:
-  $apt install virtinst virt-manager libguestfs-tools
+  $apt install virtinst virt-manager
+  $apt install libguestfs-tools # XXX TODO: missing from Debian testing?
 
   $apt install meld
 
