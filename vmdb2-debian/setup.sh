@@ -471,6 +471,14 @@ EOM
     rm -f skypeforlinux-64.deb
   fi
 
+  # Teamviewer
+  if false && test "$HOSTTYPE" = "x86_64" -a ! -f /etc/apt/sources.list.d/teamviewer.list ; then
+    wget -q https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
+    $apt install ./teamviewer_amd64.deb
+    #dpkg -i teamviewer_amd64.deb
+    rm -f teamviewer_amd64.deb
+  fi
+
   # If we install GUI, we don't need server network setup:
   rm -f /etc/network/interfaces.d/eth0
 fi
