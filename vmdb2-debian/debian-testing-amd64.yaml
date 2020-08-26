@@ -33,7 +33,6 @@ steps:
 
   - mkfs: ext4
     partition: rootfs
-    label: DEBROOT
 
 #  - mkfs: ext2
 #    partition: /boot

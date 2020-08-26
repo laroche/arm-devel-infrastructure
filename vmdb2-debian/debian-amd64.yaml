@@ -16,7 +16,6 @@ steps:
 
   - mkfs: ext4
     partition: rootfs
-    label: DEBROOT
 
   - mount: rootfs
 
