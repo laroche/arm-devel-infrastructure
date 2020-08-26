@@ -13,8 +13,6 @@ partitioning and grub
 
 - For amd64 change from msdos partitioning to gpt. Test if this works with
   some real hardware as well as virsh/qemu.
-- Generated grub config shows too many entries from local system.
-  Fixed by first update-grub invocation on an installed system.
 - grub installed into partition instead of full disk?
 - Check if the partitioning is aligned properly.
 - grub keyboard layout is "us", change this to "de".
@@ -68,5 +66,5 @@ other
   [https://help.github.com/en/articles/customizing-css-and-html-in-your-jekyll-theme](https://help.github.com/en/articles/customizing-css-and-html-in-your-jekyll-theme)
 - Disable unattended apt package updates during tests.
 - Can we upload new release files automatically to github?
-- Test RPi3 images with wifi, desktop, etc. Test new RPi4.
+- Test RPi3 images with wifi, desktop, etc. Test with RPi4.
 
