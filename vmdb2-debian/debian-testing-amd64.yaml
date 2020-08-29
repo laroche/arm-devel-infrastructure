@@ -110,6 +110,7 @@ steps:
     #- memtest86+
     - firmware-linux
     - firmware-iwlwifi
+    - firmware-realtek
     - linux-image-amd64
     #- linux-image-rt-amd64
     tag: rootfs
