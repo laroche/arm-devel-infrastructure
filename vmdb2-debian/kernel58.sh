@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.8.5
+KVER=5.8.6
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -75,8 +75,8 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.8.5-1~exp1/5.8.5-1/' linux-5/debian/changelog
-#sed -i -e 's,^bugfix/all/Revert-ath9k-Fix-general-protection-fault-in-ath9k_h.patch,,g' linux-5/debian/patches/series
+sed -i -e '1 s/5.8.5-1~exp1/5.8.6-1/' linux-5/debian/changelog
+sed -i -e 's,^bugfix/all/nfsd-fix-oops-on-mixed-NFSv4-NFSv3-client-access.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
@@ -91,7 +91,9 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0113-lan78xx-Debounce-link-events-to-minimize-poll-storm.patch
+    rm -f bugfix/rpi/0249-hid-usb-Add-device-quirks-for-Freeway-Airmouse-T3-an.patch \
+          bugfix/rpi/0313-brcmfmac-Increase-power-saving-delay-to-2s.patch \
+          bugfix/rpi/0550-media-i2c-imx290-fix-reset-GPIO-pin-handling.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.8.0-?/arm*
