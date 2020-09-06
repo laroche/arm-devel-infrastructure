@@ -111,6 +111,8 @@ if test "X$1" = Xcheck ; then
   #newlog "List all regular files in /var/cache/apt:"
   #find /var/cache/apt -type f
   #$apt clean
+  newlog "ntp status:"
+  ntpq -p
   newlog "All checks finished."
   exit 0
 fi
