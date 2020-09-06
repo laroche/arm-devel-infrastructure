@@ -316,8 +316,8 @@ if test "X$SYSTYPE" = Xlxc && test $FIRSTRUN = 1 ; then
   # TODO: why less and apt-utils, they are already included in vmdb2
   #
   # Real hardware dependent packages we don't need within lxc:
-  # irqbalance console-setup keyboard-configuration haveged ntp gpm
-  # wireless-tools wpasupplicant grub-pc firmware* linux-image*
+  # irqbalance console-setup keyboard-configuration haveged ntp ntpdate
+  # gpm wireless-tools wpasupplicant grub-pc firmware* linux-image*
 fi
 
 # Add NOPASSWD so that all users in the sudo group do not have to type in their password:

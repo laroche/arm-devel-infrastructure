@@ -78,6 +78,7 @@ steps:
     - tcpdump
     - iptables-persistent
     - ntp
+    - ntpdate
     - ssh
     - openssh-server
     - screen
