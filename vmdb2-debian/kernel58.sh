@@ -53,7 +53,7 @@ KVER=5.8.8
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.8.5
+  RVER=5.8.8
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -66,17 +66,18 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 9ece50d8a470ca7235ffd6ac0f9c5f0f201fe2c8
+  git format-patch -o ../rpi-patches-$RVER 4f447bf95fdc7c8ba933f9eb30b0074933b45cca
   cd ..
   #rm -fr rpi-linux-5
 fi
 
 if ! test -d linux-5 ; then
-  git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
+  git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.8.7-1/5.8.8-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.8.7-2/5.8.8-1/' linux-5/debian/changelog
 sed -i -e 's,^bugfix/all/net-packet-fix-overflow-in-tpacket_rcv.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/Bluetooth-Return-NOTIFY_DONE-for-hci_suspend_notifie.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
@@ -91,10 +92,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0249-hid-usb-Add-device-quirks-for-Freeway-Airmouse-T3-an.patch \
-          bugfix/rpi/0313-brcmfmac-Increase-power-saving-delay-to-2s.patch \
-          bugfix/rpi/0550-media-i2c-imx290-fix-reset-GPIO-pin-handling.patch \
-          bugfix/rpi/0604-hack-fix-cyclic-dpendency-on-VIDEO_IMX214.patch
+    #rm -f bugfix/rpi/0249-hid-usb-Add-device-quirks-for-Freeway-Airmouse-T3-an.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.8.0-?/arm*
