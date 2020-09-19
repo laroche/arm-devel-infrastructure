@@ -73,6 +73,10 @@ SYSTYPE="$(systemd-detect-virt)"
 
 apt="apt-get -qq -y"
 
+DISTRO="debian"
+if test -f /etc/lsb-release && grep -q Ubuntu /etc/lsb-release ; then
+  DISTRO="ubuntu"
+fi
 unstable="0"
 if grep -q unstable /etc/apt/sources.list || grep -qw sid /etc/apt/sources.list ; then
   unstable="1"
@@ -111,9 +115,9 @@ if test "X$1" = Xcheck ; then
   #newlog "List all regular files in /var/cache/apt:"
   #find /var/cache/apt -type f
   #$apt clean
-  if test "X$SYSTYPE" != Xlxc ; then
+  if test "X$SYSTYPE" != Xlxc -a -x /usr/bin/ntpq ; then
     newlog "ntp status:"
-    ntpq -p
+    /usr/bin/ntpq -p
   fi
   newlog "All checks finished."
   exit 0
@@ -254,8 +258,9 @@ config_timezone()
   #dpkg-reconfigure --frontend=noninteractive tzdata
 }
 
-# On new lxc systems write a complete sources.list file:
-if test "X$SYSTYPE" = Xlxc && test $FIRSTRUN = 1 ; then
+# On first run write a new sources.list file on Debian:
+if test $FIRSTRUN = 1 ; then
+  if test $DISTRO = debian ; then
   if test $testing = 1 ; then
       cat > /etc/apt/sources.list <<-EOM
 	deb http://deb.debian.org/debian/ testing main contrib non-free
@@ -294,6 +299,7 @@ EOM
 	#deb http://deb.debian.org/debian/ experimental main contrib non-free
 	#deb-src http://deb.debian.org/debian/ experimental main contrib non-free
 EOM
+  fi
   config_timezone
 fi
 
@@ -307,8 +313,8 @@ fi
 $apt dist-upgrade
 $apt autoremove
 
-# On new lxc systems install a base set of Debian packages:
-if test "X$SYSTYPE" = Xlxc && test $FIRSTRUN = 1 ; then
+# On new systems install a base set of Debian packages:
+if test $FIRSTRUN = 1 ; then
   # My own definition of a small Debian system:
   $apt install unattended-upgrades debsums locales locate psmisc strace htop \
     tree man parted lvm2 dosfstools vim sudo net-tools traceroute nmap \
@@ -336,7 +342,7 @@ vim="/usr/share/vim/vim82/defaults.vim"
 if ! test -f $vim ; then
   vim="/usr/share/vim/vim81/defaults.vim"
 fi
-if test -f $vim ; then
+if test $DISTRO = debian -a -f $vim ; then
   if test $unstable = 1 -o $testing = 1 ; then
     sed -i -e '/has.*mouse/,+6s/^/"/' $vim
   else
@@ -363,7 +369,7 @@ fi
 if ! test -d /home/$NEWUSER/.ssh ; then
   su $NEWUSER -c "mkdir -m 0700 -p ~/.ssh"
 fi
-if test -f /root/.ssh/authorized_keys && ! test -f /home/$NEWUSER/.ssh/authorized_keys ; then
+if test -s /root/.ssh/authorized_keys && ! test -s /home/$NEWUSER/.ssh/authorized_keys ; then
   cp /root/.ssh/authorized_keys /home/$NEWUSER/.ssh/authorized_keys
   chown $NEWUSER.$NEWUSER /home/$NEWUSER/.ssh/authorized_keys
 fi
@@ -539,7 +545,7 @@ EOM
     # sudo make install
   fi
 fi
-if true && test $unstable = 0 -a $testing = 0 -a ! -d /opt/qemu ; then
+if true && test $DISTRO = debian -a $unstable = 0 -a $testing = 0 -a ! -d /opt/qemu ; then
   $apt install pkg-config libglib2.0-dev libpixman-1-dev
   QEMUVER=5.1.0
   QEMU=qemu-$QEMUVER
@@ -662,7 +668,7 @@ fi
 fi
 
 if test "X$SYSTYPE" = Xlxc ; then
-  if test $testing = 0 -a $unstable = 0 ; then
+  if test $DISTRO = debian -a $testing = 0 -a $unstable = 0 ; then
     systemctl disable binfmt-support.service
   fi
 fi
