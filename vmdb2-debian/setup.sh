@@ -618,6 +618,71 @@ EOM
   } > /etc/iptables/rules.v6
 }
 
+# lxc server:
+config_lxc()
+{
+  $apt install lxc
+  #lxc-checkconfig
+  cat > /etc/lxc/default.conf <<-EOM
+	#lxc.net.0.type = empty
+	lxc.net.0.type = veth
+	lxc.net.0.link = lxcbr0
+	lxc.net.0.flags = up
+	lxc.net.0.name = eth0
+	lxc.apparmor.profile = generated
+	lxc.apparmor.allow_nesting = 1
+EOM
+  echo 'USE_LXC_BRIDGE="true"' > /etc/default/lxc-net
+}
+
+config_snapd()
+{
+  $apt install snapd
+}
+
+config_lxd()
+{
+  config_snapd
+  if ! test -d /var/snap/lxd ; then
+    snap install lxd
+  fi
+  # test -d /var/snap/lxd/common/lxd/storage-pools/pool1 || {
+  #   lxc storage create pool1 btrfs source=/dev/sdX
+  #   # lxc storage create pool1 dir
+  #   lxc profile device add default root disk path=/ pool=pool1
+  #   # lxc storage set default volume.size 25G
+  #   # lxc config device override c1 root size=30GB
+  # }
+}
+
+config_lxd_example()
+{
+  lxc profile set vm limits.cpu 2
+  lxc profile set vm limits.memory 2GB
+  lxc profile device set vm root size 20GB
+
+  lxc launch images:alpine/3.12/amd64 alpine
+  lxc launch images:alpine/3.12/amd64 alpine-vm --vm -p vm
+  lxc launch images:alpine/edge/amd64 alpine-edge
+  lxc launch images:alpine/edge/amd64 alpine-edge-vm --vm -p vm
+
+  lxc image list images: debian amd64
+  lxc launch images:debian/10/cloud debian-10-cloud
+  lxc launch images:debian/10/cloud debian-10-cloud-vm --vm -p vm
+  lxc launch images:debian/11/cloud debian-11-cloud
+  lxc launch images:debian/11/cloud debian-11-cloud-vm --vm -p vm
+  lxc launch images:debian/sid/cloud debian-sid-cloud
+  lxc launch images:debian/sid/cloud debian-sid-cloud-vm --vm -p vm
+
+  lxc image list ubuntu: 20.04 amd64
+  lxc launch images:ubuntu/focal/cloud ubuntu-focal-cloud
+  lxc launch images:ubuntu/focal/cloud ubuntu-focal-cloud-vm --vm -p vm
+  lxc launch ubuntu:20.04 ubuntu-focal
+  lxc launch ubuntu:20.04 ubuntu-focal-vm --vm -p vm
+
+  #lxc exec debian-11-cloud -- /bin/bash
+}
+
 config_gdm()
 {
   if test -f /etc/gdm3/greeter.dconf-defaults ; then
@@ -650,21 +715,7 @@ if false ; then
 EOM
 fi
 
-# lxc server:
-if false ; then
-  $apt install lxc
-  #lxc-checkconfig
-  cat > /etc/lxc/default.conf <<-EOM
-	#lxc.net.0.type = empty
-	lxc.net.0.type = veth
-	lxc.net.0.link = lxcbr0
-	lxc.net.0.flags = up
-	lxc.net.0.name = eth0
-	lxc.apparmor.profile = generated
-	lxc.apparmor.allow_nesting = 1
-EOM
-  echo 'USE_LXC_BRIDGE="true"' > /etc/default/lxc-net
-fi
+#config_lxc
 fi
 
 if test "X$SYSTYPE" = Xlxc ; then
@@ -678,6 +729,8 @@ fi
 # - Port 22 is sshd.
 # - Port 3128 should be added for a squid proxy.
 #config_firewall "443 80 22" "443 80 22"
+
+#config_lxd
 
 config_gdm
 #automatic_login $NEWUSER
