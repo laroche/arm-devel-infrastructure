@@ -657,9 +657,12 @@ config_lxd()
 
 config_lxd_example()
 {
+  lxc profile create vm
   lxc profile set vm limits.cpu 2
   lxc profile set vm limits.memory 2GB
+  lxc profile device add vm root disk path=/ pool=pool1
   lxc profile device set vm root size 20GB
+  lxc profile device add vm eth0 bridged name=eth0 network=lxdbr0 type=nic
 
   lxc launch images:alpine/3.12/amd64 alpine
   lxc launch images:alpine/3.12/amd64 alpine-vm --vm -p vm
