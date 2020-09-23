@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.8.10
+KVER=5.8.11
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -75,7 +75,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.8.9-1/5.8.10-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.8.10-2/5.8.11-2/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/all/net-packet-fix-overflow-in-tpacket_rcv.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
@@ -83,6 +83,7 @@ test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux
 cd linux-5 || exit 1
 test -f ../orig/linux_$KVER.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py ../linux-$KVER.tar.xz
 # Just to safe disk space and have a faster compile:
+export DEBIAN_KERNEL_DISABLE_DEBUG=yes
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
 # Disable RT kernel:
 #sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
