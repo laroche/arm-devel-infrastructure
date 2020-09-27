@@ -560,12 +560,12 @@ if true && test $DISTRO = debian -a $unstable = 0 -a $testing = 0 -a ! -d /opt/q
 fi
 
 # Download and install newer kernel:
-KABI=5.7.0-2
-KVER=5.7.12-1
+KABI=5.8.0-2
+KVER=5.8.12-1
 # Disabled by default as check for KABI is not enough:
 if false && test "$HOSTTYPE" = "x86_64" && ! test -d /lib/modules/${KABI}-amd64 ; then
   KERNEL=kernel-amd64-$KVER.tar.gz
-  wget -q https://github.com/laroche/arm-devel-infrastructure/releases/download/v20200826/$KERNEL
+  wget -q https://github.com/laroche/arm-devel-infrastructure/releases/download/v20200927/$KERNEL
   tar xzf $KERNEL
   dpkg -i kernel-amd64-$KVER/linux-image-${KABI}-amd64-unsigned_${KVER}_amd64.deb
   rm -fr $KERNEL kernel-amd64-$KVER
