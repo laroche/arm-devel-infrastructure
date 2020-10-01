@@ -657,9 +657,22 @@ config_lxd()
 
 config_lxd_example()
 {
+  CLOUDINIT="""user.user-data=#cloud-config
+package_upgrade: true
+packages:
+  - openssh-server
+timezone: Europe/Berlin
+locale: de_DE.UTF-8
+ssh_authorized_keys:
+ - ssh-rsa xxxx user
+"""
+  lxc profile set default "$CLOUDINIT"
+
+  #lxc profile copy default vm
   lxc profile create vm
   lxc profile set vm limits.cpu 2
   lxc profile set vm limits.memory 2GB
+  lxc profile set vm "$CLOUDINIT"
   lxc profile device add vm root disk path=/ pool=pool1
   lxc profile device set vm root size 20GB
   lxc profile device add vm eth0 bridged name=eth0 network=lxdbr0 type=nic
@@ -682,6 +695,7 @@ config_lxd_example()
   lxc launch images:ubuntu/focal/cloud ubuntu-focal-cloud-vm --vm -p vm
   lxc launch ubuntu:20.04 ubuntu-focal
   lxc launch ubuntu:20.04 ubuntu-focal-vm --vm -p vm
+  #lxc image copy ubuntu:20.04 local: --copy-aliases --auto-update
 
   #lxc exec debian-11-cloud -- /bin/bash
 }
