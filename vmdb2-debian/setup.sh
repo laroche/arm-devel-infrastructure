@@ -664,7 +664,7 @@ packages:
 timezone: Europe/Berlin
 locale: de_DE.UTF-8
 ssh_authorized_keys:
- - ssh-rsa xxxx user
+  - ssh-rsa xxxx user
 """
   lxc profile set default "$CLOUDINIT"
 
