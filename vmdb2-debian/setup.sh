@@ -638,6 +638,9 @@ EOM
 config_snapd()
 {
   $apt install snapd
+  if test "X$SYSTYPE" = Xlxc ; then
+    $apt install squashfuse fuse
+  fi
 }
 
 config_lxd()
@@ -645,42 +648,48 @@ config_lxd()
   config_snapd
   if ! test -d /var/snap/lxd ; then
     snap install lxd
+    export PATH=$PATH:/snap/bin
+    lxd init --auto --storage-backend=dir
+    # XXX/TODO:
+    # test -d /var/snap/lxd/common/lxd/storage-pools/default || {
+    #   lxc storage create default btrfs source=/dev/sdX
   fi
-  # test -d /var/snap/lxd/common/lxd/storage-pools/pool1 || {
-  #   lxc storage create pool1 btrfs source=/dev/sdX
-  #   # lxc storage create pool1 dir
-  #   lxc profile device add default root disk path=/ pool=pool1
-  #   # lxc storage set default volume.size 25G
-  #   # lxc config device override c1 root size=30GB
-  # }
-}
-
-config_lxd_example()
-{
   CLOUDINIT="""user.user-data=#cloud-config
 package_upgrade: true
 packages:
   - openssh-server
 timezone: Europe/Berlin
 locale: de_DE.UTF-8
+swap:
+  filename: /swapfile
+  size: "auto"
+  maxsize: 2147483648
+disable_root: false
+users:
 ssh_authorized_keys:
   - ssh-rsa xxxx user
 """
   lxc profile set default "$CLOUDINIT"
+  lxc profile device add default root disk path=/ pool=default
 
   #lxc profile copy default vm
   lxc profile create vm
   lxc profile set vm limits.cpu 2
   lxc profile set vm limits.memory 2GB
   lxc profile set vm "$CLOUDINIT"
-  lxc profile device add vm root disk path=/ pool=pool1
+  lxc profile device add vm root disk path=/ pool=default
   lxc profile device set vm root size 20GB
   lxc profile device add vm eth0 bridged name=eth0 network=lxdbr0 type=nic
+}
 
+config_lxd_example()
+{
+  if false ; then
   lxc launch images:alpine/3.12/amd64 alpine
   lxc launch images:alpine/3.12/amd64 alpine-vm --vm -p vm
   lxc launch images:alpine/edge/amd64 alpine-edge
   lxc launch images:alpine/edge/amd64 alpine-edge-vm --vm -p vm
+  fi
 
   lxc image list images: debian amd64
   lxc launch images:debian/10/cloud debian-10-cloud
@@ -691,10 +700,11 @@ ssh_authorized_keys:
   lxc launch images:debian/sid/cloud debian-sid-cloud-vm --vm -p vm
 
   lxc image list ubuntu: 20.04 amd64
-  lxc launch images:ubuntu/focal/cloud ubuntu-focal-cloud
+  #lxc launch images:ubuntu/focal/cloud ubuntu-focal-cloud
   lxc launch images:ubuntu/focal/cloud ubuntu-focal-cloud-vm --vm -p vm
-  lxc launch ubuntu:20.04 ubuntu-focal
-  lxc launch ubuntu:20.04 ubuntu-focal-vm --vm -p vm
+  #lxc launch ubuntu:20.04 ubuntu-focal
+  #lxc launch ubuntu:20.04 ubuntu-focal-vm --vm -p vm
+
   #lxc image copy ubuntu:20.04 local: --copy-aliases --auto-update
 
   #lxc exec debian-11-cloud -- /bin/bash
