@@ -14,7 +14,6 @@ partitioning and grub
 - For amd64 change from msdos partitioning to gpt. Test if this works with
   some real hardware as well as virsh/qemu.
 - grub installed into partition instead of full disk?
-- Check if the partitioning is aligned properly.
 - grub keyboard layout is "us", change this to "de".
 - parted: check if "-4096"-bug can be fixed upstream. Is workaround possible?
   This is not needed with lvm setups, so less important.

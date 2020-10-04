@@ -9,14 +9,14 @@ steps:
 
 #  - mkpart: primary
 #    device: "{{ output }}"
-#    start: 4M
-#    end: 100M
+#    start: 4MiB
+#    end: 100MiB
 #    tag: /boot
 
   - mkpart: primary
     device: "{{ output }}"
-    start: 4M
-#    start: 100M
+    start: 4MiB
+#    start: 100MiB
     end: 100%
     tag: rootpv
 

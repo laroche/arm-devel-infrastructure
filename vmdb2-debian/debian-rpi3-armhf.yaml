@@ -10,12 +10,12 @@ steps:
     fs-type: 'fat32'
     device: "{{ output }}"
     start: 0%
-    end: 128M
+    end: 128MiB
     tag: firmware-fs
 
   - mkpart: primary
     device: "{{ output }}"
-    start: 128M
+    start: 128MiB
     end: 100%
     tag: rootfs
 
