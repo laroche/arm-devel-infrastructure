@@ -126,8 +126,9 @@ fi
 
 config_swapfile()
 {
-  #fallocate -l 4G /swapfile
-  dd if=/dev/zero of=/swapfile bs=1M count=4096
+  test -f /swapfile && return
+  #fallocate -l 8G /swapfile
+  dd if=/dev/zero of=/swapfile bs=1M count=8192
   chmod 600 /swapfile
   mkswap -L DEBSWAP /swapfile
   swapon /swapfile
@@ -514,7 +515,7 @@ if true ; then
   fi
   $apt install vmdb2 dosfstools qemu qemu-user-static make zip
 fi
-if true && ! test -d /opt/ltp ; then
+if false && ! test -d /opt/ltp ; then
   $apt install quotatool
   if ! test -d /home/$NEWUSER/data/ltp ; then
     su $NEWUSER -c "cd ~/data && git clone --depth 1 https://github.com/linux-test-project/ltp"
@@ -649,10 +650,11 @@ config_lxd()
   if ! test -d /var/snap/lxd ; then
     snap install lxd
     export PATH=$PATH:/snap/bin
-    lxd init --auto --storage-backend=dir
-    # XXX/TODO:
-    # test -d /var/snap/lxd/common/lxd/storage-pools/default || {
-    #   lxc storage create default btrfs source=/dev/sdX
+    if test "X$1" = X ; then
+      lxd init --auto --storage-backend=dir
+    else
+      lxd init --auto --storage-backend=btrfs --storage-pool="$1"
+    fi
   fi
   CLOUDINIT="""user.user-data=#cloud-config
 package_upgrade: true
@@ -751,6 +753,8 @@ if test "X$SYSTYPE" = Xlxc ; then
   fi
 fi
 
+#config_swapfile
+
 # Firewall setup:
 # - Port 80 and 443 are usually for a http/https server.
 # - Port 22 is sshd.
@@ -758,6 +762,7 @@ fi
 #config_firewall "443 80 22" "443 80 22"
 
 #config_lxd
+#config_lxd_example
 
 config_gdm
 #automatic_login $NEWUSER
