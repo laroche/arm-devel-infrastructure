@@ -702,10 +702,10 @@ config_lxd_example()
   lxc launch images:debian/sid/cloud debian-sid-cloud-vm --vm -p vm
 
   lxc image list ubuntu: 20.04 amd64
-  #lxc launch images:ubuntu/focal/cloud ubuntu-focal-cloud
+  lxc launch images:ubuntu/focal/cloud ubuntu-focal-cloud
   lxc launch images:ubuntu/focal/cloud ubuntu-focal-cloud-vm --vm -p vm
-  #lxc launch ubuntu:20.04 ubuntu-focal
-  #lxc launch ubuntu:20.04 ubuntu-focal-vm --vm -p vm
+  lxc launch ubuntu:20.04 ubuntu-focal
+  lxc launch ubuntu:20.04 ubuntu-focal-vm --vm -p vm
 
   #lxc image copy ubuntu:20.04 local: --copy-aliases --auto-update
 
