@@ -49,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.8.13
+KVER=5.8.14
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.8.13
+  RVER=5.8.14
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -66,7 +66,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER cdcec6869074d67b3613977517deca1da249e43a
+  git format-patch -o ../rpi-patches-$RVER 70b225d0a8ca1242e8a75ded86b806070ec71b2f
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -75,7 +75,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.8.10-2/5.8.13-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.8.10-2/5.8.14-1/' linux-5/debian/changelog
 sed -i -e 's,^bugfix/all/netfilter-ctnetlink-add-a-range-check-for-l3-l4-prot.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
