@@ -77,6 +77,8 @@ fi
 # Change Debian source to new version:
 sed -i -e '1 s/5.8.10-2/5.8.14-1/' linux-5/debian/changelog
 sed -i -e 's,^bugfix/all/netfilter-ctnetlink-add-a-range-check-for-l3-l4-prot.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/hdlc_ppp-add-range-checks-in-ppp_cp_parse_cr.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/geneve-add-transport-ports-in-route-lookup-for-genev.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
