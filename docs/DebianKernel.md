@@ -8,13 +8,13 @@ How to compile your own kernel from current Debian git sources
 --------------------------------------------------------------
 
 The source code for the Debian Linux kernel is maintained within the [salsa gitlab server](https://salsa.debian.org/kernel-team/linux/commits/master).
-The [master](https://salsa.debian.org/kernel-team/linux/commits/master) branch currently is based on linux-5.7.y,
-the [sid](https://salsa.debian.org/kernel-team/linux/commits/sid) branch is based on linux-5.6.y and
+The [master](https://salsa.debian.org/kernel-team/linux/commits/master) branch currently is based on linux-5.9.y,
+the [sid](https://salsa.debian.org/kernel-team/linux/commits/sid) branch is based on linux-5.8.y and
 the [buster](https://salsa.debian.org/kernel-team/linux/commits/buster) branch is based on linux-4.19.y.
 
 You can checkout these branches and recompile locally a current Debian kernel with
-these scripts: [kernel.sh](https://github.com/laroche/arm-devel-infrastructure/blob/master/vmdb2-debian/kernel.sh) and
-[kernel5.sh](https://github.com/laroche/arm-devel-infrastructure/blob/master/vmdb2-debian/kernel5.sh).
+these scripts: [kernel59.sh](https://github.com/laroche/arm-devel-infrastructure/blob/master/vmdb2-debian/kernel59.sh) and
+[kernel58.sh](https://github.com/laroche/arm-devel-infrastructure/blob/master/vmdb2-debian/kernel58.sh).
 This uses about 6 GB of disk space.
 
 You can also cross-compile armhf and arm64 kernels on amd64, also adding all raspberry-pi patches is fully scripted:
