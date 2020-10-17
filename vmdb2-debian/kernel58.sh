@@ -49,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.8.15
+KVER=5.8.16
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.8.14
+  RVER=5.8.15
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -66,7 +66,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 70b225d0a8ca1242e8a75ded86b806070ec71b2f
+  git format-patch -o ../rpi-patches-$RVER 665c6ff082e214537beef2e39ec366cddf446d52
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -75,7 +75,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.8.14-1) unstable/5.8.15-1) UNRELEASED/' linux-5/debian/changelog
+sed -i -e '1 s/5.8.14-1) unstable/5.8.16-1) UNRELEASED/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/all/geneve-add-transport-ports-in-route-lookup-for-genev.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
@@ -92,7 +92,9 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0249-hid-usb-Add-device-quirks-for-Freeway-Airmouse-T3-an.patch
+    rm -f bugfix/rpi/0710-Bluetooth-A2MP-Fix-not-initializing-all-members.patch \
+          bugfix/rpi/0711-Bluetooth-L2CAP-Fix-calling-sk_filter-on-non-socket-.patch \
+          bugfix/rpi/0713-Bluetooth-MGMT-Fix-not-checking-if-BT_HS-is-enabled.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.8.0-?/arm*

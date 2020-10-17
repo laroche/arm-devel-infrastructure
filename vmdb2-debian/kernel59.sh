@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.9
+KVER=5.9.1
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -75,7 +75,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.9-1/5.9-1/' linux-5/debian/changelog
+#sed -i -e '1 s/5.9.1-1/5.9.1-1/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/all/geneve-add-transport-ports-in-route-lookup-for-genev.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
@@ -86,15 +86,17 @@ test -f ../orig/linux_$KVER.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig
 export DEBIAN_KERNEL_DISABLE_DEBUG=yes
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
 # Disable RT kernel:
-if test $CROSS = 1 ; then
-  sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
-fi
+#if test $CROSS = 1 ; then
+#  sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
+#fi
 if test "$RPIPATCHES" = 1 ; then
   sed -i -e 's/--fuzz=0//g' debian/rules
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0249-hid-usb-Add-device-quirks-for-Freeway-Airmouse-T3-an.patch
+    rm -f bugfix/rpi/0535-Bluetooth-A2MP-Fix-not-initializing-all-members.patch \
+          bugfix/rpi/0536-Bluetooth-L2CAP-Fix-calling-sk_filter-on-non-socket-.patch \
+          bugfix/rpi/0538-Bluetooth-MGMT-Fix-not-checking-if-BT_HS-is-enabled.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.9.0-?/arm*
