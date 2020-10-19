@@ -53,7 +53,7 @@ KVER=5.9.1
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.9.0
+  RVER=5.9.1
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -66,7 +66,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER bbf5c979011a099af5dc76498918ed7df445635b
+  git format-patch -o ../rpi-patches-$RVER 213f323329f1567e09f85ddb54cfb80769340b50
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -94,9 +94,9 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0535-Bluetooth-A2MP-Fix-not-initializing-all-members.patch \
-          bugfix/rpi/0536-Bluetooth-L2CAP-Fix-calling-sk_filter-on-non-socket-.patch \
-          bugfix/rpi/0538-Bluetooth-MGMT-Fix-not-checking-if-BT_HS-is-enabled.patch
+    #rm -f bugfix/rpi/0535-Bluetooth-A2MP-Fix-not-initializing-all-members.patch \
+    #      bugfix/rpi/0536-Bluetooth-L2CAP-Fix-calling-sk_filter-on-non-socket-.patch \
+    #      bugfix/rpi/0538-Bluetooth-MGMT-Fix-not-checking-if-BT_HS-is-enabled.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.9.0-?/arm*
