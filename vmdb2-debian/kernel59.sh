@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.9.4
+KVER=5.9.6
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -75,9 +75,12 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.9.3-2/5.9.4-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.9.4-1/5.9.6-1/' linux-5/debian/changelog
 #sed -i -e '1 s/UNRELEASED/unstable/' linux-5/debian/changelog
-#sed -i -e 's,^bugfix/all/geneve-add-transport-ports-in-route-lookup-for-genev.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/firmware_class-log-every-success-and-failure.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^debian/firmware_class-refer-to-debian-wiki-firmware-page.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/x86/ACPI-extlog-Check-for-RDMSR-failure.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/x86/x86-mce-Allow-for-copy_mc_fragile-symbol-checksum-to.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
