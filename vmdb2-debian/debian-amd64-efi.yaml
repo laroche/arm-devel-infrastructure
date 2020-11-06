@@ -10,12 +10,12 @@ steps:
     fs-type: 'fat32'
     device: "{{ output }}"
     start: 1MiB
-    end: 32MiB
+    end: 64MiB
     tag: boot-efi
 
   - mkpart: primary
     device: "{{ output }}"
-    start: 32MiB
+    start: 64MiB
     end: 100%
     tag: rootfs
 
