@@ -1,7 +1,7 @@
 
 steps:
   - mkimg: "{{ output }}"
-    size: 2048M
+    size: 2560M
 
 #  - mklabel: gpt
   - mklabel: msdos
@@ -28,8 +28,8 @@ steps:
 
   - lvcreate: debvg
     name: rootfs
-#    size: 1948M
-    size: 2040M
+#    size: 2460M
+    size: 2552M
 
   - mkfs: ext4
     partition: rootfs
