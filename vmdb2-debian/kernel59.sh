@@ -53,7 +53,7 @@ KVER=5.9.6
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.9.3
+  RVER=5.9.6
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -66,7 +66,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 36a4324fe95cdd1403045d0d1f1871f062179892
+  git format-patch -o ../rpi-patches-$RVER 2d182f2dc3b7d38fb1f2a74aabab50a3e0d27c3d
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -96,9 +96,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0151-xhci-add-quirk-for-host-controllers-that-don-t-updat.patch \
-          bugfix/rpi/0526-ext4-implement-swap_activate-aops-using-iomap.patch \
-          bugfix/rpi/0549-xhci-quirks-add-link-TRB-quirk-for-VL805.patch
+    #rm -f bugfix/rpi/0151-xhci-add-quirk-for-host-controllers-that-don-t-updat.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.9.0-?/arm*
