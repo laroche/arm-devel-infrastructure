@@ -75,10 +75,9 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.9.6-2/5.9.8-1/' linux-5/debian/changelog
-sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
-sed -i -e 's,^bugfix/all/perf-core-Fix-a-memory-leak-in-perf_event_parse_addr.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/x86/powercap-restrict-energy-meter-to-root-access.patch,,g' linux-5/debian/patches/series
+#sed -i -e '1 s/5.9.6-2/5.9.8-1/' linux-5/debian/changelog
+#sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
+#sed -i -e 's,^bugfix/all/perf-core-Fix-a-memory-leak-in-perf_event_parse_addr.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
@@ -90,7 +89,7 @@ export DEBIAN_KERNEL_DISABLE_DEBUG=yes
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
 # Disable RT kernel:
 #if test $CROSS = 1 ; then
-  sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
+#  sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
 #fi
 if test "$RPIPATCHES" = 1 ; then
   sed -i -e 's/--fuzz=0//g' debian/rules
