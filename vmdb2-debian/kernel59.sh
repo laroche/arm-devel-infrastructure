@@ -49,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.9.10
+KVER=5.9.11
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.9.8
+  RVER=5.9.10
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -66,7 +66,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 951cbbc386ff01b50da4f46387e994e81d9ab431
+  git format-patch -o ../rpi-patches-$RVER 5dbeb9f76cef6e1b3ba9e8dbf1a3fa276ae0f5d2
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -75,9 +75,9 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.9.9-1/5.9.10-1/' linux-5/debian/changelog
-sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
-#sed -i -e 's,^bugfix/all/perf-core-Fix-a-memory-leak-in-perf_event_parse_addr.patch,,g' linux-5/debian/patches/series
+sed -i -e '1 s/5.9.10-1/5.9.11-1/' linux-5/debian/changelog
+#sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
+sed -i -e 's,^bugfix/arm/ARM-dts-sun8i-a83t-Enable-both-RGMII-RX-TX-delay-on-.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
