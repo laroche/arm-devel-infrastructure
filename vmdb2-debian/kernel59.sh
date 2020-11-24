@@ -95,7 +95,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0151-xhci-add-quirk-for-host-controllers-that-don-t-updat.patch
+    rm -f bugfix/rpi/0219-spi-use_gpio_descriptor-fixup-moved-to-spi_setup.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.9.0-?/arm*
