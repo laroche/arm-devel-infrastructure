@@ -693,15 +693,15 @@ config_lxd_example()
   lxc launch images:alpine/edge/amd64 alpine-edge-vm --vm -p vm
   fi
 
-  lxc image list images: debian amd64
-  lxc launch images:debian/10/cloud debian-10-cloud
-  lxc launch images:debian/10/cloud debian-10-cloud-vm --vm -p vm
-  lxc launch images:debian/11/cloud debian-11-cloud
-  lxc launch images:debian/11/cloud debian-11-cloud-vm --vm -p vm
-  lxc launch images:debian/sid/cloud debian-sid-cloud
-  lxc launch images:debian/sid/cloud debian-sid-cloud-vm --vm -p vm
+  #lxc image list images: debian amd64
+  lxc launch images:debian/10/cloud debian-10
+  lxc launch images:debian/10/cloud debian-10-vm --vm -p vm
+  lxc launch images:debian/11/cloud debian-11
+  lxc launch images:debian/11/cloud debian-11-vm --vm -p vm
+  lxc launch images:debian/sid/cloud debian-sid
+  lxc launch images:debian/sid/cloud debian-sid-vm --vm -p vm
 
-  lxc image list ubuntu: 20.04 amd64
+  #lxc image list ubuntu: 20.04 amd64
   lxc launch images:ubuntu/focal/cloud ubuntu-focal-cloud
   lxc launch images:ubuntu/focal/cloud ubuntu-focal-cloud-vm --vm -p vm
   lxc launch ubuntu:20.04 ubuntu-focal
