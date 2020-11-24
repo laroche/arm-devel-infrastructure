@@ -748,8 +748,11 @@ fi
 fi
 
 if test "X$SYSTYPE" = Xlxc ; then
-  if test $DISTRO = debian -a $testing = 0 -a $unstable = 0 ; then
-    systemctl disable binfmt-support.service
+  if test $DISTRO = debian -a -f /usr/sbin/update-binfmts ; then
+    dpkg -P binfmt-support
+  fi
+  if test -e /lib/systemd/system/sockets.target.wants/systemd-journald-audit.socket ; then
+    systemctl mask systemd-journald-audit.socket
   fi
 fi
 
