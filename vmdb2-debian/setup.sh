@@ -513,7 +513,12 @@ if true ; then
   if ! test -d /home/$NEWUSER/data/arm-devel-infrastructure ; then
     su $NEWUSER -c "cd ~/data && git clone https://github.com/laroche/arm-devel-infrastructure"
   fi
-  $apt install vmdb2 dosfstools qemu qemu-user-static make zip
+  # Note that binfmt-support is not installed within lxc guest systems:
+  if test "X$SYSTYPE" = Xlxc ; then
+    $apt install vmdb2 dosfstools qemu qemu-user-static make zip binfmt-support-
+  else
+    $apt install vmdb2 dosfstools qemu qemu-user-static make zip
+  fi
 fi
 if false && ! test -d /opt/ltp ; then
   $apt install quotatool
@@ -709,7 +714,7 @@ config_lxd_example()
 
   #lxc image copy ubuntu:20.04 local: --copy-aliases --auto-update
 
-  #lxc exec debian-11-cloud -- /bin/bash
+  #lxc exec debian-11 -- /bin/bash
 }
 
 config_gdm()
@@ -748,9 +753,6 @@ fi
 fi
 
 if test "X$SYSTYPE" = Xlxc ; then
-  if test $DISTRO = debian -a -f /usr/sbin/update-binfmts ; then
-    dpkg -P binfmt-support
-  fi
   if test -e /lib/systemd/system/sockets.target.wants/systemd-journald-audit.socket ; then
     systemctl mask systemd-journald-audit.socket
   fi
