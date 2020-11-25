@@ -666,13 +666,13 @@ package_upgrade: true
 packages:
   - openssh-server
 timezone: Europe/Berlin
-locale: de_DE.UTF-8
+#locale: de_DE.UTF-8
 swap:
   filename: /swapfile
   size: "auto"
   maxsize: 2147483648
 disable_root: false
-users:
+users: ""
 ssh_authorized_keys:
   - ssh-rsa xxxx user
 """
