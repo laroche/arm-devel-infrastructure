@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.9.11
+KVER=5.9.12
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -75,8 +75,8 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.9.10-1/5.9.11-1/' linux-5/debian/changelog
-#sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
+sed -i -e '1 s/5.9.11-1/5.9.12-1/' linux-5/debian/changelog
+sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/arm/ARM-dts-sun8i-a83t-Enable-both-RGMII-RX-TX-delay-on-.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
