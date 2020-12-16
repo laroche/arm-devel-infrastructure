@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.9.14
+KVER=5.9.15
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -75,9 +75,9 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.9.11-1/5.9.14-1/' linux-5/debian/changelog
-sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
-sed -i -e 's,^bugfix/all/usbnet-ipheth-fix-connectivity-with-iOS-14.patch,,g' linux-5/debian/patches/series
+sed -i -e '1 s/5.9.14-1/5.9.15-1/' linux-5/debian/changelog
+#sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
+#sed -i -e 's,^bugfix/all/usbnet-ipheth-fix-connectivity-with-iOS-14.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
