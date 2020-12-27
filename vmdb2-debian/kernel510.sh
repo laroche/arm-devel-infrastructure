@@ -49,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.2
+KVER=5.10.3
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.10.1
+  RVER=5.10.2
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -66,7 +66,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 841fca5a32cccd7d0123c0271f4350161ada5507
+  git format-patch -o ../rpi-patches-$RVER d1988041d19dc8b532579bdbb7c4a978391c0011
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -75,7 +75,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.10.1-1~exp1/5.10.2-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.10.3-1~exp1/5.10.3-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/all/usbnet-ipheth-fix-connectivity-with-iOS-14.patch,,g' linux-5/debian/patches/series
@@ -96,8 +96,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0150-xhci-add-quirk-for-host-controllers-that-don-t-updat.patch \
-          bugfix/rpi/0377-xhci-quirks-add-link-TRB-quirk-for-VL805.patch
+    #rm -f bugfix/rpi/0150-xhci-add-quirk-for-host-controllers-that-don-t-updat.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.10.0-?/arm*
