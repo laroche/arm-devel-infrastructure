@@ -49,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.3
+KVER=5.10.4
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.10.2
+  RVER=5.10.3
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -66,7 +66,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER d1988041d19dc8b532579bdbb7c4a978391c0011
+  git format-patch -o ../rpi-patches-$RVER 02164534cb86a559915089e09a560b672b8b1ddb
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -75,10 +75,15 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.10.3-1~exp1/5.10.3-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.10.3-1~exp1/5.10.4-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
-#sed -i -e 's,^bugfix/all/usbnet-ipheth-fix-connectivity-with-iOS-14.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/xen-xenbus-Allow-watches-discard-events-before-queue.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/xen-xenbus-Add-will_handle-callback-support-in-xenbu.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/xen-xenbus-xen_bus_type-Support-will_handle-watch-ca.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/xen-xenbus-Count-pending-messages-for-each-watch.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/xenbus-xenbus_backend-Disallow-pending-watch-message.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/xen-blkback-set-ring-xenblkd-to-NULL-after-kthread_s.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
@@ -89,14 +94,15 @@ export DEBIAN_KERNEL_DISABLE_DEBUG=yes
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
 # Disable RT kernel:
 #if test $CROSS = 1 ; then
-#  sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
+  sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
 #fi
 if test "$RPIPATCHES" = 1 ; then
   sed -i -e 's/--fuzz=0//g' debian/rules
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0150-xhci-add-quirk-for-host-controllers-that-don-t-updat.patch
+    rm -f bugfix/rpi/0362-staging-mmal-vchiq-Use-vc-sm-cma-to-support-zero-cop.patch \
+          bugfix/rpi/0426-media-i2c-imx219-Selection-compliance-fixes.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.10.0-?/arm*
