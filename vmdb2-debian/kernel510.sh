@@ -53,7 +53,7 @@ KVER=5.10.4
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.10.3
+  RVER=5.10.4
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -66,13 +66,13 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 02164534cb86a559915089e09a560b672b8b1ddb
+  git format-patch -o ../rpi-patches-$RVER b1313fe517ca3703119dcc99ef3bbf75ab42bcfb
   cd ..
   #rm -fr rpi-linux-5
 fi
 
 if ! test -d linux-5 ; then
-  git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
+  git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
 #sed -i -e '1 s/5.10.3-1~exp1/5.10.4-1/' linux-5/debian/changelog
@@ -96,8 +96,8 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0362-staging-mmal-vchiq-Use-vc-sm-cma-to-support-zero-cop.patch \
-          bugfix/rpi/0426-media-i2c-imx219-Selection-compliance-fixes.patch
+    #rm -f bugfix/rpi/0362-staging-mmal-vchiq-Use-vc-sm-cma-to-support-zero-cop.patch \
+    #      bugfix/rpi/0459-vc-sm-cma-fixed-kbuild-problem.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.10.0-?/arm*
