@@ -74,10 +74,10 @@ diff --git a/vm/qemu/qemu.go b/vm/qemu/qemu.go
 index dae8f493..6ce6050c 100644
 --- a/vm/qemu/qemu.go
 +++ b/vm/qemu/qemu.go
-@@ -134,6 +134,7 @@
- 		QemuArgs:  "-machine virt,virtualization=on -cpu cortex-a57",
- 		TargetDir: "/",
- 		NetDev:    "virtio-net-pci",
+@@ -144,6 +144,7 @@
+ 		QemuArgs: "-machine virt,virtualization=on -cpu cortex-a57",
+ 		NetDev:   "virtio-net-pci",
+ 		RngDev:   "virtio-rng-pci",
 +		UseNewQemuImageOptions: true,
  		CmdLine: append(linuxCmdline,
  			"root=/dev/vda",
