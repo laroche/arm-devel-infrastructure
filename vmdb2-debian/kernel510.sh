@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.5
+KVER=5.10.6
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -75,10 +75,11 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.10.4-2/5.10.5-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.10.5-1/5.10.6-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
-#sed -i -e 's,^bugfix/all/xen-xenbus-Allow-watches-discard-events-before-queue.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/Bluetooth-Fix-attempting-to-set-RPA-timeout-when-uns.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/mwifiex-Fix-possible-buffer-overflows-in-mwifiex_cmd.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
