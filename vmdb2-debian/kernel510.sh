@@ -49,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.6
+KVER=5.10.7
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.10.4
+  RVER=5.10.5
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -66,7 +66,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER b1313fe517ca3703119dcc99ef3bbf75ab42bcfb
+  git format-patch -o ../rpi-patches-$RVER f5247949c0a9304ae43a895f29216a9d876f3919
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -75,10 +75,11 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.10.5-1/5.10.6-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.10.5-2/5.10.7-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e 's,^bugfix/all/Bluetooth-Fix-attempting-to-set-RPA-timeout-when-uns.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/revert-drm-amd-display-fix-memory-leaks-in-s3-resume.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,^bugfix/all/mwifiex-Fix-possible-buffer-overflows-in-mwifiex_cmd.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 #exit 0
@@ -90,7 +91,7 @@ export DEBIAN_KERNEL_DISABLE_DEBUG=yes
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
 # Disable RT kernel:
 #if test $CROSS = 1 ; then
-#  sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
+  sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
 #fi
 if test "$RPIPATCHES" = 1 ; then
   sed -i -e 's/--fuzz=0//g' debian/rules
