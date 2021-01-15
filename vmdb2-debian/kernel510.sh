@@ -53,7 +53,7 @@ KVER=5.10.7
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.10.5
+  RVER=5.10.6
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -66,7 +66,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER f5247949c0a9304ae43a895f29216a9d876f3919
+  git format-patch -o ../rpi-patches-$RVER 5650152ddab1a6b367e6804deea344e001bd656e
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -81,7 +81,10 @@ sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e 's,^bugfix/all/Bluetooth-Fix-attempting-to-set-RPA-timeout-when-uns.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,^bugfix/all/revert-drm-amd-display-fix-memory-leaks-in-s3-resume.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,^bugfix/all/mwifiex-Fix-possible-buffer-overflows-in-mwifiex_cmd.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/scsi-target-Fix-XCOPY-NAA-identifier-lookup.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
+sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
+sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
 #exit 0
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
 cd linux-5 || exit 1
