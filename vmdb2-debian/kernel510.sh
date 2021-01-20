@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.8
+KVER=5.10.9
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -75,15 +75,10 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.10.5-2/5.10.8-1/' linux-5/debian/changelog
+#sed -i -e '1 s/5.10.5-2/5.10.9-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
-sed -i -e 's,^bugfix/all/Bluetooth-Fix-attempting-to-set-RPA-timeout-when-uns.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/revert-drm-amd-display-fix-memory-leaks-in-s3-resume.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/mwifiex-Fix-possible-buffer-overflows-in-mwifiex_cmd.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/scsi-target-Fix-XCOPY-NAA-identifier-lookup.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/firmware-remove-redundant-log-messages-from-drivers.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/net-cdc_ncm-correct-overhead-in-delayed_ndp_size.patch,,g' linux-5/debian/patches/series
+#sed -i -e 's,^bugfix/all/Bluetooth-Fix-attempting-to-set-RPA-timeout-when-uns.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
@@ -103,8 +98,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0362-staging-mmal-vchiq-Use-vc-sm-cma-to-support-zero-cop.patch \
-    #      bugfix/rpi/0459-vc-sm-cma-fixed-kbuild-problem.patch
+    #rm -f bugfix/rpi/0362-staging-mmal-vchiq-Use-vc-sm-cma-to-support-zero-cop.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.10.0-?/arm*
