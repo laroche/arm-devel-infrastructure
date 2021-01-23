@@ -91,7 +91,7 @@ export DEBIAN_KERNEL_DISABLE_DEBUG=yes
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
 # Disable RT kernel:
 #if test $CROSS = 1 ; then
-  sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
+#  sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
 #fi
 if test "$RPIPATCHES" = 1 ; then
   sed -i -e 's/--fuzz=0//g' debian/rules

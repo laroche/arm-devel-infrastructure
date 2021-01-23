@@ -75,7 +75,7 @@ index e69de29bb2..7ae5a06e4f
 +fi
 +
 diff --git a/configs/qemu_aarch64_virt_defconfig b/configs/qemu_aarch64_virt_defconfig
-index 67dccc604a..47327bb927 100644
+index aa00ddf831..1445906d48 100644
 --- a/configs/qemu_aarch64_virt_defconfig
 +++ b/configs/qemu_aarch64_virt_defconfig
 @@ -1,6 +1,9 @@
@@ -98,17 +98,15 @@ index 67dccc604a..47327bb927 100644
  BR2_ROOTFS_POST_IMAGE_SCRIPT="board/qemu/post-image.sh"
  BR2_ROOTFS_POST_SCRIPT_ARGS="$(BR2_DEFCONFIG)"
  
--# Linux headers same as kernel, a 5.4 series
--BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_4=y
 +BR2_ROOTFS_POST_BUILD_SCRIPT="board/qemu/arm-vexpress/post-build.sh"
 +
-+# Linux headers same as kernel, a 5.10 series
-+BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_10=y
+ # Linux headers same as kernel, a 5.10 series
+ BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_10=y
  
  # Kernel
  BR2_LINUX_KERNEL=y
  BR2_LINUX_KERNEL_CUSTOM_VERSION=y
--BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE="5.4.88"
+-BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE="5.10.7"
 +BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE="5.10.9"
  BR2_LINUX_KERNEL_USE_CUSTOM_CONFIG=y
  BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE="board/qemu/aarch64-virt/linux.config"
@@ -133,7 +131,7 @@ index 67dccc604a..47327bb927 100644
  # host-qemu for gitlab testing
  BR2_PACKAGE_HOST_QEMU=y
 diff --git a/configs/qemu_arm_vexpress_defconfig b/configs/qemu_arm_vexpress_defconfig
-index a106530ec8..2d503b8cea 100644
+index 20fdbb4062..bc18704e10 100644
 --- a/configs/qemu_arm_vexpress_defconfig
 +++ b/configs/qemu_arm_vexpress_defconfig
 @@ -4,6 +4,9 @@ BR2_cortex_a9=y
@@ -146,7 +144,7 @@ index a106530ec8..2d503b8cea 100644
  
  # System
  BR2_SYSTEM_DHCP="eth0"
-@@ -11,24 +14,42 @@ BR2_TARGET_GENERIC_GETTY_PORT="ttyAMA0"
+@@ -11,13 +14,14 @@ BR2_TARGET_GENERIC_GETTY_PORT="ttyAMA0"
  
  # Filesystem
  BR2_TARGET_ROOTFS_EXT2=y
@@ -159,18 +157,15 @@ index a106530ec8..2d503b8cea 100644
  BR2_ROOTFS_POST_SCRIPT_ARGS="$(BR2_DEFCONFIG)"
 -# Qemu >= 5.1 requires an SD card size to be a power of 2, e.g. 64 MiB.
 -BR2_TARGET_ROOTFS_EXT2_SIZE="64M"
- 
--# Linux headers same as kernel, a 5.4 series
--BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_4=y
 +BR2_ROOTFS_POST_BUILD_SCRIPT="board/qemu/arm-vexpress/post-build.sh"
-+
-+# Linux headers same as kernel, a 5.10 series
-+BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_10=y
  
+ # Linux headers same as kernel, a 5.10 series
+ BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_10=y
+@@ -25,10 +29,26 @@ BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_10=y
  # Kernel
  BR2_LINUX_KERNEL=y
  BR2_LINUX_KERNEL_CUSTOM_VERSION=y
--BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE="5.4.88"
+-BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE="5.10.7"
 +BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE="5.10.9"
  BR2_LINUX_KERNEL_DEFCONFIG="vexpress"
  BR2_LINUX_KERNEL_DTS_SUPPORT=y
