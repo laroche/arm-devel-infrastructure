@@ -49,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.9
+KVER=5.10.10
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.10.7
+  RVER=5.10.9
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -66,7 +66,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 659361086d8b2ee2c8318f390029a350a6e7fb61
+  git format-patch -o ../rpi-patches-$RVER e2d133180bbc28a48316e67a003796885580b087
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -75,9 +75,10 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.10.5-2/5.10.9-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.10.9-1/5.10.10-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
+sed -i -e 's,^bugfix/all/X.509-Fix-crash-caused-by-NULL-pointer.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,^bugfix/all/Bluetooth-Fix-attempting-to-set-RPA-timeout-when-uns.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
