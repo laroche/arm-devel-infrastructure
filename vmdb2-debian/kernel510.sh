@@ -49,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.10
+KVER=5.10.11
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.10.9
+  RVER=5.10.10
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -66,7 +66,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER e2d133180bbc28a48316e67a003796885580b087
+  git format-patch -o ../rpi-patches-$RVER 8dc0fcbcfa97bdeb514fa229125791a467e0e319
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -75,7 +75,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.10.9-1/5.10.10-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.10.10-1/5.10.11-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e 's,^bugfix/all/X.509-Fix-crash-caused-by-NULL-pointer.patch,,g' linux-5/debian/patches/series
