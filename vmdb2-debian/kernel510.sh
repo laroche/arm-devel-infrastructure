@@ -92,14 +92,14 @@ export DEBIAN_KERNEL_DISABLE_DEBUG=yes
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
 # Disable RT kernel:
 #if test $CROSS = 1 ; then
-#  sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
+  sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
 #fi
 if test "$RPIPATCHES" = 1 ; then
   sed -i -e 's/--fuzz=0//g' debian/rules
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0362-staging-mmal-vchiq-Use-vc-sm-cma-to-support-zero-cop.patch
+    rm -f bugfix/rpi/0319-vc4-Set-driver_name-for-card.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.10.0-?/arm*
