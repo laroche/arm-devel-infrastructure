@@ -53,7 +53,7 @@ KVER=5.10.11
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.10.10
+  RVER=5.10.11
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -66,7 +66,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 8dc0fcbcfa97bdeb514fa229125791a467e0e319
+  git format-patch -o ../rpi-patches-$RVER b97134d151275424dc83864d6d2cf52f327adaef
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -99,7 +99,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0319-vc4-Set-driver_name-for-card.patch
+    #rm -f bugfix/rpi/0319-vc4-Set-driver_name-for-card.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.10.0-?/arm*
