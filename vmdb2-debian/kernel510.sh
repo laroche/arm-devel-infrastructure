@@ -99,7 +99,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0319-vc4-Set-driver_name-for-card.patch
+    rm -f bugfix/rpi/0434-Revert-media-videobuf2-Fix-length-check-for-single-p.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.10.0-?/arm*
