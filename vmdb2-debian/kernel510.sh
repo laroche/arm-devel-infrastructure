@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.12
+KVER=5.10.13
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -75,9 +75,10 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.10.10-1/5.10.12-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.10.12-1/5.10.13-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
+sed -i -e 's,^bugfix/all/xen-Fix-XenStore-initialisation-for-XS_LOCAL.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,^bugfix/all/X.509-Fix-crash-caused-by-NULL-pointer.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,^bugfix/all/Bluetooth-Fix-attempting-to-set-RPA-timeout-when-uns.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
@@ -99,7 +100,8 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0434-Revert-media-videobuf2-Fix-length-check-for-single-p.patch
+    rm -f bugfix/rpi/0434-Revert-media-videobuf2-Fix-length-check-for-single-p.patch \
+          bugfix/rpi/0482-vc4-Correct-lbm-size-and-calculation.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.10.0-?/arm*
