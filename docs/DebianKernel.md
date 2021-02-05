@@ -19,13 +19,13 @@ This uses about 6 GB of disk space.
 You can also cross-compile armhf and arm64 kernels on amd64, also adding all raspberry-pi patches is fully scripted:
 ```shell
 # cross-compile a generic armhf kernel:
-./kernel5.sh armhf
+./kernel.sh armhf
 # cross-compile a generic arm64 kernel:
-./kernel5.sh arm64
+./kernel.sh arm64
 # cross-compile an armhf kernel with all raspbian-pi patches included:
-./kernel5.sh rpi-armhf
+./kernel.sh rpi-armhf
 # cross-compile an arm64 kernel with all raspbian-pi patches included:
-./kernel5.sh rpi-arm64
+./kernel.sh rpi-arm64
 ```
 
 You can download already compiled kernels from the [release page](https://github.com/laroche/arm-devel-infrastructure/releases).
