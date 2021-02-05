@@ -78,9 +78,7 @@ fi
 sed -i -e '1 s/5.10.12-2/5.10.13-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
-sed -i -e 's,^bugfix/all/xen-Fix-XenStore-initialisation-for-XS_LOCAL.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/nbd-freeze-the-queue-while-we-re-adding-connections.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/vsock-fix-the-race-conditions-in-multi-transport-sup.patch,,g' linux-5/debian/patches/series
+#sed -i -e 's,^bugfix/all/xen-Fix-XenStore-initialisation-for-XS_LOCAL.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
