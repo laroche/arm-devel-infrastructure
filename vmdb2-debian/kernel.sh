@@ -49,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.14
+KVER=5.10.15
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.10.13
+  RVER=5.10.14
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -66,7 +66,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 0c245c5fe93f0e9769de4a8b31f129b2759bf802
+  git format-patch -o ../rpi-patches-$RVER b0c8835fc649454c33371f4617111cb5d60463e1
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -75,7 +75,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.10.13-1/5.10.14-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.10.13-1/5.10.15-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/all/xen-Fix-XenStore-initialisation-for-XS_LOCAL.patch,,g' linux-5/debian/patches/series
