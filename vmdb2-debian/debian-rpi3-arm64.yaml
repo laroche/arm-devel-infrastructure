@@ -213,7 +213,7 @@ steps:
       echo "locales locales/default_environment_locale select de_DE.UTF-8" | debconf-set-selections
       echo "locales locales/locales_to_be_generated multiselect de_DE.UTF-8 UTF-8" | debconf-set-selections
       rm -f /etc/locale.gen
-      dpkg-reconfigure --frontend noninteractive locales
+      dpkg-reconfigure --frontend noninteractive locales || :
 
       echo "console-setup console-setup/charmap47 select UTF-8" | debconf-set-selections
       sed -i -e 's/^CHARMAP=.*/CHARMAP="UTF-8"/g' /etc/default/console-setup
