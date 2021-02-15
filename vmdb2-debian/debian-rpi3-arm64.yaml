@@ -47,6 +47,10 @@ steps:
     - non-free
     unless: rootfs_unpacked
 
+  - chroot: rootfs
+    shell: |
+      mount -t proc proc /proc
+
   - apt: install
     packages:
     - unattended-upgrades
@@ -103,6 +107,10 @@ steps:
     #- linux-image-rt-arm64
     tag: rootfs
     unless: rootfs_unpacked
+
+  - chroot: rootfs
+    shell: |
+      umount /proc
 
   - cache-rootfs: rootfs
     unless: rootfs_unpacked
