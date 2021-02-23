@@ -49,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.17
+KVER=5.10.18
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.10.16
+  RVER=5.10.17
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -66,7 +66,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER de53befa79cfd74c01fbbdeb45c700b3e9e13011
+  git format-patch -o ../rpi-patches-$RVER 13b6016e96f628ac1cfb3c0b342911fd91c9c005
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -75,10 +75,10 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.10.16-1/5.10.17-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.10.17-1/5.10.18-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
-#sed -i -e 's,^bugfix/all/xen-Fix-XenStore-initialisation-for-XS_LOCAL.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/Bluetooth-btusb-Always-fallback-to-alt-1-for-WBS.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
