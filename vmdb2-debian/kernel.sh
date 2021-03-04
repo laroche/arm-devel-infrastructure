@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.19
+KVER=5.10.20
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -75,10 +75,15 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.10.18-1/5.10.19-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.10.19-1/5.10.20-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
-sed -i -e 's,^bugfix/all/Bluetooth-btusb-Some-Qualcomm-Bluetooth-adapters-sto.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/mips/mips-support-binutils-configured-with-enable-mips-fi.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/x86/drm-i915-gt-One-more-flush-for-Baytrail-clear-residu.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/x86/drm-i915-gt-Flush-before-changing-register-state.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/x86/drm-i915-gt-Correct-surface-base-address-for-renderc.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/soundwire-intel-fix-possible-crash-when-no-device-is.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/drm-nouveau-bail-out-of-nouveau_channel_new-if-chann.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,pci-switchtec-Don-t-use-completion-s-wait-queue.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
