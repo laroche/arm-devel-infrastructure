@@ -49,24 +49,25 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.23
+KVER=5.10.24
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.10.20
+  RVER=5.10.23
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   # Extract the raspberry-pi patches into a subdirectory:
   if test ! -d rpi-linux-5 ; then
     git clone -b rpi-5.10.y https://github.com/raspberrypi/linux/ rpi-linux-5
+    test -d rpi-linux-5 || exit 1
   else
     pushd rpi-linux-5
     git checkout rpi-5.10.y
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 83be32b6c9e55d5b04181fc9788591d5611d4a96
+  git format-patch -o ../rpi-patches-$RVER dfbf345b63c31518e269f7f0adf55bbf57017e23
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -75,7 +76,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.10.21-1/5.10.22-1/' linux-5/debian/changelog
+#sed -i -e '1 s/5.10.23-1/5.10.24-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/mips/mips-support-binutils-configured-with-enable-mips-fi.patch,,g' linux-5/debian/patches/series
