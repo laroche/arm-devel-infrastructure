@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.24
+KVER=5.10.25
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -76,10 +76,22 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.10.23-1/5.10.24-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.10.24-1/5.10.25-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
-#sed -i -e 's,^bugfix/mips/mips-support-binutils-configured-with-enable-mips-fi.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/x86/crypto-aesni-use-test-reg-reg-instead-of-cmp-0-reg.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/x86/crypto-x86-aes-ni-xts-use-direct-calls-to-and-4-way-.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/arm/net-dsa-b53-support-setting-learning-on-port.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/rdma-srp-fix-support-for-unpopulated-and-unbalanced-numa-nodes.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/fuse-fix-live-lock-in-fuse_iget.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/revert-nfsd4-remove-check_conflicting_opens-warning.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/revert-nfsd4-a-client-s-own-opens-needn-t-prevent-delegations.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/alsa-usb-audio-don-t-avoid-stopping-the-stream-at-disconnection.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/bpf-Prohibit-alu-ops-for-pointer-types-not-defining-.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/bpf-Fix-off-by-one-for-area-size-in-creating-mask-to.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/bpf-Simplify-alu_limit-masking-for-pointer-arithmeti.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/bpf-Add-sanity-check-for-upper-ptr_limit.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/bpf-selftests-Fix-up-some-test_verifier-cases-for-un.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,smp-Process-pending-softirqs-in-flush_smp_call_funct.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
