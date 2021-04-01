@@ -49,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.26
+KVER=5.10.27
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.10.23
+  RVER=5.10.25
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -67,7 +67,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER dfbf345b63c31518e269f7f0adf55bbf57017e23
+  git format-patch -o ../rpi-patches-$RVER 3ba56f490c7ab26974806f8c2f14fc49652efe10
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -76,7 +76,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.10.24-2/5.10.26-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.10.26-1/5.10.27-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/x86/crypto-aesni-use-test-reg-reg-instead-of-cmp-0-reg.patch,,g' linux-5/debian/patches/series
