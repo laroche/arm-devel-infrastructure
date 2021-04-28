@@ -49,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.32
+KVER=5.10.33
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.10.31
+  RVER=5.10.32
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -67,7 +67,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 65f1995ea1e930674e76c5888b4643581e11434c
+  git format-patch -o ../rpi-patches-$RVER aea70bd5a45591de27aac367af94d184892c06ab
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -76,7 +76,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.10.28-2/5.10.32-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.10.28-2/5.10.33-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e 's,^debian/makefile-do-not-check-for-libelf-when-building-oot-module.patch,,g' linux-5/debian/patches/series
