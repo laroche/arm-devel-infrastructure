@@ -76,14 +76,11 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.10.28-2/5.10.35-1/' linux-5/debian/changelog
+#sed -i -e '1 s/5.10.28-2/5.10.35-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
-sed -i -e 's,^debian/makefile-do-not-check-for-libelf-when-building-oot-module.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/x86/0001-bpf-x86-Validate-computation-of-branch-displacements.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/x86/0002-bpf-x86-Validate-computation-of-branch-displacements.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/tools-include-uapi-fix-errno.h.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,0185-xfrm-Use-sequence-counter-with-associated-spinlock.patch,,g' linux-5/debian/patches-rt/series
+#sed -i -e 's,^debian/makefile-do-not-check-for-libelf-when-building-oot-module.patch,,g' linux-5/debian/patches/series
+#sed -i -e 's,0185-xfrm-Use-sequence-counter-with-associated-spinlock.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
 #exit 0
