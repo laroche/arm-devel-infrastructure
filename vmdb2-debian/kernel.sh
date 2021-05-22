@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.38
+KVER=5.10.39
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -76,7 +76,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.10.37-1/5.10.38-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.10.38-1/5.10.39-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/all/Revert-net-sctp-fix-race-condition-in-sctp_destroy_s.patch,,g' linux-5/debian/patches/series
