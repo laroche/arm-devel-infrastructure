@@ -461,12 +461,13 @@ EOM
     $apt install wine winetricks wine32
   fi
 
-  # signal.ch messenger:
+  # signal.ch and telegram messenger:
   if false && test "$HOSTTYPE" = "x86_64" ; then
     curl -s https://updates.signal.org/desktop/apt/keys.asc | apt-key add -
     echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" > /etc/apt/sources.list.d/signal-xenial.list
     $apt update
     $apt install signal-desktop
+    $apt install telegram-desktop
   fi
 
   # Microsoft Teams:
