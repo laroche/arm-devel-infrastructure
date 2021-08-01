@@ -15,15 +15,15 @@ index e69de29b..f5afeb81 100644
 +	"image": "../../../../../buildroot/output/images/rootfs.ext2",
 +	"sandbox": "namespace",
 +	"reproduce": false,
-+	"procs": 8,
++	"procs": 24,
 +	"type": "qemu",
 +	"vm": {
 +		"count": 1,
 +		"cmdline": "console=ttyAMA0,115200 root=/dev/vda",
 +		"kernel": "../../../../../buildroot/output/images/Image",
 +		"image_device": "vd",
-+		"mem": 1024,
-+		"cpu": 4
++		"mem": 2048,
++		"cpu": 8
 +	}
 +}
 diff --git a/arm.cfg b/arm.cfg
