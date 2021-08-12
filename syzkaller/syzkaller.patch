@@ -43,14 +43,14 @@ index e69de29b..a6384142 100644
 +	"image": "../../../../../buildroot/output/images/rootfs.ext2",
 +	"sandbox": "namespace",
 +	"reproduce": false,
-+	"procs": 8,
++	"procs": 12,
 +	"type": "qemu",
 +	"vm": {
 +		"count": 1,
 +		"qemu_args": "-M vexpress-a9 -cpu cortex-a9 -dtb ../../../../../buildroot/output/images/vexpress-v2p-ca9.dtb",
-+		"cmdline": "console=ttyAMA0,115200 root=/dev/mmcblk0",
++		"cmdline": "console=ttyAMA0,115200 root=/dev/vda",
 +		"kernel": "../../../../../buildroot/output/images/zImage",
-+		"image_device": "sd",
++		"image_device": "vd",
 +		"mem": 1024,
 +		"cpu": 4
 +	}
