@@ -49,21 +49,21 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.46
+KVER=5.13.10
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.10.32
+  RVER=5.13.9
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   # Extract the raspberry-pi patches into a subdirectory:
   if test ! -d rpi-linux-5 ; then
-    git clone -b rpi-5.10.y https://github.com/raspberrypi/linux/ rpi-linux-5
+    git clone -b rpi-5.13.y https://github.com/raspberrypi/linux/ rpi-linux-5
     test -d rpi-linux-5 || exit 1
   else
     pushd rpi-linux-5
-    git checkout rpi-5.10.y
+    git checkout rpi-5.13.y
     popd
   fi
   cd rpi-linux-5 || exit 1
@@ -73,13 +73,13 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
 fi
 
 if ! test -d linux-5 ; then
-  git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
+  git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.10.46-1/5.10.46-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.13.9-1~exp3/5.13.10-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
-#sed -i -e 's,^bugfix/all/net-usb-cdc_ncm-don-t-spew-notifications.patch,,g' linux-5/debian/patches/series
+#sed -i -e 's,^bugfix/all/Revert-PCI-PM-Do-not-read-power-state-in-pci_enable_.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
@@ -99,14 +99,12 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0434-Revert-media-videobuf2-Fix-length-check-for-single-p.patch \
-          bugfix/rpi/0482-vc4-Correct-lbm-size-and-calculation.patch \
-          bugfix/rpi/0498-drm-vc4-hvs-Fix-buffer-overflow-with-the-dlist-handl.patch
+    #rm -f bugfix/rpi/0320-vc4_hdmi-Fix-register-offset-when-sending-longer-CEC.patch
     ls bugfix/rpi/*.patch >> series
   popd
-  rm -f debian/abi/5.10.0-?/arm*
+  rm -f debian/abi/5.13.0-?/arm*
 fi
-rm -fr debian/abi/5.10.0-?
+rm -fr debian/abi/5.13.0-?
 
 if test $CROSS = 0 ; then
 
