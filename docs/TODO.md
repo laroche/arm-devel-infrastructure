@@ -52,7 +52,7 @@ installed apps
 - "apt-get update" does not give an error if repos are not updated, so script error checking is limited.
   Can apt-get get an extra option for this?
 - setup.sh proposals:
-   - Should we change sources.list for Debian testing from "testing" to "bullseye"?
+   - Should we change sources.list for Debian testing from "testing" to "bookworm"?
    - Maybe support lxc for firewall rules.
    - config_firewall: add extra option for udp ports?
 

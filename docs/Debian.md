@@ -4,9 +4,9 @@ General notes about Debian
 [Debian](https://www.debian.org/) is a community driven Linux distribution.
 [Ubuntu Linux](https://ubuntu.com/) is based on Debian.
 
-Debian 10 is the newest stable release and is named 'buster'.
+Debian 11 is the newest stable release and is named 'bullseye'.
 See [https://www.debian.org/releases/](https://www.debian.org/releases/) for more details.
-'testing' refers to the next stable release (named bullseye, Debian 11).
+'testing' refers to the next stable release (named bookworm, Debian 12).
 The 'unstable' distribution is always named 'sid'.
 
 If you are a developer and interested in the newest developments, I recommend
