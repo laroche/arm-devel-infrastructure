@@ -67,7 +67,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER aea70bd5a45591de27aac367af94d184892c06ab
+  git format-patch -o ../rpi-patches-$RVER f259ee2f037925eaf3d0c53f7d7aa2d3fae4ea13
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -99,7 +99,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0320-vc4_hdmi-Fix-register-offset-when-sending-longer-CEC.patch
+    rm -f bugfix/rpi/0301-USB-gadget-f_hid-avoid-crashes-and-log-spam.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.13.0-?/arm*
