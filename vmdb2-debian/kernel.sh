@@ -76,7 +76,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.13.9-1~exp3/5.13.12-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.13.12-1~exp1/5.13.12-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/all/Revert-PCI-PM-Do-not-read-power-state-in-pci_enable_.patch,,g' linux-5/debian/patches/series
@@ -99,7 +99,8 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0301-USB-gadget-f_hid-avoid-crashes-and-log-spam.patch
+    rm -f bugfix/rpi/0301-USB-gadget-f_hid-avoid-crashes-and-log-spam.patch \
+          bugfix/rpi/0340-drm-atomic-Pass-the-full-state-to-CRTC-atomic-enable.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.13.0-?/arm*
