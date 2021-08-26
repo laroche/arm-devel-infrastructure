@@ -53,7 +53,7 @@ KVER=5.13.13
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.13.9
+  RVER=5.13.12
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -67,7 +67,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER f259ee2f037925eaf3d0c53f7d7aa2d3fae4ea13
+  git format-patch -o ../rpi-patches-$RVER f428e49b8cb1fbd9b4b4b29ea31b6991d2ff7de1
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -99,8 +99,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0301-USB-gadget-f_hid-avoid-crashes-and-log-spam.patch \
-          bugfix/rpi/0340-drm-atomic-Pass-the-full-state-to-CRTC-atomic-enable.patch
+    rm -f bugfix/rpi/0337-net-lan78xx-Ack-pending-PHY-ints-when-resetting.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.13.0-?/arm*
