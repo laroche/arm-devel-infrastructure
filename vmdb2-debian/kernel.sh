@@ -99,7 +99,8 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0337-net-lan78xx-Ack-pending-PHY-ints-when-resetting.patch
+    rm -f bugfix/rpi/0337-net-lan78xx-Ack-pending-PHY-ints-when-resetting.patch \
+          bugfix/rpi/0339-drm-atomic-Pass-the-full-state-to-CRTC-atomic-enable.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.13.0-?/arm*
