@@ -49,21 +49,21 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.13.13
+KVER=5.14.1
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.13.12
+  RVER=5.14.1
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   # Extract the raspberry-pi patches into a subdirectory:
   if test ! -d rpi-linux-5 ; then
-    git clone -b rpi-5.13.y https://github.com/raspberrypi/linux/ rpi-linux-5
+    git clone -b rpi-5.14.y https://github.com/raspberrypi/linux/ rpi-linux-5
     test -d rpi-linux-5 || exit 1
   else
     pushd rpi-linux-5
-    git checkout rpi-5.13.y
+    git checkout rpi-5.14.y
     popd
   fi
   cd rpi-linux-5 || exit 1
@@ -76,7 +76,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.13.12-1~exp2/5.13.13-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.14-1~exp1/5.14.1-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/all/Revert-PCI-PM-Do-not-read-power-state-in-pci_enable_.patch,,g' linux-5/debian/patches/series
@@ -103,9 +103,9 @@ if test "$RPIPATCHES" = 1 ; then
           bugfix/rpi/0339-drm-atomic-Pass-the-full-state-to-CRTC-atomic-enable.patch
     ls bugfix/rpi/*.patch >> series
   popd
-  rm -f debian/abi/5.13.0-?/arm*
+  rm -f debian/abi/5.14.0-?/arm*
 fi
-rm -fr debian/abi/5.13.0-?
+rm -fr debian/abi/5.14.0-?
 
 if test $CROSS = 0 ; then
 
