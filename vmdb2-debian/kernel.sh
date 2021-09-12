@@ -49,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.14.1
+KVER=5.14.3
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.14.1
+  RVER=5.14.2
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -67,7 +67,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 7c60610d476766e128cc4284bb6349732cbd6606
+  git format-patch -o ../rpi-patches-$RVER bbdd3de144fc142f2f4b9834c9241cc4e7f3d3fc
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -76,7 +76,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.14-1~exp2/5.14.1-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.14.2-1~exp1/5.14.3-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/all/Revert-PCI-PM-Do-not-read-power-state-in-pci_enable_.patch,,g' linux-5/debian/patches/series
