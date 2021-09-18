@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.66
+KVER=5.10.67
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -77,10 +77,10 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b 5.10-stable-updates https://salsa.debian.org/carnil/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.10.64-1/5.10.66-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.10.66-1/5.10.67-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
-#sed -i -e 's,^bugfix/all/Revert-PCI-PM-Do-not-read-power-state-in-pci_enable_.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/partially-revert-net-socket-implement-64-bit-timestamps.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
