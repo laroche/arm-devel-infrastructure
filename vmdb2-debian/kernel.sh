@@ -53,7 +53,7 @@ KVER=5.14.6
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.14.2
+  RVER=5.14.4
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -67,7 +67,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER bbdd3de144fc142f2f4b9834c9241cc4e7f3d3fc
+  git format-patch -o ../rpi-patches-$RVER d6f7bb5bb29096b2935c55deeb545616dab74406
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -99,7 +99,8 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0319-drm-atomic-Pass-the-full-state-to-CRTC-atomic-enable.patch
+    rm -f bugfix/rpi/0422-vc4_hdmi-Set-HD_CTL_WHOLSMP-and-HD_CTL_CHALIGN_SET.patch \
+          bugfix/rpi/0461-drm-vc4-Fix-pixel-wrap-issue-with-DVP-teardown.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.14.0-?/arm*
