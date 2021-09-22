@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.14.6
+KVER=5.14.7
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -76,10 +76,12 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.14.3-1~exp2/5.14.5-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.14.6-3~exp1/5.14.7-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
-#sed -i -e 's,^bugfix/all/Revert-PCI-PM-Do-not-read-power-state-in-pci_enable_.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/bnx2x-Fix-enabling-network-interfaces-without-VFs.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/dccp-don-t-duplicate-ccid-when-cloning-dccp-sock.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/io_uring-ensure-symmetry-in-handling-iter-types-in-l.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
@@ -100,7 +102,8 @@ if test "$RPIPATCHES" = 1 ; then
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     rm -f bugfix/rpi/0422-vc4_hdmi-Set-HD_CTL_WHOLSMP-and-HD_CTL_CHALIGN_SET.patch \
-          bugfix/rpi/0461-drm-vc4-Fix-pixel-wrap-issue-with-DVP-teardown.patch
+          bugfix/rpi/0461-drm-vc4-Fix-pixel-wrap-issue-with-DVP-teardown.patch \
+          bugfix/rpi/0317-drm-atomic-Pass-the-full-state-to-CRTC-atomic-enable.patch
     ls bugfix/rpi/*.patch >> series
   popd
   rm -f debian/abi/5.14.0-?/arm*
