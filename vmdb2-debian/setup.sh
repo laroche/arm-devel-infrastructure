@@ -281,7 +281,7 @@ EOM
 	deb http://deb.debian.org/debian/ unstable main contrib non-free
 	deb-src http://deb.debian.org/debian/ unstable main contrib non-free
 EOM
-  else
+  elif test -f /etc/debian_version && grep -q '^10' /etc/debian_version ; then
       cat > /etc/apt/sources.list <<-EOM
 	deb http://deb.debian.org/debian/ buster main contrib non-free
 	deb-src http://deb.debian.org/debian/ buster main contrib non-free
@@ -294,6 +294,20 @@ EOM
 
 	deb http://security.debian.org/debian-security buster/updates main contrib non-free
 	deb-src http://security.debian.org/debian-security buster/updates main contrib non-free
+EOM
+  else
+      cat > /etc/apt/sources.list <<-EOM
+	deb http://deb.debian.org/debian/ bullseye main contrib non-free
+	deb-src http://deb.debian.org/debian/ bullseye main contrib non-free
+
+	deb http://deb.debian.org/debian/ bullseye-updates main contrib non-free
+	deb-src http://deb.debian.org/debian/ bullseye-updates main contrib non-free
+
+	deb http://deb.debian.org/debian/ bullseye-backports main contrib non-free
+	deb-src http://deb.debian.org/debian/ bullseye-backports main contrib non-free
+
+	deb http://security.debian.org/debian-security bullseye-security main contrib non-free
+	deb-src http://security.debian.org/debian-security bullseye-security main contrib non-free
 EOM
   fi
   # Keep experimental commented out:
