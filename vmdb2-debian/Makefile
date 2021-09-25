@@ -20,7 +20,7 @@ debian-amd64.img: debian-amd64.yaml
 	sudo parted -s $@ toggle 1 boot
 
 #debian-testing-amd64.yaml: debian-amd64.yaml
-#	sed 's/qemu-debootstrap: buster/qemu-debootstrap: testing/g' < $^ > $@
+#	sed 's/qemu-debootstrap: bullseye/qemu-debootstrap: testing/g' < $^ > $@
 
 debian-testing-amd64.img: debian-testing-amd64.yaml
 	# XXX: TODO: due to hardcoded /dev/loop0:
@@ -41,13 +41,13 @@ debian-amd64-efi.img: debian-amd64-efi.yaml
 	$(call vmdb2,amd64-efi)
 
 debian-testing-amd64-efi.yaml: debian-amd64-efi.yaml
-	sed 's/qemu-debootstrap: buster/qemu-debootstrap: testing/g' < $^ > $@
+	sed 's/qemu-debootstrap: bullseye/qemu-debootstrap: testing/g' < $^ > $@
 
 debian-testing-amd64-efi.img: debian-testing-amd64-efi.yaml
 	$(call vmdb2,testing-amd64-efi)
 
 debian-unstable-amd64-efi.yaml: debian-amd64-efi.yaml
-	sed 's/qemu-debootstrap: buster/qemu-debootstrap: unstable/g' < $^ > $@
+	sed 's/qemu-debootstrap: bullseye/qemu-debootstrap: unstable/g' < $^ > $@
 
 debian-unstable-amd64-efi.img: debian-unstable-amd64-efi.yaml
 	$(call vmdb2,unstable-amd64-efi)
@@ -56,13 +56,13 @@ debian-rpi3-arm64.img: debian-rpi3-arm64.yaml
 	$(call vmdb2,rpi3-arm64)
 
 debian-testing-rpi3-arm64.yaml: debian-rpi3-arm64.yaml
-	sed 's/qemu-debootstrap: buster/qemu-debootstrap: testing/g' < $^ | sed -e "s/- raspi3-firmware/- raspi-firmware/g" > $@
+	sed 's/qemu-debootstrap: bullseye/qemu-debootstrap: testing/g' < $^ | sed -e "s/- raspi3-firmware/- raspi-firmware/g" > $@
 
 debian-testing-rpi3-arm64.img: debian-testing-rpi3-arm64.yaml
 	$(call vmdb2,testing-rpi3-arm64)
 
 debian-unstable-rpi3-arm64.yaml: debian-rpi3-arm64.yaml
-	sed 's/qemu-debootstrap: buster/qemu-debootstrap: unstable/g' < $^ | sed -e "s/- raspi3-firmware/- raspi-firmware/g" > $@
+	sed 's/qemu-debootstrap: bullseye/qemu-debootstrap: unstable/g' < $^ | sed -e "s/- raspi3-firmware/- raspi-firmware/g" > $@
 
 debian-unstable-rpi3-arm64.img: debian-unstable-rpi3-arm64.yaml
 	$(call vmdb2,unstable-rpi3-arm64)
@@ -71,13 +71,13 @@ debian-rpi3-armhf.img: debian-rpi3-armhf.yaml
 	$(call vmdb2,rpi3-armhf)
 
 debian-testing-rpi3-armhf.yaml: debian-rpi3-armhf.yaml
-	sed 's/qemu-debootstrap: buster/qemu-debootstrap: testing/g' < $^ | sed -e "s/- raspi3-firmware/- raspi-firmware/g" > $@
+	sed 's/qemu-debootstrap: bullseye/qemu-debootstrap: testing/g' < $^ | sed -e "s/- raspi3-firmware/- raspi-firmware/g" > $@
 
 debian-testing-rpi3-armhf.img: debian-testing-rpi3-armhf.yaml
 	$(call vmdb2,testing-rpi3-armhf)
 
 debian-unstable-rpi3-armhf.yaml: debian-rpi3-armhf.yaml
-	sed 's/qemu-debootstrap: buster/qemu-debootstrap: unstable/g' < $^ | sed -e "s/- raspi3-firmware/- raspi-firmware/g" > $@
+	sed 's/qemu-debootstrap: bullseye/qemu-debootstrap: unstable/g' < $^ | sed -e "s/- raspi3-firmware/- raspi-firmware/g" > $@
 
 debian-unstable-rpi3-armhf.img: debian-unstable-rpi3-armhf.yaml
 	$(call vmdb2,unstable-rpi3-armhf)
