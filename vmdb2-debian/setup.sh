@@ -729,6 +729,8 @@ config_lxd_example()
   lxc launch ubuntu:20.04 ubuntu-focal
   lxc launch ubuntu:20.04 ubuntu-focal-vm --vm -p vm
 
+  #lxc config set debian-11 boot.autostart=true
+
   #lxc image copy ubuntu:20.04 local: --copy-aliases --auto-update
 
   #lxc exec debian-11 -- /bin/bash
