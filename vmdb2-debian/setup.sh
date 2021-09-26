@@ -22,6 +22,7 @@
 # New user to setup:
 NEWUSER=max
 GECOS="Max Mustermann"
+EMAIL="Max.Mustermann@example.org"
 
 TIMEZONE="Europe/Berlin"
 
@@ -733,6 +734,38 @@ config_lxd_example()
   #lxc exec debian-11 -- /bin/bash
 }
 
+config_git()
+{
+  local configfile="/home/$1/.gitconfig"
+
+  test -f $configfile && return
+
+  cat > $configfile <<EOM
+[user]
+	email = $3
+	name = $2
+[pull]
+	rebase = false
+[core]
+	editor = vim
+[color]
+	ui = auto
+[mergetool]
+	keepBackup = false
+[merge]
+	tool = meld
+	guitool = meld
+[mergetool "meld"]
+	cmd = /usr/bin/meld \$LOCAL \$BASE \$REMOTE --auto-merge --output \$MERGED
+EOM
+  chown $1.$1 $configfile
+}
+
+config_git_default()
+{
+  config_git $NEWUSER "$GECOS" "$EMAIL"
+}
+
 config_gdm()
 {
   if test -f /etc/gdm3/greeter.dconf-defaults ; then
@@ -787,6 +820,7 @@ fi
 
 config_gdm
 #automatic_login $NEWUSER
+#config_git_default
 
 $apt clean
 $apt update
