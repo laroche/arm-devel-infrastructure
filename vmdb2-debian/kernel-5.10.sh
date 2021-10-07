@@ -80,7 +80,9 @@ fi
 sed -i -e '1 s/5.10.70-1/5.10.71-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
+sed -i -e '1 s/bullseye/UNRELEASED/' linux-5/debian/changelog
 sed -i -e 's,^bugfix/all/partially-revert-net-socket-implement-64-bit-timestamps.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/mipsel/bpf-mips-Validate-conditional-branch-offsets.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
