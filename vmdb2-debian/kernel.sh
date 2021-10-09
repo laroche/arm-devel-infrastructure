@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.14.10
+KVER=5.14.11
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -73,14 +73,15 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
 fi
 
 if ! test -d linux-5 ; then
-  git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
+  git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.14.9-3~exp1/5.14.10-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.14.9-3/5.14.11-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e 's,^bugfix/mipsel/bpf-mips-Validate-conditional-branch-offsets.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,^bugfix/all/ext4-limit-the-number-of-blocks-in-one-ADD_RANGE-TLV.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/HID-u2fzero-ignore-incomplete-packets-without-data.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
