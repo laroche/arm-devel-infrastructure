@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.14.11
+KVER=5.14.12
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -76,12 +76,14 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.14.9-3/5.14.11-1/' linux-5/debian/changelog
+sed -i -e '1 s/5.14.9-3/5.14.12-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e 's,^bugfix/mipsel/bpf-mips-Validate-conditional-branch-offsets.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,^bugfix/all/ext4-limit-the-number-of-blocks-in-one-ADD_RANGE-TLV.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,^bugfix/all/HID-u2fzero-ignore-incomplete-packets-without-data.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/x86/crypto-ccp-fix-resource-leaks-in-ccp_run_aes_gcm_cmd.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/partially-revert-usb-kconfig-using-select-for-usb_co.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
@@ -104,6 +106,10 @@ if test "$RPIPATCHES" = 1 ; then
     rm -f bugfix/rpi/0318-drm-atomic-Pass-the-full-state-to-CRTC-atomic-enable.patch
     ls bugfix/rpi/*.patch >> series
   popd
+  echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
+  echo "CONFIG_RESET_RASPBERRY=y" >> debian/config/config
+  echo "CONFIG_RESET_BRCMSTB_RESCAL=y" >> debian/config/config
+  echo "CONFIG_NO_HZ_FULL=y" >> debian/config/featureset-rt/config
   rm -f debian/abi/5.14.0-?/arm*
 fi
 rm -fr debian/abi/5.14.0-?
