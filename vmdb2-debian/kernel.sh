@@ -53,7 +53,7 @@ KVER=5.14.12
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.14.9
+  RVER=5.14.12
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -67,7 +67,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 70248e7b378b96f208d5544ee25b808a8ef2ddc2
+  git format-patch -o ../rpi-patches-$RVER 325225e2f9fa0a4edf0b7da30c256df2433db6bb
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -76,14 +76,10 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.14.9-3/5.14.12-1/' linux-5/debian/changelog
+#sed -i -e '1 s/5.14.9-3/5.14.12-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
-sed -i -e 's,^bugfix/mipsel/bpf-mips-Validate-conditional-branch-offsets.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/ext4-limit-the-number-of-blocks-in-one-ADD_RANGE-TLV.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/HID-u2fzero-ignore-incomplete-packets-without-data.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/x86/crypto-ccp-fix-resource-leaks-in-ccp_run_aes_gcm_cmd.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/partially-revert-usb-kconfig-using-select-for-usb_co.patch,,g' linux-5/debian/patches/series
+#sed -i -e 's,^bugfix/mipsel/bpf-mips-Validate-conditional-branch-offsets.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
