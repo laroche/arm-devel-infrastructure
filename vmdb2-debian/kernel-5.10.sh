@@ -53,7 +53,7 @@ KVER=5.10.73
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.10.60
+  RVER=5.10.73
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -67,24 +67,21 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 2c5bd949b1df3f9fb109107b3d766e2ebabd7238
+  git format-patch -o ../rpi-patches-$RVER 0268aa579b1f741b12300bc7f084ffe990cfde5f
   cd ..
   #rm -fr rpi-linux-5
 fi
 
 if ! test -d linux-5 ; then
-  git clone --single-branch --depth 1 -b bullseye https://salsa.debian.org/kernel-team/linux.git linux-5
-  #git clone --single-branch --depth 1 -b 5.10-stable-updates https://salsa.debian.org/carnil/linux.git linux-5
+  #git clone --single-branch --depth 1 -b bullseye https://salsa.debian.org/kernel-team/linux.git linux-5
+  git clone --single-branch --depth 1 -b 5.10-stable-updates https://salsa.debian.org/carnil/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.10.70-1/5.10.73-1/' linux-5/debian/changelog
+#sed -i -e '1 s/5.10.70-1/5.10.73-1/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/bullseye/UNRELEASED/' linux-5/debian/changelog
-sed -i -e 's,^bugfix/all/partially-revert-net-socket-implement-64-bit-timestamps.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/mipsel/bpf-mips-Validate-conditional-branch-offsets.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/partially-revert-usb-kconfig-using-select-for-usb_co.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/tools-perf-pmu-events-fix-reproducibility.patch,,g' linux-5/debian/patches/series
+#sed -i -e 's,^bugfix/all/partially-revert-net-socket-implement-64-bit-timestamps.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
@@ -104,10 +101,13 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0320-vc4_hdmi-Fix-register-offset-when-sending-longer-CEC.patch \
-    #      bugfix/rpi/0321-vc4_hdmi-Fix-up-CEC-registers.patch
+    #rm -f bugfix/rpi/0320-vc4_hdmi-Fix-register-offset-when-sending-longer-CEC.patch
     ls bugfix/rpi/*.patch >> series
   popd
+  echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
+  echo "CONFIG_RESET_RASPBERRY=y" >> debian/config/config
+  echo "CONFIG_RESET_BRCMSTB_RESCAL=y" >> debian/config/config
+  echo "CONFIG_NO_HZ_FULL=y" >> debian/config/featureset-rt/config
   rm -f debian/abi/5.10.0-?/arm*
 fi
 rm -fr debian/abi/5.10.0-?
