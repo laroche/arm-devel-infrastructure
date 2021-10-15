@@ -40,12 +40,12 @@ fi
 
 # Build requirements:
 if true ; then
-sudo apt-get -qq -y install build-essential fakeroot rsync git python3-debian libcap-dev
-sudo apt-get -qq -y build-dep linux g++-10
+sudo apt-get -qq -y install build-essential fakeroot rsync git python3-debian libcap-dev g++-11
+sudo apt-get -qq -y build-dep linux
 if test $CROSS = 1 ; then
   sudo apt-get -qq -y install kernel-wedge quilt ccache flex bison libssl-dev
   sudo apt-get -qq -y install crossbuild-essential-arm64 crossbuild-essential-armhf
-  sudo apt-get -qq -y install g++-10-aarch64-linux-gnu g++-10-arm-linux-gnueabihf
+  sudo apt-get -qq -y install g++-11-aarch64-linux-gnu g++-11-arm-linux-gnueabihf
 fi
 fi
 
@@ -73,7 +73,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
 fi
 
 if ! test -d linux-5 ; then
-  git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
+  git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
 #sed -i -e '1 s/5.14.9-3/5.14.12-1/' linux-5/debian/changelog
