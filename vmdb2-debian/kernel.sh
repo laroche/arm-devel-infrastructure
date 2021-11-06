@@ -79,7 +79,6 @@ fi
 sed -i -e '1 s/5.15-/5.15.1-/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
-#sed -i -e 's,^bugfix/arm/ARM-dts-sun7i-A20-olinuxino-lime2-Fix-ethernet-phy-m.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,^bugfix/all/sfc-Fix-reading-non-legacy-supported-link-modes.patch,,g' linux-5/debian/patches/series
 sed -i -e 's,^bugfix/all/media-firewire-firedtv-avc-fix-a-buffer-overflow-in-.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' linux-5/debian/patches-rt/series
