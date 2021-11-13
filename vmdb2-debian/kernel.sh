@@ -49,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.15.1
+KVER=5.15.2
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.15.0
+  RVER=5.15.1
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -67,7 +67,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 8bb7eca972ad531c9b149c0a51ab43a417385813
+  git format-patch -o ../rpi-patches-$RVER b6abb62daa5511c4a3eaa30cbdb02544d1f10fa2
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -99,7 +99,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0318-drm-atomic-Pass-the-full-state-to-CRTC-atomic-enable.patch
+    #rm -f bugfix/rpi/0318-drm-atomic-Pass-the-full-state-to-CRTC-atomic-enable.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config

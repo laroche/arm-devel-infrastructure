@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.14.17
+KVER=5.14.18
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -76,7 +76,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.14.16/5.14.17/' linux-5/debian/changelog
+sed -i -e '1 s/5.14.16/5.14.18/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e 's,^bugfix/all/scsi-core-Put-LLD-module-refcnt-after-SCSI-device-is.patch,,g' linux-5/debian/patches/series
