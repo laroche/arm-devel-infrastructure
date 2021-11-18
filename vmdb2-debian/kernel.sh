@@ -49,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.15.2
+KVER=5.15.3
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.15.1
+  RVER=5.15.2
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -67,7 +67,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER b6abb62daa5511c4a3eaa30cbdb02544d1f10fa2
+  git format-patch -o ../rpi-patches-$RVER 7cc36c3e14ae0af800a3a5d20cb17d0c168fc956
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -76,7 +76,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.15-/5.15.1-/' linux-5/debian/changelog
+#sed -i -e '1 s/5.15.2-/5.15.3-/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/all/sfc-Fix-reading-non-legacy-supported-link-modes.patch,,g' linux-5/debian/patches/series
