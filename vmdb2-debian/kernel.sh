@@ -73,7 +73,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
 fi
 
 if ! test -d linux-5 ; then
-  git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
+  git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
 #sed -i -e '1 s/5.15.2-/5.15.3-/' linux-5/debian/changelog
