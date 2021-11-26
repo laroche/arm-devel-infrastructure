@@ -53,7 +53,7 @@ KVER=5.15.5
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.15.2
+  RVER=5.15.4
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -67,7 +67,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 7cc36c3e14ae0af800a3a5d20cb17d0c168fc956
+  git format-patch -o ../rpi-patches-$RVER 9ac77cf6e1bd35ef538077245feaee8f1146ca4b
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -76,11 +76,10 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.15.4-/5.15.5-/' linux-5/debian/changelog
+#sed -i -e '1 s/5.15.4-/5.15.5-/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
-sed -i -e 's,^features/arm64/arm64-dts-rockchip-disable-USB-type-c-DisplayPort.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/mac80211-fix-radiotap-header-generation.patch,,g' linux-5/debian/patches/series
+#sed -i -e 's,^features/arm64/arm64-dts-rockchip-disable-USB-type-c-DisplayPort.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
