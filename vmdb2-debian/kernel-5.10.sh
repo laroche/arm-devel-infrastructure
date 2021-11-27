@@ -49,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.81
+KVER=5.10.82
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.10.73
+  RVER=5.10.81
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -67,7 +67,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 0268aa579b1f741b12300bc7f084ffe990cfde5f
+  git format-patch -o ../rpi-patches-$RVER 99957dcea4e9702cc9060f576233ac1ac84c2a39
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -77,11 +77,11 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b 5.10-stable-updates https://salsa.debian.org/carnil/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.10.80/5.10.81/' linux-5/debian/changelog
+#sed -i -e '1 s/5.10.81/5.10.82/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/bullseye/UNRELEASED/' linux-5/debian/changelog
-#sed -i -e 's,^debian/export-symbols-needed-by-android-drivers.patch,,g' linux-5/debian/patches/series
+#sed -i -e 's,^features/arm64/arm64-dts-rockchip-disable-USB-type-c-DisplayPort.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0104-printk-introduce-kernel-sync-mode.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
