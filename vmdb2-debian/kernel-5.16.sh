@@ -50,6 +50,7 @@ fi
 fi
 
 KVER=5.16-rc5
+KVERR=5.16~rc5
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -84,9 +85,9 @@ sed -i -e 's,^bugfix/all/Makefile-Do-not-quote-value-for-CONFIG_CC_IMPLICIT_F.pa
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
 #exit 0
-test -f orig/linux_$KVER.orig.tar.xz || wget -q https://git.kernel.org/torvalds/t/linux-$KVER.tar.gz
+test -f orig/linux_$KVERR.orig.tar.xz || wget -q https://git.kernel.org/torvalds/t/linux-$KVER.tar.gz
 cd linux-5 || exit 1
-test -f ../orig/linux_$KVER.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py ../linux-$KVER.tar.gz
+test -f ../orig/linux_$KVERR.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py ../linux-$KVER.tar.gz
 # Just to safe disk space and have a faster compile:
 export DEBIAN_KERNEL_DISABLE_DEBUG=yes
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
