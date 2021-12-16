@@ -49,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.15.8
+KVER=5.15.9
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.15.6
+  RVER=5.15.8
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -67,7 +67,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER a2547651bc896f95a3680a6a0a27401e7c7a1080
+  git format-patch -o ../rpi-patches-$RVER 43e577d7a2cb60ad478387155c9de352f152101e
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -76,7 +76,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.15.5-/5.15.8-/' linux-5/debian/changelog
+sed -i -e '1 s/5.15.5-/5.15.9-/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e 's,^bugfix/all/fuse-release-pipe-buf-after-last-use.patch,,g' linux-5/debian/patches/series
@@ -110,6 +110,7 @@ if test "$RPIPATCHES" = 1 ; then
   rm -f debian/abi/5.15.0-?/arm*
 fi
 rm -fr debian/abi/5.15.0-?
+cp ../export-symbols-needed-by-android-drivers.patch debian/patches/debian/
 
 if test $CROSS = 0 ; then
 

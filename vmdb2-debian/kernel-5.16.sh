@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 0fcfb00b28c0b7884635dacf38e46d60bf3d4eb1
+  git format-patch -o ../rpi-patches-$RVER 2585cf9dfaaddf00b069673f27bb3f8530e2039c
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -77,10 +77,10 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.16~rc4-/5.16~rc5-/' linux-5/debian/changelog
+#sed -i -e '1 s/5.16~rc4-/5.16~rc5-/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
-sed -i -e 's,^bugfix/all/Makefile-Do-not-quote-value-for-CONFIG_CC_IMPLICIT_F.patch,,g' linux-5/debian/patches/series
+#sed -i -e 's,^bugfix/all/Makefile-Do-not-quote-value-for-CONFIG_CC_IMPLICIT_F.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
