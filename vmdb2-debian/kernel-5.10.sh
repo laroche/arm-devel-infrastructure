@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.85
+KVER=5.10.87
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -73,11 +73,11 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
 fi
 
 if ! test -d linux-5 ; then
-  git clone --single-branch --depth 1 -b bullseye https://salsa.debian.org/kernel-team/linux.git linux-5
-  #git clone --single-branch --depth 1 -b 5.10-stable-updates https://salsa.debian.org/carnil/linux.git linux-5
+  #git clone --single-branch --depth 1 -b bullseye https://salsa.debian.org/kernel-team/linux.git linux-5
+  git clone --single-branch --depth 1 -b 5.10-stable-updates https://salsa.debian.org/carnil/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.10.84/5.10.85/' linux-5/debian/changelog
+sed -i -e '1 s/5.10.86/5.10.87/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/bullseye/UNRELEASED/' linux-5/debian/changelog
