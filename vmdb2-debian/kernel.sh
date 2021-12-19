@@ -53,7 +53,7 @@ KVER=5.15.10
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.15.8
+  RVER=5.15.10
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -67,7 +67,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 43e577d7a2cb60ad478387155c9de352f152101e
+  git format-patch -o ../rpi-patches-$RVER 57dcae4a8b93271c4e370920ea0dbb94a0215d30
   cd ..
   #rm -fr rpi-linux-5
 fi
