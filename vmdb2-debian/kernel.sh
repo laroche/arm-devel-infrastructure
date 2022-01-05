@@ -49,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.15.12
+KVER=5.15.13
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.15.12
+  RVER=5.15.13
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -67,7 +67,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 25960cafa06e6fcd830e6c792e6a7de68c1e25ed
+  git format-patch -o ../rpi-patches-$RVER 734eb1fd2073f503f5c6b44f1c0d453ca6986b84
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -76,20 +76,10 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.15.5-/5.15.12-/' linux-5/debian/changelog
+sed -i -e '1 s/5.15.12-/5.15.13-/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
-sed -i -e 's,^bugfix/all/fuse-release-pipe-buf-after-last-use.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/x86/Revert-drm-i915-Implement-Wa_1508744258.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/nfsd-fix-use-after-free-due-to-delegation-race.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/atlantic-Fix-OOB-read-and-write-in-hw_atl_utils_fw_r.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/fget-check-that-the-fd-still-exists-after-getting-a-.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/USB-gadget-detect-too-big-endpoint-0-requests.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/USB-gadget-zero-allocate-endpoint-0-buffers.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/bpf-fix-kernel-address-leakage-in-atomic-fetch.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/bpf-fix-signed-bounds-propagation-after-mov32.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/bpf-make-32-64-bounds-propagation-slightly-more-robust.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/bpf-fix-kernel-address-leakage-in-atomic-cmpxchg-s-r0-aux-reg.patch,,g' linux-5/debian/patches/series
+#sed -i -e 's,^bugfix/all/bpf-fix-kernel-address-leakage-in-atomic-cmpxchg-s-r0-aux-reg.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
