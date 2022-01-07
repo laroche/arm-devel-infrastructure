@@ -570,7 +570,7 @@ EOM
 fi
 if false && test $DISTRO = debian -a $unstable = 0 -a $testing = 0 -a ! -d /opt/qemu ; then
   $apt install pkg-config libglib2.0-dev libpixman-1-dev
-  QEMUVER=6.1.0
+  QEMUVER=6.2.0
   QEMU=qemu-$QEMUVER
   if ! test -f /home/$NEWUSER/data/$QEMU.tar.xz ; then
     su $NEWUSER -c "cd ~/data && wget -q https://download.qemu.org/$QEMU.tar.xz"
