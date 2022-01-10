@@ -76,7 +76,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.15.12-/5.15.13-/' linux-5/debian/changelog
+#sed -i -e '1 s/5.15.13-/5.15.13-/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/all/bpf-fix-kernel-address-leakage-in-atomic-cmpxchg-s-r0-aux-reg.patch,,g' linux-5/debian/patches/series
