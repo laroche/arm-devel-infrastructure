@@ -110,7 +110,6 @@ if test "$RPIPATCHES" = 1 ; then
   rm -f debian/abi/5.15.0-?/arm*
 fi
 rm -fr debian/abi/5.15.0-?
-cp ../export-symbols-needed-by-android-drivers.patch debian/patches/debian/
 
 if test $CROSS = 0 ; then
 
