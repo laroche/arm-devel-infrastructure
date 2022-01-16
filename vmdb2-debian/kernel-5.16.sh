@@ -49,8 +49,8 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.16
-KVERR=5.16
+KVER=5.16.1
+KVERR=5.16.1
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -77,7 +77,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.16~rc7-/5.16~rc8-/' linux-5/debian/changelog
+#sed -i -e '1 s/5.16.1/5.16.2/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/all/bpf-fix-kernel-address-leakage-in-atomic-fetch.patch,,g' linux-5/debian/patches/series
@@ -85,9 +85,11 @@ sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
 #exit 0
-test -f orig/linux_$KVERR.orig.tar.xz || wget -q https://git.kernel.org/torvalds/t/linux-$KVER.tar.gz
+#test -f orig/linux_$KVERR.orig.tar.xz || wget -q https://git.kernel.org/torvalds/t/linux-$KVER.tar.gz
+test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
 cd linux-5 || exit 1
-test -f ../orig/linux_$KVERR.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py ../linux-$KVER.tar.gz
+#test -f ../orig/linux_$KVERR.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py ../linux-$KVER.tar.gz
+test -f ../orig/linux_$KVERR.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py ../linux-$KVER.tar.xz
 # Just to safe disk space and have a faster compile:
 export DEBIAN_KERNEL_DISABLE_DEBUG=yes
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines

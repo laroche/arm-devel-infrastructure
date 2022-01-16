@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.15.13
+KVER=5.15.15
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -76,10 +76,10 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.15.13-/5.15.13-/' linux-5/debian/changelog
+#sed -i -e '1 s/5.15.14-/5.15.15-/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
-#sed -i -e 's,^bugfix/all/bpf-fix-kernel-address-leakage-in-atomic-cmpxchg-s-r0-aux-reg.patch,,g' linux-5/debian/patches/series
+#sed -i -e 's,^bugfix/all/bpf-fix-out-of-bounds-access-from-invalid-_or_null-type-verification.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
@@ -99,8 +99,11 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0632-media-v4l2-core-fix-VIDIOC_DQEVENT-handling-on-non-x.patch \
-    #      bugfix/rpi/0638-ARM-dts-bcm2711-Fix-PCIe-interrupts.patch
+    rm -f bugfix/rpi/0588-dt-Move-VEC-clock-to-clk-raspberrypi.patch
+    rm -f bugfix/rpi/0662-ARM-dts-Create-bcm2711-rpi-cm4s.dts-4761.patch
+    rm -f bugfix/rpi/0672-ARM-dts-bcm2711-cm4s-Correct-i2c0mux-to-use-0-1-and-.patch
+    rm -f bugfix/rpi/0673-dtoverlays-Add-option-to-select-camera-as-on-CAM0-of.patch
+    rm -f bugfix/rpi/0703-dtoverlays-Enable-cam1_clock-when-using-tc358743-or-.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
