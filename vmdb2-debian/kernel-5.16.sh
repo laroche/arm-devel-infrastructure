@@ -50,11 +50,11 @@ fi
 fi
 
 KVER=5.16.1
-KVERR=5.16.1
+#KVERR=5.16.1
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.16.0
+  RVER=5.16.1
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER df0cc57e057f18e44dac8e6c18aba47ab53202f9
+  git format-patch -o ../rpi-patches-$RVER 677615cd2689a0898dd58e51d12abe6663567b24
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -89,7 +89,7 @@ sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
 test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
 cd linux-5 || exit 1
 #test -f ../orig/linux_$KVERR.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py ../linux-$KVER.tar.gz
-test -f ../orig/linux_$KVERR.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py ../linux-$KVER.tar.xz
+test -f ../orig/linux_$KVER.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py ../linux-$KVER.tar.xz
 # Just to safe disk space and have a faster compile:
 export DEBIAN_KERNEL_DISABLE_DEBUG=yes
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines

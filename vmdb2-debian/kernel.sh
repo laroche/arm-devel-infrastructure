@@ -53,7 +53,7 @@ KVER=5.15.15
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.15.13
+  RVER=5.15.15
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -67,7 +67,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 734eb1fd2073f503f5c6b44f1c0d453ca6986b84
+  git format-patch -o ../rpi-patches-$RVER 760a85303c5a2aeb811f92c76b8dca4c13bf3416
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -99,11 +99,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0588-dt-Move-VEC-clock-to-clk-raspberrypi.patch
-    rm -f bugfix/rpi/0662-ARM-dts-Create-bcm2711-rpi-cm4s.dts-4761.patch
-    rm -f bugfix/rpi/0672-ARM-dts-bcm2711-cm4s-Correct-i2c0mux-to-use-0-1-and-.patch
-    rm -f bugfix/rpi/0673-dtoverlays-Add-option-to-select-camera-as-on-CAM0-of.patch
-    rm -f bugfix/rpi/0703-dtoverlays-Enable-cam1_clock-when-using-tc358743-or-.patch
+    #rm -f bugfix/rpi/0588-dt-Move-VEC-clock-to-clk-raspberrypi.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
