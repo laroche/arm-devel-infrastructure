@@ -87,6 +87,7 @@ sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
 #exit 0
 #test -f orig/linux_$KVERR.orig.tar.xz || wget -q https://git.kernel.org/torvalds/t/linux-$KVER.tar.gz
 test -f orig/linux-$KVER || {
+  mkdir -p orig
   pushd orig
     wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
     tar xJf linux-$KVER.tar.xz
@@ -95,6 +96,7 @@ test -f orig/linux-$KVER || {
 cd linux-5 || exit 1
 #test -f ../orig/linux_$KVERR.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py ../linux-$KVER.tar.gz
 test -f ../orig/linux_$KVER.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py ../orig/linux-$KVER
+# debian/bin/genorig.py https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
 # Just to safe disk space and have a faster compile:
 export DEBIAN_KERNEL_DISABLE_DEBUG=yes
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
