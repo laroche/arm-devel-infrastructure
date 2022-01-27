@@ -49,8 +49,8 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.16.2
-#KVERR=5.16.2
+KVER=5.16.3
+#KVERR=5.16.3
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -77,7 +77,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.16.1/5.16.2/' linux-5/debian/changelog
+sed -i -e '1 s/5.16.2/5.16.3/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/all/bpf-fix-kernel-address-leakage-in-atomic-fetch.patch,,g' linux-5/debian/patches/series
@@ -86,7 +86,7 @@ sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/confi
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
 #exit 0
 #test -f orig/linux_$KVERR.orig.tar.xz || wget -q https://git.kernel.org/torvalds/t/linux-$KVER.tar.gz
-test -f orig/linux-$KVER || {
+test -d orig/linux-$KVER || {
   mkdir -p orig
   pushd orig
     wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
@@ -117,9 +117,9 @@ if test "$RPIPATCHES" = 1 ; then
   echo "CONFIG_RESET_RASPBERRY=y" >> debian/config/config
   echo "CONFIG_RESET_BRCMSTB_RESCAL=y" >> debian/config/config
   echo "CONFIG_NO_HZ_FULL=y" >> debian/config/featureset-rt/config
-  rm -f debian/abi/5.16.0-?/arm*
+  rm -f debian/abi/5.16.0-*/arm*
 fi
-rm -fr debian/abi/5.16.0-?
+rm -fr debian/abi/5.16.0-*
 
 if test $CROSS = 0 ; then
 

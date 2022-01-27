@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.93
+KVER=5.10.94
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -77,7 +77,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b 5.10-stable-updates https://salsa.debian.org/carnil/linux.git linux-5
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.10.92/5.10.93/' linux-5/debian/changelog
+sed -i -e '1 s/5.10.93/5.10.94/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/bullseye/UNRELEASED/' linux-5/debian/changelog
@@ -108,9 +108,9 @@ if test "$RPIPATCHES" = 1 ; then
   echo "CONFIG_RESET_RASPBERRY=y" >> debian/config/config
   echo "CONFIG_RESET_BRCMSTB_RESCAL=y" >> debian/config/config
   echo "CONFIG_NO_HZ_FULL=y" >> debian/config/featureset-rt/config
-  rm -f debian/abi/5.10.0-?/arm*
+  rm -f debian/abi/5.10.0-*/arm*
 fi
-rm -fr debian/abi/5.10.0-?
+rm -fr debian/abi/5.10.0-*
 
 if test $CROSS = 0 ; then
 

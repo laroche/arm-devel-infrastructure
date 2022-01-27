@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.15.16
+KVER=5.15.17
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -76,7 +76,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.15.15-/5.15.16-/' linux-5/debian/changelog
+sed -i -e '1 s/5.15.15-/5.15.17-/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e 's,^bugfix/all/vfs-fs_context-fix-up-param-length-parsing-in-legacy.patch,,g' linux-5/debian/patches/series
@@ -106,9 +106,9 @@ if test "$RPIPATCHES" = 1 ; then
   echo "CONFIG_RESET_RASPBERRY=y" >> debian/config/config
   echo "CONFIG_RESET_BRCMSTB_RESCAL=y" >> debian/config/config
   echo "CONFIG_NO_HZ_FULL=y" >> debian/config/featureset-rt/config
-  rm -f debian/abi/5.15.0-?/arm*
+  rm -f debian/abi/5.15.0-*/arm*
 fi
-rm -fr debian/abi/5.15.0-?
+rm -fr debian/abi/5.15.0-*
 
 if test $CROSS = 0 ; then
 
