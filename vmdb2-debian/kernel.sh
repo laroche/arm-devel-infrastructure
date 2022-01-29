@@ -49,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.15.17
+KVER=5.15.18
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.15.16
+  RVER=5.15.17
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -67,7 +67,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 63dcc388662c3562de94d69bfa771ae4cd29b79f
+  git format-patch -o ../rpi-patches-$RVER e8a2995c6076721d496d9458e13142caa7ba8753
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -76,7 +76,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.15.15-/5.15.17-/' linux-5/debian/changelog
+sed -i -e '1 s/5.15.15-/5.15.18-/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e 's,^bugfix/all/vfs-fs_context-fix-up-param-length-parsing-in-legacy.patch,,g' linux-5/debian/patches/series
@@ -99,7 +99,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0588-dt-Move-VEC-clock-to-clk-raspberrypi.patch
+    #rm -f bugfix/rpi/0001-clk-bcm-2835-Pick-the-closest-clock-rate.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config

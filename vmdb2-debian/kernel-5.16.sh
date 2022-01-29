@@ -49,12 +49,12 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.16.3
+KVER=5.16.4
 #KVERR=5.16.3
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.16.2
+  RVER=5.16.3
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 5fd3e07fd10e79694bff69fff1d38e97b47e77f0
+  git format-patch -o ../rpi-patches-$RVER 2104f927ad5e7450da588fef81f06dccbfed484e
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -77,7 +77,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.16.2/5.16.3/' linux-5/debian/changelog
+sed -i -e '1 s/5.16.3/5.16.4/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/all/bpf-fix-kernel-address-leakage-in-atomic-fetch.patch,,g' linux-5/debian/patches/series
