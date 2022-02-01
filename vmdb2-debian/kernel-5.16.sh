@@ -54,7 +54,7 @@ KVER=5.16.4
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.16.3
+  RVER=5.16.4
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 2104f927ad5e7450da588fef81f06dccbfed484e
+  git format-patch -o ../rpi-patches-$RVER 1cdd9ce77b756ce540febb4006e234b3ef084a31
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -77,10 +77,10 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.16.3/5.16.4/' linux-5/debian/changelog
+#sed -i -e '1 s/5.16.3/5.16.4/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
-#sed -i -e 's,^bugfix/all/bpf-fix-kernel-address-leakage-in-atomic-fetch.patch,,g' linux-5/debian/patches/series
+#sed -i -e 's,^bugfix/all/drm-vmwgfx-Fix-stale-file-descriptors-on-failed-user.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
@@ -109,8 +109,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0632-media-v4l2-core-fix-VIDIOC_DQEVENT-handling-on-non-x.patch \
-    #      bugfix/rpi/0638-ARM-dts-bcm2711-Fix-PCIe-interrupts.patch
+    #rm -f bugfix/rpi/0632-media-v4l2-core-fix-VIDIOC_DQEVENT-handling-on-non-x.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
