@@ -49,8 +49,8 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.16.6
-#KVERR=5.16.6
+KVER=5.16.7
+#KVERR=5.16.7
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -77,7 +77,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.16.5/5.16.6/' linux-5/debian/changelog
+sed -i -e '1 s/5.16.6/5.16.7/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/all/ucount-Make-get_ucount-a-safe-get_user-replacement.patch,,g' linux-5/debian/patches/series
