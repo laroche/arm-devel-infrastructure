@@ -43,18 +43,18 @@ if true ; then
 sudo apt-get -qq -y install build-essential fakeroot rsync git python3-debian libcap-dev g++-11
 sudo apt-get -qq -y build-dep linux
 if test $CROSS = 1 ; then
-  sudo apt-get -qq -y install kernel-wedge quilt ccache flex bison libssl-dev
+  sudo apt-get -qq -y install kernel-wedge quilt flex bison libssl-dev # ccache
   sudo apt-get -qq -y install crossbuild-essential-arm64 crossbuild-essential-armhf
   sudo apt-get -qq -y install g++-11-aarch64-linux-gnu g++-11-arm-linux-gnueabihf
 fi
 fi
 
-KVER=5.16.7
-#KVERR=5.16.7
+KVER=5.16.8
+#KVERR=5.16.8
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.16.4
+  RVER=5.16.7
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -68,19 +68,19 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 1cdd9ce77b756ce540febb4006e234b3ef084a31
+  git format-patch -o ../rpi-patches-$RVER a8d80f1f3cb77a229cfbefea6220e60e70d5e47a
   cd ..
   #rm -fr rpi-linux-5
 fi
 
 if ! test -d linux-5 ; then
-  git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
+  git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.16.6/5.16.7/' linux-5/debian/changelog
+sed -i -e '1 s/5.16.7/5.16.8/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
-#sed -i -e 's,^bugfix/all/ucount-Make-get_ucount-a-safe-get_user-replacement.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/objtool-check-give-big-enough-buffer-for-pv_ops.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
@@ -131,7 +131,7 @@ DEB_BUILD_OPTIONS="parallel=$PAR" XZ_DEFAULTS="-T 0" fakeroot debian/rules binar
 else
 
 export $(dpkg-architecture -a$ARCH)
-export PATH=/usr/lib/ccache:$PATH
+#export PATH=/usr/lib/ccache:$PATH
 # Build profiles is from: https://salsa.debian.org/kernel-team/linux/blob/master/debian/README.source
 export DEB_BUILD_PROFILES="cross nopython nodoc pkg.linux.notools"
 # Enable build in parallel
