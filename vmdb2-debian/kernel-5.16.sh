@@ -49,12 +49,12 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.16.9
-#KVERR=5.16.9
+KVER=5.16.10
+#KVERR=5.16.10
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.16.7
+  RVER=5.16.9
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER a8d80f1f3cb77a229cfbefea6220e60e70d5e47a
+  git format-patch -o ../rpi-patches-$RVER b7a41ee1116b10dd99730d20a30e912e17a13967
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -77,10 +77,10 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.16.7/5.16.9/' linux-5/debian/changelog
+sed -i -e '1 s/5.16.9/5.16.10/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
-sed -i -e 's,^bugfix/all/objtool-check-give-big-enough-buffer-for-pv_ops.patch,,g' linux-5/debian/patches/series
+#sed -i -e 's,^bugfix/all/objtool-check-give-big-enough-buffer-for-pv_ops.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
