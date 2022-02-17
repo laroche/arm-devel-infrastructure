@@ -77,7 +77,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.16.9/5.16.10/' linux-5/debian/changelog
+#sed -i -e '1 s/5.16.9/5.16.10/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/all/objtool-check-give-big-enough-buffer-for-pv_ops.patch,,g' linux-5/debian/patches/series
@@ -109,7 +109,9 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0632-media-v4l2-core-fix-VIDIOC_DQEVENT-handling-on-non-x.patch
+    rm -f bugfix/rpi/0409-drm-vc4-Allow-DBLCLK-modes-even-if-horz-timing-is-od.patch
+    rm -f bugfix/rpi/0528-drm-panel-simple-When-using-panel-dpi-update-desc.patch
+    rm -f bugfix/rpi/0570-drm-vc4-Fix-deadlock-on-DSI-device-attach-error.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
