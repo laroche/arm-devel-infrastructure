@@ -43,7 +43,7 @@ if true ; then
 sudo apt-get -qq -y install build-essential fakeroot rsync git python3-debian libcap-dev g++-11
 sudo apt-get -qq -y build-dep linux
 if test $CROSS = 1 ; then
-  sudo apt-get -qq -y install kernel-wedge quilt flex bison libssl-dev # ccache
+  sudo apt-get -qq -y install kernel-wedge quilt flex bison libssl-dev ccache
   sudo apt-get -qq -y install crossbuild-essential-arm64 crossbuild-essential-armhf
   sudo apt-get -qq -y install g++-11-aarch64-linux-gnu g++-11-arm-linux-gnueabihf
 fi
@@ -53,7 +53,6 @@ KVER=5.17
 KVERR=5.17~rc4
 
 RVER=5.17.0
-
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   # Extract the raspberry-pi patches into a subdirectory:
   if test ! -d rpi-linux-5 ; then
@@ -120,7 +119,7 @@ DEB_BUILD_OPTIONS="parallel=$PAR" XZ_DEFAULTS="-T 0" fakeroot debian/rules binar
 else
 
 export $(dpkg-architecture -a$ARCH)
-#export PATH=/usr/lib/ccache:$PATH
+export PATH=/usr/lib/ccache:$PATH
 # Build profiles is from: https://salsa.debian.org/kernel-team/linux/blob/master/debian/README.source
 export DEB_BUILD_PROFILES="cross nopython nodoc pkg.linux.notools"
 # Enable build in parallel
