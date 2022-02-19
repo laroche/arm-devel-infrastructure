@@ -19,6 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
+KVER=5.17
+KVERR=5.17~rc4
+CDIR=linux-$KVER
+
 CROSS=0
 ARCH=
 if test "X$1" = "Xarm64" -o "X$1" = "Xrpi-arm64" ; then
@@ -27,6 +31,7 @@ if test "X$1" = "Xarm64" -o "X$1" = "Xrpi-arm64" ; then
   if test "X$1" = "Xrpi-arm64" ; then
     RPIPATCHES=1
   fi
+  CDIR=$CDIR-arm64
 fi
 if test "X$1" = "Xarmhf" -o "X$1" = "Xrpi-armhf" ; then
   CROSS=1
@@ -34,6 +39,7 @@ if test "X$1" = "Xarmhf" -o "X$1" = "Xrpi-armhf" ; then
   if test "X$1" = "Xrpi-armhf" ; then
     RPIPATCHES=1
   fi
+  CDIR=$CDIR-armhf
 fi
 
 #export LANG=en_US.UTF-8
@@ -48,9 +54,6 @@ if test $CROSS = 1 ; then
   sudo apt-get -qq -y install g++-11-aarch64-linux-gnu g++-11-arm-linux-gnueabihf
 fi
 fi
-
-KVER=5.17
-KVERR=5.17~rc4
 
 RVER=5.17.0
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -69,22 +72,21 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   #rm -fr rpi-linux-5
 fi
 
-if ! test -d linux-5 ; then
-  git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
+if ! test -d $CDIR ; then
+  git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.17.0/5.17.0/' linux-5/debian/changelog
-sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
-sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
-#sed -i -e 's,^bugfix/all/objtool-check-give-big-enough-buffer-for-pv_ops.patch,,g' linux-5/debian/patches/series
-#sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' linux-5/debian/patches-rt/series
-sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
-sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
+#sed -i -e '1 s/5.17.0/5.17.0/' $CDIR/debian/changelog
+sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
+sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
+#sed -i -e 's,^bugfix/all/objtool-check-give-big-enough-buffer-for-pv_ops.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' $CDIR/debian/patches-rt/series
+sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' $CDIR/debian/config/arm64/config
+sed -i -e 's/^ast//g' $CDIR/debian/installer/modules/arm64/fb-modules
 #exit 0
 mkdir -p orig
-cd linux-5 || exit 1
+cd $CDIR || exit 1
 test -f ../orig/linux_$KVERR.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-# https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
 # Just to safe disk space and have a faster compile:
 export DEBIAN_KERNEL_DISABLE_DEBUG=yes
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
