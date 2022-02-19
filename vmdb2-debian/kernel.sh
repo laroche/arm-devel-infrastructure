@@ -43,50 +43,49 @@ if true ; then
 sudo apt-get -qq -y install build-essential fakeroot rsync git python3-debian libcap-dev g++-11
 sudo apt-get -qq -y build-dep linux
 if test $CROSS = 1 ; then
-  sudo apt-get -qq -y install kernel-wedge quilt ccache flex bison libssl-dev
+  sudo apt-get -qq -y install kernel-wedge quilt flex bison libssl-dev # ccache
   sudo apt-get -qq -y install crossbuild-essential-arm64 crossbuild-essential-armhf
   sudo apt-get -qq -y install g++-11-aarch64-linux-gnu g++-11-arm-linux-gnueabihf
 fi
 fi
 
-KVER=5.15.19
+KVER=5.17
+KVERR=5.17~rc4
 
-if test $RPIPATCHES = 1 ; then
-  #RVER=$KVER
-  RVER=5.15.18
-fi
+RVER=5.17.0
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   # Extract the raspberry-pi patches into a subdirectory:
   if test ! -d rpi-linux-5 ; then
-    git clone -b rpi-5.15.y https://github.com/raspberrypi/linux/ rpi-linux-5
+    git clone -b rpi-5.17.y https://github.com/raspberrypi/linux/ rpi-linux-5
     test -d rpi-linux-5 || exit 1
   else
     pushd rpi-linux-5
-    git checkout rpi-5.15.y
+    git checkout rpi-5.17.y
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 9c43548a7fb8220b13b0ff980989b44f37d54138
+  git format-patch -o ../rpi-patches-$RVER 754e0b0e35608ed5206d6a67a791563c631cec07
   cd ..
   #rm -fr rpi-linux-5
 fi
 
 if ! test -d linux-5 ; then
-  git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git linux-5
+  git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.15.15-/5.15.19-/' linux-5/debian/changelog
+#sed -i -e '1 s/5.17.0/5.17.0/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
-sed -i -e 's,^bugfix/all/vfs-fs_context-fix-up-param-length-parsing-in-legacy.patch,,g' linux-5/debian/patches/series
+#sed -i -e 's,^bugfix/all/objtool-check-give-big-enough-buffer-for-pv_ops.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
 #exit 0
-test -f orig/linux_$KVER.orig.tar.xz || wget -q https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KVER.tar.xz
+mkdir -p orig
 cd linux-5 || exit 1
-test -f ../orig/linux_$KVER.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py ../linux-$KVER.tar.xz
+test -f ../orig/linux_$KVERR.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+# https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
 # Just to safe disk space and have a faster compile:
 export DEBIAN_KERNEL_DISABLE_DEBUG=yes
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
@@ -99,16 +98,16 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0001-clk-bcm-2835-Pick-the-closest-clock-rate.patch
+    #rm -f bugfix/rpi/0632-media-v4l2-core-fix-VIDIOC_DQEVENT-handling-on-non-x.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
   echo "CONFIG_RESET_RASPBERRY=y" >> debian/config/config
   echo "CONFIG_RESET_BRCMSTB_RESCAL=y" >> debian/config/config
   echo "CONFIG_NO_HZ_FULL=y" >> debian/config/featureset-rt/config
-  rm -f debian/abi/5.15.0-*/arm*
+  rm -f debian/abi/5.17.0-*/arm*
 fi
-rm -fr debian/abi/5.15.0-*
+rm -fr debian/abi/5.17.0-*
 
 if test $CROSS = 0 ; then
 
@@ -121,7 +120,7 @@ DEB_BUILD_OPTIONS="parallel=$PAR" XZ_DEFAULTS="-T 0" fakeroot debian/rules binar
 else
 
 export $(dpkg-architecture -a$ARCH)
-export PATH=/usr/lib/ccache:$PATH
+#export PATH=/usr/lib/ccache:$PATH
 # Build profiles is from: https://salsa.debian.org/kernel-team/linux/blob/master/debian/README.source
 export DEB_BUILD_PROFILES="cross nopython nodoc pkg.linux.notools"
 # Enable build in parallel
