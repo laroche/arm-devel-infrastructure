@@ -49,11 +49,11 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.101
+KVER=5.10.102
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
-  RVER=5.10.85
+  RVER=5.10.95
 fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
@@ -67,7 +67,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER e4f2aee6612e56c2a9a5da6131ccd80e57d5075b
+  git format-patch -o ../rpi-patches-$RVER 77656fde3c0125d6ef6f7fb46af6d2739d7b7141
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -77,7 +77,7 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b 5.10-stable-updates https://salsa.debian.org/carnil/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.10.100/5.10.101/' linux-5/debian/changelog
+sed -i -e '1 s/5.10.101/5.10.102/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/bullseye/UNRELEASED/' linux-5/debian/changelog
@@ -100,7 +100,8 @@ if test "$RPIPATCHES" = 1 ; then
   sed -i -e 's/--fuzz=0//g' debian/rules
   pushd debian/patches
     mkdir bugfix/rpi
-    cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
+    cp ../../../rpi.patch bugfix/rpi/
+    #cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     #rm -f bugfix/rpi/0320-vc4_hdmi-Fix-register-offset-when-sending-longer-CEC.patch
     ls bugfix/rpi/*.patch >> series
   popd
