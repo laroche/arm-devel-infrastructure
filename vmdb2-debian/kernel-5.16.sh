@@ -75,19 +75,10 @@ if ! test -d $CDIR ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.16.10/5.16.11/' $CDIR/debian/changelog
+#sed -i -e '1 s/5.16.10/5.16.11/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/all/iwlwifi-fix-use-after-free.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/bpf-introduce-composable-reg-ret-and-arg-types.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/bpf-replace-arg_xxx_or_null-with-arg_xxx-ptr_maybe_null.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/bpf-replace-ret_xxx_or_null-with-ret_xxx-ptr_maybe_null.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/bpf-replace-ptr_to_xxx_or_null-with-ptr_to_xxx-ptr_maybe_null.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/bpf-introduce-mem_rdonly-flag.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/bpf-convert-ptr_to_mem_or_null-to-composable-types.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/bpf-make-per_cpu_ptr-return-rdonly-ptr_to_mem.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/bpf-add-mem_rdonly-for-helper-args-that-are-pointers-to-rdonly-mem.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/bpf-selftests-test-ptr_to_rdonly_mem.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/iwlwifi-fix-use-after-free.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' $CDIR/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' $CDIR/debian/config/arm64/config
 sed -i -e 's/^ast//g' $CDIR/debian/installer/modules/arm64/fb-modules
@@ -107,7 +98,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0409-drm-vc4-Allow-DBLCLK-modes-even-if-horz-timing-is-od.patch
+    rm -f bugfix/rpi/0573-brcmfmac-firmware-Fix-crash-in-brcm_alt_fw_path.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
