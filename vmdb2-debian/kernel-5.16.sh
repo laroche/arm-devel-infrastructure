@@ -146,13 +146,13 @@ cd ..
 if test $CROSS = 0 ; then
   L=kernel-amd64-$KVER-1
   mkdir -p $L
-  mv $CDIR/LOG *.deb $L
+  mv $CDIR/LOG *amd64.deb $L
   tar cplf - $L | gzip -9 > $L.tar.gz
   rm -fr $L
 else
   L=kernel-rpi3-$ARCH-$KVER-1
   mkdir -p $L
-  mv $CDIR/LOG *.deb $L
+  mv $CDIR/LOG *$ARCH.deb $L
   if test $ARCH = armhf ; then
     mv *.udeb $L
   fi
