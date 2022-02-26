@@ -57,18 +57,19 @@ fi
 
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   # Extract the raspberry-pi patches into a subdirectory:
-  if test ! -d rpi-linux-5 ; then
-    git clone -b rpi-5.16.y https://github.com/raspberrypi/linux/ rpi-linux-5
-    test -d rpi-linux-5 || exit 1
+  RDIR=rpi-linux-$RVER
+  if test ! -d $RDIR ; then
+    git clone -b rpi-5.16.y https://github.com/raspberrypi/linux/ $RDIR
+    test -d $RDIR || exit 1
   else
-    pushd rpi-linux-5
+    pushd $RDIR
     git checkout rpi-5.16.y
     popd
   fi
-  cd rpi-linux-5 || exit 1
+  cd $RDIR || exit 1
   git format-patch -o ../rpi-patches-$RVER 528cecfa5af09631f0589efe9eacbd543c8c9db1
   cd ..
-  #rm -fr rpi-linux-5
+  rm -fr $RDIR
 fi
 
 if ! test -d $CDIR ; then
@@ -152,7 +153,12 @@ else
   L=kernel-rpi3-$ARCH-$KVER-1
   mkdir -p $L
   mv $CDIR/LOG *.deb $L
+  if test $ARCH = armhf ; then
+    mv *.udeb $L
+  fi
   tar cplf - $L | gzip -9 > $L.tar.gz
   rm -fr $L
 fi
+
+rm -fr $CDIR
 
