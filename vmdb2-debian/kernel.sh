@@ -20,7 +20,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
 fi
 
 KVER=5.17~rc5
-CDIR=linux-5.17
+KVERR=5.17.0
+CDIR=linux-$KVERR
 RVER=5.17.0
 
 CROSS=0
@@ -136,9 +137,23 @@ fakeroot make -f debian/rules source
 fakeroot make -f debian/rules.gen setup_${ARCH}
 sed -i 's/binary-arch_arm64:: binary-arch_arm64_none binary-arch_arm64_real/binary-arch_arm64:: binary-arch_arm64_none/' debian/rules.gen
 sed -i 's/binary-arch_armhf:: binary-arch_armhf_extra binary-arch_armhf_none binary-arch_armhf_real/binary-arch_armhf:: binary-arch_armhf_extra binary-arch_armhf_none/' debian/rules.gen
-fakeroot make -f debian/rules.gen binary-arch_${ARCH}
+fakeroot make -f debian/rules.gen binary-arch_${ARCH} 2>&1 | tee LOG
 
 fi
 
 cd ..
+
+if test $CROSS = 0 ; then
+  L=kernel-amd64-$KVERR-1
+  mkdir -p $L
+  mv $CDIR/LOG *.deb $L
+  tar cplf - $L | gzip -9 > $L.tar.gz
+  rm -fr $L
+else
+  L=kernel-rpi3-$ARCH-$KVERR-1
+  mkdir -p $L
+  mv $CDIR/LOG *.deb $L
+  tar cplf - $L | gzip -9 > $L.tar.gz
+  rm -fr $L
+fi
 
