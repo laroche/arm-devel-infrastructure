@@ -19,9 +19,9 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=5.17
-KVERR=5.17~rc4
-CDIR=linux-$KVER
+KVER=5.17~rc5
+CDIR=linux-5.17
+RVER=5.17.0
 
 CROSS=0
 ARCH=
@@ -55,7 +55,6 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-RVER=5.17.0
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   # Extract the raspberry-pi patches into a subdirectory:
   if test ! -d rpi-linux-5 ; then
@@ -67,7 +66,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd rpi-linux-5 || exit 1
-  git format-patch -o ../rpi-patches-$RVER 754e0b0e35608ed5206d6a67a791563c631cec07
+  git format-patch -o ../rpi-patches-$RVER cfb92440ee71adcc2105b0890bb01ac3cddb8507
   cd ..
   #rm -fr rpi-linux-5
 fi
@@ -86,7 +85,7 @@ sed -i -e 's/^ast//g' $CDIR/debian/installer/modules/arm64/fb-modules
 #exit 0
 mkdir -p orig
 cd $CDIR || exit 1
-test -f ../orig/linux_$KVERR.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+test -f ../orig/linux_$KVER.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 # Just to safe disk space and have a faster compile:
 export DEBIAN_KERNEL_DISABLE_DEBUG=yes
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines

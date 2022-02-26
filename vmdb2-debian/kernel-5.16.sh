@@ -21,6 +21,7 @@ fi
 
 KVER=5.16.11
 CDIR=linux-$KVER
+RVER=5.16.10
 
 CROSS=0
 ARCH=
@@ -54,7 +55,6 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-RVER=5.16.10
 if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   # Extract the raspberry-pi patches into a subdirectory:
   if test ! -d rpi-linux-5 ; then
