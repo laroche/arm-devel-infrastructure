@@ -335,7 +335,7 @@ if test $FIRSTRUN = 1 ; then
   # My own definition of a small Debian system:
   $apt install unattended-upgrades debsums locales locate psmisc strace htop \
     tree man parted lvm2 dosfstools vim sudo net-tools traceroute nmap \
-    wakeonlan bind9-host dnsutils whois tcpdump iptables-persistent ssh openssh-server \
+    wakeonlan bind9-host dnsutils whois tcpdump iptables-persistent ulogd2 ssh openssh-server \
     screen tmux rsync curl wget git-core unzip zip xz-utils reportbug \
     less apt-utils
   # TODO: why less and apt-utils, they are already included in vmdb2
