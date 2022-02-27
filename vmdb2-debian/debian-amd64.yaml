@@ -62,6 +62,7 @@ steps:
     - whois
     - tcpdump
     - iptables-persistent
+    - ulogd2
     - ntp
     - ntpdate
     - ssh
