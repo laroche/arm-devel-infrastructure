@@ -19,7 +19,7 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=5.17~rc5
+KVER=5.17~rc6
 KVERR=5.17.0
 CDIR=linux-$KVERR
 RVER=5.17.0
