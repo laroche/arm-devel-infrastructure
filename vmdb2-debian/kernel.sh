@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER cfb92440ee71adcc2105b0890bb01ac3cddb8507
+  git format-patch -o ../rpi-patches-$RVER 7e57714cd0ad2d5bb90e50b5096a0e671dec1ef3
   cd ..
   rm -fr $RDIR
 fi
@@ -147,15 +147,15 @@ cd ..
 if test $CROSS = 0 ; then
   L=kernel-amd64-$KVERR-1
   mkdir -p $L
-  mv $CDIR/LOG *amd64.deb $L
+  mv $CDIR/LOG *$KVERR*amd64.deb $L
   tar cplf - $L | gzip -9 > $L.tar.gz
   rm -fr $L
 else
   L=kernel-rpi3-$ARCH-$KVERR-1
   mkdir -p $L
-  mv $CDIR/LOG *$ARCH.deb $L
+  mv $CDIR/LOG *$KVERR*$ARCH.deb $L
   if test $ARCH = armhf ; then
-    mv *.udeb $L
+    mv *$KVERR*.udeb $L
   fi
   tar cplf - $L | gzip -9 > $L.tar.gz
   rm -fr $L

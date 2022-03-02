@@ -102,8 +102,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0573-brcmfmac-firmware-Fix-crash-in-brcm_alt_fw_path.patch
-    rm -f bugfix/rpi/0620-sc16is7xx-Fix-for-incorrect-data-being-transmitted.patch
+    rm -f bugfix/rpi/0619-sc16is7xx-Fix-for-incorrect-data-being-transmitted.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
@@ -150,15 +149,15 @@ cd ..
 if test $CROSS = 0 ; then
   L=kernel-amd64-$KVER-1
   mkdir -p $L
-  mv $CDIR/LOG *amd64.deb $L
+  mv $CDIR/LOG *$KVER*amd64.deb $L
   tar cplf - $L | gzip -9 > $L.tar.gz
   rm -fr $L
 else
   L=kernel-rpi3-$ARCH-$KVER-1
   mkdir -p $L
-  mv $CDIR/LOG *$ARCH.deb $L
+  mv $CDIR/LOG *$KVER*$ARCH.deb $L
   if test $ARCH = armhf ; then
-    mv *.udeb $L
+    mv *$KVER*.udeb $L
   fi
   tar cplf - $L | gzip -9 > $L.tar.gz
   rm -fr $L
