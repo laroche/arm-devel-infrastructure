@@ -399,7 +399,9 @@ fi
 if test "$INSTALLGUI" = 1 ; then
   #$apt install xfce4 lightdm synaptic menu
   #$apt install aptitude
+  $apt install tasksel
   tasksel install gnome-desktop --new-install
+  #tasksel install xubuntu-desktop --new-install
   $apt install firefox-esr firefox-esr-l10n-de vlc chromium chromium-l10n
   $apt install libreoffice libreoffice-help-de libreoffice-l10n-de
   $apt install rdesktop remmina dconf-editor imagemagick mesa-utils inxi
