@@ -681,11 +681,29 @@ config_lxd()
     fi
   fi
   CLOUDINIT="""user.user-data=#cloud-config
-package_upgrade: true
+write_files:
+- content: |
+    alias ..='cd ..'
+    alias ...='cd ../..'
+    alias o=less
+    alias l='ls -la'
+  path: /etc/skel/.bash_aliases
 packages:
+  - apt-utils
   - openssh-server
+  - less
+  - locales
+  - vim
+runcmd:
+  - cp /etc/skel/.bash_aliases /root/
+  - useradd -D -s /bin/bash
+  - apt update
+  - apt -y -qq dist-upgrade
+  - apt -y -qq autoremove
+  - apt clean
 timezone: Europe/Berlin
 #locale: de_DE.UTF-8
+#locale_configfile: /etc/default/locale
 swap:
   filename: /swapfile
   size: "auto"
@@ -718,18 +736,22 @@ config_lxd_example()
   fi
 
   #lxc image list images: debian amd64
+  if false ; then
   lxc launch images:debian/10/cloud debian-10
   lxc launch images:debian/10/cloud debian-10-vm --vm -p vm
   lxc launch images:debian/11/cloud debian-11
   lxc launch images:debian/11/cloud debian-11-vm --vm -p vm
   lxc launch images:debian/sid/cloud debian-sid
   lxc launch images:debian/sid/cloud debian-sid-vm --vm -p vm
+  fi
 
   #lxc image list ubuntu: 20.04 amd64
+  if false ; then
   lxc launch images:ubuntu/focal/cloud ubuntu-focal-cloud
   lxc launch images:ubuntu/focal/cloud ubuntu-focal-cloud-vm --vm -p vm
   lxc launch ubuntu:20.04 ubuntu-focal
   lxc launch ubuntu:20.04 ubuntu-focal-vm --vm -p vm
+  fi
 
   #lxc config set debian-11 boot.autostart=true
 
