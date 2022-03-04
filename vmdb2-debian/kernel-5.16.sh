@@ -84,8 +84,6 @@ sed -i -e 's,^bugfix/all/netfilter-xt_socket-fix-a-typo-in-socket_mt_destroy.pat
 sed -i -e 's,^bugfix/all/netfilter-xt_socket-missing-ifdef-CONFIG_IP6_NF_IPTA.patch,,g' $CDIR/debian/patches/series
 sed -i -e 's,^bugfix/all/netfilter-nf_tables_offload-incorrect-flow-offload-a.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' $CDIR/debian/patches-rt/series
-sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' $CDIR/debian/config/arm64/config
-sed -i -e 's/^ast//g' $CDIR/debian/installer/modules/arm64/fb-modules
 #exit 0
 mkdir -p orig
 cd $CDIR || exit 1
