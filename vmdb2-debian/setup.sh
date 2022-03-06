@@ -425,7 +425,9 @@ if test "$INSTALLGUI" = 1 ; then
   if test "$HOSTTYPE" = "x86_64" ; then
     #wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     #$apt install ./google-chrome-stable_current_amd64.deb
-    wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+    if ! test -f /etc/apt/trusted.gpg.d/google.asc ; then
+      wget -qO /etc/apt/trusted.gpg.d/google.asc https://dl-ssl.google.com/linux/linux_signing_key.pub
+    fi
     echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
     $apt update
     $apt install google-chrome-stable
@@ -458,10 +460,10 @@ EOM
 
   # visual studio code from https://code.visualstudio.com/docs/setup/linux
   if true && test "$HOSTTYPE" = "x86_64" ; then
-    if ! test -f /usr/share/keyrings/packages.microsoft.gpg ; then
-      curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /usr/share/keyrings/packages.microsoft.gpg
+    if ! test -f /etc/apt/trusted.gpg.d/microsoft.asc ; then
+      wget -qO /etc/apt/trusted.gpg.d/microsoft.asc https://packages.microsoft.com/keys/microsoft.asc
     fi
-    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list
+    echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list
     #$apt install apt-transport-https
     $apt update
     $apt install code # or code-insiders
@@ -483,7 +485,9 @@ EOM
 
   # signal.ch and telegram messenger:
   if false && test "$HOSTTYPE" = "x86_64" ; then
-    curl -s https://updates.signal.org/desktop/apt/keys.asc | apt-key add -
+    if ! test -f /etc/apt/trusted.gpg.d/signal-desktop.asc ; then
+      wget -qO /etc/apt/trusted.gpg.d/signal-desktop.asc https://updates.signal.org/desktop/apt/keys.asc
+    fi
     echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" > /etc/apt/sources.list.d/signal-xenial.list
     $apt update
     $apt install signal-desktop
