@@ -78,6 +78,9 @@ DISTRO="debian"
 if test -f /etc/lsb-release && grep -q Ubuntu /etc/lsb-release ; then
   DISTRO="ubuntu"
 fi
+if test -f /etc/os-release && grep -q Ubuntu /etc/os-release ; then
+  DISTRO="ubuntu"
+fi
 unstable="0"
 if grep -q unstable /etc/apt/sources.list || grep -qw sid /etc/apt/sources.list ; then
   unstable="1"
@@ -355,15 +358,15 @@ fi
 # https://unix.stackexchange.com/questions/318824/vim-cutpaste-not-working-in-stretch-debian-9
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=864074
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=837761#76
-vim="/usr/share/vim/vim82/defaults.vim"
-if ! test -f $vim ; then
-  vim="/usr/share/vim/vim81/defaults.vim"
-fi
-if test $DISTRO = debian -a -f $vim ; then
-  if test $unstable = 1 -o $testing = 1 ; then
+if test $DISTRO = debian ; then
+  vim="/usr/share/vim/vim82/defaults.vim"
+  if test -f $vim ; then
     sed -i -e '/has.*mouse/,+6s/^/"/' $vim
   else
-    sed -i -e '/has.*mouse/,+2s/^/"/' $vim
+    vim="/usr/share/vim/vim81/defaults.vim"
+    if test -f $vim ; then
+      sed -i -e '/has.*mouse/,+2s/^/"/' $vim
+    fi
   fi
 fi
 
@@ -412,7 +415,7 @@ if test "$INSTALLGUI" = 1 ; then
 
   # virtualization support:
   $apt install virtinst virt-manager
-  $apt install libguestfs-tools # XXX TODO: missing from Debian testing?
+  $apt install libguestfs-tools
 
   $apt install meld
 
