@@ -459,6 +459,7 @@ EOM
   fi
 
   # visual studio code from https://code.visualstudio.com/docs/setup/linux
+  # wget -O ~/vsls-reqs https://aka.ms/vsls-linux-prereq-script && chmod +x ~/vsls-reqs && ~/vsls-reqs
   if true && test "$HOSTTYPE" = "x86_64" ; then
     if ! test -f /etc/apt/trusted.gpg.d/microsoft.asc ; then
       wget -qO /etc/apt/trusted.gpg.d/microsoft.asc https://packages.microsoft.com/keys/microsoft.asc
@@ -503,6 +504,9 @@ EOM
 
   # Skype (disabled by default):
   if false && test "$HOSTTYPE" = "x86_64" -a ! -x /usr/bin/skypeforlinux ; then
+    if ! test -f /etc/apt/trusted.gpg.d/skype.asc ; then
+      wget -qO /etc/apt/trusted.gpg.d/skype.asc https://repo.skype.com/data/SKYPE-GPG-KEY
+    fi
     wget -q https://go.skype.com/skypeforlinux-64.deb
     dpkg -i skypeforlinux-64.deb
     rm -f skypeforlinux-64.deb
