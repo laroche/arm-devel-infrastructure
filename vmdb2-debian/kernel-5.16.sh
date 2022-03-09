@@ -19,9 +19,9 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=5.16.12
+KVER=5.16.13
 CDIR=linux-$KVER
-RVER=5.16.11
+RVER=5.16.12
 
 CROSS=0
 ARCH=
@@ -67,7 +67,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER f40e0f7a433b029c8cbe2cdfa6b3210e31053e27
+  git format-patch -o ../rpi-patches-$RVER d6d1706b281324361ad5ddbe069e7f7912a70430
   cd ..
   rm -fr $RDIR
 fi
@@ -76,13 +76,10 @@ if ! test -d $CDIR ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.16.11/5.16.12/' $CDIR/debian/changelog
+sed -i -e '1 s/5.16.12/5.16.13/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/all/cgroup-v1-Correct-privileges-check-in-release_agent-.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/netfilter-xt_socket-fix-a-typo-in-socket_mt_destroy.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/netfilter-xt_socket-missing-ifdef-CONFIG_IP6_NF_IPTA.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/netfilter-nf_tables_offload-incorrect-flow-offload-a.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/cgroup-v1-Correct-privileges-check-in-release_agent-.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -100,7 +97,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0619-sc16is7xx-Fix-for-incorrect-data-being-transmitted.patch
+    #rm -f bugfix/rpi/0619-sc16is7xx-Fix-for-incorrect-data-being-transmitted.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
