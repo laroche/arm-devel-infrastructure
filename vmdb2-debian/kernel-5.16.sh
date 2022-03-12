@@ -19,7 +19,7 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=5.16.13
+KVER=5.16.14
 CDIR=linux-$KVER
 RVER=5.16.12
 
@@ -76,10 +76,17 @@ if ! test -d $CDIR ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.16.12/5.16.13/' $CDIR/debian/changelog
+sed -i -e '1 s/5.16.12/5.16.14/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/all/cgroup-v1-Correct-privileges-check-in-release_agent-.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/bhb/0001-x86-speculation-Rename-RETPOLINE_AMD-to-RETPOLINE_LF.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/bhb/0002-x86-speculation-Add-eIBRS-Retpoline-options.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/bhb/0003-Documentation-hw-vuln-Update-spectre-doc.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/bhb/0004-x86-speculation-Include-unprivileged-eBPF-status-in-.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/bhb/0005-x86-speculation-Use-generic-retpoline-by-default-on-.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/bhb/0006-x86-speculation-Update-link-to-AMD-speculation-white.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/bhb/0007-x86-speculation-Warn-about-Spectre-v2-LFENCE-mitigat.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/bhb/0008-x86-speculation-Warn-about-eIBRS-LFENCE-Unprivileged.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
