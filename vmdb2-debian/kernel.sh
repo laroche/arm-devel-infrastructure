@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 7e57714cd0ad2d5bb90e50b5096a0e671dec1ef3
+  git format-patch -o ../rpi-patches-$RVER 09688c0166e76ce2fb85e86b9d99be8b0084cdf9
   cd ..
   rm -fr $RDIR
 fi
@@ -98,7 +98,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0633-ARM-boot-dts-bcm2711-Fix-HVS-register-range.patch
+    #rm -f bugfix/rpi/0633-ARM-boot-dts-bcm2711-Fix-HVS-register-range.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
