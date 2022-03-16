@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.105
+KVER=5.10.106
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -77,19 +77,11 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b 5.10-stable-updates https://salsa.debian.org/carnil/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.10.104/5.10.105/' linux-5/debian/changelog
+sed -i -e '1 s/5.10.105/5.10.106/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/bullseye/UNRELEASED/' linux-5/debian/changelog
-sed -i -e 's,^bugfix/x86/bhb/0001-x86-bugs-Unconditionally-allow-spectre_v2-retpoline-.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/x86/bhb/0002-x86-speculation-Rename-RETPOLINE_AMD-to-RETPOLINE_LF.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/x86/bhb/0003-x86-speculation-Add-eIBRS-Retpoline-options.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/x86/bhb/0004-Documentation-hw-vuln-Update-spectre-doc.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/x86/bhb/0005-x86-speculation-Include-unprivileged-eBPF-status-in-.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/x86/bhb/0006-x86-speculation-Use-generic-retpoline-by-default-on-.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/x86/bhb/0007-x86-speculation-Update-link-to-AMD-speculation-white.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/x86/bhb/0008-x86-speculation-Warn-about-Spectre-v2-LFENCE-mitigat.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/x86/bhb/0009-x86-speculation-Warn-about-eIBRS-LFENCE-Unprivileged.patch,,g' linux-5/debian/patches/series
+#sed -i -e 's,^bugfix/x86/bhb/0001-x86-bugs-Unconditionally-allow-spectre_v2-retpoline-.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0104-printk-introduce-kernel-sync-mode.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
