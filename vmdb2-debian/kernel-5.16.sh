@@ -19,7 +19,7 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=5.16.15
+KVER=5.16.16
 CDIR=linux-$KVER
 RVER=5.16.14
 
@@ -76,7 +76,7 @@ if ! test -d $CDIR ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.16.14/5.16.15/' $CDIR/debian/changelog
+sed -i -e '1 s/5.16.14/5.16.16/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/x86/bhb/0001-x86-speculation-Rename-RETPOLINE_AMD-to-RETPOLINE_LF.patch,,g' $CDIR/debian/patches/series
@@ -97,7 +97,8 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0619-sc16is7xx-Fix-for-incorrect-data-being-transmitted.patch
+    rm -f bugfix/rpi/0421-drm-vc4-hdmi-Unregister-codec-device-on-unbind.patch
+    rm -f bugfix/rpi/0649-ARM-boot-dts-bcm2711-Fix-HVS-register-range.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
