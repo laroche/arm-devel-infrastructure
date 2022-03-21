@@ -705,9 +705,14 @@ packages:
   - less
   - locales
   - vim
+  - rsync
+  - htop
+  - screen
+  - tmux
 runcmd:
   - cp /etc/skel/.bash_aliases /root/
   - useradd -D -s /bin/bash
+  - update-alternatives --set editor /usr/bin/vim.basic
   - apt update
   - apt -y -qq dist-upgrade
   - apt -y -qq autoremove
@@ -765,6 +770,7 @@ config_lxd_example()
   fi
 
   #lxc config set debian-11 boot.autostart=true
+  #lxc config set debian-11 raw.lxc "lxc.apparmor.profile=unconfined"
 
   #lxc image copy ubuntu:20.04 local: --copy-aliases --auto-update
 
