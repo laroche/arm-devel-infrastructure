@@ -21,7 +21,7 @@ fi
 
 KVER=5.16.16
 CDIR=linux-$KVER
-RVER=5.16.14
+RVER=5.16.16
 
 CROSS=0
 ARCH=
@@ -67,7 +67,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 3cfa7ce38ae6c2c8e57201e2978178c42051defb
+  git format-patch -o ../rpi-patches-$RVER 9aed648340400df7f403d41d8558244afd6d69d3
   cd ..
   rm -fr $RDIR
 fi
@@ -97,8 +97,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0421-drm-vc4-hdmi-Unregister-codec-device-on-unbind.patch
-    rm -f bugfix/rpi/0649-ARM-boot-dts-bcm2711-Fix-HVS-register-range.patch
+    #rm -f bugfix/rpi/0421-drm-vc4-hdmi-Unregister-codec-device-on-unbind.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
