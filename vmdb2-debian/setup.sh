@@ -682,6 +682,7 @@ config_snapd()
 config_lxd()
 {
   config_snapd
+  $apt install nftables
   if ! test -d /var/snap/lxd ; then
     snap install lxd
     export PATH=$PATH:/snap/bin
