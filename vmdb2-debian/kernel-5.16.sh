@@ -19,7 +19,7 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=5.16.17
+KVER=5.16.18
 CDIR=linux-$KVER
 RVER=5.16.16
 
@@ -76,7 +76,7 @@ if ! test -d $CDIR ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.16.14/5.16.17/' $CDIR/debian/changelog
+sed -i -e '1 s/5.16.14/5.16.18/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/x86/bhb/0001-x86-speculation-Rename-RETPOLINE_AMD-to-RETPOLINE_LF.patch,,g' $CDIR/debian/patches/series

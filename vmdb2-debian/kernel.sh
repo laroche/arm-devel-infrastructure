@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=5.17
-KVERR=5.17.0
+KVER=5.17.1
+KVERR=5.17.1
 CDIR=linux-$KVERR
 RVER=5.17.0
 
@@ -77,7 +77,7 @@ if ! test -d $CDIR ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.17~rc7/5.17~rc8/' $CDIR/debian/changelog
+#sed -i -e '1 s/5.17-/5.17.1-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/objtool-check-give-big-enough-buffer-for-pv_ops.patch,,g' $CDIR/debian/patches/series
@@ -85,7 +85,7 @@ sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #exit 0
 mkdir -p orig
 cd $CDIR || exit 1
-test -f ../orig/linux_$KVER.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+test -f ../orig/linux_$KVER.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
 # Just to safe disk space and have a faster compile:
 export DEBIAN_KERNEL_DISABLE_DEBUG=yes
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
