@@ -758,6 +758,8 @@ config_lxd_example()
   lxc launch images:debian/10/cloud debian-10-vm --vm -p vm
   lxc launch images:debian/11/cloud debian-11
   lxc launch images:debian/11/cloud debian-11-vm --vm -p vm
+  lxc launch images:debian/12/cloud debian-12
+  lxc launch images:debian/12/cloud debian-12-vm --vm -p vm
   lxc launch images:debian/sid/cloud debian-sid
   lxc launch images:debian/sid/cloud debian-sid-vm --vm -p vm
   fi
@@ -770,8 +772,9 @@ config_lxd_example()
   lxc launch ubuntu:20.04 ubuntu-focal-vm --vm -p vm
   fi
 
-  #lxc config set debian-11 boot.autostart=true
-  #lxc config set debian-11 raw.lxc "lxc.apparmor.profile=unconfined"
+  #lxc config set debian-12 boot.autostart=true
+  #lxc config device override debian-12 eth0 security.mac_filtering=true
+  #lxc config set debian-12 raw.lxc "lxc.apparmor.profile=unconfined"
 
   #lxc image copy ubuntu:20.04 local: --copy-aliases --auto-update
 
