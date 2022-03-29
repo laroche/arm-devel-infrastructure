@@ -766,10 +766,12 @@ config_lxd_example()
 
   #lxc image list ubuntu: 20.04 amd64
   if false ; then
-  lxc launch images:ubuntu/focal/cloud ubuntu-focal-cloud
-  lxc launch images:ubuntu/focal/cloud ubuntu-focal-cloud-vm --vm -p vm
-  lxc launch ubuntu:20.04 ubuntu-focal
-  lxc launch ubuntu:20.04 ubuntu-focal-vm --vm -p vm
+  lxc launch images:ubuntu/focal/cloud u2004-cloud
+  lxc launch images:ubuntu/focal/cloud u2004-cloud-vm --vm -p vm
+  lxc launch ubuntu:20.04 u2004
+  lxc launch ubuntu:20.04 u2004-vm --vm -p vm
+  lxc launch ubuntu:21.10 u2110
+  lxc launch ubuntu:21.10 u2110-vm --vm -p vm
   fi
 
   #lxc config set debian-12 boot.autostart=true
@@ -778,7 +780,7 @@ config_lxd_example()
 
   #lxc image copy ubuntu:20.04 local: --copy-aliases --auto-update
 
-  #lxc exec debian-11 -- /bin/bash
+  #lxc exec debian-12 -- /bin/bash
 }
 
 config_git()
