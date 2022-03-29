@@ -721,10 +721,10 @@ runcmd:
 timezone: Europe/Berlin
 #locale: de_DE.UTF-8
 #locale_configfile: /etc/default/locale
-swap:
-  filename: /swapfile
-  size: "auto"
-  maxsize: 2147483648
+#swap:
+#  filename: /swapfile
+#  size: "auto"
+#  maxsize: 2147483648
 disable_root: false
 users: ""
 ssh_authorized_keys:
