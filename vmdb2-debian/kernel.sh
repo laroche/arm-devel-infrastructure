@@ -89,6 +89,7 @@ test -f ../orig/linux_$KVER.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig
 # Just to safe disk space and have a faster compile:
 export DEBIAN_KERNEL_DISABLE_DEBUG=yes
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
+sed -i -e 's/^CONFIG_DEBUG_INFO=y/# CONFIG_DEBUG_INFO is not set/g' debian/config/config
 # Disable RT kernel:
 #if test $CROSS = 1 ; then
 #  sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
@@ -142,6 +143,7 @@ fi
 
 cd ..
 
+rm -f *-dbg_*.deb
 if test $CROSS = 0 ; then
   L=kernel-amd64-$KVERR-1
   mkdir -p $L
