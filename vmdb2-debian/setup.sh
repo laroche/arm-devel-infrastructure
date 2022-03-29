@@ -732,6 +732,7 @@ ssh_authorized_keys:
 """
   lxc profile set default "$CLOUDINIT"
   lxc profile device add default root disk path=/ pool=default
+  lxc profile device set default eth0 security.mac_filtering=true
 
   #lxc profile copy default vm
   lxc profile create vm
@@ -740,7 +741,7 @@ ssh_authorized_keys:
   lxc profile set vm "$CLOUDINIT"
   lxc profile device add vm root disk path=/ pool=default
   lxc profile device set vm root size 20GB
-  lxc profile device add vm eth0 bridged name=eth0 network=lxdbr0 type=nic
+  lxc profile device add vm eth0 bridged name=eth0 network=lxdbr0 type=nic security.mac_filtering=true
 }
 
 config_lxd_example()
@@ -774,8 +775,7 @@ config_lxd_example()
   lxc launch ubuntu:21.10 u2110-vm --vm -p vm
   fi
 
-  #lxc config set debian-12 boot.autostart=true
-  #lxc config device override debian-12 eth0 security.mac_filtering=true
+  #lxc launch images:debian/12/cloud debian-12 --config boot.autostart=true
   #lxc config set debian-12 raw.lxc "lxc.apparmor.profile=unconfined"
 
   #lxc image copy ubuntu:20.04 local: --copy-aliases --auto-update
