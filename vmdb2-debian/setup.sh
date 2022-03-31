@@ -827,9 +827,11 @@ config_gdm()
 
 automatic_login()
 {
-  sed -i -e "s/^#  AutomaticLoginEnable/AutomaticLoginEnable/g" /etc/gdm3/daemon.conf
-  sed -i -e "s/^#  AutomaticLogin/AutomaticLogin/g" /etc/gdm3/daemon.conf
-  sed -i -e "s/^AutomaticLogin = .*/AutomaticLogin = $1/g" /etc/gdm3/daemon.conf
+  if test -f /etc/gdm3/daemon.conf ; then
+    sed -i -e "s/^#  AutomaticLoginEnable/AutomaticLoginEnable/g" /etc/gdm3/daemon.conf
+    sed -i -e "s/^#  AutomaticLogin/AutomaticLogin/g" /etc/gdm3/daemon.conf
+    sed -i -e "s/^AutomaticLogin = .*/AutomaticLogin = $1/g" /etc/gdm3/daemon.conf
+  fi
 }
 
 if test "X$SYSTYPE" != Xlxc ; then
