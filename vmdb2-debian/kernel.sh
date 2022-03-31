@@ -22,7 +22,7 @@ fi
 KVER=5.17.1
 KVERR=5.17.1
 CDIR=linux-$KVERR
-RVER=5.17.0
+RVER=5.17.1
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER f443e374ae131c168a065ea1748feac6b2e76613
+  git format-patch -o ../rpi-patches-$RVER 59db887d13b3a4df2713c2a866fa2767e0dea569
   cd ..
   rm -fr $RDIR
 fi
@@ -130,6 +130,7 @@ export MAKEFLAGS="-j$(($(nproc)*2))"
 export DEBIAN_KERNEL_DISABLE_DEBUG=
 [ "$(dpkg-parsechangelog --show-field Distribution)" = "UNRELEASED" ] &&
   export DEBIAN_KERNEL_DISABLE_DEBUG=yes
+#export DEBUG_INFO=n
 
 fakeroot make -f debian/rules clean
 fakeroot make -f debian/rules orig

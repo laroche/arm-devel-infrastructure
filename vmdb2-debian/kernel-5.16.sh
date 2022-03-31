@@ -21,7 +21,7 @@ fi
 
 KVER=5.16.18
 CDIR=linux-$KVER
-RVER=5.16.16
+RVER=5.16.18
 
 CROSS=0
 ARCH=
@@ -67,7 +67,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 9aed648340400df7f403d41d8558244afd6d69d3
+  git format-patch -o ../rpi-patches-$RVER 9fec77b5f094c1bbd0432c3f98d20cca8fc07321
   cd ..
   rm -fr $RDIR
 fi
@@ -76,7 +76,7 @@ if ! test -d $CDIR ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.16.14/5.16.18/' $CDIR/debian/changelog
+#sed -i -e '1 s/5.16.16/5.16.18/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/x86/bhb/0001-x86-speculation-Rename-RETPOLINE_AMD-to-RETPOLINE_LF.patch,,g' $CDIR/debian/patches/series
