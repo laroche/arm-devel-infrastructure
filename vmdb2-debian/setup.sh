@@ -731,7 +731,7 @@ ssh_authorized_keys:
   - ssh-rsa xxxx user
 """
   lxc profile set default "$CLOUDINIT"
-  lxc profile device add default root disk path=/ pool=default
+  #lxc profile device add default root disk path=/ pool=default
   lxc profile device set default eth0 security.mac_filtering=true
 
   #lxc profile copy default vm
@@ -739,8 +739,7 @@ ssh_authorized_keys:
   lxc profile set vm limits.cpu 2
   lxc profile set vm limits.memory 2GB
   lxc profile set vm "$CLOUDINIT"
-  lxc profile device add vm root disk path=/ pool=default
-  lxc profile device set vm root size 20GB
+  lxc profile device add vm root disk path=/ pool=default size=20GB
   lxc profile device add vm eth0 bridged name=eth0 network=lxdbr0 type=nic security.mac_filtering=true
 }
 
