@@ -46,7 +46,7 @@ if ! test -f "$DISK" ; then
   if test -f linux-image-5.2.0-2-amd64-unsigned_5.2.7-1_amd64.deb ; then
     sudo virt-copy-in -a "$DISK" linux-image-5.2.0-2-amd64-unsigned_5.2.7-1_amd64.deb /root/
   fi
-  virt-install --name "$TARGET" --memory 4096 --cpu host --vcpus 4 --boot hd --disk "$DISK"
+  virt-install --os-variant debian11 --name "$TARGET" --memory 4096 --cpu host --vcpus 4 --boot hd --disk "$DISK"
   # --os-variant debiansqueeze
   # --boot hd,uefi
 fi
