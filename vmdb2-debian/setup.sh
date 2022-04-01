@@ -144,11 +144,15 @@ config_swapfile()
 if test $FIRSTRUN = 1 ; then
 if false ; then
 # Extend to a bigger disk and create a swap partition:
-if test -b /dev/debvg/rootfs -a -b /dev/sda1 ; then
+DISK=/dev/sda
+if ! test -b $DISK && test -b /dev/vda ; then
+  DISK=/dev/vda
+fi
+if test -b /dev/debvg/rootfs -a -b ${DISK}1 ; then
   if ! test -b /dev/debvg/swapfs ; then
     echo "Trying to extend the disk and create a swap partition:"
-    parted -s -- /dev/sda resizepart 1 100%
-    pvresize /dev/sda1
+    parted -s -- $DISK resizepart 1 100%
+    pvresize ${DISK}1
     lvextend -L +13G /dev/debvg/rootfs
     resize2fs /dev/debvg/rootfs
     lvcreate --name swapfs --size 8G debvg
