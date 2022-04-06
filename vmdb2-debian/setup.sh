@@ -658,7 +658,7 @@ EOM
 	-A INPUT -p ipv6-icmp -j ACCEPT
 	-A INPUT -j REJECT --reject-with icmp6-adm-prohibited
 	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG
-	-A FORWARD -j REJECT --reject-with icmp-host-prohibited
+	-A FORWARD -j REJECT --reject-with icmp6-adm-prohibited
 	COMMIT
 EOM
   } > /etc/iptables/rules.v6
