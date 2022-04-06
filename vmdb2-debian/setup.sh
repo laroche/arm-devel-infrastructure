@@ -617,9 +617,10 @@ config_firewall()
     cat <<-EOM
 	*filter
 	:INPUT DROP [0:0]
-	:FORWARD ACCEPT [0:0]
+	:FORWARD DROP [0:0]
 	:OUTPUT ACCEPT [0:0]
 	-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+	-A INPUT -m state --state INVALID -j DROP
 EOM
     for i in $1 ; do
       echo "-A INPUT -p tcp -m tcp --dport $i -j ACCEPT"
@@ -629,6 +630,8 @@ EOM
 	-A INPUT -i lo -j ACCEPT
 	-A INPUT -p icmp -j ACCEPT
 	-A INPUT -j REJECT --reject-with icmp-host-prohibited
+	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG
+	-A FORWARD -j REJECT --reject-with icmp-host-prohibited
 	COMMIT
 	*nat
 	:PREROUTING ACCEPT [0:0]
@@ -642,9 +645,10 @@ EOM
     cat <<-EOM
 	*filter
 	:INPUT DROP [0:0]
-	:FORWARD ACCEPT [0:0]
+	:FORWARD DROP [0:0]
 	:OUTPUT ACCEPT [0:0]
 	-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+	-A INPUT -m state --state INVALID -j DROP
 EOM
     for i in $2 ; do
       echo "-A INPUT -p tcp -m tcp --dport $i -j ACCEPT"
@@ -653,6 +657,8 @@ EOM
 	-A INPUT -i lo -j ACCEPT
 	-A INPUT -p ipv6-icmp -j ACCEPT
 	-A INPUT -j REJECT --reject-with icmp6-adm-prohibited
+	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG
+	-A FORWARD -j REJECT --reject-with icmp-host-prohibited
 	COMMIT
 EOM
   } > /etc/iptables/rules.v6
@@ -849,6 +855,7 @@ if false ; then
 	cache_dir diskd /var/spool/squid 2000 16 256
 	# Default is 30 seconds and slows down reboots too much:
 	shutdown_lifetime 10 seconds
+	pinger_enable off
 EOM
 fi
 
