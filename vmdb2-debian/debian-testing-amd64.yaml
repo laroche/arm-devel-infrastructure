@@ -88,8 +88,7 @@ steps:
     - tcpdump
     - iptables-persistent
     - ulogd2
-    - ntp
-    - ntpdate
+    - chrony
     - ssh
     - openssh-server
     - screen
