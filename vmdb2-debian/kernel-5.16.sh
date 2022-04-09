@@ -19,7 +19,7 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=5.16.18
+KVER=5.16.19
 CDIR=linux-$KVER
 RVER=5.16.18
 
@@ -76,7 +76,7 @@ if ! test -d $CDIR ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.16.16/5.16.18/' $CDIR/debian/changelog
+sed -i -e '1 s/5.16.18/5.16.19/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/x86/bhb/0001-x86-speculation-Rename-RETPOLINE_AMD-to-RETPOLINE_LF.patch,,g' $CDIR/debian/patches/series
@@ -97,7 +97,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0421-drm-vc4-hdmi-Unregister-codec-device-on-unbind.patch
+    #rm -f bugfix/rpi/0440-regulator-rpi-panel-Handle-I2C-errors-timing-to-the-.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config

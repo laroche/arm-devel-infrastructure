@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=5.17.1
-KVERR=5.17.1
+KVER=5.17.2
+KVERR=5.17.2
 CDIR=linux-$KVERR
 RVER=5.17.1
 
@@ -77,7 +77,7 @@ if ! test -d $CDIR ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 # Change Debian source to new version:
-#sed -i -e '1 s/5.17-/5.17.1-/' $CDIR/debian/changelog
+sed -i -e '1 s/5.17.1-/5.17.2-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/objtool-check-give-big-enough-buffer-for-pv_ops.patch,,g' $CDIR/debian/patches/series
@@ -99,7 +99,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0633-ARM-boot-dts-bcm2711-Fix-HVS-register-range.patch
+    #rm -f bugfix/rpi/0419-regulator-rpi-panel-Handle-I2C-errors-timing-to-the-.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
