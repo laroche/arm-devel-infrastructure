@@ -625,6 +625,13 @@ config_firewall()
 	:FORWARD DROP [0:0]
 	:OUTPUT ACCEPT [0:0]
 	-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+EOM
+    if test "X$3" = "Xdebug" ; then
+      cat <<-EOM
+	-A INPUT -m state --state INVALID -m limit --limit 3/min --limit-burst 10 -j NFLOG
+EOM
+    fi
+    cat <<-EOM
 	-A INPUT -m state --state INVALID -j DROP
 EOM
     for i in $1 ; do
@@ -634,9 +641,63 @@ EOM
 	-A INPUT -p udp -m udp --sport 67:68 --dport 67:68 -j ACCEPT
 	-A INPUT -i lo -j ACCEPT
 	-A INPUT -p icmp -j ACCEPT
+EOM
+    if test "X$3" = "Xdebug" ; then
+      cat <<-EOM
+	-A INPUT -d 224.0.0.0/8 -j ACCEPT
+	-A INPUT -p udp -m udp --dport 137:138 -j DROP
+	-A INPUT -p udp -m udp --dport 161 -j DROP
+	-A INPUT -p udp -m udp --dport 1124 -j DROP
+	-A INPUT -p udp -m udp --dport 1900 -j DROP
+	-A INPUT -p udp -m udp --dport 3289 -j DROP
+	-A INPUT -p udp -m udp --dport 8609 -j DROP
+	-A INPUT -p udp -m udp --dport 8610 -j DROP
+	-A INPUT -p udp -m udp --dport 8611 -j DROP
+	-A INPUT -p udp -m udp --dport 8612 -j DROP
+	# 53805 AVM Mesh Discovery
+	-A INPUT -p udp -m udp --dport 53805 -j DROP
+	-A INPUT -p udp -m udp --dport 57621 -j DROP
+	-A INPUT -m limit --limit 3/min --limit-burst 10 -j NFLOG
+EOM
+    fi
+    cat <<-EOM
 	-A INPUT -j REJECT --reject-with icmp-host-prohibited
+EOM
+    if test "X$3" = "Xdebug" ; then
+      cat <<-EOM
 	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG
 	-A FORWARD -j REJECT --reject-with icmp-host-prohibited
+	-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+	-A OUTPUT -p tcp -m tcp --dport 22 -j ACCEPT
+	-A OUTPUT -p tcp -m tcp --dport 80 -j ACCEPT
+	-A OUTPUT -p tcp -m tcp --dport 443 -j ACCEPT
+	-A OUTPUT -p tcp -m tcp --dport 631 -j ACCEPT
+	-A OUTPUT -p tcp -m tcp --dport 3128 -j ACCEPT
+	-A OUTPUT -p tcp -m tcp --dport 4460 -j ACCEPT
+	-A OUTPUT -p tcp -m tcp --sport 22 -j ACCEPT
+	-A OUTPUT -p tcp -m tcp --sport 80 -j ACCEPT
+	-A OUTPUT -p tcp -m tcp --sport 443 -j ACCEPT
+EOM
+    fi
+    if test "$DISTRO" = debian -a -f /etc/debian_version && grep -q '^11' /etc/debian_version ; then
+      cat <<-EOM
+	-A OUTPUT -o lo -p tcp -m tcp --dport 9050 -j ACCEPT
+	-A OUTPUT -o lo -p tcp -m tcp --dport 9150 -j ACCEPT
+EOM
+    fi
+    if test "X$3" = "Xdebug" ; then
+      cat <<-EOM
+	-A OUTPUT -o lo -p icmp -j ACCEPT
+	-A OUTPUT -o lo -j ACCEPT
+	-A OUTPUT -p udp -m udp --dport 53 -j ACCEPT
+	-A OUTPUT -p udp -m udp --sport 67 --dport 68 -j ACCEPT
+	-A OUTPUT -p udp -m udp --dport 123 -j ACCEPT
+	-A OUTPUT -d 224.0.0.251/32 -p udp -m udp --dport 5353 -j ACCEPT
+	-A OUTPUT -d 224.0.0.22/32 -j ACCEPT
+	-A OUTPUT -j NFLOG
+EOM
+    fi
+    cat <<-EOM
 	COMMIT
 	*nat
 	:PREROUTING ACCEPT [0:0]
@@ -653,8 +714,13 @@ EOM
 	:FORWARD DROP [0:0]
 	:OUTPUT ACCEPT [0:0]
 	-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+EOM
+    if test "X$3" = "Xdebug" ; then
+      cat <<-EOM
+	-A INPUT -m state --state INVALID -m limit --limit 3/min --limit-burst 10 -j NFLOG
 	-A INPUT -m state --state INVALID -j DROP
 EOM
+    fi
     for i in $2 ; do
       echo "-A INPUT -p tcp -m tcp --dport $i -j ACCEPT"
     done
@@ -662,8 +728,15 @@ EOM
 	-A INPUT -i lo -j ACCEPT
 	-A INPUT -p ipv6-icmp -j ACCEPT
 	-A INPUT -j REJECT --reject-with icmp6-adm-prohibited
+EOM
+    if test "X$3" = "Xdebug" ; then
+      cat <<-EOM
 	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG
 	-A FORWARD -j REJECT --reject-with icmp6-adm-prohibited
+	-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+EOM
+    fi
+    cat <<-EOM
 	COMMIT
 EOM
   } > /etc/iptables/rules.v6
