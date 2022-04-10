@@ -718,9 +718,11 @@ EOM
     if test "X$3" = "Xdebug" ; then
       cat <<-EOM
 	-A INPUT -m state --state INVALID -m limit --limit 3/min --limit-burst 10 -j NFLOG
-	-A INPUT -m state --state INVALID -j DROP
 EOM
     fi
+    cat <<-EOM
+	-A INPUT -m state --state INVALID -j DROP
+EOM
     for i in $2 ; do
       echo "-A INPUT -p tcp -m tcp --dport $i -j ACCEPT"
     done
