@@ -647,13 +647,7 @@ EOM
 	-A INPUT -d 224.0.0.0/8 -j ACCEPT
 	-A INPUT -p udp -m udp --dport 137:138 -j DROP
 	-A INPUT -p udp -m udp --dport 161 -j DROP
-	-A INPUT -p udp -m udp --dport 1124 -j DROP
-	-A INPUT -p udp -m udp --dport 1900 -j DROP
 	-A INPUT -p udp -m udp --dport 3289 -j DROP
-	-A INPUT -p udp -m udp --dport 8609 -j DROP
-	-A INPUT -p udp -m udp --dport 8610 -j DROP
-	-A INPUT -p udp -m udp --dport 8611 -j DROP
-	-A INPUT -p udp -m udp --dport 8612 -j DROP
 	# 53805 AVM Mesh Discovery
 	-A INPUT -p udp -m udp --dport 53805 -j DROP
 	-A INPUT -p udp -m udp --dport 57621 -j DROP
@@ -694,7 +688,7 @@ EOM
 	-A OUTPUT -p udp -m udp --dport 123 -j ACCEPT
 	-A OUTPUT -d 224.0.0.251/32 -p udp -m udp --dport 5353 -j ACCEPT
 	-A OUTPUT -d 224.0.0.22/32 -j ACCEPT
-	-A OUTPUT -j NFLOG
+	-A OUTPUT -m limit --limit 3/min --limit-burst 10 -j NFLOG
 EOM
     fi
     cat <<-EOM
