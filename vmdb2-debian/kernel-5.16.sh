@@ -76,11 +76,11 @@ if ! test -d $CDIR ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.16.19/5.16.20/' $CDIR/debian/changelog
+sed -i -e '1 s/5.16.18/5.16.20/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/x86/bhb/0001-x86-speculation-Rename-RETPOLINE_AMD-to-RETPOLINE_LF.patch,,g' $CDIR/debian/patches/series
-#sed -i -e 's,0038-powerpc-mm-highmem-Switch-to-generic-kmap-atomic.patch,,g' $CDIR/debian/patches-rt/series
+sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
 cd $CDIR || exit 1
