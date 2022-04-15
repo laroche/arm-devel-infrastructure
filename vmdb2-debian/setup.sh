@@ -644,6 +644,8 @@ EOM
 EOM
     if test "X$3" = "Xdebug" ; then
       cat <<-EOM
+	-A INPUT -d 224.0.0.1/32 -j ACCEPT
+	-A INPUT -d 224.0.0.251/32 -p udp -m udp --dport 5353 -j ACCEPT
 	-A INPUT -d 224.0.0.0/8 -j ACCEPT
 	-A INPUT -p udp -m udp --dport 137:138 -j DROP
 	-A INPUT -p udp -m udp --dport 161 -j DROP
@@ -662,6 +664,8 @@ EOM
 	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG
 	-A FORWARD -j REJECT --reject-with icmp-host-prohibited
 	-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+	-A OUTPUT -m state --state INVALID -m limit --limit 3/min --limit-burst 10 -j NFLOG
+	-A OUTPUT -m state --state INVALID -j DROP
 	-A OUTPUT -p tcp -m tcp --dport 22 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 80 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 443 -j ACCEPT
