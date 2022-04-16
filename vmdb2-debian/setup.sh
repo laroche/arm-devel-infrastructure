@@ -665,7 +665,13 @@ EOM
 	-A FORWARD -j REJECT --reject-with icmp-host-prohibited
 	-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 	-A OUTPUT -m state --state INVALID -m limit --limit 3/min --limit-burst 10 -j NFLOG
+EOM
+    fi
+    cat <<-EOM
 	-A OUTPUT -m state --state INVALID -j DROP
+EOM
+    if test "X$3" = "Xdebug" ; then
+      cat <<-EOM
 	-A OUTPUT -p tcp -m tcp --dport 22 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 80 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 443 -j ACCEPT
@@ -676,14 +682,12 @@ EOM
 	-A OUTPUT -p tcp -m tcp --sport 80 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --sport 443 -j ACCEPT
 EOM
-    fi
     if test "$DISTRO" = debian -a -f /etc/debian_version && grep -q '^11' /etc/debian_version ; then
       cat <<-EOM
 	-A OUTPUT -o lo -p tcp -m tcp --dport 9050 -j ACCEPT
 	-A OUTPUT -o lo -p tcp -m tcp --dport 9150 -j ACCEPT
 EOM
     fi
-    if test "X$3" = "Xdebug" ; then
       cat <<-EOM
 	-A OUTPUT -o lo -p icmp -j ACCEPT
 	-A OUTPUT -o lo -j ACCEPT
@@ -734,9 +738,11 @@ EOM
 	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG
 	-A FORWARD -j REJECT --reject-with icmp6-adm-prohibited
 	-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+	-A OUTPUT -m state --state INVALID -m limit --limit 3/min --limit-burst 10 -j NFLOG
 EOM
     fi
     cat <<-EOM
+	-A OUTPUT -m state --state INVALID -j DROP
 	COMMIT
 EOM
   } > /etc/iptables/rules.v6
