@@ -682,12 +682,12 @@ EOM
 	-A OUTPUT -p tcp -m tcp --sport 80 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --sport 443 -j ACCEPT
 EOM
-    if test "$DISTRO" = debian -a -f /etc/debian_version && grep -q '^11' /etc/debian_version ; then
+      if test "$DISTRO" = debian -a -f /etc/debian_version && grep -q '^11' /etc/debian_version ; then
       cat <<-EOM
 	-A OUTPUT -o lo -p tcp -m tcp --dport 9050 -j ACCEPT
 	-A OUTPUT -o lo -p tcp -m tcp --dport 9150 -j ACCEPT
 EOM
-    fi
+      fi
       cat <<-EOM
 	-A OUTPUT -o lo -p icmp -j ACCEPT
 	-A OUTPUT -o lo -j ACCEPT
