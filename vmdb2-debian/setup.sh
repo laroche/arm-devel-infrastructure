@@ -671,17 +671,16 @@ EOM
 	-A OUTPUT -m state --state INVALID -j DROP
 EOM
     if test "X$3" = "Xdebug" ; then
+      if test "X$SYSTYPE" != Xlxc ; then
       cat <<-EOM
+	-A OUTPUT -d 224.0.0.251/32 -p udp -m udp --dport 5353 -j ACCEPT
+	-A OUTPUT -d 224.0.0.22/32 -j ACCEPT
+	-A OUTPUT -p udp -m udp --dport 123 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 22 -j ACCEPT
-	-A OUTPUT -p tcp -m tcp --dport 80 -j ACCEPT
-	-A OUTPUT -p tcp -m tcp --dport 443 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 631 -j ACCEPT
-	-A OUTPUT -p tcp -m tcp --dport 3128 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 4460 -j ACCEPT
-	-A OUTPUT -p tcp -m tcp --sport 22 -j ACCEPT
-	-A OUTPUT -p tcp -m tcp --sport 80 -j ACCEPT
-	-A OUTPUT -p tcp -m tcp --sport 443 -j ACCEPT
 EOM
+      fi
       if test "$DISTRO" = debian -a -f /etc/debian_version && grep -q '^11' /etc/debian_version ; then
       cat <<-EOM
 	-A OUTPUT -o lo -p tcp -m tcp --dport 9050 -j ACCEPT
@@ -689,13 +688,13 @@ EOM
 EOM
       fi
       cat <<-EOM
+	-A OUTPUT -p tcp -m tcp --dport 80 -j ACCEPT
+	-A OUTPUT -p tcp -m tcp --dport 443 -j ACCEPT
+	-A OUTPUT -p tcp -m tcp --dport 3128 -j ACCEPT
 	-A OUTPUT -o lo -p icmp -j ACCEPT
 	-A OUTPUT -o lo -j ACCEPT
 	-A OUTPUT -p udp -m udp --dport 53 -j ACCEPT
 	-A OUTPUT -p udp -m udp --sport 67 --dport 68 -j ACCEPT
-	-A OUTPUT -p udp -m udp --dport 123 -j ACCEPT
-	-A OUTPUT -d 224.0.0.251/32 -p udp -m udp --dport 5353 -j ACCEPT
-	-A OUTPUT -d 224.0.0.22/32 -j ACCEPT
 	-A OUTPUT -m limit --limit 3/min --limit-burst 10 -j NFLOG
 EOM
     fi
