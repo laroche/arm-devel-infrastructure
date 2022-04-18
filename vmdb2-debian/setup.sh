@@ -363,6 +363,12 @@ if test -f /etc/sudoers ; then
   sed -i -e 's/^%sudo.*/%sudo\tALL=(ALL:ALL) NOPASSWD: ALL/g' /etc/sudoers
 fi
 
+# Remove kernel/initrd symlinks.
+if test "X$SYSTYPE" != Xlxc -a ! -f /etc/kernel-img.conf -a -L /vmlinuz ; then
+  echo "do_symlinks = 0" > /etc/kernel-img.conf
+  rm -f /vmlinuz{,.old} /initrd.img{,.old}
+fi
+
 # vim package updates overwrite this change, so we need to fix this periodically:
 # https://unix.stackexchange.com/questions/318824/vim-cutpaste-not-working-in-stretch-debian-9
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=864074
