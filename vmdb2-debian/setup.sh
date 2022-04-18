@@ -483,7 +483,7 @@ EOM
     #$apt install apt-transport-https
     $apt update
     $apt install code # or code-insiders
-    $apt install gvfs-bin
+    #$apt install gvfs-bin
     #update-alternatives --set editor /usr/bin/code
     #echo "fs.inotify.max_user_watches=524288" > /etc/sysctl.d/10-visual-studio-code.conf
     # Launch VS Code Quick Open (Ctrl+P): ext install ms-vscode.cpptools
