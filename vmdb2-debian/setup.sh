@@ -416,7 +416,7 @@ if test "$INSTALLGUI" = 1 ; then
   #tasksel install xubuntu-desktop --new-install
   $apt install firefox-esr firefox-esr-l10n-de vlc chromium chromium-l10n
   $apt install libreoffice libreoffice-help-de libreoffice-l10n-de
-  $apt install rdesktop remmina dconf-editor imagemagick mesa-utils inxi
+  $apt install remmina dconf-editor imagemagick mesa-utils inxi
   $apt install network-manager-openconnect-gnome openvpn
 
   # Allow X11 apps over ssh to work:
@@ -443,7 +443,7 @@ if test "$INSTALLGUI" = 1 ; then
   fi
 
   # Eclipse
-  if true && test "$HOSTTYPE" = "x86_64" ; then
+  if false && test "$HOSTTYPE" = "x86_64" ; then
     if ! test -e /usr/bin/eclipse ; then
       ECLIPSEVER=2020-06
       ECLIPSE=eclipse-cpp-${ECLIPSEVER}-R-linux-gtk-x86_64
@@ -507,7 +507,7 @@ EOM
   # Microsoft Teams:
   if true && test "$HOSTTYPE" = "x86_64" -a ! -x /usr/bin/teams ; then
     wget -q -O teams.deb https://go.microsoft.com/fwlink/p/?linkid=2112886
-    dpkg -i teams.deb
+    apt install ./teams.deb
     rm -f teams.deb
   fi
 
@@ -517,7 +517,7 @@ EOM
       wget -qO /etc/apt/trusted.gpg.d/skype.asc https://repo.skype.com/data/SKYPE-GPG-KEY
     fi
     wget -q https://go.skype.com/skypeforlinux-64.deb
-    dpkg -i skypeforlinux-64.deb
+    apt install ./skypeforlinux-64.deb
     rm -f skypeforlinux-64.deb
   fi
 
@@ -525,7 +525,6 @@ EOM
   if false && test "$HOSTTYPE" = "x86_64" -a ! -f /etc/apt/sources.list.d/teamviewer.list ; then
     wget -q https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
     $apt install ./teamviewer_amd64.deb
-    #dpkg -i teamviewer_amd64.deb
     rm -f teamviewer_amd64.deb
   fi
 
@@ -534,7 +533,6 @@ EOM
 fi
 # Company dependent apps:
 if false ; then
-  $apt install rdesktop
   $apt install qttools5-dev qttools5-dev-tools
 fi
 
