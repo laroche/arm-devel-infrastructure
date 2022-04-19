@@ -774,6 +774,7 @@ config_snapd()
   if test "X$SYSTYPE" = Xlxc ; then
     $apt install squashfuse fuse
   fi
+  systemctl start snapd.service
 }
 
 config_lxd()
@@ -956,6 +957,9 @@ if test "X$SYSTYPE" = Xlxc ; then
 fi
 
 #config_swapfile
+
+# Individual local machines don't need remote login:
+#systemctl disable ssh.service
 
 # Firewall setup:
 # - Port 80 and 443 are usually for a http/https server.
