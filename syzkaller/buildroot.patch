@@ -77,7 +77,7 @@ index e69de29bb2..7ae5a06e4f
 +fi
 +
 diff --git a/configs/qemu_aarch64_virt_defconfig b/configs/qemu_aarch64_virt_defconfig
-index 03df0ad9e2..8519103ba0 100644
+index 03df0ad9e2..e701d36bcc 100644
 --- a/configs/qemu_aarch64_virt_defconfig
 +++ b/configs/qemu_aarch64_virt_defconfig
 @@ -1,6 +1,9 @@
@@ -134,7 +134,7 @@ index 03df0ad9e2..8519103ba0 100644
  # host-qemu for gitlab testing
  BR2_PACKAGE_HOST_QEMU=y
 diff --git a/configs/qemu_arm_vexpress_defconfig b/configs/qemu_arm_vexpress_defconfig
-index 2c813456f4..eccb837498 100644
+index 2c813456f4..b7b6740784 100644
 --- a/configs/qemu_arm_vexpress_defconfig
 +++ b/configs/qemu_arm_vexpress_defconfig
 @@ -4,6 +4,9 @@ BR2_cortex_a9=y
@@ -646,18 +646,18 @@ index 52cb8ffcd8..487a1a42fb 100644
  CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=0
  # CONFIG_FEATURE_KMSG_SYSLOG is not set
 diff --git a/package/kvm-unit-tests/Config.in b/package/kvm-unit-tests/Config.in
-index e470dd6157..d13a694131 100644
+index 2b797e13b4..4a4aa61808 100644
 --- a/package/kvm-unit-tests/Config.in
 +++ b/package/kvm-unit-tests/Config.in
-@@ -3,7 +3,7 @@ config BR2_PACKAGE_KVM_UNIT_TESTS_ARCH_SUPPORTS
- 	# On ARM, it uses virtualization extensions
+@@ -4,7 +4,7 @@ config BR2_PACKAGE_KVM_UNIT_TESTS_ARCH_SUPPORTS
  	default y if BR2_cortex_a7 || BR2_cortex_a12 || \
  		BR2_cortex_a15 || BR2_cortex_a15_a7 || \
--		BR2_cortex_a17 || BR2_cortex_a17_a7
-+		BR2_cortex_a17 || BR2_cortex_a17_a7 || BR2_cortex_a53
+ 		BR2_cortex_a17 || BR2_cortex_a17_a7 || \
+-		BR2_cortex_a55 || BR2_cortex_a75 || \
++		BR2_cortex_a53 || BR2_cortex_a55 || BR2_cortex_a75 || \
+ 		BR2_cortex_a75_a55 || BR2_cortex_a76 || \
+ 		BR2_cortex_a76_a55
  	default y if BR2_i386 || BR2_x86_64
- 	default y if BR2_powerpc64 || BR2_powerpc64le
- 
 diff --git a/system/skeleton/etc/profile b/system/skeleton/etc/profile
 index 0545277086..e32f418456 100644
 --- a/system/skeleton/etc/profile
