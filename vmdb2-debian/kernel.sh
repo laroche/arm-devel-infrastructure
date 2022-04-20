@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=5.17.3
-KVERR=5.17.3
+KVER=5.17.4
+KVERR=5.17.4
 CDIR=linux-$KVERR
-RVER=5.17.2
+RVER=5.17.3
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 70a10e90d47f9b4de9808425521bc9d09fef9b30
+  git format-patch -o ../rpi-patches-$RVER 77b5472d00d158866e2e1d03c13862b428b65405
   cd ..
   rm -fr $RDIR
 fi
@@ -77,11 +77,11 @@ if ! test -d $CDIR ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.17.2-/5.17.3-/' $CDIR/debian/changelog
+sed -i -e '1 s/5.17.3-/5.17.4-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/objtool-check-give-big-enough-buffer-for-pv_ops.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
+#sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
 cd $CDIR || exit 1

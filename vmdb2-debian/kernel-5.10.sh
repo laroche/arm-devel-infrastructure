@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.111
+KVER=5.10.112
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -77,12 +77,12 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b 5.10-stable-updates https://salsa.debian.org/carnil/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.10.110/5.10.111/' linux-5/debian/changelog
+sed -i -e '1 s/5.10.111/5.10.112/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/bullseye/UNRELEASED/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/all/sctp-fix-the-processing-for-init-chunk.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,0114-tcp-Remove-superfluous-BH-disable-around-listening_h.patch,,g' linux-5/debian/patches-rt/series
+#sed -i -e 's,0114-tcp-Remove-superfluous-BH-disable-around-listening_h.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
 #exit 0
@@ -100,8 +100,7 @@ if test "$RPIPATCHES" = 1 ; then
   sed -i -e 's/--fuzz=0//g' debian/rules
   pushd debian/patches
     mkdir bugfix/rpi
-    cp ../../../rpi.patch bugfix/rpi/
-    #cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
+    cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     #rm -f bugfix/rpi/0320-vc4_hdmi-Fix-register-offset-when-sending-longer-CEC.patch
     ls bugfix/rpi/*.patch >> series
   popd
