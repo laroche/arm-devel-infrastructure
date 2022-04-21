@@ -397,6 +397,7 @@ if ! test -d /home/$NEWUSER ; then
     sed -i -e "s/^$NEWUSER:[^:]*:/$NEWUSER::/g" /etc/shadow
   fi
   adduser $NEWUSER sudo
+  adduser $NEWUSER kvm
 fi
 if ! test -d /home/$NEWUSER/data ; then
   su $NEWUSER -c "mkdir -p ~/data"
