@@ -398,6 +398,7 @@ if ! test -d /home/$NEWUSER ; then
   fi
   adduser $NEWUSER sudo
   adduser $NEWUSER kvm
+  adduser $NEWUSER libvirt
 fi
 if ! test -d /home/$NEWUSER/data ; then
   su $NEWUSER -c "mkdir -p ~/data"
