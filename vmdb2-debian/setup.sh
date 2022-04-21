@@ -397,8 +397,10 @@ if ! test -d /home/$NEWUSER ; then
     sed -i -e "s/^$NEWUSER:[^:]*:/$NEWUSER::/g" /etc/shadow
   fi
   adduser $NEWUSER sudo
-  adduser $NEWUSER kvm
-  adduser $NEWUSER libvirt
+  if test "X$SYSTYPE" != Xlxc ; then
+    adduser $NEWUSER kvm
+    adduser $NEWUSER libvirt
+  fi
 fi
 if ! test -d /home/$NEWUSER/data ; then
   su $NEWUSER -c "mkdir -p ~/data"
