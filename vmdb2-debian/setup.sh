@@ -874,6 +874,8 @@ config_lxd_example()
   lxc launch ubuntu:20.04 u2004-vm --vm -p vm
   lxc launch ubuntu:21.10 u2110
   lxc launch ubuntu:21.10 u2110-vm --vm -p vm
+  lxc launch ubuntu:22.04 u2204
+  lxc launch ubuntu:22.04 u2204-vm --vm -p vm
   fi
 
   #lxc launch images:debian/12/cloud debian-12 --config boot.autostart=true
