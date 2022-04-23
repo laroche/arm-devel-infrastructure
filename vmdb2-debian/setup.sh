@@ -701,6 +701,8 @@ EOM
 	-A OUTPUT -d 224.0.0.251/32 -p udp -m udp --dport 5353 -j ACCEPT
 	-A OUTPUT -d 239.255.255.250/32 -p udp -m udp --dport 1900 -j ACCEPT
 	-A OUTPUT -d 224.0.0.22/32 -j ACCEPT
+	# virt-inst new network checks:
+	-A OUTPUT -d 10.0.0.0/8 -p udp -m udp --dport 7 -j ACCEPT
 	-A OUTPUT -p udp -m udp --dport 123 -j ACCEPT
 	-A OUTPUT -p udp -m udp --dport 443 -j ACCEPT
 	-A OUTPUT -p udp -m udp --sport 3702 -j ACCEPT
