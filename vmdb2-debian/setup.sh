@@ -10,7 +10,7 @@
 # - Set password for root and $NEWUSER.
 # - Add ~$NEWUSER/.ssh/ and ~$NEWUSER/.gitconfig
 # - Gnome setup:
-#   - Vorgabe-Anwendungen: Web: Google Chrome, Musik/Video: VLC Media Player, Fotos: ImageMagick
+#   - Vorgabe-Anwendungen: Web: Google Chrome, Musik/Video: VLC Media Player, Fotos: ImageMagick/Google Chrome
 #   - Einstellungen/Energie: In Bereitschaft gehen: disable
 # - browsers chrome/firefox: Tabs von zuletzt verwenden
 # - Set a new hostname in /etc/hostname.
@@ -624,6 +624,22 @@ if false && test "$HOSTTYPE" = "x86_64" && ! test -d /lib/modules/${KABI}-amd64 
   rm -fr $KERNEL kernel-amd64-$KVER
 fi
 
+firewall_stop()
+{
+  iptables -P INPUT ACCEPT
+  iptables -P FORWARD ACCEPT
+  iptables -P OUTPUT ACCEPT
+  iptables -F
+  iptables -X
+  iptables -Z
+  iptables -t nat -F
+  iptables -t nat -X
+  iptables -t mangle -F
+  iptables -t mangle -X
+  iptables -t raw -F
+  iptables -t raw -X
+}
+
 config_firewall()
 {
   {
@@ -653,11 +669,12 @@ EOM
     if test "X$3" = "Xdebug" ; then
       cat <<-EOM
 	-A INPUT -d 224.0.0.1/32 -j ACCEPT
-	-A INPUT -d 224.0.0.251/32 -p udp -m udp --dport 5353 -j ACCEPT
+	#-A INPUT -d 224.0.0.251/32 -p udp -m udp --dport 5353 -j ACCEPT
+	-A INPUT -p udp -m udp --dport 3702 -j ACCEPT
+	-A INPUT -p udp -m udp --dport 5353 -j ACCEPT
 	-A INPUT -d 224.0.0.0/8 -j ACCEPT
 	-A INPUT -p udp -m udp --dport 137:138 -j DROP
 	-A INPUT -p udp -m udp --dport 161 -j DROP
-	-A INPUT -p udp -m udp --dport 3289 -j DROP
 	# 53805 AVM Mesh Discovery
 	-A INPUT -p udp -m udp --dport 53805 -j DROP
 	-A INPUT -p udp -m udp --dport 57621 -j DROP
@@ -682,8 +699,11 @@ EOM
       if test "X$SYSTYPE" != Xlxc ; then
       cat <<-EOM
 	-A OUTPUT -d 224.0.0.251/32 -p udp -m udp --dport 5353 -j ACCEPT
+	-A OUTPUT -d 239.255.255.250/32 -p udp -m udp --dport 1900 -j ACCEPT
 	-A OUTPUT -d 224.0.0.22/32 -j ACCEPT
 	-A OUTPUT -p udp -m udp --dport 123 -j ACCEPT
+	-A OUTPUT -p udp -m udp --dport 443 -j ACCEPT
+	-A OUTPUT -p udp -m udp --sport 3702 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 22 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 631 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 4460 -j ACCEPT
