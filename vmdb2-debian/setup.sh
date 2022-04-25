@@ -24,6 +24,12 @@ NEWUSER=max
 GECOS="Max Mustermann"
 EMAIL="Max.Mustermann@example.org"
 
+# Linux Demosetup with GUI:
+DEMOSETUP=0
+
+# Enable/disable typical software for developers:
+DEVELOPER=1
+
 TIMEZONE="Europe/Berlin"
 
 # Do we have a http proxy on this network? (IP:port or Hostname:port)
@@ -147,12 +153,12 @@ config_swapfile()
 }
 
 if test $FIRSTRUN = 1 ; then
-if false ; then
 # Extend to a bigger disk and create a swap partition:
 DISK=/dev/sda
 if ! test -b $DISK && test -b /dev/vda ; then
   DISK=/dev/vda
 fi
+if false ; then
 if test -b /dev/debvg/rootfs -a -b ${DISK}1 ; then
   if ! test -b /dev/debvg/swapfs ; then
     echo "Trying to extend the disk and create a swap partition:"
@@ -176,19 +182,25 @@ if test -b /dev/debvg/rootfs -a -b ${DISK}1 ; then
 fi
 fi
 if false ; then
-if test -b /dev/sda && ! test -b /dev/sda2 ; then
-  parted -s -- /dev/sda mkpart primary linux-swap -4096 -0
-  if test -b /dev/sda2 ; then
-    mkswap -L DEBSWAP /dev/sda2
+do_disk()
+{
+  parted -l  # fix gpt end of disk data
+  parted -s -- $1 mkpart primary linux-swap -4096 -0
+  if test -b $3 ; then
+    mkswap -L DEBSWAP $3
   fi
   # enable swap
   sed -i -e 's/^#LABEL/LABEL/g' /etc/fstab
   swapon -a
   #free
-  # Automated resizing sda1 does not work with parted, you need
+  # Automated resizing does not work with parted, you need
   # to execute this manually:
-  #parted -s -- /dev/sda resizepart 1 -4096
-  #resize2fs /dev/sda1
+  echo "parted -s -- $1 resizepart $2 -4096"
+  parted
+  resize2fs ${DISK}$2
+}
+if test -b $DISK -a -b ${DISK}2 && ! test -b ${DISK}3 ; then
+  do_disk $DISK 2 ${DISK}3
 fi
 fi
 fi
@@ -414,6 +426,9 @@ if test -s /root/.ssh/authorized_keys && ! test -s /home/$NEWUSER/.ssh/authorize
 fi
 
 INSTALLGUI=0
+if test "X$DEMOSETUP" = X1 ; then
+  INSTALLGUI=1
+fi
 if test "X$SYSTYPE" = Xlxc ; then
   INSTALLGUI=0
 fi
@@ -453,7 +468,7 @@ if test "$INSTALLGUI" = 1 ; then
   fi
 
   # Eclipse
-  if false && test "$HOSTTYPE" = "x86_64" ; then
+  if false && test "$DEVELOPER" = 1 -a "$HOSTTYPE" = "x86_64" ; then
     if ! test -e /usr/bin/eclipse ; then
       ECLIPSEVER=2022-03
       ECLIPSE=eclipse-cpp-${ECLIPSEVER}-R-linux-gtk-x86_64
@@ -479,7 +494,7 @@ EOM
 
   # visual studio code from https://code.visualstudio.com/docs/setup/linux
   # wget -O ~/vsls-reqs https://aka.ms/vsls-linux-prereq-script && chmod +x ~/vsls-reqs && ~/vsls-reqs
-  if true && test "$HOSTTYPE" = "x86_64" ; then
+  if true && test "$DEVELOPER" = 1 -a "$HOSTTYPE" = "x86_64" ; then
     if ! test -f /etc/apt/trusted.gpg.d/microsoft.asc ; then
       wget -qO /etc/apt/trusted.gpg.d/microsoft.asc https://packages.microsoft.com/keys/microsoft.asc
     fi
@@ -547,6 +562,7 @@ if false ; then
 fi
 
 # Generic devel environment:
+if test "$DEVELOPER" = 1 ; then
 $apt install build-essential gcc-doc autoconf libtool libtool-bin pkg-config bison flex git libacl1-dev libssl-dev
 $apt install gawk bc make git-email ccache indent gperf exuberant-ctags patchutils info
 #$apt install perl clang golang
@@ -554,9 +570,10 @@ $apt install gawk bc make git-email ccache indent gperf exuberant-ctags patchuti
 #$apt install subversion git-svn
 #$apt install openjdk-8-jdk cmake
 #$apt install gcc-arm-none-eabi g++-aarch64-linux-gnu g++-arm-linux-gnueabihf
+fi
 
 # Checkout some devel projects:
-if true ; then
+if test "$DEVELOPER" = 1 ; then
   if ! test -d /home/$NEWUSER/data/arm-devel-infrastructure ; then
     su $NEWUSER -c "cd ~/data && git clone https://github.com/laroche/arm-devel-infrastructure"
   fi
@@ -984,7 +1001,24 @@ if test "X$SYSTYPE" = Xlxc ; then
   fi
 fi
 
+if test "X$DEMOSETUP" = X1 ; then
+  firewall_stop
+  systemctl disable ssh.service
+  if test "$DEVELOPER" = 1 ; then
+    config_firewall "" "" debug
+    config_lxd
+  else
+    config_firewall "" ""
+  fi
+  automatic_login $NEWUSER
+  if test "$DEVELOPER" = 1 ; then
+    config_git_default
+  fi
+fi
+
 #config_swapfile
+
+#firewall_stop
 
 # Individual local machines don't need remote login:
 #systemctl disable ssh.service
