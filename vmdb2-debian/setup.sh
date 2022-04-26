@@ -152,13 +152,12 @@ config_swapfile()
   # Use "swapon --show" or "cat /proc/swaps" or "free" to check system.
 }
 
-if test $FIRSTRUN = 1 ; then
+if test $FIRSTRUN = 1 -a "X$DEMOSETUP" = X1 ; then
 # Extend to a bigger disk and create a swap partition:
 DISK=/dev/sda
 if ! test -b $DISK && test -b /dev/vda ; then
   DISK=/dev/vda
 fi
-if false ; then
 if test -b /dev/debvg/rootfs -a -b ${DISK}1 ; then
   if ! test -b /dev/debvg/swapfs ; then
     echo "Trying to extend the disk and create a swap partition:"
@@ -180,8 +179,6 @@ if test -b /dev/debvg/rootfs -a -b ${DISK}1 ; then
     fi
   fi
 fi
-fi
-if false ; then
 do_disk()
 {
   parted -l  # fix gpt end of disk data
@@ -201,7 +198,6 @@ do_disk()
 }
 if test -b $DISK -a -b ${DISK}2 && ! test -b ${DISK}3 ; then
   do_disk $DISK 2 ${DISK}3
-fi
 fi
 fi
 
