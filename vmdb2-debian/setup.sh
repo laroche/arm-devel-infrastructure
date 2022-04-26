@@ -976,9 +976,9 @@ automatic_login()
   fi
 }
 
-if test "X$SYSTYPE" != Xlxc ; then
 # squid http proxy:
-if false ; then
+config_squid()
+{
   $apt install squid
   # Listen on all interfaces to provide proxy to the whole network:
   sed -i -e 's/^http_port .*/http_port 0.0.0.0:3128/g' /etc/squid/squid.conf
@@ -990,10 +990,7 @@ if false ; then
 	shutdown_lifetime 10 seconds
 	pinger_enable off
 EOM
-fi
-
-#config_lxc
-fi
+}
 
 if test "X$SYSTYPE" = Xlxc ; then
   if test -e /lib/systemd/system/sockets.target.wants/systemd-journald-audit.socket ; then
@@ -1029,12 +1026,15 @@ fi
 # - Port 3128 should be added for a squid proxy.
 #config_firewall "443 80 22" "443 80 22"
 
+#config_lxc
 #config_lxd
 #config_lxd_example
 
 config_gdm
 #automatic_login $NEWUSER
 #config_git_default
+
+#config_squid
 
 $apt clean
 $apt update
