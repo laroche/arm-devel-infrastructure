@@ -179,6 +179,9 @@ steps:
       ln -s /etc/systemd/system/ssh-generate-host-keys.service "${ROOT?}/etc/systemd/system/multi-user.target.requires/ssh-generate-host-keys.service"
       rm -f ${ROOT?}/etc/ssh/ssh_host_*_key*
 
+      echo "do_symlinks = 0" > /etc/kernel-img.conf
+      rm -f /vmlinuz{,.old} /initrd.img{,.old}
+
       echo "alias ..='cd ..'"      > "${ROOT?}/root/.bash_aliases"
       echo "alias ...='cd ../..'" >> "${ROOT?}/root/.bash_aliases"
       echo "alias o=less"         >> "${ROOT?}/root/.bash_aliases"

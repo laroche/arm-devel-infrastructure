@@ -176,6 +176,9 @@ steps:
       ln -s /etc/systemd/system/ssh-generate-host-keys.service "${ROOT?}/etc/systemd/system/multi-user.target.requires/ssh-generate-host-keys.service"
       rm -f ${ROOT?}/etc/ssh/ssh_host_*_key*
 
+      echo "do_symlinks = 0" > /etc/kernel-img.conf
+      rm -f /vmlinuz{,.old} /initrd.img{,.old}
+
       rm -f ${ROOT?}/usr/lib/raspi3-firmware/kernel*.img ${ROOT?}/boot/firmware/kernel*.img
 
       test -f ${ROOT?}/etc/initramfs-tools/initramfs.conf && \
@@ -213,7 +216,7 @@ steps:
       echo "locales locales/default_environment_locale select de_DE.UTF-8" | debconf-set-selections
       echo "locales locales/locales_to_be_generated multiselect de_DE.UTF-8 UTF-8" | debconf-set-selections
       rm -f /etc/locale.gen
-      dpkg-reconfigure --frontend noninteractive locales || :
+      dpkg-reconfigure --frontend noninteractive locales
 
       echo "console-setup console-setup/charmap47 select UTF-8" | debconf-set-selections
       sed -i -e 's/^CHARMAP=.*/CHARMAP="UTF-8"/g' /etc/default/console-setup
