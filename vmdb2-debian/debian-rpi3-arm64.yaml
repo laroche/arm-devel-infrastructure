@@ -139,6 +139,8 @@ steps:
       echo "#net.ipv6.conf.all.disable_ipv6 = 1" > "${ROOT?}/etc/sysctl.d/01-disable-ipv6.conf"
       echo "#net.ipv6.conf.default.disable_ipv6 = 1" >> "${ROOT?}/etc/sysctl.d/01-disable-ipv6.conf"
 
+      rm -f "${ROOT?}/etc/iptables/rules.v{4,6}"
+
       if grep -q testing ${ROOT?}/etc/apt/sources.list ; then
         echo "deb http://deb.debian.org/debian/ testing main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
         echo "deb-src http://deb.debian.org/debian/ testing main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
