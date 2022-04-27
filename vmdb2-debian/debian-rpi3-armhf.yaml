@@ -168,8 +168,8 @@ steps:
       ln -s /etc/systemd/system/ssh-generate-host-keys.service "${ROOT?}/etc/systemd/system/multi-user.target.requires/ssh-generate-host-keys.service"
       rm -f ${ROOT?}/etc/ssh/ssh_host_*_key*
 
-      echo "do_symlinks = 0" > /etc/kernel-img.conf
-      rm -f /vmlinuz{,.old} /initrd.img{,.old}
+      echo "do_symlinks = 0" > "${ROOT?}/etc/kernel-img.conf"
+      rm -f "${ROOT?}/vmlinuz{,.old}" "${ROOT?}/initrd.img{,.old}"
 
       rm -f ${ROOT?}/usr/lib/raspi3-firmware/kernel*.img ${ROOT?}/boot/firmware/kernel*.img
 
