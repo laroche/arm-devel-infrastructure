@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=5.17.4
-KVERR=5.17.4
+KVER=5.17.5
+KVERR=5.17.5
 CDIR=linux-$KVERR
-RVER=5.17.3
+RVER=5.17.4
 
 CROSS=0
 ARCH=
@@ -68,16 +68,16 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 77b5472d00d158866e2e1d03c13862b428b65405
+  git format-patch -o ../rpi-patches-$RVER 7ec6d8ae728e2f3b91a4cfac5e664ca32eb213da
   cd ..
   rm -fr $RDIR
 fi
 
 if ! test -d $CDIR ; then
-  git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git $CDIR
+  git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.17.3-/5.17.4-/' $CDIR/debian/changelog
+sed -i -e '1 s/5.17.4-/5.17.5-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/objtool-check-give-big-enough-buffer-for-pv_ops.patch,,g' $CDIR/debian/patches/series
@@ -114,6 +114,7 @@ if test $CROSS = 0 ; then
 
 debian/rules orig
 debian/rules debian/control
+#debian/rules source
 PAR="$(grep -c ^processor /proc/cpuinfo)"
 #PAR=10
 DEB_BUILD_OPTIONS="parallel=$PAR" XZ_DEFAULTS="-T 0" fakeroot debian/rules binary-arch 2>&1 | tee LOG
