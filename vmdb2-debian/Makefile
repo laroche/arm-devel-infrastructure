@@ -109,7 +109,7 @@ $(eval $(call pack,testing-rpi3-armhf,testing-rpi3-armhf))
 $(eval $(call pack,unstable-rpi3-armhf,unstable-rpi3-armhf))
 
 clean:
-	rm -f debian-*.img debian-*.log debian-*.zip
+	rm -f debian-*.img debian-*.log debian-*.zip wget-log*
 
 distclean: clean
 	rm -f debian-*.tar.gz debian-unstable-*.yaml #debian-testing-*.yaml
