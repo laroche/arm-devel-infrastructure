@@ -117,7 +117,7 @@ steps:
       echo "#net.ipv6.conf.all.disable_ipv6 = 1" > "${ROOT?}/etc/sysctl.d/01-disable-ipv6.conf"
       echo "#net.ipv6.conf.default.disable_ipv6 = 1" >> "${ROOT?}/etc/sysctl.d/01-disable-ipv6.conf"
 
-      rm -f "${ROOT?}/etc/iptables/rules.v{4,6}"
+      rm -f ${ROOT?}/etc/iptables/rules.v4 ${ROOT?}/etc/iptables/rules.v6
 
       if grep -q testing ${ROOT?}/etc/apt/sources.list ; then
         echo "deb http://deb.debian.org/debian/ testing main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
@@ -157,7 +157,7 @@ steps:
       rm -f ${ROOT?}/etc/ssh/ssh_host_*_key*
 
       echo "do_symlinks = 0" > "${ROOT?}/etc/kernel-img.conf"
-      rm -f "${ROOT?}/vmlinuz{,.old}" "${ROOT?}/initrd.img{,.old}"
+      rm -f ${ROOT?}/vmlinuz ${ROOT?}/vmlinuz.old ${ROOT?}/initrd.img ${ROOT?}/initrd.img.old
 
       echo "alias ..='cd ..'"      > "${ROOT?}/root/.bash_aliases"
       echo "alias ...='cd ../..'" >> "${ROOT?}/root/.bash_aliases"
