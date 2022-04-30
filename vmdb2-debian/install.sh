@@ -32,7 +32,7 @@ if ! test -f "$DISK" ; then
   # Convert the plain/raw image file into qcow2 format:
   qemu-img convert -O qcow2 debian-amd64.img "$DISK"
   # Extend the size a lot:
-  qemu-img resize "$DISK" +80G
+  qemu-img resize "$DISK" +18G
   # Create a snapshot/backup so you can always revert back to this state:
   qemu-img snapshot -c start "$DISK"
   #qemu-img snapshot -l "$DISK"
@@ -40,6 +40,7 @@ if ! test -f "$DISK" ; then
   if test -f setup.sh ; then
     #virt-ls -l -a "$DISK" /
     virt-copy-in -a "$DISK" setup.sh /root/
+    #virt-copy-in -a "$DISK" -m /dev/sda2:/ setup.sh /root/
   fi
   # If you later on want to use virt-copy and the command does not recognize the
   # correct root partition, you might have to add this param: -m /dev/sda1
@@ -47,7 +48,7 @@ if ! test -f "$DISK" ; then
     virt-copy-in -a "$DISK" linux-image-5.2.0-2-amd64-unsigned_5.2.7-1_amd64.deb /root/
   fi
   virt-install --os-variant debian11 --name "$TARGET" --memory 4096 --cpu host --vcpus 4 --boot hd --disk "$DISK"
-  # --boot hd,uefi
+  #virt-install --os-variant debian11 --name "$TARGET" --memory 4096 --cpu host --vcpus 4 --boot hd,uefi --disk "$DISK"
 fi
 
 # virsh list --all
@@ -56,3 +57,5 @@ fi
 # virsh stop $TARGET
 # virsh destroy $TARGET
 # virsh undefine --nvram $TARGET
+
+# qemu-img convert -O raw debian01.qcow2 debian01.img
