@@ -725,6 +725,7 @@ EOM
 	-A OUTPUT -p tcp -m tcp --dport 22 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 631 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 4460 -j ACCEPT
+	-A OUTPUT -p tcp -m tcp --dport 5228 -j ACCEPT
 EOM
       fi
       if test "$DISTRO" = debian -a -f /etc/debian_version && grep -q '^11' /etc/debian_version ; then
@@ -737,6 +738,7 @@ EOM
 	-A OUTPUT -p tcp -m tcp --dport 80 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 443 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 3128 -j ACCEPT
+	-A OUTPUT -p tcp -m tcp --dport 8080 -j ACCEPT
 	-A OUTPUT -o lo -p icmp -j ACCEPT
 	-A OUTPUT -o lo -j ACCEPT
 	-A OUTPUT -p udp -m udp --dport 53 -j ACCEPT
@@ -998,7 +1000,9 @@ if test "X$SYSTYPE" = Xlxc ; then
 fi
 
 if test "X$DEMOSETUP" = X1 ; then
-  firewall_stop
+  if test $FIRSTRUN = 1 ; then
+    firewall_stop
+  fi
   systemctl disable ssh.service
   if test "$DEVELOPER" = 1 ; then
     config_firewall "" "" debug
