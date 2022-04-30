@@ -196,11 +196,15 @@ do_disk()
   parted
   resize2fs ${DISK}$2
 }
-if test -b $DISK -a -b ${DISK}2 && ! test -b ${DISK}3 ; then
-  do_disk $DISK 2 ${DISK}3
-fi
+#if test -b $DISK -a -b ${DISK}2 && ! test -b ${DISK}3 ; then
+#  do_disk $DISK 2 ${DISK}3
+#fi
+#if test -b $DISK -a -b ${DISK}1 && ! test -b ${DISK}2 ; then
+#  do_disk $DISK 1 ${DISK}2
+#fi
 if test -b $DISK -a -b ${DISK}1 && ! test -b ${DISK}2 ; then
-  do_disk $DISK 1 ${DISK}2
+  parted -s -- $DISK resizepart 1 100%
+  resize2fs ${DISK}1
 fi
 fi
 
@@ -1005,6 +1009,7 @@ if test "X$SYSTYPE" = Xlxc ; then
 fi
 
 if test "X$DEMOSETUP" = X1 ; then
+  config_swapfile
   if test $FIRSTRUN = 1 ; then
     firewall_stop
   fi
