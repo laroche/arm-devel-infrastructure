@@ -38,15 +38,21 @@ if ! test -f "$DISK" ; then
   #qemu-img snapshot -l "$DISK"
   # If a locally modified setup.sh and a new kernel exist, copy those into the new image:
   if test -f setup.sh ; then
-    #sudo virt-ls -l -a "$DISK" /
-    sudo virt-copy-in -a "$DISK" setup.sh /root/
+    #virt-ls -l -a "$DISK" /
+    virt-copy-in -a "$DISK" setup.sh /root/
   fi
   # If you later on want to use virt-copy and the command does not recognize the
   # correct root partition, you might have to add this param: -m /dev/sda1
   if test -f linux-image-5.2.0-2-amd64-unsigned_5.2.7-1_amd64.deb ; then
-    sudo virt-copy-in -a "$DISK" linux-image-5.2.0-2-amd64-unsigned_5.2.7-1_amd64.deb /root/
+    virt-copy-in -a "$DISK" linux-image-5.2.0-2-amd64-unsigned_5.2.7-1_amd64.deb /root/
   fi
   virt-install --os-variant debian11 --name "$TARGET" --memory 4096 --cpu host --vcpus 4 --boot hd --disk "$DISK"
-  # --os-variant debiansqueeze
   # --boot hd,uefi
 fi
+
+# virsh list --all
+# virsh start $TARGET
+# virt-viewer $TARGET
+# virsh stop $TARGET
+# virsh destroy $TARGET
+# virsh undefine --nvram $TARGET
