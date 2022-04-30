@@ -664,6 +664,8 @@ config_firewall()
 	:INPUT DROP [0:0]
 	:FORWARD DROP [0:0]
 	:OUTPUT ACCEPT [0:0]
+	#-A INPUT -i lxdbr0 -p udp -m udp --dport 53 -j ACCEPT
+	#-A INPUT -i lxdbr0 -p tcp -m tcp --dport 53 -j ACCEPT
 	-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 EOM
     if test "X$3" = "Xdebug" ; then
@@ -699,6 +701,8 @@ EOM
     fi
     cat <<-EOM
 	-A INPUT -j REJECT --reject-with icmp-host-prohibited
+	#-A FORWARD -o lxdbr0 -j ACCEPT
+	#-A FORWARD -i lxdbr0 -j ACCEPT
 EOM
     if test "X$3" = "Xdebug" ; then
       cat <<-EOM
@@ -753,6 +757,7 @@ EOM
 	:INPUT ACCEPT [0:0]
 	:OUTPUT ACCEPT [0:0]
 	:POSTROUTING ACCEPT [0:0]
+	#-A POSTROUTING -s 10.156.203.0/24 ! -d 10.156.203.0/24 -j MASQUERADE
 	COMMIT
 EOM
   } > /etc/iptables/rules.v4
