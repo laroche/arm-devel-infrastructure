@@ -199,6 +199,9 @@ do_disk()
 if test -b $DISK -a -b ${DISK}2 && ! test -b ${DISK}3 ; then
   do_disk $DISK 2 ${DISK}3
 fi
+if test -b $DISK -a -b ${DISK}1 && ! test -b ${DISK}2 ; then
+  do_disk $DISK 1 ${DISK}2
+fi
 fi
 
 # On first boot with the new Linux system, extend the filesystem to the
