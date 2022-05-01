@@ -204,7 +204,10 @@ do_disk()
 #  do_disk $DISK 1 ${DISK}2
 #fi
 if test -b $DISK -a -b ${DISK}1 && ! test -b ${DISK}2 ; then
-  parted -s -- $DISK resizepart 1 100%
+  # Automated resizing does not work with parted, you need
+  # to execute this manually:
+  echo "parted -s -- $DISK resizepart 1 100%"
+  parted
   resize2fs ${DISK}1
 fi
 fi
