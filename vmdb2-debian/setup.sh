@@ -12,6 +12,7 @@
 # - Gnome setup:
 #   - Vorgabe-Anwendungen: Web: Google Chrome, Musik/Video: VLC Media Player, Fotos: ImageMagick/Google Chrome
 #   - Einstellungen/Energie: In Bereitschaft gehen: disable
+# - Gnome Terminal: Einstellungen: Farben: Tango(dunkel), Benutzerdefinierte Schrift: 14
 # - browsers chrome/firefox: Tabs von zuletzt verwenden
 # - Set a new hostname in /etc/hostname.
 # - Add hostname to /etc/hosts if no DNS is available (otherwise sudo is too slow, though seems fixed now).
@@ -451,8 +452,8 @@ if test "$INSTALLGUI" = 1 ; then
   $apt install xauth
 
   # virtualization support:
-  $apt install virtinst virt-manager
-  $apt install libguestfs-tools
+  $apt install virtinst virt-manager spice-vdagent
+  $apt install libguestfs-tools mdadm-
 
   $apt install meld
 
