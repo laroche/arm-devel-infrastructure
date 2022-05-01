@@ -19,12 +19,12 @@ debian-amd64.img: debian-amd64.yaml
 	$(call vmdb2,amd64)
 	sudo parted -s $@ toggle 1 boot
 
-#debian-testing-amd64.yaml: debian-amd64.yaml
-#	sed 's/qemu-debootstrap: bullseye/qemu-debootstrap: testing/g' < $^ > $@
+debian-testing-amd64.yaml: debian-amd64.yaml
+	sed 's/qemu-debootstrap: bullseye/qemu-debootstrap: testing/g' < $^ > $@
 
 debian-testing-amd64.img: debian-testing-amd64.yaml
 	# XXX: TODO: due to hardcoded /dev/loop0:
-	test "X$$(sudo losetup -a)" = "X"
+	#test "X$$(sudo losetup -a)" = "X"
 	$(call vmdb2,testing-amd64)
 	sudo parted -s $@ toggle 1 boot
 
@@ -33,7 +33,7 @@ debian-unstable-amd64.yaml: debian-testing-amd64.yaml
 
 debian-unstable-amd64.img: debian-unstable-amd64.yaml
 	# XXX: TODO: due to hardcoded /dev/loop0:
-	test "X$$(sudo losetup -a)" = "X"
+	#test "X$$(sudo losetup -a)" = "X"
 	$(call vmdb2,unstable-amd64)
 	sudo parted -s $@ toggle 1 boot
 
