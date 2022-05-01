@@ -113,7 +113,7 @@ clean:
 
 distclean: clean
 	rm -f debian-*.tar.gz debian-unstable-*.yaml #debian-testing-*.yaml
-	rm -f debian-testing-amd64-efi.yaml debian-testing-rpi3-arm64.yaml debian-testing-rpi3-armhf.yaml
+	rm -f debian-testing-amd64.yaml debian-testing-amd64-efi.yaml debian-testing-rpi3-arm64.yaml debian-testing-rpi3-armhf.yaml
 
 tag:
 	git tag -m "release v$(DATE)" v$(DATE)
