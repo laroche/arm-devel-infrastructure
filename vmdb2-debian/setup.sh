@@ -678,7 +678,7 @@ config_firewall()
 EOM
     if test "X$3" = "Xdebug" ; then
       cat <<-EOM
-	-A INPUT -m state --state INVALID -m limit --limit 3/min --limit-burst 10 -j NFLOG
+	-A INPUT -m state --state INVALID -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[INVALID-INPUT]:"
 EOM
     fi
     cat <<-EOM
@@ -704,7 +704,7 @@ EOM
 	# 53805 AVM Mesh Discovery
 	-A INPUT -p udp -m udp --dport 53805 -j DROP
 	-A INPUT -p udp -m udp --dport 57621 -j DROP
-	-A INPUT -m limit --limit 3/min --limit-burst 10 -j NFLOG
+	-A INPUT -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[REJECT-INPUT]:"
 EOM
     fi
     cat <<-EOM
@@ -714,10 +714,10 @@ EOM
 EOM
     if test "X$3" = "Xdebug" ; then
       cat <<-EOM
-	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG
+	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[REJECT-FORWARD]:"
 	-A FORWARD -j REJECT --reject-with icmp-host-prohibited
 	-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
-	-A OUTPUT -m state --state INVALID -m limit --limit 3/min --limit-burst 10 -j NFLOG
+	-A OUTPUT -m state --state INVALID -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[INVALID-OUTPUT]:"
 EOM
     fi
     cat <<-EOM
@@ -755,7 +755,7 @@ EOM
 	-A OUTPUT -o lo -j ACCEPT
 	-A OUTPUT -p udp -m udp --dport 53 -j ACCEPT
 	-A OUTPUT -p udp -m udp --sport 67 --dport 68 -j ACCEPT
-	-A OUTPUT -m limit --limit 3/min --limit-burst 10 -j NFLOG
+	-A OUTPUT -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[UNKNOWN-OUTPUT]:"
 EOM
     fi
     cat <<-EOM
@@ -779,7 +779,7 @@ EOM
 EOM
     if test "X$3" = "Xdebug" ; then
       cat <<-EOM
-	-A INPUT -m state --state INVALID -m limit --limit 3/min --limit-burst 10 -j NFLOG
+	-A INPUT -m state --state INVALID -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[INVALID-INPUT]:"
 EOM
     fi
     cat <<-EOM
@@ -795,10 +795,10 @@ EOM
 EOM
     if test "X$3" = "Xdebug" ; then
       cat <<-EOM
-	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG
+	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[REJECT-FORWARD]:"
 	-A FORWARD -j REJECT --reject-with icmp6-adm-prohibited
 	-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
-	-A OUTPUT -m state --state INVALID -m limit --limit 3/min --limit-burst 10 -j NFLOG
+	-A OUTPUT -m state --state INVALID -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[INVALID-OUTPUT]:"
 EOM
     fi
     cat <<-EOM
