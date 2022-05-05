@@ -449,14 +449,14 @@ if test "$INSTALLGUI" = 1 ; then
   $apt install firefox-esr firefox-esr-l10n-de vlc chromium chromium-l10n
   $apt install libreoffice libreoffice-help-de libreoffice-l10n-de
   $apt install remmina dconf-editor imagemagick mesa-utils inxi
-  $apt install network-manager-openconnect-gnome openvpn
+  $apt install network-manager-openconnect-gnome openvpn mtr
 
   # Allow X11 apps over ssh to work:
   $apt install xauth
 
   # virtualization support:
   $apt install virtinst virt-manager spice-vdagent
-  $apt install libguestfs-tools mdadm-
+  $apt install libguestfs-tools
 
   $apt install meld
 
