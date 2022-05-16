@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=5.17.7
-KVERR=5.17.7
+KVER=5.17.8
+KVERR=5.17.8
 CDIR=linux-$KVERR
-RVER=5.17.6
+RVER=5.17.8
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 431b2c01a1103b63d026c3d8c7c286e4f4d9c918
+  git format-patch -o ../rpi-patches-$RVER 039120668dacf48247c0760b12e3eacd6d6b08a2
   cd ..
   rm -fr $RDIR
 fi
@@ -77,7 +77,7 @@ if ! test -d $CDIR ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.17.6-/5.17.7-/' $CDIR/debian/changelog
+sed -i -e '1 s/5.17.7-/5.17.8-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/objtool-check-give-big-enough-buffer-for-pv_ops.patch,,g' $CDIR/debian/patches/series
