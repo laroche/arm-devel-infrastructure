@@ -675,8 +675,6 @@ config_firewall()
 	#-A INPUT -i lxdbr0 -p udp -m udp --dport 53 -j ACCEPT
 	#-A INPUT -i lxdbr0 -p tcp -m tcp --dport 53 -j ACCEPT
 	-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
-EOM
-    cat <<-EOM
 	-A INPUT -m state --state INVALID -j DROP
 EOM
     for i in $1 ; do
