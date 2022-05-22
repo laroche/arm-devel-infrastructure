@@ -676,11 +676,6 @@ config_firewall()
 	#-A INPUT -i lxdbr0 -p tcp -m tcp --dport 53 -j ACCEPT
 	-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 EOM
-    if test "X$3" = "Xdebug" ; then
-      cat <<-EOM
-	-A INPUT -m state --state INVALID -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[INVALID-INPUT]:"
-EOM
-    fi
     cat <<-EOM
 	-A INPUT -m state --state INVALID -j DROP
 EOM
@@ -717,7 +712,6 @@ EOM
 	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[REJECT-FORWARD]:"
 	-A FORWARD -j REJECT --reject-with icmp-host-prohibited
 	-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
-	-A OUTPUT -m state --state INVALID -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[INVALID-OUTPUT]:"
 EOM
     fi
     cat <<-EOM
@@ -738,6 +732,7 @@ EOM
 	-A OUTPUT -p tcp -m tcp --dport 631 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 4460 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 5228 -j ACCEPT
+	-A OUTPUT -p tcp -m tcp --dport 8080 -j ACCEPT
 EOM
       fi
       if test "$DISTRO" = debian -a -f /etc/debian_version && grep -q '^11' /etc/debian_version ; then
@@ -750,7 +745,6 @@ EOM
 	-A OUTPUT -p tcp -m tcp --dport 80 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 443 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 3128 -j ACCEPT
-	-A OUTPUT -p tcp -m tcp --dport 8080 -j ACCEPT
 	-A OUTPUT -o lo -p icmp -j ACCEPT
 	-A OUTPUT -o lo -j ACCEPT
 	-A OUTPUT -p udp -m udp --dport 53 -j ACCEPT
@@ -776,13 +770,6 @@ EOM
 	:FORWARD DROP [0:0]
 	:OUTPUT ACCEPT [0:0]
 	-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
-EOM
-    if test "X$3" = "Xdebug" ; then
-      cat <<-EOM
-	-A INPUT -m state --state INVALID -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[INVALID-INPUT]:"
-EOM
-    fi
-    cat <<-EOM
 	-A INPUT -m state --state INVALID -j DROP
 EOM
     for i in $2 ; do
@@ -798,7 +785,6 @@ EOM
 	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[REJECT-FORWARD]:"
 	-A FORWARD -j REJECT --reject-with icmp6-adm-prohibited
 	-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
-	-A OUTPUT -m state --state INVALID -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[INVALID-OUTPUT]:"
 EOM
     fi
     cat <<-EOM
