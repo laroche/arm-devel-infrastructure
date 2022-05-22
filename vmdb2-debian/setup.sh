@@ -694,8 +694,11 @@ EOM
 	-A INPUT -d 224.0.0.0/8 -j ACCEPT
 	-A INPUT -p udp -m udp --dport 137:138 -j DROP
 	-A INPUT -p udp -m udp --dport 161 -j DROP
+	# Epson ENPC printer discovery: --dst-type BROADCAST
+	-A INPUT -d 255.255.255.255/32 -p udp -m udp --dport 3289 -j DROP
 	# 53805 AVM Mesh Discovery
 	-A INPUT -p udp -m udp --dport 53805 -j DROP
+	# Spotify Connect
 	-A INPUT -p udp -m udp --dport 57621 -j DROP
 	-A INPUT -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[REJECT-INPUT]:"
 EOM
