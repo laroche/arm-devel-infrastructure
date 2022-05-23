@@ -99,7 +99,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0413-drm-panel-raspberrypi-touchscreen-Avoid-NULL-deref-i.patch
+    rm -f bugfix/rpi/0692-clk-bcm2835-fix-bcm2835_clock_choose_div.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
