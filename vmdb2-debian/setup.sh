@@ -587,6 +587,7 @@ if test "$DEVELOPER" = 1 ; then
   # Note that binfmt-support is not installed within lxc guest systems:
   if test "X$SYSTYPE" = Xlxc ; then
     $apt install vmdb2 dosfstools qemu qemu-user-static make zip binfmt-support-
+    rm -f /lib/systemd/system/sysinit.target.wants/systemd-binfmt.service
   else
     $apt install vmdb2 dosfstools qemu qemu-user-static make zip
   fi
