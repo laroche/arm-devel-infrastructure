@@ -711,8 +711,7 @@ EOM
 EOM
     if test "X$3" = "Xdebug" ; then
       cat <<-EOM
-	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix  "[REJECT-FORWARD]:"
-	-A FORWARD -j REJECT --reject-with icmp-host-prohibited
+	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix  "[DROP-FORWARD]:"
 	-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 EOM
     fi
@@ -785,8 +784,7 @@ EOM
 EOM
     if test "X$3" = "Xdebug" ; then
       cat <<-EOM
-	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix  "[REJECT-FORWARD]:"
-	-A FORWARD -j REJECT --reject-with icmp6-adm-prohibited
+	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix  "[DROP-FORWARD]:"
 	-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 EOM
     fi
