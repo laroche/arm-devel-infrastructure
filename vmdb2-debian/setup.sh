@@ -701,7 +701,7 @@ EOM
 	-A INPUT -p udp -m udp --dport 53805 -j DROP
 	# Spotify Connect
 	-A INPUT -p udp -m udp --dport 57621 -j DROP
-	-A INPUT -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix  "[REJECT-INPUT]:"
+	-A INPUT -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[REJECT-INPUT]:"
 EOM
     fi
     cat <<-EOM
@@ -711,7 +711,7 @@ EOM
 EOM
     if test "X$3" = "Xdebug" ; then
       cat <<-EOM
-	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix  "[DROP-FORWARD]:"
+	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[DROP-FORWARD]:"
 	-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 EOM
     fi
@@ -751,7 +751,7 @@ EOM
 	-A OUTPUT -p udp -m udp --dport 53 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 53 -j ACCEPT
 	-A OUTPUT -p udp -m udp --sport 67 --dport 68 -j ACCEPT
-	-A OUTPUT -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix  "[UNKNOWN-OUTPUT]:"
+	-A OUTPUT -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[UNKNOWN-OUTPUT]:"
 EOM
     fi
     cat <<-EOM
@@ -784,7 +784,7 @@ EOM
 EOM
     if test "X$3" = "Xdebug" ; then
       cat <<-EOM
-	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix  "[DROP-FORWARD]:"
+	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[DROP-FORWARD]:"
 	-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 EOM
     fi
