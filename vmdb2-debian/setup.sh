@@ -689,9 +689,13 @@ EOM
     if test "X$3" = "Xdebug" ; then
       cat <<-EOM
 	-A INPUT -d 224.0.0.1/32 -j ACCEPT
-	#-A INPUT -d 224.0.0.251/32 -p udp -m udp --dport 5353 -j ACCEPT
-	-A INPUT -p udp -m udp --dport 3702 -j ACCEPT
-	-A INPUT -p udp -m udp --dport 5353 -j ACCEPT
+	# https://www.it-administrator.de/lexikon/ws-discovery.html
+	# https://zero.bs/new-ddos-attack-vector-via-ws-discoverysoapoverudp-port-3702.html
+	-A INPUT -p udp -m udp --dport 3702 -j DROP
+	# multicast mDNS for service discovery
+	-A INPUT -d 224.0.0.251/32 -p udp -m udp --dport 5353 -j ACCEPT
+	# multicast UPnP for service discovery
+	#-A INPUT -d 239.255.255.250/32 -p udp -m udp --dport 1900 -j ACCEPT
 	-A INPUT -d 224.0.0.0/8 -j ACCEPT
 	-A INPUT -p udp -m udp --dport 137:138 -j DROP
 	-A INPUT -p udp -m udp --dport 161 -j DROP
