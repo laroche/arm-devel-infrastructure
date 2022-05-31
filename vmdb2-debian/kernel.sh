@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=5.17.11
-KVERR=5.17.11
+KVER=5.17.12
+KVERR=5.17.12
 CDIR=linux-$KVERR
-RVER=5.17.9
+RVER=5.17.11
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 5c2fc53857eb993952e932da8222b11b063c2581
+  git format-patch -o ../rpi-patches-$RVER e960d734930b58bd6ce00c631ea117af0764473c
   cd ..
   rm -fr $RDIR
 fi
@@ -77,10 +77,10 @@ if ! test -d $CDIR ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.17.9-/5.17.11-/' $CDIR/debian/changelog
+sed -i -e '1 s/5.17.11-/5.17.12-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/all/objtool-check-give-big-enough-buffer-for-pv_ops.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/KVM-x86-mmu-fix-NULL-pointer-dereference-on-guest-IN.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
