@@ -688,14 +688,18 @@ EOM
 EOM
     if test "X$3" = "Xdebug" ; then
       cat <<-EOM
+	# https://en.wikipedia.org/wiki/Multicast_address
+	# all IP hosts
 	-A INPUT -d 224.0.0.1/32 -j ACCEPT
-	# https://www.it-administrator.de/lexikon/ws-discovery.html
-	# https://zero.bs/new-ddos-attack-vector-via-ws-discoverysoapoverudp-port-3702.html
-	-A INPUT -p udp -m udp --dport 3702 -j DROP
+	# https://en.wikipedia.org/wiki/Internet_Group_Management_Protocol
+	-A INPUT -d 224.0.0.22/32 -j ACCEPT
 	# multicast mDNS for service discovery
 	-A INPUT -d 224.0.0.251/32 -p udp -m udp --dport 5353 -j ACCEPT
-	# multicast UPnP for service discovery
-	#-A INPUT -d 239.255.255.250/32 -p udp -m udp --dport 1900 -j ACCEPT
+	# https://www.it-administrator.de/lexikon/ws-discovery.html
+	# https://zero.bs/new-ddos-attack-vector-via-ws-discoverysoapoverudp-port-3702.html
+	-A INPUT -d 239.255.255.250/32 -p udp -m udp --dport 3702 -j DROP
+	# https://en.wikipedia.org/wiki/Simple_Service_Discovery_Protocol
+	-A INPUT -d 239.255.255.250/32 -p udp -m udp --dport 1900 -j ACCEPT
 	-A INPUT -d 224.0.0.0/8 -j ACCEPT
 	-A INPUT -p udp -m udp --dport 137:138 -j DROP
 	-A INPUT -p udp -m udp --dport 161 -j DROP
@@ -725,14 +729,13 @@ EOM
     if test "X$3" = "Xdebug" ; then
       if test "X$SYSTYPE" != Xlxc ; then
       cat <<-EOM
+	-A OUTPUT -d 224.0.0.22/32 -j ACCEPT
 	-A OUTPUT -d 224.0.0.251/32 -p udp -m udp --dport 5353 -j ACCEPT
 	-A OUTPUT -d 239.255.255.250/32 -p udp -m udp --dport 1900 -j ACCEPT
-	-A OUTPUT -d 224.0.0.22/32 -j ACCEPT
 	# virt-inst new network checks:
 	-A OUTPUT -d 10.0.0.0/8 -p udp -m udp --dport 7 -j ACCEPT
 	-A OUTPUT -p udp -m udp --dport 123 -j ACCEPT
 	-A OUTPUT -p udp -m udp --dport 443 -j ACCEPT
-	-A OUTPUT -p udp -m udp --sport 3702 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 22 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 631 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 4460 -j ACCEPT
