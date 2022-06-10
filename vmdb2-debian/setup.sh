@@ -454,13 +454,15 @@ if test "$INSTALLGUI" = 1 ; then
   # Allow X11 apps over ssh to work:
   $apt install xauth
 
-  # virtualization support:
-  $apt install virtinst virt-manager spice-vdagent
-  $apt install libguestfs-tools
+  if test "$DEVELOPER" = 1 ; then
+    # virtualization support:
+    $apt install virtinst virt-manager spice-vdagent
+    $apt install libguestfs-tools
 
-  $apt install meld
+    $apt install meld
 
-  $apt install qemu-system-arm qemu-efi minicom
+    $apt install qemu-system-arm qemu-efi minicom
+  fi
 
   # Google chrome browser: (https://wiki.debian.org/DebianRepository/Unofficial)
   if test "$HOSTTYPE" = "x86_64" ; then
@@ -475,7 +477,7 @@ if test "$INSTALLGUI" = 1 ; then
   fi
 
   # Eclipse
-  if false && test "$DEVELOPER" = 1 -a "$HOSTTYPE" = "x86_64" ; then
+  if test "$DEVELOPER" = 1 -a "$HOSTTYPE" = "x86_64" ; then
     if ! test -e /usr/bin/eclipse ; then
       ECLIPSEVER=2022-03
       ECLIPSE=eclipse-cpp-${ECLIPSEVER}-R-linux-gtk-x86_64
