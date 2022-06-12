@@ -58,12 +58,43 @@ if test "X$UID" != "X0" ; then
   gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE/" default-size-columns 120
   gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE/" default-size-rows 40
   gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE/" use-theme-colors false
+  gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE/" background-color 'rgb(46,52,54)'
+  gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE/" foreground-color 'rgb(211,215,207)'
+  gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE/" font 'Monospace 14'
+  gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE/" use-system-font false
   # 30 min until we disable the screen
   gsettings set org.gnome.desktop.session idle-delay 1800
   # disable screen saver
   gsettings set org.gnome.desktop.screensaver lock-delay 0
+  # disable suspend
+  gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type nothing
   exit 0
 fi
+
+config_desktop() {
+  sudo -u $1 dbus-launch dconf load / <<-EOM
+[org/gnome/desktop/screensaver]
+lock-delay=uint32 0
+
+[org/gnome/desktop/session]
+idle-delay=uint32 1800
+
+[org/gnome/desktop/wm/keybindings]
+switch-applications=@as []
+switch-applications-backward=@as []
+switch-windows=['<Super>Tab', '<Alt>Tab']
+switch-windows-backward=['<Shift><Super>Tab', '<Shift><Alt>Tab']
+
+[org/gnome/desktop/wm/preferences]
+button-layout='appmenu:minimize,maximize,close'
+
+[org/gnome/settings-daemon/plugins/power]
+sleep-inactive-ac-type='nothing'
+
+[org/gnome/shell]
+favorite-apps=['org.gnome.Terminal.desktop', 'google-chrome.desktop', 'firefox-esr.desktop', 'code.desktop', 'libreoffice-writer.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Software.desktop', 'yelp.desktop']
+EOM
+}
 
 # check if we run as root
 if test "X$UID" != "X0" ; then
@@ -1024,6 +1055,12 @@ if test "X$DEMOSETUP" = X1 ; then
   if test "$DEVELOPER" = 1 ; then
     config_git_default
   fi
+  # Remove old Linux kernel:
+  if test -d /lib/modules/5.10.0-13-amd64 ; then
+    dpkg -P linux-image-5.10.0-13-amd64
+  fi
+  # Set new hostname:
+  #echo debian01 > /etc/hostname
 fi
 
 #config_swapfile
@@ -1045,6 +1082,7 @@ fi
 
 config_gdm
 #automatic_login $NEWUSER
+config_desktop $NEWUSER
 #config_git_default
 
 #config_squid
