@@ -17,7 +17,8 @@
 # - Set a new hostname in /etc/hostname.
 # - Add hostname to /etc/hosts if no DNS is available (otherwise sudo is too slow, though seems fixed now).
 # - If on a virtualized setup, maybe set screen size to 1600x900.
-# - Setup printers.
+# - Setup printers (duplex printing).
+# - Run "fstrim -a -v" if installed on a SSD via image/"dd".
 #
 
 # New user to setup:
@@ -1082,7 +1083,9 @@ fi
 
 config_gdm
 #automatic_login $NEWUSER
-config_desktop $NEWUSER
+if test "X$SYSTYPE" != Xlxc ; then
+  config_desktop $NEWUSER
+fi
 #config_git_default
 
 #config_squid
