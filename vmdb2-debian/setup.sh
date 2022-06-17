@@ -73,6 +73,7 @@ if test "X$UID" != "X0" ; then
 fi
 
 config_desktop() {
+  test -x /usr/bin/dbus-launch || return
   sudo -u $1 dbus-launch dconf load / <<-EOM
 [org/gnome/desktop/screensaver]
 lock-delay=uint32 0
