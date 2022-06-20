@@ -510,6 +510,13 @@ if test "$INSTALLGUI" = 1 ; then
     $apt install google-chrome-stable
   fi
 
+  # Image Viewer for Windows/MacOS/Linux:
+  if false && test "$HOSTTYPE" = "x86_64" ; then
+    wget -q https://download.xnview.com/XnViewMP-linux-x64.deb
+    $apt install ./XnViewMP-linux-x64.deb
+    rm -f XnViewMP-linux-x64.deb
+  fi
+
   # Eclipse
   if test "$DEVELOPER" = 1 -a "$HOSTTYPE" = "x86_64" ; then
     if ! test -e /usr/bin/eclipse ; then
