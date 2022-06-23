@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=5.18.2
-KVERR=5.18.2
+KVER=5.18.6
+KVERR=5.18.6
 CDIR=linux-$KVERR
-RVER=5.18.1
+RVER=5.18.2
 
 CROSS=0
 ARCH=
@@ -68,19 +68,19 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 0047d57e6c91177bb731bed5ada6c211868bc27c
+  git format-patch -o ../rpi-patches-$RVER 25405d5eecac69622a155752bb8b0e1ed5071e36
   cd ..
   rm -fr $RDIR
 fi
 
 if ! test -d $CDIR ; then
-  git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git $CDIR
+  git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.18.1-/5.18.2-/' $CDIR/debian/changelog
+sed -i -e '1 s/5.18.5-/5.18.6-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/x86/x86-fpu-KVM-Set-the-base-guest-FPU-uABI-size-to-size.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/block-loop-support-partitions-without-scanning.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
