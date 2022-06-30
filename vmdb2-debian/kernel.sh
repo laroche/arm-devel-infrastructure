@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=5.17.12
-KVERR=5.17.12
+KVER=5.19~rc4
+KVERR=5.19.0
 CDIR=linux-$KVERR
-RVER=5.17.11
+RVER=5.19.0
 
 CROSS=0
 ARCH=
@@ -60,32 +60,32 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   # Extract the raspberry-pi patches into a subdirectory:
   RDIR=rpi-linux-$RVER
   if test ! -d $RDIR ; then
-    git clone -b rpi-5.17.y https://github.com/raspberrypi/linux/ $RDIR
+    git clone -b rpi-5.19.y https://github.com/raspberrypi/linux/ $RDIR
     test -d $RDIR || exit 1
   else
     pushd $RDIR
-    git checkout rpi-5.17.y
+    git checkout rpi-5.19.y
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER e960d734930b58bd6ce00c631ea117af0764473c
+  git format-patch -o ../rpi-patches-$RVER 03c765b0e3b4cb5063276b086c76f7a612856a9a
   cd ..
   rm -fr $RDIR
 fi
 
 if ! test -d $CDIR ; then
-  git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
+  git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.17.11-/5.17.12-/' $CDIR/debian/changelog
+#sed -i -e '1 s/5.19.0-/5.19.0-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/x86/KVM-x86-mmu-fix-NULL-pointer-dereference-on-guest-IN.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/io_uring-reinstate-the-inflight-tracking.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
 cd $CDIR || exit 1
-test -f ../orig/linux_$KVER.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+test -f ../orig/linux_$KVER.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 # Just to safe disk space and have a faster compile:
 export DEBIAN_KERNEL_DISABLE_DEBUG=yes
 sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
@@ -99,16 +99,16 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0413-drm-panel-raspberrypi-touchscreen-Avoid-NULL-deref-i.patch
+    #rm -f bugfix/rpi/0692-clk-bcm2835-fix-bcm2835_clock_choose_div.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
   echo "CONFIG_RESET_RASPBERRY=y" >> debian/config/config
   echo "CONFIG_RESET_BRCMSTB_RESCAL=y" >> debian/config/config
   echo "CONFIG_NO_HZ_FULL=y" >> debian/config/featureset-rt/config
-  rm -f debian/abi/5.17.0-*/arm*
+  rm -f debian/abi/5.19.0-*/arm*
 fi
-rm -fr debian/abi/5.17.0-*
+rm -fr debian/abi/5.19.0-*
 
 if test $CROSS = 0 ; then
 
