@@ -52,7 +52,7 @@ if test "X$UID" != "X0" ; then
   # add min/max to title:
   gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
   # list of favorites on the gnome desktop
-  gsettings set org.gnome.shell favorite-apps "['org.gnome.Terminal.desktop', 'google-chrome.desktop', 'firefox-esr.desktop', 'code.desktop', 'libreoffice-writer.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Software.desktop', 'yelp.desktop']"
+  gsettings set org.gnome.shell favorite-apps "['org.gnome.Terminal.desktop', 'google-chrome.desktop', 'firefox-esr.desktop', 'code.desktop', 'libreoffice-writer.desktop', 'xsane.desktop', 'XnView.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Software.desktop', 'yelp.desktop']"
   # Set gnome-terminal to 120x40 and dark color:
   PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default)
   PROFILE=${PROFILE:1:-1} # remove leading and trailing single quotes
