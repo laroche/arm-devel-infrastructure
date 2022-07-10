@@ -746,6 +746,10 @@ EOM
 	-A INPUT -d 224.0.0.0/8 -j ACCEPT
 	-A INPUT -p udp -m udp --dport 137:138 -j DROP
 	-A INPUT -p udp -m udp --dport 161 -j DROP
+	# https://gitlab.com/sane-project/backends/-/issues/130 and https://bugs.freedesktop.org/show_bug.cgi?id=104465
+	-A INPUT -p udp -m udp --dport 1124 -j DROP
+	# https://wiki.debian.org/SaneOverNetwork
+	-A INPUT -p udp -m udp --dport 8610:8612 -j DROP
 	# Epson ENPC printer discovery: --dst-type BROADCAST
 	-A INPUT -d 255.255.255.255/32 -p udp -m udp --dport 3289 -j DROP
 	# 53805 AVM Mesh Discovery
