@@ -1047,6 +1047,11 @@ config_squid()
 EOM
 }
 
+clean_system() {
+  dd if=/dev/zero of=/ZERO || rm -f /ZERO # zero unused filesystem
+  rm -f /etc/ssh/ssh_host_*_key*
+}
+
 if test "X$SYSTYPE" = Xlxc ; then
   if test -e /lib/systemd/system/sockets.target.wants/systemd-journald-audit.socket ; then
     systemctl mask systemd-journald-audit.socket
@@ -1105,8 +1110,7 @@ $apt update
 
 # If this should again be used as a generic image, we remove
 # ssh keys and write zeroes into unsued filesystem space:
-if false && test $FIRSTRUN = 1 ; then
-  dd if=/dev/zero of=/ZERO || rm -f /ZERO # zero unused filesystem
-  rm -f /etc/ssh/ssh_host_*_key*
+if test "X$DEMOSETUP" = X1 -a $FIRSTRUN = 1 ; then
+  clean_system
 fi
 
