@@ -76,6 +76,7 @@ fi
 if ! test -d $CDIR ; then
   git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
+sed -i -e '/call if_package, rtla/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
 #sed -i -e '1 s/5.19.0-/5.19.0-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog

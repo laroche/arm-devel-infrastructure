@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=5.18.12
-KVERR=5.18.12
+KVER=5.18.13
+KVERR=5.18.13
 CDIR=linux-$KVERR
-RVER=5.18.10
+RVER=5.18.12
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER bc560cecaa8b2517932808fa939e36371ffa036e
+  git format-patch -o ../rpi-patches-$RVER c2e9702659dfc309dfda6116da48f200fe425aab
   cd ..
   rm -fr $RDIR
 fi
@@ -77,7 +77,7 @@ if ! test -d $CDIR ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.18.8-/5.18.12-/' $CDIR/debian/changelog
+sed -i -e '1 s/5.18.8-/5.18.13-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e 's,^bugfix/all/io_uring-reinstate-the-inflight-tracking.patch,,g' $CDIR/debian/patches/series
