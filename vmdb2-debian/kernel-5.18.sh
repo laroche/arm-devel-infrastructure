@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=5.18.13
-KVERR=5.18.13
+KVER=5.18.14
+KVERR=5.18.14
 CDIR=linux-$KVERR
 RVER=5.18.12
 
@@ -77,7 +77,7 @@ if ! test -d $CDIR ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.18.8-/5.18.13-/' $CDIR/debian/changelog
+#sed -i -e '1 s/5.18.12-/5.18.14-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e 's,^bugfix/all/io_uring-reinstate-the-inflight-tracking.patch,,g' $CDIR/debian/patches/series
@@ -99,7 +99,9 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0692-clk-bcm2835-fix-bcm2835_clock_choose_div.patch
+    rm -f bugfix/rpi/0137*.patch
+    rm -f bugfix/rpi/0138*.patch
+    rm -f bugfix/rpi/0426*.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
