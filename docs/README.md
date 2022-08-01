@@ -12,6 +12,10 @@ there are extra images for [Raspberry-Pi](https://www.raspberrypi.org/).
 
 Disk images can be downloaded from [https://github.com/laroche/arm-devel-infrastructure/releases](https://github.com/laroche/arm-devel-infrastructure/releases)
 
+A fairly generic desktop image is also available from
+[here](https://drive.google.com/file/d/1DyV9IfeaVoIdlGsouYNVLAzxjr3jtuE_/view?usp=sharing).
+Please test this out on as much as possible hardware and provide feedback to Debian on hardware enablement/support.
+
 Official github repository is [https://github.com/laroche/arm-devel-infrastructure](https://github.com/laroche/arm-devel-infrastructure)
 
 Documentation is available at [https://laroche.github.io/arm-devel-infrastructure](https://laroche.github.io/arm-devel-infrastructure)
