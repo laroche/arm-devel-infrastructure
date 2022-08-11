@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=5.19.0
-KVERR=5.19.0
+KVER=5.19.1
+KVERR=5.19.1
 CDIR=linux-$KVERR
 RVER=5.19.0
 
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER ff6992735ade75aae3e35d16b17da1008d753d28
+  git format-patch -o ../rpi-patches-$RVER 3d7cb6b04c3f3115719235cc6866b10326de34cd
   cd ..
   rm -fr $RDIR
 fi
@@ -78,7 +78,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/5.19~rc8-/5.19.0-/' $CDIR/debian/changelog
+sed -i -e '1 s/5.19~rc8-/5.19.1-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/io_uring-reinstate-the-inflight-tracking.patch,,g' $CDIR/debian/patches/series

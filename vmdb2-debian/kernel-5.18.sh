@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=5.18.16
-KVERR=5.18.16
+KVER=5.18.17
+KVERR=5.18.17
 CDIR=linux-$KVERR
-RVER=5.18.12
+RVER=5.18.15
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER c2e9702659dfc309dfda6116da48f200fe425aab
+  git format-patch -o ../rpi-patches-$RVER 3740a5da82ebec7a6d8f3a6deea77b8129c8c2ee
   cd ..
   rm -fr $RDIR
 fi
@@ -77,10 +77,13 @@ if ! test -d $CDIR ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.18.14-/5.18.16-/' $CDIR/debian/changelog
+sed -i -e '1 s/5.18.16-/5.18.17-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/all/io_uring-reinstate-the-inflight-tracking.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/x86-speculation-make-all-retbleed-mitigations-depend.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/pbrsb/0001-x86-speculation-Add-RSB-VM-Exit-protections.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/pbrsb/0002-x86-speculation-Add-LFENCE-to-RSB-fill-sequence.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/io_uring-reinstate-the-inflight-tracking.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
