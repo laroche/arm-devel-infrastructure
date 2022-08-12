@@ -81,7 +81,7 @@ sed -i -e '1 s/5.10.135/5.10.136/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/bullseye/UNRELEASED/' linux-5/debian/changelog
-#sed -i -e 's,^bugfix/all/sctp-fix-the-processing-for-init-chunk.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/x86/x86-speculation-make-all-retbleed-mitigations-64-bit-only.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0114-tcp-Remove-superfluous-BH-disable-around-listening_h.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
