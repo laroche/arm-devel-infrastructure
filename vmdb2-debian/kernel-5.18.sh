@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=5.18.17
-KVERR=5.18.17
+KVER=5.18.18
+KVERR=5.18.18
 CDIR=linux-$KVERR
 RVER=5.18.15
 
@@ -77,9 +77,14 @@ if ! test -d $CDIR ; then
   git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.18.16-/5.18.17-/' $CDIR/debian/changelog
+sed -i -e '1 s/5.18.16-/5.18.18-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
+sed -i -e 's,^bugfix/all/net_sched-cls_route-remove-from-list-when-handle-is-.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/netfilter-nf_tables-do-not-allow-RULE_ID-to-refer-to.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/netfilter-nf_tables-do-not-allow-CHAIN_ID-to-refer-t.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/netfilter-nf_tables-do-not-allow-SET_ID-to-refer-to-.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/posix-cpu-timers-Cleanup-CPU-timers-before-freeing-t.patch,,g' $CDIR/debian/patches/series
 sed -i -e 's,^bugfix/x86/x86-speculation-make-all-retbleed-mitigations-depend.patch,,g' $CDIR/debian/patches/series
 sed -i -e 's,^bugfix/x86/pbrsb/0001-x86-speculation-Add-RSB-VM-Exit-protections.patch,,g' $CDIR/debian/patches/series
 sed -i -e 's,^bugfix/x86/pbrsb/0002-x86-speculation-Add-LFENCE-to-RSB-fill-sequence.patch,,g' $CDIR/debian/patches/series
