@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.140
+KVER=5.10.141
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -77,11 +77,17 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b 5.10-stable-updates https://salsa.debian.org/carnil/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.10.140/5.10.140/' linux-5/debian/changelog
+sed -i -e '1 s/5.10.140/5.10.141/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/bullseye/UNRELEASED/' linux-5/debian/changelog
-sed -i -e 's,^bugfix/x86/x86-speculation-make-all-retbleed-mitigations-64-bit-only.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/x86/x86-nospec-Unwreck-the-RSB-stuffing.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/x86/x86-nospec-Fix-i386-RSB-stuffing.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/revert-pci-portdrv-don-t-disable-aer-reporting-in-get_port_device_capability.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/bpf-don-t-redirect-packets-with-invalid-pkt_len.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/net-af_packet-check-len-when-min_header_len-equals-to-0.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/mm-rmap-fix-anon_vma-degree-ambiguity-leading-to-double-reuse.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/mm-force-tlb-flush-for-pfnmap-mappings-before-unlink_file_vma.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0114-tcp-Remove-superfluous-BH-disable-around-listening_h.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules

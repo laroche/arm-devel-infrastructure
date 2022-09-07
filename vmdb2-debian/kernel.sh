@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=5.19.6
-KVERR=5.19.6
+KVER=5.19.7
+KVERR=5.19.7
 CDIR=linux-$KVERR
-RVER=5.19.5
+RVER=5.19.7
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 1916ff079c77dc38275493cc18e22fe18532fb0f
+  git format-patch -o ../rpi-patches-$RVER 7d0a458e1963128ee5a85bf0584bea5e75149946
   cd ..
   rm -fr $RDIR
 fi
@@ -78,7 +78,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/5.19.6-/5.19.6-/' $CDIR/debian/changelog
+sed -i -e '1 s/5.19.6-/5.19.7-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^debian/export-symbols-needed-by-android-drivers.patch,,g' $CDIR/debian/patches/series
