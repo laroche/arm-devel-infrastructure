@@ -49,6 +49,7 @@ if ! test -f "$DISK" ; then
   fi
   virt-install --os-variant debian11 --name "$TARGET" --memory 4096 --cpu host --vcpus 4 --boot hd --disk "$DISK" --import
   #virt-install --os-variant debian11 --name "$TARGET" --memory 4096 --cpu host --vcpus 4 --boot hd,uefi --disk "$DISK" --import
+  #sudo rm -fr /var/tmp/.guestfs-*
 fi
 
 # virsh list --all
