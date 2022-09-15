@@ -47,8 +47,8 @@ if ! test -f "$DISK" ; then
   if test -f linux-image-5.2.0-2-amd64-unsigned_5.2.7-1_amd64.deb ; then
     virt-copy-in -a "$DISK" linux-image-5.2.0-2-amd64-unsigned_5.2.7-1_amd64.deb /root/
   fi
-  virt-install --os-variant debian11 --name "$TARGET" --memory 4096 --cpu host --vcpus 4 --boot hd --disk "$DISK"
-  #virt-install --os-variant debian11 --name "$TARGET" --memory 4096 --cpu host --vcpus 4 --boot hd,uefi --disk "$DISK"
+  virt-install --os-variant debian11 --name "$TARGET" --memory 4096 --cpu host --vcpus 4 --boot hd --disk "$DISK" --import
+  #virt-install --os-variant debian11 --name "$TARGET" --memory 4096 --cpu host --vcpus 4 --boot hd,uefi --disk "$DISK" --import
 fi
 
 # virsh list --all
