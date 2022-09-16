@@ -7,6 +7,8 @@
 RDATE="20220916"
 # Select either "stable", "testing" or "unstable":
 TYPE="testing"
+# Should we package the image up?
+ZIP=0
 
 # This is the name of the new system as well as the name of the hard disk for it:
 if test "X$1" != "X" ; then
@@ -50,6 +52,14 @@ if ! test -f "$DISK" ; then
   virt-install --os-variant debian11 --name "$TARGET" --memory 4096 --cpu host --vcpus 4 --boot hd --disk "$DISK" --import
   #virt-install --os-variant debian11 --name "$TARGET" --memory 4096 --cpu host --vcpus 4 --boot hd,uefi --disk "$DISK" --import
   #sudo rm -fr /var/tmp/.guestfs-*
+fi
+
+if test $ZIP = 1 && ! test -f debian-11-desktop-amd64.zip && ! test -d debian-11-desktop-amd64 ; then
+  mkdir -p debian-11-desktop-amd64
+  cp setup.sh install.sh debian-11-desktop-amd64
+  qemu-img convert -O raw debian01.qcow2 debian-11-desktop-amd64/debian-11-desktop-amd64.img
+  zip -r debian-11-desktop-amd64.zip debian-11-desktop-amd64
+  rm -fr debian-11-desktop-amd64
 fi
 
 # virsh list --all
