@@ -9,6 +9,12 @@ RDATE="20220916"
 TYPE="testing"
 # Should we package the image up?
 ZIP=0
+EFI=0
+if test $EFI = 0 ; then
+  IMG=debian-amd64.img
+else
+  IMG=debian-amd64-efi.img
+fi
 
 # This is the name of the new system as well as the name of the hard disk for it:
 if test "X$1" != "X" ; then
@@ -32,7 +38,7 @@ fi
 
 if ! test -f "$DISK" ; then
   # Convert the plain/raw image file into qcow2 format:
-  qemu-img convert -O qcow2 debian-amd64.img "$DISK"
+  qemu-img convert -O qcow2 $IMG "$DISK"
   # Extend the size a lot:
   qemu-img resize "$DISK" +18G
   # Create a snapshot/backup so you can always revert back to this state:
@@ -41,25 +47,36 @@ if ! test -f "$DISK" ; then
   # If a locally modified setup.sh and a new kernel exist, copy those into the new image:
   if test -f setup.sh ; then
     #virt-ls -l -a "$DISK" /
-    virt-copy-in -a "$DISK" setup.sh /root/
-    #virt-copy-in -a "$DISK" -m /dev/sda2:/ setup.sh /root/
+    if test $EFI = 0 ; then
+      virt-copy-in -a "$DISK" setup.sh /root/
+    else
+      virt-copy-in -a "$DISK" -m /dev/sda2:/ setup.sh /root/
+    fi
   fi
   # If you later on want to use virt-copy and the command does not recognize the
   # correct root partition, you might have to add this param: -m /dev/sda1
   if test -f linux-image-5.2.0-2-amd64-unsigned_5.2.7-1_amd64.deb ; then
     virt-copy-in -a "$DISK" linux-image-5.2.0-2-amd64-unsigned_5.2.7-1_amd64.deb /root/
   fi
-  virt-install --os-variant debian11 --name "$TARGET" --memory 4096 --cpu host --vcpus 4 --boot hd --disk "$DISK" --import
-  #virt-install --os-variant debian11 --name "$TARGET" --memory 4096 --cpu host --vcpus 4 --boot hd,uefi --disk "$DISK" --import
+  if test $EFI = 0 ; then
+    virt-install --os-variant debian11 --name "$TARGET" --memory 8192 --cpu host --vcpus 4 --boot hd --disk "$DISK" --import
+  else
+    virt-install --os-variant debian11 --name "$TARGET" --memory 8192 --cpu host --vcpus 4 --boot hd,uefi --disk "$DISK" --import
+  fi
   #sudo rm -fr /var/tmp/.guestfs-*
 fi
 
-if test $ZIP = 1 && ! test -f debian-11-desktop-amd64.zip && ! test -d debian-11-desktop-amd64 ; then
-  mkdir -p debian-11-desktop-amd64
-  cp setup.sh install.sh debian-11-desktop-amd64
-  qemu-img convert -O raw debian01.qcow2 debian-11-desktop-amd64/debian-11-desktop-amd64.img
-  zip -r debian-11-desktop-amd64.zip debian-11-desktop-amd64
-  rm -fr debian-11-desktop-amd64
+if test $EFI = 0 ; then
+  OUT=debian-11-desktop-amd64
+else
+  OUT=debian-11-desktop-amd64-efi
+fi
+if test $ZIP = 1 && ! test -f $OUT.zip && ! test -d $OUT ; then
+  mkdir -p $OUT
+  cp setup.sh install.sh $OUT
+  qemu-img convert -O raw debian01.qcow2 $OUT/$OUT.img
+  zip -r $OUT.zip $OUT
+  rm -fr $OUT
 fi
 
 # virsh list --all
