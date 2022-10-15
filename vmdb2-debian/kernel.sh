@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=5.19.15
-KVERR=5.19.15
+KVER=5.19.16
+KVERR=5.19.16
 CDIR=linux-$KVERR
 RVER=5.19.11
 
@@ -78,7 +78,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/5.19.11-/5.19.15-/' $CDIR/debian/changelog
+sed -i -e '1 s/5.19.11-/5.19.16-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^debian/export-symbols-needed-by-android-drivers.patch,,g' $CDIR/debian/patches/series
