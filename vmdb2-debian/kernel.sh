@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.0.6
-KVERR=6.0.6
+KVER=6.0.7
+KVERR=6.0.7
 CDIR=linux-$KVERR
-RVER=6.0.5
+RVER=6.0.6
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 3829606fc5dffeccdf80aebeed3aa75255257f35
+  git format-patch -o ../rpi-patches-$RVER e90fbe65c6b31ed48a6f13c232b0ca26688218d5
   cd ..
   rm -fr $RDIR
 fi
@@ -78,7 +78,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.0.5-/6.0.6-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.0.6-/6.0.7-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^debian/export-symbols-needed-by-android-drivers.patch,,g' $CDIR/debian/patches/series
@@ -100,7 +100,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0516-drm-vc4-Add-module-dependency-on-hdmi-codec.patch
+    #rm -f bugfix/rpi/0516-drm-vc4-Add-module-dependency-on-hdmi-codec.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
