@@ -244,6 +244,7 @@ if test -b $DISK -a -b ${DISK}1 && ! test -b ${DISK}2 ; then
   resize2fs ${DISK}1
 fi
 if test -b $DISK -a -b ${DISK}2 && ! test -b ${DISK}3 ; then
+  parted -l  # fix gpt end of disk data
   # Automated resizing does not work with parted, you need
   # to execute this manually:
   echo "parted -s -- $DISK resizepart 2 100%"
