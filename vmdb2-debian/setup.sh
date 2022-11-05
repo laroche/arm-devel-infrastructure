@@ -338,21 +338,21 @@ if test $FIRSTRUN = 1 ; then
   if test $DISTRO = debian ; then
   if test $testing = 1 ; then
       cat > /etc/apt/sources.list <<-EOM
-	deb http://deb.debian.org/debian/ testing main contrib non-free
-	deb-src http://deb.debian.org/debian/ testing main contrib non-free
+	deb http://deb.debian.org/debian/ testing main contrib non-free-firmware non-free
+	deb-src http://deb.debian.org/debian/ testing main contrib non-free-firmware non-free
 
-	#deb http://deb.debian.org/debian/ testing-updates main contrib non-free
-	#deb-src http://deb.debian.org/debian/ testing-updates main contrib non-free
+	#deb http://deb.debian.org/debian/ testing-updates main contrib non-free-firmware non-free
+	#deb-src http://deb.debian.org/debian/ testing-updates main contrib non-free-firmware non-free
 
-	#deb http://deb.debian.org/debian-security testing-security main contrib non-free
-	#deb-src http://deb.debian.org/debian-security testing-security main contrib non-free
+	#deb http://deb.debian.org/debian-security testing-security main contrib non-free-firmware non-free
+	#deb-src http://deb.debian.org/debian-security testing-security main contrib non-free-firmware non-free
 
-	#deb http://security.debian.org testing-security main contrib non-free
+	#deb http://security.debian.org testing-security main contrib non-free-firmware non-free
 EOM
   elif test $unstable = 1 ; then
       cat > /etc/apt/sources.list <<-EOM
-	deb http://deb.debian.org/debian/ unstable main contrib non-free
-	deb-src http://deb.debian.org/debian/ unstable main contrib non-free
+	deb http://deb.debian.org/debian/ unstable main contrib non-free-firmware non-free
+	deb-src http://deb.debian.org/debian/ unstable main contrib non-free-firmware non-free
 EOM
   elif test -f /etc/debian_version && grep -q '^10' /etc/debian_version ; then
       cat > /etc/apt/sources.list <<-EOM
@@ -385,8 +385,8 @@ EOM
   fi
   # Keep experimental commented out:
       cat > /etc/apt/sources.list.d/experimental.list <<-EOM
-	#deb http://deb.debian.org/debian/ experimental main contrib non-free
-	#deb-src http://deb.debian.org/debian/ experimental main contrib non-free
+	#deb http://deb.debian.org/debian/ experimental main contrib non-free-firmware non-free
+	#deb-src http://deb.debian.org/debian/ experimental main contrib non-free-firmware non-free
 EOM
   fi
   config_timezone

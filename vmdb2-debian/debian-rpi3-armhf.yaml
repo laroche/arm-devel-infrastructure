@@ -44,6 +44,7 @@ steps:
     components:
     - main
     - contrib
+    #- non-free-firmware
     - non-free
     unless: rootfs_unpacked
 
@@ -98,7 +99,9 @@ steps:
     - wpasupplicant
     # raspberry pi:
     - firmware-brcm80211
-    - raspi3-firmware
+    - firmware-misc-nonfree
+    - bluez-firmware
+    - raspi-firmware
     - linux-image-armmp
     #- linux-image-rt-armmp
     tag: rootfs
@@ -134,19 +137,19 @@ steps:
       rm -f ${ROOT?}/etc/iptables/rules.v4 ${ROOT?}/etc/iptables/rules.v6
 
       if grep -q testing ${ROOT?}/etc/apt/sources.list ; then
-        echo "deb http://deb.debian.org/debian/ testing main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
-        echo "deb-src http://deb.debian.org/debian/ testing main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb http://deb.debian.org/debian/ testing main contrib non-free-firmware non-free" > "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ testing main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
         echo >> ${ROOT?}/etc/apt/sources.list
-        echo "#deb http://deb.debian.org/debian/ testing-updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
-        echo "#deb-src http://deb.debian.org/debian/ testing-updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "#deb http://deb.debian.org/debian/ testing-updates main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "#deb-src http://deb.debian.org/debian/ testing-updates main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
         echo >> ${ROOT?}/etc/apt/sources.list
-        echo "#deb http://deb.debian.org/debian-security testing-security main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
-        echo "#deb-src http://deb.debian.org/debian-security testing-security main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "#deb http://deb.debian.org/debian-security testing-security main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "#deb-src http://deb.debian.org/debian-security testing-security main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
         echo >> ${ROOT?}/etc/apt/sources.list
-        echo "#deb http://security.debian.org testing-security main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "#deb http://security.debian.org testing-security main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
       elif grep -q unstable ${ROOT?}/etc/apt/sources.list ; then
-        echo "deb http://deb.debian.org/debian/ unstable main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
-        echo "deb-src http://deb.debian.org/debian/ unstable main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb http://deb.debian.org/debian/ unstable main contrib non-free-firmware non-free" > "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ unstable main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
       else
         echo "deb http://deb.debian.org/debian/ bullseye main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
         echo "deb-src http://deb.debian.org/debian/ bullseye main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
@@ -162,8 +165,8 @@ steps:
       fi
 
       # Keep experimental commented out:
-      echo "#deb http://deb.debian.org/debian/ experimental main contrib non-free" > "${ROOT?}/etc/apt/sources.list.d/experimental.list"
-      echo "#deb-src http://deb.debian.org/debian/ experimental main contrib non-free" >> "${ROOT?}/etc/apt/sources.list.d/experimental.list"
+      echo "#deb http://deb.debian.org/debian/ experimental main contrib non-free-firmware non-free" > "${ROOT?}/etc/apt/sources.list.d/experimental.list"
+      echo "#deb-src http://deb.debian.org/debian/ experimental main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list.d/experimental.list"
 
       install -m 644 -o root -g root ssh-generate-host-keys.service "${ROOT?}/etc/systemd/system"
       mkdir -p "${ROOT?}/etc/systemd/system/multi-user.target.requires/"
@@ -173,7 +176,7 @@ steps:
       echo "do_symlinks = 0" > "${ROOT?}/etc/kernel-img.conf"
       rm -f ${ROOT?}/vmlinuz ${ROOT?}/vmlinuz.old ${ROOT?}/initrd.img ${ROOT?}/initrd.img.old
 
-      rm -f ${ROOT?}/usr/lib/raspi3-firmware/kernel*.img ${ROOT?}/boot/firmware/kernel*.img
+      rm -f ${ROOT?}/boot/firmware/kernel*.img
 
       test -f ${ROOT?}/etc/initramfs-tools/initramfs.conf && \
         sed -i -e 's/^COMPRESS=.*/COMPRESS=lz4/g' ${ROOT?}/etc/initramfs-tools/initramfs.conf
@@ -237,8 +240,6 @@ steps:
 
       test -f /boot/firmware/cmdline.txt && \
         sed -i -e 's/.dev.mmcblk0p2/LABEL=DEBROOT/g' /boot/firmware/cmdline.txt
-      test -f /etc/default/raspi3-firmware && \
-        sed -i -e 's,^#ROOTPART=/dev/mmcblk0p2$,ROOTPART="LABEL=DEBROOT",g' /etc/default/raspi3-firmware
       test -f /etc/default/raspi-firmware && \
         sed -i -e 's,^#ROOTPART=/dev/mmcblk0p2$,ROOTPART="LABEL=DEBROOT",g' /etc/default/raspi-firmware
 
