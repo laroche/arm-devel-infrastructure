@@ -13,7 +13,7 @@ there are extra images for [Raspberry-Pi](https://www.raspberrypi.org/).
 Disk images can be downloaded from [https://github.com/laroche/arm-devel-infrastructure/releases](https://github.com/laroche/arm-devel-infrastructure/releases)
 
 A fairly generic x86_64/amd64 desktop image is also available from
-[here](https://drive.google.com/file/d/1DyV9IfeaVoIdlGsouYNVLAzxjr3jtuE_/view?usp=sharing)
+[here](https://drive.google.com/file/d/1JfyKxd_X1RSg0jI7p6XFXRO1-dIXwrZX/view?usp=sharing)
 and as UEFI-image
 [here](https://drive.google.com/file/d/1F3UicklztS9bVhxdNvqjM_IYyYyVkDQP/view?usp=sharing).
 Please test this out on as much as possible hardware and provide feedback to Debian on hardware enablement/support.
