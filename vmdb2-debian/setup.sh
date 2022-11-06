@@ -624,7 +624,7 @@ if test "$DEVELOPER" = 1 ; then
 $apt install build-essential gcc-doc autoconf libtool libtool-bin pkg-config bison flex git libacl1-dev libssl-dev
 $apt install gawk bc make git-email ccache indent gperf exuberant-ctags patchutils info
 #$apt install perl clang golang codespell
-#$apt install python pylint pyflakes3 pycodestyle flake8
+#$apt install python python3-pip pylint pyflakes3 pycodestyle flake8
 #$apt install subversion git-svn
 #$apt install openjdk-8-jdk cmake
 #$apt install gcc-arm-none-eabi g++-aarch64-linux-gnu g++-arm-linux-gnueabihf
