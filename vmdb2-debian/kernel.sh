@@ -22,7 +22,7 @@ fi
 KVER=6.0.7
 KVERR=6.0.7
 CDIR=linux-$KVERR
-RVER=6.0.6
+RVER=6.0.7
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER e90fbe65c6b31ed48a6f13c232b0ca26688218d5
+  git format-patch -o ../rpi-patches-$RVER 3a2fa3c01fc7c2183eb3278bd912e5bcec20eb2a
   cd ..
   rm -fr $RDIR
 fi
@@ -81,7 +81,7 @@ sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 sed -i -e '1 s/6.0.6-/6.0.7-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^debian/export-symbols-needed-by-android-drivers.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/rpi/0001-platform-x86-amd-pmc-remove-CONFIG_DEBUG_FS-checks.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -100,7 +100,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0516-drm-vc4-Add-module-dependency-on-hdmi-codec.patch
+    #rm -f bugfix/rpi/0001-platform-x86-amd-pmc-remove-CONFIG_DEBUG_FS-checks.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
