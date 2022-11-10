@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.0.7
-KVERR=6.0.7
+KVER=6.0.8
+KVERR=6.0.8
 CDIR=linux-$KVERR
 RVER=6.0.7
 
@@ -78,7 +78,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.0.6-/6.0.7-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.0.7-/6.0.8-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/rpi/0001-platform-x86-amd-pmc-remove-CONFIG_DEBUG_FS-checks.patch,,g' $CDIR/debian/patches/series
