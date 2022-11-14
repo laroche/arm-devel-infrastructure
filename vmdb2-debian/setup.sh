@@ -896,6 +896,10 @@ config_lxd()
       lxd init --auto --storage-backend=btrfs --storage-pool="$1"
     fi
   fi
+  PUBKEY=""
+  if test -f /home/$NEWUSER/.ssh/id_ed25519.pub ; then
+    PUBKEY="`cat /home/$NEWUSER/.ssh/id_ed25519.pub`"
+  fi
   CLOUDINIT="""user.user-data=#cloud-config
 write_files:
 - content: |
@@ -932,7 +936,7 @@ timezone: Europe/Berlin
 disable_root: false
 users: ""
 ssh_authorized_keys:
-  - ssh-rsa xxxx user
+  - $PUBKEY
 """
   lxc profile set default "$CLOUDINIT"
   #lxc profile device add default root disk path=/ pool=default
@@ -1071,7 +1075,11 @@ if test "X$DEMOSETUP" = X1 ; then
   systemctl disable ssh.service
   if test "$DEVELOPER" = 1 ; then
     config_firewall "" "" debug
+    if ! test -f /home/$NEWUSER/.ssh/id_ed25519.pub ; then
+      su - $NEWUSER -c "ssh-keygen -q -t ed25519 -N '' -f /home/$NEWUSER/.ssh/id_ed25519"
+    fi
     config_lxd
+    config_lxd_example
   else
     config_firewall "" ""
   fi
