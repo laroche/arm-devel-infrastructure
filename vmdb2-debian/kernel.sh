@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.0.8
-KVERR=6.0.8
+KVER=6.0.9
+KVERR=6.0.9
 CDIR=linux-$KVERR
-RVER=6.0.7
+RVER=6.0.8
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 3a2fa3c01fc7c2183eb3278bd912e5bcec20eb2a
+  git format-patch -o ../rpi-patches-$RVER e60276b8c11ab4a8be23807bc67b048cfb937dfA
   cd ..
   rm -fr $RDIR
 fi
@@ -78,7 +78,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.0.7-/6.0.8-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.0.8-/6.0.9-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/rpi/0001-platform-x86-amd-pmc-remove-CONFIG_DEBUG_FS-checks.patch,,g' $CDIR/debian/patches/series
@@ -100,7 +100,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0001-platform-x86-amd-pmc-remove-CONFIG_DEBUG_FS-checks.patch
+    rm -f bugfix/rpi/0592-Revert-drm-vc4-hdmi-Enforce-the-minimum-rate-at-runt.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
