@@ -85,5 +85,6 @@ fi
 # virsh stop $TARGET
 # virsh destroy $TARGET
 # virsh undefine --nvram $TARGET
+# rm -f $TARGET.qcow2
 
 # qemu-img convert -O raw debian01.qcow2 debian01.img

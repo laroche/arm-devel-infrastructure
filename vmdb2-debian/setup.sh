@@ -745,7 +745,7 @@ EOM
 	# https://en.wikipedia.org/wiki/Internet_Group_Management_Protocol
 	-A INPUT -d 224.0.0.22/32 -j ACCEPT
 	# multicast mDNS for service discovery
-	-A INPUT -d 224.0.0.251/32 -p udp -m udp --dport 5353 -j ACCEPT
+	-A INPUT -d 224.0.0.251/32 -j ACCEPT
 	# https://www.it-administrator.de/lexikon/ws-discovery.html
 	# https://zero.bs/new-ddos-attack-vector-via-ws-discoverysoapoverudp-port-3702.html
 	-A INPUT -d 239.255.255.250/32 -p udp -m udp --dport 3702 -j DROP
@@ -785,7 +785,7 @@ EOM
       if test "X$SYSTYPE" != Xlxc ; then
       cat <<-EOM
 	-A OUTPUT -d 224.0.0.22/32 -j ACCEPT
-	-A OUTPUT -d 224.0.0.251/32 -p udp -m udp --dport 5353 -j ACCEPT
+	-A OUTPUT -d 224.0.0.251/32 -j ACCEPT
 	-A OUTPUT -d 239.255.255.250/32 -p udp -m udp --dport 1900 -j ACCEPT
 	# virt-inst new network checks:
 	-A OUTPUT -d 10.0.0.0/8 -p udp -m udp --dport 7 -j ACCEPT
