@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.0.9
-KVERR=6.0.9
+KVER=6.0.10
+KVERR=6.0.10
 CDIR=linux-$KVERR
-RVER=6.0.8
+RVER=6.0.9
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER e60276b8c11ab4a8be23807bc67b048cfb937dfA
+  git format-patch -o ../rpi-patches-$RVER be8b93b5cc7d533eb8c9b0590cdac055ecafe13a
   cd ..
   rm -fr $RDIR
 fi
@@ -78,7 +78,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.0.8-/6.0.9-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.0.9-/6.0.10-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/rpi/0001-platform-x86-amd-pmc-remove-CONFIG_DEBUG_FS-checks.patch,,g' $CDIR/debian/patches/series
