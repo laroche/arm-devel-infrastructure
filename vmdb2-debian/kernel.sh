@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.0.10
-KVERR=6.0.10
+KVER=6.0.11
+KVERR=6.0.11
 CDIR=linux-$KVERR
-RVER=6.0.9
+RVER=6.0.10
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER be8b93b5cc7d533eb8c9b0590cdac055ecafe13a
+  git format-patch -o ../rpi-patches-$RVER dab0efee14dd1ca363ef5ceae36018b72fc52037
   cd ..
   rm -fr $RDIR
 fi
@@ -78,10 +78,12 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.0.9-/6.0.10-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.0.10-/6.0.11-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/rpi/0001-platform-x86-amd-pmc-remove-CONFIG_DEBUG_FS-checks.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/net-neigh-decrement-the-family-specific-qlen.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/net-cdc_ncm-Fix-multicast-RX-support-for-CDC-NCM-dev.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/drm-i915-fix-TLB-invalidation-for-Gen12-video-and-co.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -100,7 +102,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0592-Revert-drm-vc4-hdmi-Enforce-the-minimum-rate-at-runt.patch
+    #rm -f bugfix/rpi/0592-Revert-drm-vc4-hdmi-Enforce-the-minimum-rate-at-runt.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
