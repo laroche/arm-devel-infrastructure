@@ -81,9 +81,7 @@ sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 sed -i -e '1 s/6.0.10-/6.0.11-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/all/net-neigh-decrement-the-family-specific-qlen.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/net-cdc_ncm-Fix-multicast-RX-support-for-CDC-NCM-dev.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/x86/drm-i915-fix-TLB-invalidation-for-Gen12-video-and-co.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/net-neigh-decrement-the-family-specific-qlen.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -102,7 +100,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0592-Revert-drm-vc4-hdmi-Enforce-the-minimum-rate-at-runt.patch
+    rm -f bugfix/rpi/0375-sound-usb-add-device-quirks-for-A4Tech-FHD-1080p-web.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
