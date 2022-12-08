@@ -22,7 +22,7 @@ fi
 KVER=6.0.11
 KVERR=6.0.11
 CDIR=linux-$KVERR
-RVER=6.0.10
+RVER=6.0.11
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER dab0efee14dd1ca363ef5ceae36018b72fc52037
+  git format-patch -o ../rpi-patches-$RVER 31e4bdd2c25b50bca6d96995abb01a54ba5bd00e
   cd ..
   rm -fr $RDIR
 fi
@@ -100,7 +100,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0375-sound-usb-add-device-quirks-for-A4Tech-FHD-1080p-web.patch
+    #rm -f bugfix/rpi/0375-sound-usb-add-device-quirks-for-A4Tech-FHD-1080p-web.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
