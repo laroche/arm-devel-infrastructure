@@ -102,6 +102,7 @@ steps:
     - firmware-linux
     - firmware-iwlwifi
     - firmware-realtek
+    - firmware-atheros
     - linux-image-amd64
     #- linux-image-rt-amd64
     tag: rootfs
