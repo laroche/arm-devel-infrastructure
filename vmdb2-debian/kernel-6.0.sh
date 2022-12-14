@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.0.12
-KVERR=6.0.12
+KVER=6.0.13
+KVERR=6.0.13
 CDIR=linux-$KVERR
-RVER=6.0.11
+RVER=6.0.12
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 31e4bdd2c25b50bca6d96995abb01a54ba5bd00e
+  git format-patch -o ../rpi-patches-$RVER 650093916eb3140339a3132ef7d5a02d8712d058
   cd ..
   rm -fr $RDIR
 fi
@@ -78,7 +78,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.0.11-/6.0.12-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.0.12-/6.0.13-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/net-neigh-decrement-the-family-specific-qlen.patch,,g' $CDIR/debian/patches/series

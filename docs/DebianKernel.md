@@ -8,8 +8,8 @@ How to compile your own kernel from current Debian git sources
 --------------------------------------------------------------
 
 The source code for the Debian Linux kernel is maintained within the [salsa gitlab server](https://salsa.debian.org/kernel-team/linux/commits/master).
-The [master](https://salsa.debian.org/kernel-team/linux/commits/master) branch currently is based on linux-5.19.y,
-the [sid](https://salsa.debian.org/kernel-team/linux/commits/sid) branch is based on linux-5.18.y and
+The [master](https://salsa.debian.org/kernel-team/linux/commits/master) branch currently is based on linux-6.1.y,
+the [sid](https://salsa.debian.org/kernel-team/linux/commits/sid) branch is based on linux-6.0.y and
 the [bullseye](https://salsa.debian.org/kernel-team/linux/commits/buster) branch is based on linux-5.10.y.
 
 You can checkout these branches and recompile locally a current Debian kernel with
