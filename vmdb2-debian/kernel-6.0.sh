@@ -22,7 +22,7 @@ fi
 KVER=6.0.13
 KVERR=6.0.13
 CDIR=linux-$KVERR
-RVER=6.0.12
+RVER=6.0.13
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 650093916eb3140339a3132ef7d5a02d8712d058
+  git format-patch -o ../rpi-patches-$RVER 843cf4765c1b76102b7e24388adb478b2ec0c3fd
   cd ..
   rm -fr $RDIR
 fi
@@ -81,7 +81,8 @@ sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 sed -i -e '1 s/6.0.12-/6.0.13-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/all/net-neigh-decrement-the-family-specific-qlen.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/xen-netback-Ensure-protocol-headers-don-t-fall-in-th.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/xen-netback-don-t-call-kfree_skb-with-interrupts-dis.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
