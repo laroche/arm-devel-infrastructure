@@ -22,7 +22,7 @@ fi
 KVER=6.0.16
 KVERR=6.0.16
 CDIR=linux-$KVERR
-RVER=6.0.13
+RVER=6.0.15
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 843cf4765c1b76102b7e24388adb478b2ec0c3fd
+  git format-patch -o ../rpi-patches-$RVER 0106d88e2d2781a962e99c11d1ab336b0d7e893f
   cd ..
   rm -fr $RDIR
 fi
@@ -83,7 +83,7 @@ sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e 's,^bugfix/all/xen-netback-Ensure-protocol-headers-don-t-fall-in-th.patch,,g' $CDIR/debian/patches/series
 sed -i -e 's,^bugfix/all/xen-netback-don-t-call-kfree_skb-with-interrupts-dis.patch,,g' $CDIR/debian/patches/series
-#sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
+sed -i -e 's,0003-net-Remove-the-obsolte-u64_stats_fetch_-_irq-users-n.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
 cd $CDIR || exit 1
@@ -101,7 +101,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0375-sound-usb-add-device-quirks-for-A4Tech-FHD-1080p-web.patch
+    rm -f bugfix/rpi/0267-media-videodev2.h-Add-a-format-for-column-YUV4-2-0-m.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
