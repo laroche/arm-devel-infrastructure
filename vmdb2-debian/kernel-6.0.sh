@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.0.16
-KVERR=6.0.16
+KVER=6.0.17
+KVERR=6.0.17
 CDIR=linux-$KVERR
-RVER=6.0.15
+RVER=6.0.16
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 0106d88e2d2781a962e99c11d1ab336b0d7e893f
+  git format-patch -o ../rpi-patches-$RVER 29e1bc6a55debd187afb6ec2e49beb7e57102b0a
   cd ..
   rm -fr $RDIR
 fi
@@ -78,7 +78,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.0.12-/6.0.16-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.0.12-/6.0.17-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e 's,^bugfix/all/xen-netback-Ensure-protocol-headers-don-t-fall-in-th.patch,,g' $CDIR/debian/patches/series
@@ -101,7 +101,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0267-media-videodev2.h-Add-a-format-for-column-YUV4-2-0-m.patch
+    #rm -f bugfix/rpi/0267-media-videodev2.h-Add-a-format-for-column-YUV4-2-0-m.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
