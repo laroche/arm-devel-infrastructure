@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.3
-KVERR=6.1.3
+KVER=6.1.4
+KVERR=6.1.4
 CDIR=linux-$KVERR
 RVER=6.1.3
 
@@ -74,11 +74,11 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
 fi
 
 if ! test -d $CDIR ; then
-  git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git $CDIR
+  git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.2-/6.1.3-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.3-/6.1.4-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/net-neigh-decrement-the-family-specific-qlen.patch,,g' $CDIR/debian/patches/series
