@@ -81,7 +81,7 @@ sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 sed -i -e '1 s/6.1.3-/6.1.4-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/all/net-neigh-decrement-the-family-specific-qlen.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^features/all/security-perf-allow-further-restriction-of-perf_event_open.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
