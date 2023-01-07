@@ -81,7 +81,7 @@ sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 sed -i -e '1 s/6.1.3-/6.1.4-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^features/all/security-perf-allow-further-restriction-of-perf_event_open.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^features/all/security-perf-allow-further-restriction-of-perf_event_open.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -100,7 +100,8 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0235-media-videodev2.h-Add-a-format-for-column-YUV4-2-0-m.patch
+    rm -f bugfix/rpi/0132-Add-support-for-all-the-downstream-rpi-sound-card-dr.patch
+    rm -f bugfix/rpi/0485-ASoC-ma120x0p-Corrects-the-volume-level-display.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
