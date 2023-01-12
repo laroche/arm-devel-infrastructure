@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.4
-KVERR=6.1.4
+KVER=6.1.5
+KVERR=6.1.5
 CDIR=linux-$KVERR
-RVER=6.1.3
+RVER=6.1.5
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 4adc0fbe03a69d3189607bf74e82a79c29c08b4a
+  git format-patch -o ../rpi-patches-$RVER 90ca7a874a9093e500cc6147cecd85ad2e6a2852
   cd ..
   rm -fr $RDIR
 fi
@@ -78,7 +78,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.3-/6.1.4-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.4-/6.1.5-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^features/all/security-perf-allow-further-restriction-of-perf_event_open.patch,,g' $CDIR/debian/patches/series
@@ -100,8 +100,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0132-Add-support-for-all-the-downstream-rpi-sound-card-dr.patch
-    rm -f bugfix/rpi/0485-ASoC-ma120x0p-Corrects-the-volume-level-display.patch
+    #rm -f bugfix/rpi/0132-Add-support-for-all-the-downstream-rpi-sound-card-dr.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
