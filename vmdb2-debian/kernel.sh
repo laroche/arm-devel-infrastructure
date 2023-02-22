@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.12
-KVERR=6.1.12
+KVER=6.1.13
+KVERR=6.1.13
 CDIR=linux-$KVERR
-RVER=6.1.11
+RVER=6.1.12
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER d60c95e
+  git format-patch -o ../rpi-patches-$RVER da1ae884562cc22e2705113cc39712477e37ab4e
   cd ..
   rm -fr $RDIR
 fi
@@ -78,7 +78,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.11-/6.1.12-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.12-/6.1.13-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^features/all/security-perf-allow-further-restriction-of-perf_event_open.patch,,g' $CDIR/debian/patches/series
