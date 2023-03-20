@@ -470,7 +470,7 @@ if ! test -d /home/$NEWUSER/.ssh ; then
 fi
 if test -s /root/.ssh/authorized_keys && ! test -s /home/$NEWUSER/.ssh/authorized_keys ; then
   cp /root/.ssh/authorized_keys /home/$NEWUSER/.ssh/authorized_keys
-  chown $NEWUSER.$NEWUSER /home/$NEWUSER/.ssh/authorized_keys
+  chown $NEWUSER:$NEWUSER /home/$NEWUSER/.ssh/authorized_keys
 fi
 
 INSTALLGUI=0
@@ -1016,7 +1016,7 @@ config_git()
 [mergetool "meld"]
 	cmd = /usr/bin/meld \$LOCAL \$BASE \$REMOTE --auto-merge --output \$MERGED
 EOM
-  chown $1.$1 $configfile
+  chown $1:$1 $configfile
 }
 
 config_git_default()
