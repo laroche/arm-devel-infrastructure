@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.20
-KVERR=6.1.20
+KVER=6.1.21
+KVERR=6.1.21
 CDIR=linux-$KVERR
-RVER=6.1.19
+RVER=6.1.20
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 6449a0ba6843fe70523eeb7855984054f36f6d24
+  git format-patch -o ../rpi-patches-$RVER 7eaef76fbc4621ced374c85dbc000dd80dc681d7
   cd ..
   rm -fr $RDIR
 fi
@@ -78,7 +78,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.19-/6.1.20-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.20-/6.1.21-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/scsi-mpt3sas-Remove-usage-of-dma_get_required_mask-A.patch,,g' $CDIR/debian/patches/series
