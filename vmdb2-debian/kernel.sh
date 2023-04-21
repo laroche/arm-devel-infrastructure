@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.24
-KVERR=6.1.24
+KVER=6.1.25
+KVERR=6.1.25
 CDIR=linux-$KVERR
-RVER=6.1.23
+RVER=6.1.24
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 543aff194ab6286af7791c5a138978ee7da4c93f
+  git format-patch -o ../rpi-patches-$RVER 0102425ac76bd184704c698cab7cb4fe37997556
   cd ..
   rm -fr $RDIR
 fi
@@ -78,17 +78,10 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.20-/6.1.24-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.24-/6.1.25-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/x86/x86-acpi-boot-Correct-acpi_is_processor_usable-check.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/usb-ucsi-Fix-NULL-pointer-deref-in-ucsi_connector_ch.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/usb-ucsi_acpi-Increase-the-command-completion-timeou.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/arm64/hwmon-xgene-Fix-use-after-free-bug-in-xgene_hwmon_re.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/net-sched-act_mirred-better-wording-on-protection-ag.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/act_mirred-use-the-backlog-for-nested-calls-to-mirre.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/x86/xirc2ps_cs-Fix-use-after-free-bug-in-xirc2ps_detach.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/Bluetooth-HCI-Fix-global-out-of-bounds.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/Bluetooth-HCI-Fix-global-out-of-bounds.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
