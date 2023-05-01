@@ -81,8 +81,7 @@ sed -i -e '1 s/5.10.178/5.10.179/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/bullseye/UNRELEASED/' linux-5/debian/changelog
-sed -i -e 's,^bugfix/all/netfilter-nft_payload-incorrect-arithmetics-when-fet.patch,,g' linux-5/debian/patches/series
-sed -i -e 's,^bugfix/all/ipv6-raw-Deduct-extension-header-length-in-rawv6_pus.patch,,g' linux-5/debian/patches/series
+#sed -i -e 's,^bugfix/all/netfilter-nft_payload-incorrect-arithmetics-when-fet.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0160-locking-rtmutex-Handle-the-various-new-futex-race-co.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
