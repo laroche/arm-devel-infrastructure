@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.27
-KVERR=6.1.27
+KVER=6.1.28
+KVERR=6.1.28
 CDIR=linux-$KVERR
-RVER=6.1.25
+RVER=6.1.28
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER f17b0ab65d17988d5e6d6fe22f708ef3721080bf
+  git format-patch -o ../rpi-patches-$RVER bf4ad6fa4e5332e53913b073d0219319a4091619
   cd ..
   rm -fr $RDIR
 fi
@@ -78,10 +78,10 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.25-/6.1.27-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.27-/6.1.28-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/all/Bluetooth-HCI-Fix-global-out-of-bounds.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/netfilter-nf_tables-deactivate-anonymous-set-from-pr.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -100,7 +100,8 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0132-Add-support-for-all-the-downstream-rpi-sound-card-dr.patch
+    rm -f bugfix/rpi/0557-drm_probe_helper-Cancel-previous-job-before-starting.patch
+    rm -f bugfix/rpi/0755-Revert-drm_probe_helper-Cancel-previous-job-before-s.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
