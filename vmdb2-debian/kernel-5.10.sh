@@ -82,7 +82,7 @@ sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/bullseye/UNRELEASED/' linux-5/debian/changelog
 #sed -i -e 's,^bugfix/all/netfilter-nft_payload-incorrect-arithmetics-when-fet.patch,,g' linux-5/debian/patches/series
-#sed -i -e 's,0160-locking-rtmutex-Handle-the-various-new-futex-race-co.patch,,g' linux-5/debian/patches-rt/series
+sed -i -e 's,0236-debugobjects-Make-RT-aware.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules
 #exit 0
@@ -101,7 +101,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0320-vc4_hdmi-Fix-register-offset-when-sending-longer-CEC.patch
+    #rm -f bugfix/rpi/0236-debugobjects-Make-RT-aware.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
