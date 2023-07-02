@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.37
-KVERR=6.1.37
+KVER=6.4.1
+KVERR=6.4.1
 CDIR=linux-$KVERR
-RVER=6.1.36
+RVER=6.4.0
 
 CROSS=0
 ARCH=
@@ -60,29 +60,28 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   # Extract the raspberry-pi patches into a subdirectory:
   RDIR=rpi-linux-$RVER
   if test ! -d $RDIR ; then
-    git clone -b rpi-6.1.y https://github.com/raspberrypi/linux/ $RDIR
+    git clone -b rpi-6.4.y https://github.com/raspberrypi/linux/ $RDIR
     test -d $RDIR || exit 1
   else
     pushd $RDIR
-    git checkout rpi-6.1.y
+    git checkout rpi-6.4.y
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER a1c449d00ff8ce2c5fcea5f755df682d1f6bc2ef
+  git format-patch -o ../rpi-patches-$RVER f2427f9a3730e9a1a11b69f6b767f7f2fad87523
   cd ..
   rm -fr $RDIR
 fi
 
 if ! test -d $CDIR ; then
-  git clone --single-branch --depth 1 -b bookworm https://salsa.debian.org/kernel-team/linux.git $CDIR
+  git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.27-/6.1.37-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.4-/6.4.1-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/all/netfilter-nf_tables-deactivate-anonymous-set-from-pr.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^features/arm64/quartz64/arm64-dts-rockchip-Enable-GPU-on-SOQuartz-CM4.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/netfilter-nf_tables-deactivate-anonymous-set-from-pr.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -101,20 +100,16 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0557-drm_probe_helper-Cancel-previous-job-before-starting.patch
-    rm -f bugfix/rpi/0752-Bluetooth-Improve-support-for-Actions-Semi-ATS2851-b.patch
-    rm -f bugfix/rpi/0753-Bluetooth-Add-new-quirk-for-broken-local-ext-feature.patch
-    rm -f bugfix/rpi/0754-Bluetooth-Add-new-quirk-for-broken-set-random-RPA-ti.patch
-    rm -f bugfix/rpi/0755-Revert-drm_probe_helper-Cancel-previous-job-before-s.patch
+    #rm -f bugfix/rpi/0557-drm_probe_helper-Cancel-previous-job-before-starting.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
   echo "CONFIG_RESET_RASPBERRY=y" >> debian/config/config
   echo "CONFIG_RESET_BRCMSTB_RESCAL=y" >> debian/config/config
   echo "CONFIG_NO_HZ_FULL=y" >> debian/config/featureset-rt/config
-  rm -f debian/abi/6.1.0-*/arm*
+  rm -f debian/abi/6.4.0-*/arm*
 fi
-rm -fr debian/abi/6.1.0-*
+rm -fr debian/abi/6.4.0-*
 
 if test $CROSS = 0 ; then
 
