@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.3.11
-KVERR=6.3.11
+KVER=6.3.12
+KVERR=6.3.12
 CDIR=linux-$KVERR
-RVER=6.3.10
+RVER=6.3.11
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 28ae0a748c161ed01e2f43018beb978c74e12a0d
+  git format-patch -o ../rpi-patches-$RVER 429cff33b400edd76fc4d5e470742812a44fbc91
   cd ..
   rm -fr $RDIR
 fi
@@ -78,7 +78,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.3.10-/6.3.11-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.3.11-/6.3.12-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/netfilter-nf_tables-deactivate-anonymous-set-from-pr.patch,,g' $CDIR/debian/patches/series

@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.4.1
-KVERR=6.4.1
+KVER=6.4.2
+KVERR=6.4.2
 CDIR=linux-$KVERR
-RVER=6.4.0
+RVER=6.4.1
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER f2427f9a3730e9a1a11b69f6b767f7f2fad87523
+  git format-patch -o ../rpi-patches-$RVER 59377679473491963a599bfd51cc9877492312ee
   cd ..
   rm -fr $RDIR
 fi
@@ -78,7 +78,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.4-/6.4.1-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.4.1-/6.4.2-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/netfilter-nf_tables-deactivate-anonymous-set-from-pr.patch,,g' $CDIR/debian/patches/series
@@ -101,6 +101,10 @@ if test "$RPIPATCHES" = 1 ; then
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     #rm -f bugfix/rpi/0557-drm_probe_helper-Cancel-previous-job-before-starting.patch
+    #rm -f bugfix/rpi/0752-Bluetooth-Improve-support-for-Actions-Semi-ATS2851-b.patch
+    #rm -f bugfix/rpi/0753-Bluetooth-Add-new-quirk-for-broken-local-ext-feature.patch
+    #rm -f bugfix/rpi/0754-Bluetooth-Add-new-quirk-for-broken-set-random-RPA-ti.patch
+    #rm -f bugfix/rpi/0755-Revert-drm_probe_helper-Cancel-previous-job-before-s.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
