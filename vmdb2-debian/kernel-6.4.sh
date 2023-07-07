@@ -101,10 +101,6 @@ if test "$RPIPATCHES" = 1 ; then
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     #rm -f bugfix/rpi/0557-drm_probe_helper-Cancel-previous-job-before-starting.patch
-    #rm -f bugfix/rpi/0752-Bluetooth-Improve-support-for-Actions-Semi-ATS2851-b.patch
-    #rm -f bugfix/rpi/0753-Bluetooth-Add-new-quirk-for-broken-local-ext-feature.patch
-    #rm -f bugfix/rpi/0754-Bluetooth-Add-new-quirk-for-broken-set-random-RPA-ti.patch
-    #rm -f bugfix/rpi/0755-Revert-drm_probe_helper-Cancel-previous-job-before-s.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config

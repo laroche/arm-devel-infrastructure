@@ -78,11 +78,11 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.27-/6.1.38-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.37-/6.1.38-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/all/netfilter-nf_tables-deactivate-anonymous-set-from-pr.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^features/arm64/quartz64/arm64-dts-rockchip-Enable-GPU-on-SOQuartz-CM4.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/netfilter-nf_tables-deactivate-anonymous-set-from-pr.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^features/arm64/quartz64/arm64-dts-rockchip-Enable-GPU-on-SOQuartz-CM4.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
