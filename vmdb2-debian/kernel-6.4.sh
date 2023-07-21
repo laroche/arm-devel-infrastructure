@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.4.3
-KVERR=6.4.3
+KVER=6.4.4
+KVERR=6.4.4
 CDIR=linux-$KVERR
-RVER=6.4.1
+RVER=6.4.4
 
 CROSS=0
 ARCH=
@@ -47,12 +47,12 @@ fi
 
 # Build requirements:
 if true ; then
-sudo apt-get -qq -y install build-essential fakeroot rsync git python3-debian libcap-dev g++-11
+sudo apt-get -qq -y install build-essential fakeroot rsync git python3-debian libcap-dev g++-13
 sudo apt-get -qq -y build-dep linux
 if test $CROSS = 1 ; then
   sudo apt-get -qq -y install kernel-wedge quilt flex bison libssl-dev ccache
   sudo apt-get -qq -y install crossbuild-essential-arm64 crossbuild-essential-armhf
-  sudo apt-get -qq -y install g++-11-aarch64-linux-gnu g++-11-arm-linux-gnueabihf
+  sudo apt-get -qq -y install g++-13-aarch64-linux-gnu g++-13-arm-linux-gnueabihf
 fi
 fi
 
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 59377679473491963a599bfd51cc9877492312ee
+  git format-patch -o ../rpi-patches-$RVER 62813c2d2a3617a289397582b2db3db9f97111ee
   cd ..
   rm -fr $RDIR
 fi
@@ -78,10 +78,12 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.4.2-/6.4.3-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.4.3-/6.4.4-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/all/netfilter-nf_tables-deactivate-anonymous-set-from-pr.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/Revert-drm-amd-display-edp-do-not-add-non-edid-timin.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/netfilter-nf_tables-do-not-ignore-genmask-when-looki.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/netfilter-nf_tables-prevent-OOB-access-in-nft_byteor.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -100,7 +102,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0557-drm_probe_helper-Cancel-previous-job-before-starting.patch
+    rm -f bugfix/rpi/0581-cfg80211-ship-debian-certificates-as-hex-files.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
