@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.39
-KVERR=6.1.39
+KVER=6.1.40
+KVERR=6.1.40
 CDIR=linux-$KVERR
 RVER=6.1.39
 
@@ -78,11 +78,14 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.37-/6.1.39-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.38-/6.1.40-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/all/netfilter-nf_tables-deactivate-anonymous-set-from-pr.patch,,g' $CDIR/debian/patches/series
-#sed -i -e 's,^features/arm64/quartz64/arm64-dts-rockchip-Enable-GPU-on-SOQuartz-CM4.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/Revert-drm-amd-display-edp-do-not-add-non-edid-timin.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/drm-use-mgr-dev-in-drm_dbg_kms-in-drm_dp_add_payload.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/mm-mmap-fix-vm_locked-check-in-do_vmi_align_munmap.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/netfilter-nf_tables-do-not-ignore-genmask-when-looki.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/netfilter-nf_tables-prevent-OOB-access-in-nft_byteor.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
