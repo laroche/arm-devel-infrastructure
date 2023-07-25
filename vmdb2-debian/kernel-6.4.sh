@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.4.5
-KVERR=6.4.5
+KVER=6.4.6
+KVERR=6.4.6
 CDIR=linux-$KVERR
-RVER=6.4.4
+RVER=6.4.5
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 62813c2d2a3617a289397582b2db3db9f97111ee
+  git format-patch -o ../rpi-patches-$RVER bcecfeef53d4a78b282d67713ff8d6b35da723f0
   cd ..
   rm -fr $RDIR
 fi
@@ -78,7 +78,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.4.4-/6.4.5-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.4.4-/6.4.6-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/Revert-drm-amd-display-edp-do-not-add-non-edid-timin.patch,,g' $CDIR/debian/patches/series
