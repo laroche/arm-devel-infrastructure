@@ -82,7 +82,7 @@ sed -i -e '1 s/6.4.4-/6.4.7-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/Revert-drm-amd-display-edp-do-not-add-non-edid-timin.patch,,g' $CDIR/debian/patches/series
-#sed -i -e 's,tracing-timer-Add-missing-hrtimer-modes-to-decode_hr.patch,,g' $CDIR/debian/patches-rt/series
+sed -i -e 's,0002-posix-timers-Ensure-timer-ID-search-loop-limit-is-va.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
 cd $CDIR || exit 1
