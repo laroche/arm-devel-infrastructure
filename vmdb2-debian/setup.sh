@@ -526,7 +526,7 @@ if test "$INSTALLGUI" = 1 ; then
   fi
 
   # Eclipse
-  if test "$DEVELOPER" = 1 -a "$HOSTTYPE" = "x86_64" ; then
+  if false && test "$DEVELOPER" = 1 -a "$HOSTTYPE" = "x86_64" ; then
     if ! test -e /usr/bin/eclipse ; then
       ECLIPSEVER=2022-03
       ECLIPSE=eclipse-cpp-${ECLIPSEVER}-R-linux-gtk-x86_64
