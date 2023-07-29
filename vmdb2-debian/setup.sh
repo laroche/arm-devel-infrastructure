@@ -52,7 +52,7 @@ if test "X$UID" != "X0" ; then
   # add min/max to title:
   gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
   # list of favorites on the gnome desktop
-  gsettings set org.gnome.shell favorite-apps "['org.gnome.Terminal.desktop', 'google-chrome.desktop', 'firefox-esr.desktop', 'code.desktop', 'libreoffice-writer.desktop', 'xsane.desktop', 'XnView.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Software.desktop', 'yelp.desktop']"
+  gsettings set org.gnome.shell favorite-apps "['org.gnome.Terminal.desktop', 'google-chrome.desktop', 'firefox-esr.desktop', 'code.desktop', 'libreoffice-writer.desktop', 'XnView.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Software.desktop', 'yelp.desktop']"
   # Set gnome-terminal to 120x40 and dark color:
   PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default)
   PROFILE=${PROFILE:1:-1} # remove leading and trailing single quotes
@@ -368,7 +368,7 @@ EOM
 	deb http://security.debian.org/debian-security buster/updates main contrib non-free
 	deb-src http://security.debian.org/debian-security buster/updates main contrib non-free
 EOM
-  else
+  elif test -f /etc/debian_version && grep -q '^11' /etc/debian_version ; then
       cat > /etc/apt/sources.list <<-EOM
 	deb http://deb.debian.org/debian/ bullseye main contrib non-free
 	deb-src http://deb.debian.org/debian/ bullseye main contrib non-free
@@ -381,6 +381,34 @@ EOM
 
 	deb http://security.debian.org/debian-security bullseye-security main contrib non-free
 	deb-src http://security.debian.org/debian-security bullseye-security main contrib non-free
+EOM
+  elif test -f /etc/debian_version && grep -q '^12' /etc/debian_version ; then
+      cat > /etc/apt/sources.list <<-EOM
+	deb http://deb.debian.org/debian/ bookworm main contrib non-free-firmware non-free
+	deb-src http://deb.debian.org/debian/ bookworm main contrib non-free-firmware non-free
+
+	deb http://deb.debian.org/debian/ bookworm-updates main contrib non-free-firmware non-free
+	deb-src http://deb.debian.org/debian/ bookworm-updates main contrib non-free-firmware non-free
+
+	deb http://deb.debian.org/debian/ bookworm-backports main contrib non-free-firmware non-free
+	deb-src http://deb.debian.org/debian/ bookworm-backports main contrib non-free-firmware non-free
+
+	deb http://security.debian.org/debian-security bookworm-security main contrib non-free-firmware non-free
+	deb-src http://security.debian.org/debian-security bookworm-security main contrib non-free-firmware non-free
+EOM
+  else
+      cat > /etc/apt/sources.list <<-EOM
+	deb http://deb.debian.org/debian/ bookworm main contrib non-free-firmware non-free
+	deb-src http://deb.debian.org/debian/ bookworm main contrib non-free-firmware non-free
+
+	deb http://deb.debian.org/debian/ bookworm-updates main contrib non-free-firmware non-free
+	deb-src http://deb.debian.org/debian/ bookworm-updates main contrib non-free-firmware non-free
+
+	deb http://deb.debian.org/debian/ bookworm-backports main contrib non-free-firmware non-free
+	deb-src http://deb.debian.org/debian/ bookworm-backports main contrib non-free-firmware non-free
+
+	deb http://security.debian.org/debian-security bookworm-security main contrib non-free-firmware non-free
+	deb-src http://security.debian.org/debian-security bookworm-security main contrib non-free-firmware non-free
 EOM
   fi
   # Keep experimental commented out:
@@ -488,7 +516,7 @@ if test "$INSTALLGUI" = 1 ; then
   tasksel install gnome-desktop --new-install
   #tasksel install xubuntu-desktop --new-install
   $apt install firefox-esr firefox-esr-l10n-de vlc chromium chromium-l10n
-  $apt install xsane
+  $apt install simple-scan
   $apt install libreoffice libreoffice-help-de libreoffice-l10n-de
   $apt install remmina dconf-editor imagemagick mesa-utils inxi
   $apt install network-manager-openconnect-gnome openvpn mtr

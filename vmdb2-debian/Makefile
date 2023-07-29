@@ -6,9 +6,13 @@ all: debian-amd64.img debian-amd64-efi.img debian-rpi3-arm64.img debian-rpi3-arm
     debian-testing-amd64.img debian-testing-amd64-efi.img debian-testing-rpi3-arm64.img debian-testing-rpi3-armhf.img \
     debian-unstable-amd64.img debian-unstable-amd64-efi.img debian-unstable-rpi3-arm64.img debian-unstable-rpi3-armhf.img
 
-release: debian-stable-amd64-$(DATE).zip debian-stable-amd64-efi-$(DATE).zip debian-stable-rpi3-arm64-$(DATE).zip debian-stable-rpi3-armhf-$(DATE).zip \
-    debian-testing-amd64-$(DATE).zip debian-testing-amd64-efi-$(DATE).zip debian-testing-rpi3-arm64-$(DATE).zip debian-testing-rpi3-armhf-$(DATE).zip \
-    debian-unstable-amd64-$(DATE).zip debian-unstable-amd64-efi-$(DATE).zip debian-unstable-rpi3-arm64-$(DATE).zip debian-unstable-rpi3-armhf-$(DATE).zip
+#release: debian-stable-amd64-$(DATE).zip debian-stable-amd64-efi-$(DATE).zip debian-stable-rpi3-arm64-$(DATE).zip debian-stable-rpi3-armhf-$(DATE).zip \
+#    debian-testing-amd64-$(DATE).zip debian-testing-amd64-efi-$(DATE).zip debian-testing-rpi3-arm64-$(DATE).zip debian-testing-rpi3-armhf-$(DATE).zip \
+#    debian-unstable-amd64-$(DATE).zip debian-unstable-amd64-efi-$(DATE).zip debian-unstable-rpi3-arm64-$(DATE).zip debian-unstable-rpi3-armhf-$(DATE).zip
+#
+release: debian-stable-amd64-$(DATE).zip debian-stable-amd64-efi-$(DATE).zip \
+    debian-testing-amd64-$(DATE).zip debian-testing-amd64-efi-$(DATE).zip \
+    debian-unstable-amd64-$(DATE).zip debian-unstable-amd64-efi-$(DATE).zip
 
 define vmdb2
 	sudo env -i http_proxy=$(http_proxy) LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-$(1).tar.gz --output debian-$(1).img debian-$(1).yaml --log debian-$(1).log
@@ -20,7 +24,7 @@ debian-amd64.img: debian-amd64.yaml
 	sudo parted -s $@ toggle 1 boot
 
 debian-testing-amd64.yaml: debian-amd64.yaml
-	sed 's/qemu-debootstrap: bullseye/qemu-debootstrap: testing/g' < $^ > $@
+	sed 's/debootstrap: bookworm/debootstrap: testing/g' < $^ > $@
 
 debian-testing-amd64.img: debian-testing-amd64.yaml
 	# XXX: TODO: due to hardcoded /dev/loop0:
@@ -29,7 +33,7 @@ debian-testing-amd64.img: debian-testing-amd64.yaml
 	sudo parted -s $@ toggle 1 boot
 
 debian-unstable-amd64.yaml: debian-testing-amd64.yaml
-	sed 's/qemu-debootstrap: testing/qemu-debootstrap: unstable/g' < $^ > $@
+	sed 's/debootstrap: testing/debootstrap: unstable/g' < $^ > $@
 
 debian-unstable-amd64.img: debian-unstable-amd64.yaml
 	# XXX: TODO: due to hardcoded /dev/loop0:
@@ -41,13 +45,13 @@ debian-amd64-efi.img: debian-amd64-efi.yaml
 	$(call vmdb2,amd64-efi)
 
 debian-testing-amd64-efi.yaml: debian-amd64-efi.yaml
-	sed 's/qemu-debootstrap: bullseye/qemu-debootstrap: testing/g' < $^ > $@
+	sed 's/debootstrap: bookworm/debootstrap: testing/g' < $^ > $@
 
 debian-testing-amd64-efi.img: debian-testing-amd64-efi.yaml
 	$(call vmdb2,testing-amd64-efi)
 
 debian-unstable-amd64-efi.yaml: debian-amd64-efi.yaml
-	sed 's/qemu-debootstrap: bullseye/qemu-debootstrap: unstable/g' < $^ > $@
+	sed 's/debootstrap: bookworm/debootstrap: unstable/g' < $^ > $@
 
 debian-unstable-amd64-efi.img: debian-unstable-amd64-efi.yaml
 	$(call vmdb2,unstable-amd64-efi)
@@ -56,13 +60,13 @@ debian-rpi3-arm64.img: debian-rpi3-arm64.yaml
 	$(call vmdb2,rpi3-arm64)
 
 debian-testing-rpi3-arm64.yaml: debian-rpi3-arm64.yaml
-	sed 's/qemu-debootstrap: bullseye/qemu-debootstrap: testing/g' < $^ | sed -e "s/#- non-free-firmware/- non-free-firmware/g" > $@
+	sed 's/debootstrap: bookworm/debootstrap: testing/g' < $^ | sed -e "s/#- non-free-firmware/- non-free-firmware/g" > $@
 
 debian-testing-rpi3-arm64.img: debian-testing-rpi3-arm64.yaml
 	$(call vmdb2,testing-rpi3-arm64)
 
 debian-unstable-rpi3-arm64.yaml: debian-rpi3-arm64.yaml
-	sed 's/qemu-debootstrap: bullseye/qemu-debootstrap: unstable/g' < $^ | sed -e "s/#- non-free-firmware/- non-free-firmware/g" > $@
+	sed 's/debootstrap: bookworm/debootstrap: unstable/g' < $^ | sed -e "s/#- non-free-firmware/- non-free-firmware/g" > $@
 
 debian-unstable-rpi3-arm64.img: debian-unstable-rpi3-arm64.yaml
 	$(call vmdb2,unstable-rpi3-arm64)
@@ -71,13 +75,13 @@ debian-rpi3-armhf.img: debian-rpi3-armhf.yaml
 	$(call vmdb2,rpi3-armhf)
 
 debian-testing-rpi3-armhf.yaml: debian-rpi3-armhf.yaml
-	sed 's/qemu-debootstrap: bullseye/qemu-debootstrap: testing/g' < $^ | sed -e "s/#- non-free-firmware/- non-free-firmware/g" > $@
+	sed 's/debootstrap: bookworm/debootstrap: testing/g' < $^ | sed -e "s/#- non-free-firmware/- non-free-firmware/g" > $@
 
 debian-testing-rpi3-armhf.img: debian-testing-rpi3-armhf.yaml
 	$(call vmdb2,testing-rpi3-armhf)
 
 debian-unstable-rpi3-armhf.yaml: debian-rpi3-armhf.yaml
-	sed 's/qemu-debootstrap: bullseye/qemu-debootstrap: unstable/g' < $^ | sed -e "s/#- non-free-firmware/- non-free-firmware/g" > $@
+	sed 's/debootstrap: bookworm/debootstrap: unstable/g' < $^ | sed -e "s/#- non-free-firmware/- non-free-firmware/g" > $@
 
 debian-unstable-rpi3-armhf.img: debian-unstable-rpi3-armhf.yaml
 	$(call vmdb2,unstable-rpi3-armhf)

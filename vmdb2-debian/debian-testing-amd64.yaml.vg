@@ -46,13 +46,14 @@ steps:
 
   - unpack-rootfs: rootfs
 
-  - qemu-debootstrap: testing
+  - debootstrap: testing
     mirror: http://deb.debian.org/debian
     arch: amd64
     target: rootfs
     components:
     - main
     - contrib
+    - non-free-firmware
     - non-free
     unless: rootfs_unpacked
 
@@ -147,36 +148,36 @@ steps:
       rm -f ${ROOT?}/etc/iptables/rules.v4 ${ROOT?}/etc/iptables/rules.v6
 
       if grep -q testing ${ROOT?}/etc/apt/sources.list ; then
-        echo "deb http://deb.debian.org/debian/ testing main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
-        echo "deb-src http://deb.debian.org/debian/ testing main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb http://deb.debian.org/debian/ testing main contrib non-free-firmware non-free" > "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ testing main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
         echo >> ${ROOT?}/etc/apt/sources.list
-        echo "#deb http://deb.debian.org/debian/ testing-updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
-        echo "#deb-src http://deb.debian.org/debian/ testing-updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "#deb http://deb.debian.org/debian/ testing-updates main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "#deb-src http://deb.debian.org/debian/ testing-updates main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
         echo >> ${ROOT?}/etc/apt/sources.list
-        echo "#deb http://deb.debian.org/debian-security testing-security main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
-        echo "#deb-src http://deb.debian.org/debian-security testing-security main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "#deb http://deb.debian.org/debian-security testing-security main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "#deb-src http://deb.debian.org/debian-security testing-security main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
         echo >> ${ROOT?}/etc/apt/sources.list
-        echo "#deb http://security.debian.org testing-security main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "#deb http://security.debian.org testing-security main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
       elif grep -q unstable ${ROOT?}/etc/apt/sources.list ; then
-        echo "deb http://deb.debian.org/debian/ unstable main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
-        echo "deb-src http://deb.debian.org/debian/ unstable main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb http://deb.debian.org/debian/ unstable main contrib non-free-firmware non-free" > "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ unstable main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
       else
-        echo "deb http://deb.debian.org/debian/ bullseye main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
-        echo "deb-src http://deb.debian.org/debian/ bullseye main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb http://deb.debian.org/debian/ bookworm main contrib non-free-firmware non-free" > "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ bookworm main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
         echo >> ${ROOT?}/etc/apt/sources.list
-        echo "deb http://deb.debian.org/debian/ bullseye-updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
-        echo "deb-src http://deb.debian.org/debian/ bullseye-updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb http://deb.debian.org/debian/ bookworm-updates main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ bookworm-updates main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
         echo >> ${ROOT?}/etc/apt/sources.list
-        echo "deb http://deb.debian.org/debian/ bullseye-backports main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
-        echo "deb-src http://deb.debian.org/debian/ bullseye-backports main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb http://deb.debian.org/debian/ bookworm-backports main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ bookworm-backports main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
         echo >> ${ROOT?}/etc/apt/sources.list
-        echo "deb http://security.debian.org/debian-security bullseye-security main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
-        echo "deb-src http://security.debian.org/debian-security bullseye-security main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb http://security.debian.org/debian-security bookworm-security main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://security.debian.org/debian-security bookworm-security main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
       fi
 
       # Keep experimental commented out:
-      echo "#deb http://deb.debian.org/debian/ experimental main contrib non-free" > "${ROOT?}/etc/apt/sources.list.d/experimental.list"
-      echo "#deb-src http://deb.debian.org/debian/ experimental main contrib non-free" >> "${ROOT?}/etc/apt/sources.list.d/experimental.list"
+      echo "#deb http://deb.debian.org/debian/ experimental main contrib non-free-firmware non-free" > "${ROOT?}/etc/apt/sources.list.d/experimental.list"
+      echo "#deb-src http://deb.debian.org/debian/ experimental main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list.d/experimental.list"
 
       install -m 644 -o root -g root ssh-generate-host-keys.service "${ROOT?}/etc/systemd/system"
       mkdir -p "${ROOT?}/etc/systemd/system/multi-user.target.requires/"
@@ -208,7 +209,7 @@ steps:
     shell: |
       apt-get update
       systemctl enable ssh.service
-      mv /etc/grub.d/30_os-prober /30_os-prober
+      #mv /etc/grub.d/30_os-prober /30_os-prober
       mount -t proc proc /proc
 
   - grub: bios
@@ -225,7 +226,7 @@ steps:
     shell: |
       umount /proc
       #cat /boot/grub/grub.cfg
-      mv /30_os-prober /etc/grub.d/30_os-prober
+      #mv /30_os-prober /etc/grub.d/30_os-prober
 
   - chroot: rootfs
     shell: |

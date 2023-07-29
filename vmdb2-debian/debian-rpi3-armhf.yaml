@@ -37,16 +37,20 @@ steps:
 
   - unpack-rootfs: rootfs
 
-  - qemu-debootstrap: bullseye
+  - debootstrap: bookworm
     mirror: http://deb.debian.org/debian
     arch: armhf
     target: rootfs
     components:
     - main
     - contrib
-    #- non-free-firmware
+    - non-free-firmware
     - non-free
     unless: rootfs_unpacked
+
+  - chroot: rootfs
+    shell: |
+      mount -t proc proc /proc
 
   - apt: install
     packages:
@@ -107,6 +111,10 @@ steps:
     tag: rootfs
     unless: rootfs_unpacked
 
+  - chroot: rootfs
+    shell: |
+      umount /proc
+
   - cache-rootfs: rootfs
     unless: rootfs_unpacked
 
@@ -151,17 +159,17 @@ steps:
         echo "deb http://deb.debian.org/debian/ unstable main contrib non-free-firmware non-free" > "${ROOT?}/etc/apt/sources.list"
         echo "deb-src http://deb.debian.org/debian/ unstable main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
       else
-        echo "deb http://deb.debian.org/debian/ bullseye main contrib non-free" > "${ROOT?}/etc/apt/sources.list"
-        echo "deb-src http://deb.debian.org/debian/ bullseye main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb http://deb.debian.org/debian/ bookworm main contrib non-free-firmware non-free" > "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ bookworm main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
         echo >> ${ROOT?}/etc/apt/sources.list
-        echo "deb http://deb.debian.org/debian/ bullseye-updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
-        echo "deb-src http://deb.debian.org/debian/ bullseye-updates main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb http://deb.debian.org/debian/ bookworm-updates main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ bookworm-updates main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
         echo >> ${ROOT?}/etc/apt/sources.list
-        echo "deb http://deb.debian.org/debian/ bullseye-backports main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
-        echo "deb-src http://deb.debian.org/debian/ bullseye-backports main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb http://deb.debian.org/debian/ bookworm-backports main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ bookworm-backports main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
         echo >> ${ROOT?}/etc/apt/sources.list
-        echo "deb http://security.debian.org/debian-security bullseye-security main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
-        echo "deb-src http://security.debian.org/debian-security bullseye-security main contrib non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb http://security.debian.org/debian-security bookworm-security main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://security.debian.org/debian-security bookworm-security main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
       fi
 
       # Keep experimental commented out:
