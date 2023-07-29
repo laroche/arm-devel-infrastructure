@@ -59,17 +59,17 @@ if ! test -f "$DISK" ; then
     virt-copy-in -a "$DISK" linux-image-5.2.0-2-amd64-unsigned_5.2.7-1_amd64.deb /root/
   fi
   if test $EFI = 0 ; then
-    virt-install --os-variant debian11 --name "$TARGET" --memory 8192 --cpu host --vcpus 4 --boot hd --disk "$DISK" --import
+    virt-install --os-variant debian12 --name "$TARGET" --memory 8192 --cpu host --vcpus 4 --boot hd --disk "$DISK" --import
   else
-    virt-install --os-variant debian11 --name "$TARGET" --memory 8192 --cpu host --vcpus 4 --boot hd,uefi --disk "$DISK" --import
+    virt-install --os-variant debian12 --name "$TARGET" --memory 8192 --cpu host --vcpus 4 --boot hd,uefi --disk "$DISK" --import
   fi
   #sudo rm -fr /var/tmp/.guestfs-*
 fi
 
 if test $EFI = 0 ; then
-  OUT=debian-11-desktop-amd64
+  OUT=debian-12-desktop-amd64
 else
-  OUT=debian-11-desktop-amd64-efi
+  OUT=debian-12-desktop-amd64-efi
 fi
 if test $ZIP = 1 && ! test -f $OUT.zip && ! test -d $OUT ; then
   mkdir -p $OUT
