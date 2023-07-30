@@ -40,7 +40,7 @@ if ! test -f "$DISK" ; then
   # Convert the plain/raw image file into qcow2 format:
   qemu-img convert -O qcow2 $IMG "$DISK"
   # Extend the size a lot:
-  qemu-img resize "$DISK" +15G
+  qemu-img resize "$DISK" +11G
   # Create a snapshot/backup so you can always revert back to this state:
   qemu-img snapshot -c start "$DISK"
   #qemu-img snapshot -l "$DISK"

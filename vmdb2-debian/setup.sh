@@ -94,7 +94,7 @@ button-layout='appmenu:minimize,maximize,close'
 sleep-inactive-ac-type='nothing'
 
 [org/gnome/shell]
-favorite-apps=['org.gnome.Terminal.desktop', 'google-chrome.desktop', 'firefox-esr.desktop', 'code.desktop', 'libreoffice-writer.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Software.desktop', 'yelp.desktop']
+favorite-apps=['org.gnome.Terminal.desktop', 'google-chrome.desktop', 'firefox-esr.desktop', 'code.desktop', 'libreoffice-writer.desktop', 'simple-scan.desktop', 'XnView.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Software.desktop', 'org.gnome.Screenshot.desktop', 'yelp.desktop']
 EOM
 }
 
@@ -493,9 +493,6 @@ if ! test -d /home/$NEWUSER ; then
     adduser $NEWUSER libvirt
   fi
 fi
-if ! test -d /home/$NEWUSER/data ; then
-  su $NEWUSER -c "mkdir -p ~/data"
-fi
 if ! test -d /home/$NEWUSER/.ssh ; then
   su $NEWUSER -c "mkdir -m 0700 -p ~/.ssh"
 fi
@@ -662,7 +659,10 @@ $apt install gawk bc make git-email ccache indent gperf exuberant-ctags patchuti
 fi
 
 # Checkout some devel projects:
-if test "$DEVELOPER" = 1 ; then
+if false && test "$DEVELOPER" = 1 ; then
+  if ! test -d /home/$NEWUSER/data ; then
+    su $NEWUSER -c "mkdir -p ~/data"
+  fi
   if ! test -d /home/$NEWUSER/data/arm-devel-infrastructure ; then
     su $NEWUSER -c "cd ~/data && git clone https://github.com/laroche/arm-devel-infrastructure"
   fi
@@ -676,6 +676,9 @@ if test "$DEVELOPER" = 1 ; then
 fi
 if false && ! test -d /opt/ltp ; then
   $apt install quotatool
+  if ! test -d /home/$NEWUSER/data ; then
+    su $NEWUSER -c "mkdir -p ~/data"
+  fi
   if ! test -d /home/$NEWUSER/data/ltp ; then
     su $NEWUSER -c "cd ~/data && git clone --depth 1 https://github.com/linux-test-project/ltp"
     cat > /opt/ltp-SKIP <<-EOM
@@ -709,6 +712,9 @@ if false && test $DISTRO = debian -a $unstable = 0 -a $testing = 0 -a ! -d /opt/
   $apt install pkg-config libglib2.0-dev libpixman-1-dev
   QEMUVER=7.0.0
   QEMU=qemu-$QEMUVER
+  if ! test -d /home/$NEWUSER/data ; then
+    su $NEWUSER -c "mkdir -p ~/data"
+  fi
   if ! test -f /home/$NEWUSER/data/$QEMU.tar.xz ; then
     su $NEWUSER -c "cd ~/data && wget -q https://download.qemu.org/$QEMU.tar.xz"
   fi
