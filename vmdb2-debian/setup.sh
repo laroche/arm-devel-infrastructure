@@ -412,12 +412,22 @@ EOM
 EOM
   fi
   # Keep experimental commented out:
-      cat > /etc/apt/sources.list.d/experimental.list <<-EOM
+  cat > /etc/apt/sources.list.d/experimental.list <<-EOM
 	#deb http://deb.debian.org/debian/ experimental main contrib non-free-firmware non-free
 	#deb-src http://deb.debian.org/debian/ experimental main contrib non-free-firmware non-free
 EOM
   fi
   config_timezone
+fi
+if ! test -f /etc/apt/apt.conf.d/51unattended-upgrades ; then
+  cat > /etc/apt/apt.conf.d/51unattended-upgrades <<-EOM
+	APT::Periodic::MaxAge "5";
+	APT::Periodic::CleanInterval "14";
+	APT::Periodic::RandomSleep "120";
+	Unattended-Upgrade::Origins-Pattern {
+	        "o=*";
+	};
+EOM
 fi
 
 # Run updates:
@@ -732,7 +742,7 @@ KVER=5.8.12-1
 # Disabled by default as check for KABI is not enough:
 if false && test "$HOSTTYPE" = "x86_64" && ! test -d /lib/modules/${KABI}-amd64 ; then
   KERNEL=kernel-amd64-$KVER.tar.gz
-  wget -q https://github.com/laroche/arm-devel-infrastructure/releases/download/v20221105/$KERNEL
+  wget -q https://github.com/laroche/arm-devel-infrastructure/releases/download/v20230730/$KERNEL
   tar xzf $KERNEL
   dpkg -i kernel-amd64-$KVER/linux-image-${KABI}-amd64-unsigned_${KVER}_amd64.deb
   rm -fr $KERNEL kernel-amd64-$KVER
