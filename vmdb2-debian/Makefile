@@ -16,7 +16,7 @@ release: debian-stable-amd64-$(DATE).zip debian-stable-amd64-efi-$(DATE).zip \
 
 define vmdb2
 	sudo env -i http_proxy=$(http_proxy) LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-$(1).tar.gz --output debian-$(1).img debian-$(1).yaml --log debian-$(1).log
-	sudo chown $(USER) debian-$(1).img debian-$(1).log
+	sudo chown $(USER):$(USER) debian-$(1).img debian-$(1).log
 endef
 
 debian-amd64.img: debian-amd64.yaml
