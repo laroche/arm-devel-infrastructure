@@ -52,7 +52,7 @@ if test "X$UID" != "X0" ; then
   # add min/max to title:
   gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
   # list of favorites on the gnome desktop
-  gsettings set org.gnome.shell favorite-apps "['org.gnome.Terminal.desktop', 'google-chrome.desktop', 'firefox-esr.desktop', 'code.desktop', 'libreoffice-writer.desktop', 'XnView.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Software.desktop', 'yelp.desktop']"
+  gsettings set org.gnome.shell favorite-apps "['org.gnome.Terminal.desktop', 'google-chrome.desktop', 'firefox-esr.desktop', 'code.desktop', 'libreoffice-writer.desktop', 'simple-scan.desktop', 'XnView.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Software.desktop', 'org.gnome.Screenshot.desktop', 'yelp.desktop']"
   # Set gnome-terminal to 120x40 and dark color:
   PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default)
   PROFILE=${PROFILE:1:-1} # remove leading and trailing single quotes
@@ -177,8 +177,8 @@ fi
 config_swapfile()
 {
   test -f /swapfile && return
-  #fallocate -l 8G /swapfile
-  dd if=/dev/zero of=/swapfile bs=1M count=8192
+  #fallocate -l 4G /swapfile
+  dd if=/dev/zero of=/swapfile bs=1M count=4096
   chmod 600 /swapfile
   mkswap -L DEBSWAP /swapfile
   swapon /swapfile
@@ -437,7 +437,7 @@ if test $FIRSTRUN = 1 ; then
     tree man parted lvm2 dosfstools vim sudo net-tools traceroute nmap \
     wakeonlan bind9-host dnsutils whois tcpdump iptables-persistent ulogd2 ssh openssh-server \
     screen tmux rsync curl wget git-core unzip zip xz-utils reportbug \
-    less apt-utils
+    less apt-utils borgbackup borgbackup2
   # TODO: why less and apt-utils, they are already included in vmdb2
   #
   # Real hardware dependent packages we don't need within lxc:
@@ -462,14 +462,17 @@ fi
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=864074
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=837761#76
 if test $DISTRO = debian ; then
+  vim="/usr/share/vim/vim90/defaults.vim"
+  if test -f $vim ; then
+    sed -i -e '/has.*mouse/,+6s/^/"/' $vim
+  fi
   vim="/usr/share/vim/vim82/defaults.vim"
   if test -f $vim ; then
     sed -i -e '/has.*mouse/,+6s/^/"/' $vim
-  else
-    vim="/usr/share/vim/vim81/defaults.vim"
-    if test -f $vim ; then
-      sed -i -e '/has.*mouse/,+2s/^/"/' $vim
-    fi
+  fi
+  vim="/usr/share/vim/vim81/defaults.vim"
+  if test -f $vim ; then
+    sed -i -e '/has.*mouse/,+2s/^/"/' $vim
   fi
 fi
 
@@ -616,7 +619,7 @@ EOM
   fi
 
   # Microsoft Teams:
-  if true && test "$HOSTTYPE" = "x86_64" -a ! -x /usr/bin/teams ; then
+  if false && test "$HOSTTYPE" = "x86_64" -a ! -x /usr/bin/teams ; then
     wget -q -O teams.deb https://go.microsoft.com/fwlink/p/?linkid=2112886
     apt install ./teams.deb
     rm -f teams.deb
