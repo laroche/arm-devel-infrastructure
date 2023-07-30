@@ -177,8 +177,8 @@ fi
 config_swapfile()
 {
   test -f /swapfile && return
-  #fallocate -l 4G /swapfile
-  dd if=/dev/zero of=/swapfile bs=1M count=4096
+  #fallocate -l 2G /swapfile
+  dd if=/dev/zero of=/swapfile bs=1M count=2048
   chmod 600 /swapfile
   mkswap -L DEBSWAP /swapfile
   swapon /swapfile
@@ -437,7 +437,7 @@ if test $FIRSTRUN = 1 ; then
     tree man parted lvm2 dosfstools vim sudo net-tools traceroute nmap \
     wakeonlan bind9-host dnsutils whois tcpdump iptables-persistent ulogd2 ssh openssh-server \
     screen tmux rsync curl wget git-core unzip zip xz-utils reportbug \
-    less apt-utils borgbackup borgbackup2
+    ncal less apt-utils borgbackup borgbackup2
   # TODO: why less and apt-utils, they are already included in vmdb2
   #
   # Real hardware dependent packages we don't need within lxc:
@@ -519,7 +519,7 @@ if test "$INSTALLGUI" = 1 ; then
   tasksel install gnome-desktop --new-install
   #tasksel install xubuntu-desktop --new-install
   $apt install firefox-esr firefox-esr-l10n-de vlc chromium chromium-l10n
-  $apt install simple-scan
+  $apt install simple-scan gnome-screenshot
   $apt install libreoffice libreoffice-help-de libreoffice-l10n-de
   $apt install remmina dconf-editor imagemagick mesa-utils inxi
   $apt install network-manager-openconnect-gnome openvpn mtr
