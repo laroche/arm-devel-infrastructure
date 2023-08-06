@@ -13,9 +13,9 @@ there are extra images for [Raspberry-Pi](https://www.raspberrypi.org/).
 Disk images can be downloaded from [https://github.com/laroche/arm-devel-infrastructure/releases](https://github.com/laroche/arm-devel-infrastructure/releases)
 
 A fairly generic x86_64/amd64 desktop image is available from
-[Debian-12-Desktop-LegacyBoot](https://drive.google.com/file/d/1JfyKxd_X1RSg0jI7p6XFXRO1-dIXwrZX/view?usp=sharing) (older hardware with legacy boot, MSDOS partitioning)
+[Debian-12-Desktop-LegacyBoot](https://drive.google.com/file/d/1JfyKxd_X1RSg0jI7p6XFXRO1-dIXwrZX/view?usp=sharing) (older hardware with legacy boot and MSDOS partitioning)
 and as UEFI-image
-[Debian-12-Desktop-SecureBoot](https://drive.google.com/file/d/1F3UicklztS9bVhxdNvqjM_IYyYyVkDQP/view?usp=sharing) (newer hardware with secure boot, GPT partitioning).
+[Debian-12-Desktop-SecureBoot](https://drive.google.com/file/d/1F3UicklztS9bVhxdNvqjM_IYyYyVkDQP/view?usp=sharing) (newer hardware with secure boot and GPT partitioning).
 Please test this out on as much as possible hardware and provide feedback to Debian on hardware enablement/support. I am also glad to enhance this as a
 generic usage Linux image.
 
