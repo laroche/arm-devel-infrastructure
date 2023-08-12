@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.43
-KVERR=6.1.43
+KVER=6.1.45
+KVERR=6.1.45
 CDIR=linux-$KVERR
-RVER=6.1.42
+RVER=6.1.45
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER d2a6dc4eaf6d50ba32a9b39b4c6ec713a92072ab
+  git format-patch -o ../rpi-patches-$RVER 1321ab403b38366a4cfb283145bb2c005becb1e5
   cd ..
   rm -fr $RDIR
 fi
@@ -78,7 +78,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.38-/6.1.43-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.38-/6.1.45-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e 's,^bugfix/all/Revert-drm-amd-display-edp-do-not-add-non-edid-timin.patch,,g' $CDIR/debian/patches/series
@@ -87,6 +87,8 @@ sed -i -e 's,^bugfix/all/mm-mmap-fix-vm_locked-check-in-do_vmi_align_munmap.patc
 sed -i -e 's,^bugfix/all/netfilter-nf_tables-do-not-ignore-genmask-when-looki.patch,,g' $CDIR/debian/patches/series
 sed -i -e 's,^bugfix/all/netfilter-nf_tables-prevent-OOB-access-in-nft_byteor.patch,,g' $CDIR/debian/patches/series
 sed -i -e 's,^bugfix/x86/x86-cpu-amd-Move-the-errata-checking-functionality-u.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/gds/.*,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/srso/.*,,g' $CDIR/debian/patches/series
 sed -i -e 's,^bugfix/x86/x86-cpu-amd-Add-a-Zenbleed-fix.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
