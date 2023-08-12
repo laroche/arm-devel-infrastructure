@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.4.7
-KVERR=6.4.7
+KVER=6.4.10
+KVERR=6.4.10
 CDIR=linux-$KVERR
-RVER=6.4.5
+RVER=6.4.9
 
 CROSS=0
 ARCH=
@@ -68,20 +68,26 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER bcecfeef53d4a78b282d67713ff8d6b35da723f0
+  git format-patch -o ../rpi-patches-$RVER 38ca69782268c8e9578ba2f1fccf931f643eb8da
   cd ..
   rm -fr $RDIR
 fi
 
 if ! test -d $CDIR ; then
-  git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git $CDIR
+  git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.4.4-/6.4.7-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.4.4-/6.4.10-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/all/Revert-drm-amd-display-edp-do-not-add-non-edid-timin.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/x86-cpu-amd-Move-the-errata-checking-functionality-u.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/x86-cpu-amd-Add-a-Zenbleed-fix.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/io_uring-gate-iowait-schedule-on-having-pending-requ.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/net-sched-cls_fw-Fix-improper-refcount-update-leads-.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/net-sched-sch_qfq-account-for-stab-overhead-in-qfq_e.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/gds/.*,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/srso/.*,,g' $CDIR/debian/patches/series
 sed -i -e 's,0002-posix-timers-Ensure-timer-ID-search-loop-limit-is-va.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -100,7 +106,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0581-cfg80211-ship-debian-certificates-as-hex-files.patch
+    rm -f bugfix/rpi/0582-cfg80211-ship-debian-certificates-as-hex-files.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
