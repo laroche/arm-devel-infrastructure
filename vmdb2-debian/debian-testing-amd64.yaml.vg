@@ -9,13 +9,13 @@ steps:
 
 #  - mkpart: primary
 #    device: "{{ output }}"
-#    start: 4MiB
+#    start: 1MiB
 #    end: 100MiB
 #    tag: /boot
 
   - mkpart: primary
     device: "{{ output }}"
-    start: 4MiB
+    start: 1MiB
 #    start: 100MiB
     end: 100%
     tag: rootpv
@@ -28,8 +28,8 @@ steps:
 
   - lvcreate: debvg
     name: rootfs
-#    size: 2460M
-    size: 2552M
+#    size: 2560MiB
+    size: 2552MiB
 
   - mkfs: ext4
     partition: rootfs

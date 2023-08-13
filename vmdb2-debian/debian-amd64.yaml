@@ -8,8 +8,7 @@ steps:
 
   - mkpart: primary
     device: "{{ output }}"
-    #start: 0%
-    start: 4MiB
+    start: 1MiB
     end: 100%
     tag: rootfs
 
