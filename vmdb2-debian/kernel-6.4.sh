@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.4.10
-KVERR=6.4.10
+KVER=6.4.11
+KVERR=6.4.11
 CDIR=linux-$KVERR
 RVER=6.4.9
 
@@ -78,17 +78,11 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.4.4-/6.4.10-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.4.10-/6.4.11-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/x86/x86-cpu-amd-Move-the-errata-checking-functionality-u.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/x86/x86-cpu-amd-Add-a-Zenbleed-fix.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/io_uring-gate-iowait-schedule-on-having-pending-requ.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/net-sched-cls_fw-Fix-improper-refcount-update-leads-.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/net-sched-sch_qfq-account-for-stab-overhead-in-qfq_e.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/x86/gds/.*,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/x86/srso/.*,,g' $CDIR/debian/patches/series
-sed -i -e 's,0002-posix-timers-Ensure-timer-ID-search-loop-limit-is-va.patch,,g' $CDIR/debian/patches-rt/series
+#sed -i -e 's,^bugfix/x86/x86-cpu-amd-Move-the-errata-checking-functionality-u.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,0002-posix-timers-Ensure-timer-ID-search-loop-limit-is-va.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
 cd $CDIR || exit 1
