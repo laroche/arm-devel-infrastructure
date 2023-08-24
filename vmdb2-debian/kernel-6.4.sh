@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.4.11
-KVERR=6.4.11
+KVER=6.4.12
+KVERR=6.4.12
 CDIR=linux-$KVERR
-RVER=6.4.9
+RVER=6.4.11
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 38ca69782268c8e9578ba2f1fccf931f643eb8da
+  git format-patch -o ../rpi-patches-$RVER eb3cdb587879a7794c7f649011c565d7a94f3e2e
   cd ..
   rm -fr $RDIR
 fi
@@ -78,10 +78,10 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.4.10-/6.4.11-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.4.11-/6.4.12-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/x86/x86-cpu-amd-Move-the-errata-checking-functionality-u.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/x86-retpoline-Don-t-clobber-RFLAGS-during-srso_safe_.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0002-posix-timers-Ensure-timer-ID-search-loop-limit-is-va.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig

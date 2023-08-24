@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.46
-KVERR=6.1.46
+KVER=6.1.47
+KVERR=6.1.47
 CDIR=linux-$KVERR
-RVER=6.1.45
+RVER=6.1.46
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 1321ab403b38366a4cfb283145bb2c005becb1e5
+  git format-patch -o ../rpi-patches-$RVER 6c44e13dc284f7f4db17706ca48fd016d6b3d49a
   cd ..
   rm -fr $RDIR
 fi
@@ -78,7 +78,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.38-/6.1.46-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.38-/6.1.47-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e 's,^bugfix/all/Revert-drm-amd-display-edp-do-not-add-non-edid-timin.patch,,g' $CDIR/debian/patches/series
@@ -101,7 +101,7 @@ sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
 sed -i -e 's/^CONFIG_DEBUG_INFO=y/# CONFIG_DEBUG_INFO is not set/g' debian/config/config
 # Disable RT kernel:
 #if test $CROSS = 1 ; then
-  sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
+#  sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
 #fi
 if test "$RPIPATCHES" = 1 ; then
   sed -i -e 's/--fuzz=0//g' debian/rules
