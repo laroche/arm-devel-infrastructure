@@ -37,6 +37,8 @@ steps:
     - unattended-upgrades
     - debsums
     - irqbalance
+    - linux-cpupower
+    - lm-sensors
     - haveged
     - locales
     - keyboard-configuration
@@ -54,6 +56,7 @@ steps:
     - vim
     - sudo
     - net-tools
+    - ethtool
     - traceroute
     - nmap
     #- mtr

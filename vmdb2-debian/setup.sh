@@ -19,6 +19,7 @@
 # - If on a virtualized setup, maybe set screen size to 1600x900.
 # - Setup printers (duplex printing).
 # - Run "fstrim -a -v" if installed on a SSD via image/"dd".
+#   (Optional, done weekly on an installed system anyway.)
 #
 
 # New user to setup:
@@ -31,6 +32,9 @@ DEMOSETUP=0
 
 # Enable/disable typical software for developers:
 DEVELOPER=1
+
+# More secure server setup:
+SERVER=0
 
 TIMEZONE="Europe/Berlin"
 
@@ -457,7 +461,7 @@ fi
 
 # Add NOPASSWD so that all users in the sudo group do not have to type in their password:
 # This is not recommended and insecure, but handy on some devel machines.
-if test -f /etc/sudoers ; then
+if test $SERVER = 0 -a -f /etc/sudoers ; then
   sed -i -e 's/^%sudo.*/%sudo\tALL=(ALL:ALL) NOPASSWD: ALL/g' /etc/sudoers
 fi
 
@@ -497,10 +501,14 @@ if ! test -d /home/$NEWUSER ; then
   if test "X$SYSTYPE" != Xlxc ; then
     sed -i -e "s/^$NEWUSER:[^:]*:/$NEWUSER::/g" /etc/shadow
   fi
-  adduser $NEWUSER sudo
+  if test $SERVER = 0 ; then
+    adduser $NEWUSER sudo
+  fi
   if test "X$SYSTYPE" != Xlxc ; then
     adduser $NEWUSER kvm
-    adduser $NEWUSER libvirt
+    if grep -q '^libvirt:' /etc/group ; then
+      adduser $NEWUSER libvirt
+    fi
   fi
 fi
 if ! test -d /home/$NEWUSER/.ssh ; then
