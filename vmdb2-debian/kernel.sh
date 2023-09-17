@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.51
-KVERR=6.1.51
+KVER=6.1.53
+KVERR=6.1.53
 CDIR=linux-$KVERR
-RVER=6.1.47
+RVER=6.1.52
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 802aacbbffe2512dce9f8f33ad99d01cfec435de
+  git format-patch -o ../rpi-patches-$RVER 59b13c2b647e464dd85622c89d7f16c15d681e96
   cd ..
   rm -fr $RDIR
 fi
@@ -78,18 +78,10 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.38-/6.1.51-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.52-/6.1.53-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/all/Revert-drm-amd-display-edp-do-not-add-non-edid-timin.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/drm-use-mgr-dev-in-drm_dbg_kms-in-drm_dp_add_payload.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/mm-mmap-fix-vm_locked-check-in-do_vmi_align_munmap.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/netfilter-nf_tables-do-not-ignore-genmask-when-looki.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/netfilter-nf_tables-prevent-OOB-access-in-nft_byteor.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/x86/x86-cpu-amd-Move-the-errata-checking-functionality-u.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/x86/gds/.*,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/x86/srso/.*,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/x86/x86-cpu-amd-Add-a-Zenbleed-fix.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/tpm-Enable-hwrng-only-for-Pluton-on-AMD-CPUs.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -101,7 +93,7 @@ sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
 sed -i -e 's/^CONFIG_DEBUG_INFO=y/# CONFIG_DEBUG_INFO is not set/g' debian/config/config
 # Disable RT kernel:
 #if test $CROSS = 1 ; then
-  sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
+#  sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
 #fi
 if test "$RPIPATCHES" = 1 ; then
   sed -i -e 's/--fuzz=0//g' debian/rules
