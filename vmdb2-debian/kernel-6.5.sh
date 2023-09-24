@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.5.3
-KVERR=6.5.3
+KVER=6.5.5
+KVERR=6.5.5
 CDIR=linux-$KVERR
-RVER=6.5.2
+RVER=6.5.4
 
 CROSS=0
 ARCH=
@@ -68,21 +68,22 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 3766ec12cf894667026786fef355bb998c263f03
+  git format-patch -o ../rpi-patches-$RVER 2ba0babe7865cd5f4fac3d76ad15d9b6131bd283
   cd ..
   rm -fr $RDIR
 fi
 
 if ! test -d $CDIR ; then
-  git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git $CDIR
+  #git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
+  git clone --single-branch --depth 1 -b 6.5-stable-update https://salsa.debian.org/carnil/linux.git $CDIR
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.5.2-/6.5.3-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.5.4-/6.5.5-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/x86/x86-retpoline-Don-t-clobber-RFLAGS-during-srso_safe_.patch,,g' $CDIR/debian/patches/series
-#sed -i -e 's,0002-posix-timers-Ensure-timer-ID-search-loop-limit-is-va.patch,,g' $CDIR/debian/patches-rt/series
+#sed -i -e 's,0001-kernel-fork-beware-of-__put_task_struct-calling-cont.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
 cd $CDIR || exit 1
@@ -100,8 +101,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0539-cfg80211-ship-debian-certificates-as-hex-files.patch
-    rm -f bugfix/rpi/0521-ASoC-cs43130-Fix-numerator-denominator-mixup.patch
+    rm -f bugfix/rpi/0538-cfg80211-ship-debian-certificates-as-hex-files.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config

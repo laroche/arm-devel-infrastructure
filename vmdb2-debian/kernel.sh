@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.53
-KVERR=6.1.53
+KVER=6.1.55
+KVERR=6.1.55
 CDIR=linux-$KVERR
-RVER=6.1.52
+RVER=6.1.54
 
 CROSS=0
 ARCH=
@@ -68,20 +68,21 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 59b13c2b647e464dd85622c89d7f16c15d681e96
+  git format-patch -o ../rpi-patches-$RVER a356197db198ad9825ce225f19f2c7448ef9eea0
   cd ..
   rm -fr $RDIR
 fi
 
 if ! test -d $CDIR ; then
-  git clone --single-branch --depth 1 -b bookworm https://salsa.debian.org/kernel-team/linux.git $CDIR
+  #git clone --single-branch --depth 1 -b bookworm https://salsa.debian.org/kernel-team/linux.git $CDIR
+  git clone --single-branch --depth 1 -b 6.1-stable-updates https://salsa.debian.org/carnil/linux.git $CDIR
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.52-/6.1.53-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.55-/6.1.55-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/x86/tpm-Enable-hwrng-only-for-Pluton-on-AMD-CPUs.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/x86/tpm-Enable-hwrng-only-for-Pluton-on-AMD-CPUs.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -100,7 +101,27 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0557-drm_probe_helper-Cancel-previous-job-before-starting.patch
+    rm -f bugfix/rpi/0034-drm-bridge-Introduce-pre_enable_upstream_first-to-al.patch
+    rm -f bugfix/rpi/0368-xhci-quirks-add-link-TRB-quirk-for-VL805.patch
+    rm -f bugfix/rpi/0371-usb-xhci-add-VLI_TRB_CACHE_BUG-quirk.patch
+    rm -f bugfix/rpi/0399-usb-xhci-add-a-quirk-for-Superspeed-bulk-OUT-transfe.patch
+    rm -f bugfix/rpi/0401-usb-xhci-rework-XHCI_VLI_SS_BULK_OUT_BUG-quirk.patch
+    rm -f bugfix/rpi/0448-nvmem-Use-NVMEM_DEVID_AUTO.patch
+    rm -f bugfix/rpi/0485-usb-xhci-add-XHCI_VLI_HUB_TT_QUIRK.patch
+    rm -f bugfix/rpi/0538-xhci-constrain-XHCI_VLI_HUB_TT_QUIRK-to-old-firmware.patch
+    rm -f bugfix/rpi/0557-drm_probe_helper-Cancel-previous-job-before-starting.patch
+    rm -f bugfix/rpi/0740-Bluetooth-hci_sync-Add-fallback-bd-address-prop.patch
+    rm -f bugfix/rpi/0752-Bluetooth-Improve-support-for-Actions-Semi-ATS2851-b.patch
+    rm -f bugfix/rpi/0753-Bluetooth-Add-new-quirk-for-broken-local-ext-feature.patch
+    rm -f bugfix/rpi/0754-Bluetooth-Add-new-quirk-for-broken-set-random-RPA-ti.patch
+    rm -f bugfix/rpi/0755-Revert-drm_probe_helper-Cancel-previous-job-before-s.patch
+    rm -f bugfix/rpi/0794-ASoC-cs43130-Fix-numerator-denominator-mixup.patch
+    rm -f bugfix/rpi/0809-cfg80211-ship-debian-certificates-as-hex-files.patch
+    rm -f bugfix/rpi/0811-Revert-Bluetooth-hci_sync-Add-fallback-bd-address-pr.patch
+    rm -f bugfix/rpi/0812-Revert-drm-bridge-Introduce-pre_enable_upstream_firs.patch
+    rm -f bugfix/rpi/0817-Revert-io_uring-Use-io_schedule-in-cqring-wait.patch
+    rm -f bugfix/rpi/0829-Revert-Revert-io_uring-Use-io_schedule-in-cqring-wai.patch
+    rm -f bugfix/rpi/0844-Revert-ASoC-cs43130-Fix-numerator-denominator-mixup.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
