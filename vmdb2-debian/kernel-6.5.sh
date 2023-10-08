@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.5.5
-KVERR=6.5.5
+KVER=6.5.6
+KVERR=6.5.6
 CDIR=linux-$KVERR
-RVER=6.5.4
+RVER=6.5.6
 
 CROSS=0
 ARCH=
@@ -68,18 +68,18 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 2ba0babe7865cd5f4fac3d76ad15d9b6131bd283
+  git format-patch -o ../rpi-patches-$RVER 0c3f363d1c150050b2ecec2af04f3c96fa2c66de
   cd ..
   rm -fr $RDIR
 fi
 
 if ! test -d $CDIR ; then
-  #git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
-  git clone --single-branch --depth 1 -b 6.5-stable-update https://salsa.debian.org/carnil/linux.git $CDIR
+  git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
+  #git clone --single-branch --depth 1 -b 6.5-stable-update https://salsa.debian.org/carnil/linux.git $CDIR
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.5.4-/6.5.5-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.5.5-/6.5.6-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/x86/x86-retpoline-Don-t-clobber-RFLAGS-during-srso_safe_.patch,,g' $CDIR/debian/patches/series

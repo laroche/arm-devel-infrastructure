@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.55
-KVERR=6.1.55
+KVER=6.1.56
+KVERR=6.1.56
 CDIR=linux-$KVERR
-RVER=6.1.54
+RVER=6.1.55
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER a356197db198ad9825ce225f19f2c7448ef9eea0
+  git format-patch -o ../rpi-patches-$RVER d23900f974e0fb995b36ef47283a5aa74ca25f51
   cd ..
   rm -fr $RDIR
 fi
@@ -79,10 +79,10 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.55-/6.1.55-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.55-/6.1.56-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/x86/tpm-Enable-hwrng-only-for-Pluton-on-AMD-CPUs.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/ipv4-fix-null-deref-in-ipv4_link_failure.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,tcp-Don-t-acquire-inet_listen_hashbucket-lock-with-d.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
