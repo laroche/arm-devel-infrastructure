@@ -40,6 +40,12 @@ German Heise to current Raspi-4 Support:
 UEFI firmware for Raspberry Pi 4B: [https://rpi4-uefi.dev/](https://rpi4-uefi.dev/)
 
 
+archive of older debian packages
+--------------------------------
+
+If you want to download older debian software packages, please look at <https://snapshot.debian.org/>.
+
+
 openocd and JTAG
 ----------------
 
