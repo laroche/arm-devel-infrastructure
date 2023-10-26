@@ -772,6 +772,7 @@ firewall_stop()
   iptables -t raw -X
 }
 
+# https://www.digitalocean.com/community/tutorials/a-deep-dive-into-iptables-and-netfilter-architecture
 config_firewall()
 {
   {
@@ -824,7 +825,10 @@ EOM
 EOM
     fi
     cat <<-EOM
-	-A INPUT -j REJECT --reject-with icmp-host-prohibited
+	-A INPUT -p udp -j REJECT --reject-with icmp-port-unreachable
+	-A INPUT -p tcp -j REJECT --reject-with tcp-reset
+	-A INPUT -j REJECT --reject-with icmp-proto-unreachable
+	#-A INPUT -j REJECT --reject-with icmp-host-prohibited
 	#-A FORWARD -o lxdbr0 -j ACCEPT
 	#-A FORWARD -i lxdbr0 -j ACCEPT
 EOM
