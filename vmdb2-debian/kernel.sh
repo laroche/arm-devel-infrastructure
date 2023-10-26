@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.56
-KVERR=6.1.56
+KVER=6.1.60
+KVERR=6.1.60
 CDIR=linux-$KVERR
-RVER=6.1.55
+RVER=6.1.58
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER d23900f974e0fb995b36ef47283a5aa74ca25f51
+  git format-patch -o ../rpi-patches-$RVER adc4d740ad9ec780657327c69ab966fa4fdf0e8e
   cd ..
   rm -fr $RDIR
 fi
@@ -79,7 +79,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.55-/6.1.56-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.59-/6.1.60-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/ipv4-fix-null-deref-in-ipv4_link_failure.patch,,g' $CDIR/debian/patches/series
@@ -101,6 +101,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
+    if false ; then
     rm -f bugfix/rpi/0034-drm-bridge-Introduce-pre_enable_upstream_first-to-al.patch
     rm -f bugfix/rpi/0368-xhci-quirks-add-link-TRB-quirk-for-VL805.patch
     rm -f bugfix/rpi/0371-usb-xhci-add-VLI_TRB_CACHE_BUG-quirk.patch
@@ -122,6 +123,7 @@ if test "$RPIPATCHES" = 1 ; then
     rm -f bugfix/rpi/0817-Revert-io_uring-Use-io_schedule-in-cqring-wait.patch
     rm -f bugfix/rpi/0829-Revert-Revert-io_uring-Use-io_schedule-in-cqring-wai.patch
     rm -f bugfix/rpi/0844-Revert-ASoC-cs43130-Fix-numerator-denominator-mixup.patch
+    fi
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
