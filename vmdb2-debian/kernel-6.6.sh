@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.5.10
-KVERR=6.5.10
+KVER=6.6
+KVERR=6.6
 CDIR=linux-$KVERR
-RVER=6.5.9
+RVER=6.6.0
 
 CROSS=0
 ARCH=
@@ -60,11 +60,11 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   # Extract the raspberry-pi patches into a subdirectory:
   RDIR=rpi-linux-$RVER
   if test ! -d $RDIR ; then
-    git clone -b rpi-6.5.y https://github.com/raspberrypi/linux/ $RDIR
+    git clone -b rpi-6.6.y https://github.com/raspberrypi/linux/ $RDIR
     test -d $RDIR || exit 1
   else
     pushd $RDIR
-    git checkout rpi-6.5.y
+    git checkout rpi-6.6.y
     popd
   fi
   cd $RDIR || exit 1
@@ -74,12 +74,12 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
 fi
 
 if ! test -d $CDIR ; then
-  git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
-  #git clone --single-branch --depth 1 -b 6.5-stable-update https://salsa.debian.org/carnil/linux.git $CDIR
+  git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git $CDIR
+  #git clone --single-branch --depth 1 -b 6.6-stable-update https://salsa.debian.org/carnil/linux.git $CDIR
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.5.9-/6.5.10-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.6-/6.6-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/x86/x86-retpoline-Don-t-clobber-RFLAGS-during-srso_safe_.patch,,g' $CDIR/debian/patches/series
@@ -108,9 +108,9 @@ if test "$RPIPATCHES" = 1 ; then
   echo "CONFIG_RESET_RASPBERRY=y" >> debian/config/config
   echo "CONFIG_RESET_BRCMSTB_RESCAL=y" >> debian/config/config
   echo "CONFIG_NO_HZ_FULL=y" >> debian/config/featureset-rt/config
-  rm -f debian/abi/6.5.0-*/arm*
+  rm -f debian/abi/6.6.0-*/arm*
 fi
-rm -fr debian/abi/6.5.0-*
+rm -fr debian/abi/6.6.0-*
 
 if test $CROSS = 0 ; then
 
