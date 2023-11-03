@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER d0e42510ae8347e27d416356291b7546fb7681f5
+  git format-patch -o ../rpi-patches-$RVER ffc253263a1375a65fa6c9f62a893e9767fbebfa
   cd ..
   rm -fr $RDIR
 fi

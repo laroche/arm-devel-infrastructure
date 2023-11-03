@@ -4,7 +4,7 @@
 #
 
 # release date to use:
-RDATE="20230730"
+RDATE="20231103"
 # Select either "stable", "testing" or "unstable":
 TYPE="testing"
 # Should we package the image up?
