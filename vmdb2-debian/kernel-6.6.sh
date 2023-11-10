@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.6
-KVERR=6.6
+KVER=6.6.1
+KVERR=6.6.1
 CDIR=linux-$KVERR
 RVER=6.6.0
 
@@ -74,12 +74,12 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
 fi
 
 if ! test -d $CDIR ; then
-  git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git $CDIR
-  #git clone --single-branch --depth 1 -b 6.6-stable-update https://salsa.debian.org/carnil/linux.git $CDIR
+  #git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git $CDIR
+  git clone --single-branch --depth 1 -b 6.6-stable-update https://salsa.debian.org/carnil/linux.git $CDIR
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.6-/6.6-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.6.1-/6.6.1-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/x86/x86-retpoline-Don-t-clobber-RFLAGS-during-srso_safe_.patch,,g' $CDIR/debian/patches/series
@@ -101,7 +101,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0538-cfg80211-ship-debian-certificates-as-hex-files.patch
+    rm -f bugfix/rpi/0488-cfg80211-ship-debian-certificates-as-hex-files.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config

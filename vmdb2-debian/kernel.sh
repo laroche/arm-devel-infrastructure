@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.61
-KVERR=6.1.61
+KVER=6.1.62
+KVERR=6.1.62
 CDIR=linux-$KVERR
-RVER=6.1.58
+RVER=6.1.61
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER adc4d740ad9ec780657327c69ab966fa4fdf0e8e
+  git format-patch -o ../rpi-patches-$RVER 4a61839152cc3e9e00ac059d73a28d148d622b30
   cd ..
   rm -fr $RDIR
 fi
@@ -79,7 +79,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.60-/6.1.61-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.60-/6.1.62-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/ipv4-fix-null-deref-in-ipv4_link_failure.patch,,g' $CDIR/debian/patches/series
