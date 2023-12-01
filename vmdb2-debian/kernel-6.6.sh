@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.6.2
-KVERR=6.6.2
+KVER=6.6.3
+KVERR=6.6.3
 CDIR=linux-$KVERR
-RVER=6.6.2
+RVER=6.6.3
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER a06ca85b22f6c7f4e6dd1447ca50ded6f54ebb5e
+  git format-patch -o ../rpi-patches-$RVER bd3a9e5771a8b332f466d06f7c130a69cab0d526
   cd ..
   rm -fr $RDIR
 fi
