@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.6.9
-KVERR=6.6.9
+KVER=6.6.10
+KVERR=6.6.10
 CDIR=linux-$KVERR
-RVER=6.6.8
+RVER=6.6.9
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 4c9646a796d66a2d81871a694e88e19a38b115a7
+  git format-patch -o ../rpi-patches-$RVER 5e9df83a705290c4d974693097df1da9cbe25854
   cd ..
   rm -fr $RDIR
 fi
@@ -79,7 +79,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.6.9-/6.6.9-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.6.9-/6.6.10-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/x86/x86-retpoline-Don-t-clobber-RFLAGS-during-srso_safe_.patch,,g' $CDIR/debian/patches/series
