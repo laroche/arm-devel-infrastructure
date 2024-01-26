@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.7.1
-KVERR=6.7.1
+KVER=6.7.2
+KVERR=6.7.2
 CDIR=linux-$KVERR
-RVER=6.7.0
+RVER=6.7.1
 
 CROSS=0
 ARCH=
@@ -68,22 +68,22 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER c9a51ebb4bac69ed3fee9c0ebe0c2b5149e80845
+  git format-patch -o ../rpi-patches-$RVER a91fdae50a6d65ee57378d31284ddec7e9a7ba1b
   cd ..
   rm -fr $RDIR
 fi
 
 if ! test -d $CDIR ; then
-  git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git $CDIR
-  #git clone --single-branch --depth 1 -b 6.7-stable-update https://salsa.debian.org/carnil/linux.git $CDIR
+  #git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git $CDIR
+  git clone --single-branch --depth 1 -b 6.7-stable-update https://salsa.debian.org/carnil/linux.git $CDIR
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.7-/6.7.1-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.7.1-/6.7.2-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/x86/x86-retpoline-Don-t-clobber-RFLAGS-during-srso_safe_.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,powerpc-imc-pmu-Use-the-correct-spinlock-initializer.patch,,g' $CDIR/debian/patches-rt/series
+sed -i -e 's,^bugfix/all/media-solo6x10-replace-max-a-min-b-c-by-clamp-b-a-c.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,powerpc-imc-pmu-Use-the-correct-spinlock-initializer.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
 cd $CDIR || exit 1
