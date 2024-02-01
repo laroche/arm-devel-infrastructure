@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.7.2
-KVERR=6.7.2
+KVER=6.7.3
+KVERR=6.7.3
 CDIR=linux-$KVERR
-RVER=6.7.1
+RVER=6.7.2
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER a91fdae50a6d65ee57378d31284ddec7e9a7ba1b
+  git format-patch -o ../rpi-patches-$RVER 7bbf3b67cb49d0f8a20e64b7473923041b758211
   cd ..
   rm -fr $RDIR
 fi
@@ -79,7 +79,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.7.1-/6.7.2-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.7.2-/6.7.3-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e 's,^bugfix/all/media-solo6x10-replace-max-a-min-b-c-by-clamp-b-a-c.patch,,g' $CDIR/debian/patches/series
@@ -101,7 +101,8 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0488-cfg80211-ship-debian-certificates-as-hex-files.patch
+    rm -f bugfix/rpi/0130-sc16is7xx-Don-t-spin-if-no-data-received.patch
+    rm -f bugfix/rpi/0478-cfg80211-ship-debian-certificates-as-hex-files.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config

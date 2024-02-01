@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.6.14
-KVERR=6.6.14
+KVER=6.6.15
+KVERR=6.6.15
 CDIR=linux-$KVERR
-RVER=6.6.13
+RVER=6.6.14
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 62b19b564504d027296502e0e30baf5fe0ef080a
+  git format-patch -o ../rpi-patches-$RVER 98817289bcec2331c6893139c52105738090afc0
   cd ..
   rm -fr $RDIR
 fi
@@ -79,12 +79,12 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.6.13-/6.6.14-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.6.14-/6.6.15-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/x86/x86-retpoline-Don-t-clobber-RFLAGS-during-srso_safe_.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,powerpc-imc-pmu-Use-the-correct-spinlock-initializer.patch,,g' $CDIR/debian/patches-rt/series
-sed -i -e 's,srcu-Use-try-lock-lockdep-annotation-for-NMI-safe-ac.patch,,g' $CDIR/debian/patches-rt/series
+#sed -i -e 's,srcu-Use-try-lock-lockdep-annotation-for-NMI-safe-ac.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
 cd $CDIR || exit 1
@@ -102,9 +102,9 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0432-fbdev-Don-t-cancel-deferred-work-if-pagelist-empty.patch
+    rm -f bugfix/rpi/0130-sc16is7xx-Don-t-spin-if-no-data-received.patch
     rm -f bugfix/rpi/0488-cfg80211-ship-debian-certificates-as-hex-files.patch
-    rm -f bugfix/rpi/0826-watchdog-bcm2835_wdt-Fix-WDIOC_SETTIMEOUT-handling.patch
+    #rm -f bugfix/rpi/0826-watchdog-bcm2835_wdt-Fix-WDIOC_SETTIMEOUT-handling.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
