@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.7.3
-KVERR=6.7.3
+KVER=6.7.5
+KVERR=6.7.5
 CDIR=linux-$KVERR
-RVER=6.7.2
+RVER=6.7.4
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 7bbf3b67cb49d0f8a20e64b7473923041b758211
+  git format-patch -o ../rpi-patches-$RVER 18d179e11910a53ef98791eabc410d5abcfa377e
   cd ..
   rm -fr $RDIR
 fi
@@ -79,10 +79,10 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.7.2-/6.7.3-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.7.4-/6.7.5-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/all/media-solo6x10-replace-max-a-min-b-c-by-clamp-b-a-c.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/media-solo6x10-replace-max-a-min-b-c-by-clamp-b-a-c.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,powerpc-imc-pmu-Use-the-correct-spinlock-initializer.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -101,8 +101,17 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0130-sc16is7xx-Don-t-spin-if-no-data-received.patch
+    rm -f bugfix/rpi/0107-ASoC-Add-support-for-all-the-downstream-rpi-sound-ca.patch
     rm -f bugfix/rpi/0478-cfg80211-ship-debian-certificates-as-hex-files.patch
+    rm -f bugfix/rpi/0497-usb-dwc3-Set-DMA-and-coherent-masks-early.patch
+    rm -f bugfix/rpi/0646-ASoC-dwc-Remove-check-in-set_bclk_ratio-handling.patch
+    rm -f bugfix/rpi/0668-ASoC-dwc-Fix-full-duplex-mode.patch
+    rm -f bugfix/rpi/0723-ASoC-dwc-Defer-bclk_ratio-handling-to-hw_params.patch
+    rm -f bugfix/rpi/0758-Pisound-Don-t-export-the-button-GPIO-via-sysfs-GPIO-.patch
+    rm -f bugfix/rpi/0759-Pisound-Read-out-the-SPI-speed-to-use-from-the-Devic.patch
+    rm -f bugfix/rpi/0793-ASoC-DACplus-fix-16bit-sample-support-in-clock-consu.patch
+    rm -f bugfix/rpi/0794-ASoC-adds-support-for-AMP4-Pro-to-the-DAC-Plus-drive.patch
+    rm -f bugfix/rpi/0796-ASoC-DACplusADCPro-fix-16bit-sample-support-in-clock.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
