@@ -22,7 +22,7 @@ fi
 KVER=6.6.17
 KVERR=6.6.17
 CDIR=linux-$KVERR
-RVER=6.6.16
+RVER=6.6.17
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER eb3e299184cc4f40d4bd84fda269b3a20ddcff80
+  git format-patch -o ../rpi-patches-$RVER b2c9bf06474ea12eaca7d5f007e9280e057e960b
   cd ..
   rm -fr $RDIR
 fi
@@ -101,8 +101,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0130-sc16is7xx-Don-t-spin-if-no-data-received.patch
-    rm -f bugfix/rpi/0488-cfg80211-ship-debian-certificates-as-hex-files.patch
+    rm -f bugfix/rpi/0486-cfg80211-ship-debian-certificates-as-hex-files.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
