@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.7.5
-KVERR=6.7.5
+KVER=6.7.6
+KVERR=6.7.6
 CDIR=linux-$KVERR
-RVER=6.7.4
+RVER=6.7.6
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 18d179e11910a53ef98791eabc410d5abcfa377e
+  git format-patch -o ../rpi-patches-$RVER b631f5b445dc3379f67ff63a2e4c58f22d4975dc
   cd ..
   rm -fr $RDIR
 fi
@@ -79,7 +79,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.7.4-/6.7.5-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.7.6-/6.7.6-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/media-solo6x10-replace-max-a-min-b-c-by-clamp-b-a-c.patch,,g' $CDIR/debian/patches/series
@@ -101,17 +101,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0107-ASoC-Add-support-for-all-the-downstream-rpi-sound-ca.patch
     rm -f bugfix/rpi/0478-cfg80211-ship-debian-certificates-as-hex-files.patch
-    rm -f bugfix/rpi/0497-usb-dwc3-Set-DMA-and-coherent-masks-early.patch
-    rm -f bugfix/rpi/0646-ASoC-dwc-Remove-check-in-set_bclk_ratio-handling.patch
-    rm -f bugfix/rpi/0668-ASoC-dwc-Fix-full-duplex-mode.patch
-    rm -f bugfix/rpi/0723-ASoC-dwc-Defer-bclk_ratio-handling-to-hw_params.patch
-    rm -f bugfix/rpi/0758-Pisound-Don-t-export-the-button-GPIO-via-sysfs-GPIO-.patch
-    rm -f bugfix/rpi/0759-Pisound-Read-out-the-SPI-speed-to-use-from-the-Devic.patch
-    rm -f bugfix/rpi/0793-ASoC-DACplus-fix-16bit-sample-support-in-clock-consu.patch
-    rm -f bugfix/rpi/0794-ASoC-adds-support-for-AMP4-Pro-to-the-DAC-Plus-drive.patch
-    rm -f bugfix/rpi/0796-ASoC-DACplusADCPro-fix-16bit-sample-support-in-clock.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
