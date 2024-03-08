@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.7.7
-KVERR=6.7.7
+KVER=6.7.9
+KVERR=6.7.9
 CDIR=linux-$KVERR
-RVER=6.7.6
+RVER=6.7.8
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER b631f5b445dc3379f67ff63a2e4c58f22d4975dc
+  git format-patch -o ../rpi-patches-$RVER d6d6c49dbf4512f1421f5e42896e2d70dc121f9a
   cd ..
   rm -fr $RDIR
 fi
@@ -79,7 +79,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.7.6-/6.7.7-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.7.7-/6.7.9-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/media-solo6x10-replace-max-a-min-b-c-by-clamp-b-a-c.patch,,g' $CDIR/debian/patches/series
