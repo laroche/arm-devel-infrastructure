@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.7.10
-KVERR=6.7.10
+KVER=6.7.11
+KVERR=6.7.11
 CDIR=linux-$KVERR
-RVER=6.7.10
+RVER=6.7.11
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 9865e757e1d858c1975915af5c46df6359de0da3
+  git format-patch -o ../rpi-patches-$RVER 6fc5460ed8dd0edf29e7c5cfb1ef9b1aa04208a1
   cd ..
   rm -fr $RDIR
 fi
@@ -79,10 +79,10 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.7.10-/6.7.10-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.7.10-/6.7.11-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/all/media-solo6x10-replace-max-a-min-b-c-by-clamp-b-a-c.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/platform-x86-p2sb-On-Goldmont-only-cache-P2SB-and-SP.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,powerpc-imc-pmu-Use-the-correct-spinlock-initializer.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig

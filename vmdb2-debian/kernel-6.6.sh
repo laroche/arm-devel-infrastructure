@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.6.22
-KVERR=6.6.22
+KVER=6.6.23
+KVERR=6.6.23
 CDIR=linux-$KVERR
-RVER=6.6.22
+RVER=6.6.23
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 6a646d9fe8a2bf8d25817ceddf96dfc5eb5446db
+  git format-patch -o ../rpi-patches-$RVER 5c7587f69194bc9fc714953ab4c7203e6e68885b
   cd ..
   rm -fr $RDIR
 fi
@@ -79,11 +79,11 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.6.15-/6.6.22-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.6.15-/6.6.23-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/x86/x86-retpoline-Don-t-clobber-RFLAGS-during-srso_safe_.patch,,g' $CDIR/debian/patches/series
-#sed -i -e 's,0001-serial-core-Provide-port-lock-wrappers.patch,,g' $CDIR/debian/patches-rt/series
+sed -i -e 's,0096-printk-Disable-passing-console-lock-owner-completely.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
 cd $CDIR || exit 1
@@ -102,6 +102,7 @@ if test "$RPIPATCHES" = 1 ; then
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     rm -f bugfix/rpi/0486-cfg80211-ship-debian-certificates-as-hex-files.patch
+    rm -f bugfix/rpi/0848-PCI-brcmstb-fix-broken-brcm_pcie_mdio_write-polling.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
