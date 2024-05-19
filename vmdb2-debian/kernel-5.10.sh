@@ -49,7 +49,7 @@ if test $CROSS = 1 ; then
 fi
 fi
 
-KVER=5.10.214
+KVER=5.10.217
 
 if test $RPIPATCHES = 1 ; then
   #RVER=$KVER
@@ -77,11 +77,12 @@ if ! test -d linux-5 ; then
   git clone --single-branch --depth 1 -b 5.10-stable-updates https://salsa.debian.org/carnil/linux.git linux-5
 fi
 # Change Debian source to new version:
-sed -i -e '1 s/5.10.214/5.10.214/' linux-5/debian/changelog
+sed -i -e '1 s/5.10.217/5.10.217/' linux-5/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' linux-5/debian/changelog
 sed -i -e '1 s/bullseye/UNRELEASED/' linux-5/debian/changelog
-#sed -i -e 's,^bugfix/all/netfilter-nf_tables-do-not-ignore-genmask-when-looki.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/tipc-fix-UAF-in-error-path.patch,,g' linux-5/debian/patches/series
+sed -i -e 's,^bugfix/all/tipc-fix-a-possible-memleak-in-tipc_buf_append.patch,,g' linux-5/debian/patches/series
 #sed -i -e 's,0128-sched-vtime-Consolidate-IRQ-time-accounting.patch,,g' linux-5/debian/patches-rt/series
 sed -i -e 's/CONFIG_DRM_AST=m/#CONFIG_DRM_AST is not set/g' linux-5/debian/config/arm64/config
 sed -i -e 's/^ast//g' linux-5/debian/installer/modules/arm64/fb-modules

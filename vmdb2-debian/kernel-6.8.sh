@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.6.26
-KVERR=6.6.26
+KVER=6.8.10
+KVERR=6.8.10
 CDIR=linux-$KVERR
-RVER=6.6.23
+RVER=6.8.9
 
 CROSS=0
 ARCH=
@@ -60,30 +60,31 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   # Extract the raspberry-pi patches into a subdirectory:
   RDIR=rpi-linux-$RVER
   if test ! -d $RDIR ; then
-    git clone -b rpi-6.6.y https://github.com/raspberrypi/linux/ $RDIR
+    git clone -b rpi-6.8.y https://github.com/raspberrypi/linux/ $RDIR
     test -d $RDIR || exit 1
   else
     pushd $RDIR
-    git checkout rpi-6.6.y
+    git checkout rpi-6.8.y
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 5c7587f69194bc9fc714953ab4c7203e6e68885b
+  git format-patch -o ../rpi-patches-$RVER f3d61438b613b87afb63118bea6fb18c50ba7a6b
   cd ..
   rm -fr $RDIR
 fi
 
 if ! test -d $CDIR ; then
-  #git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git $CDIR
-  git clone --single-branch --depth 1 -b 6.6-stable-update https://salsa.debian.org/carnil/linux.git $CDIR
+  git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
+  #git clone --single-branch --depth 1 -b 6.8-stable-update https://salsa.debian.org/carnil/linux.git $CDIR
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.6.15-/6.6.26-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.8.9-/6.8.10-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/x86/x86-retpoline-Don-t-clobber-RFLAGS-during-srso_safe_.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,0096-printk-Disable-passing-console-lock-owner-completely.patch,,g' $CDIR/debian/patches-rt/series
+sed -i -e 's,^bugfix/all/tipc-fix-UAF-in-error-path.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/tipc-fix-a-possible-memleak-in-tipc_buf_append.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,powerpc-imc-pmu-Use-the-correct-spinlock-initializer.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
 cd $CDIR || exit 1
@@ -101,17 +102,21 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0486-cfg80211-ship-debian-certificates-as-hex-files.patch
-    rm -f bugfix/rpi/0848-PCI-brcmstb-fix-broken-brcm_pcie_mdio_write-polling.patch
+    rm -f bugfix/rpi/0260-net-bcmgenet-Reset-RBUF-on-first-open.patch
+    rm -f bugfix/rpi/0260-net-bcmgenet-Reset-RBUF-on-first-open.patc
+    rm -f bugfix/rpi/0436-cfg80211-ship-debian-certificates-as-hex-files.patch
+    rm -f bugfix/rpi/0654-module-Avoid-ABI-changes-when-debug-info-is-disabled.patch
+    rm -f bugfix/rpi/0657-usb-gadget-uvc-use-correct-buffer-size-when-parsing-.patch
+    rm -f bugfix/rpi/0657-usb-gadget-uvc-use-correct-buffer-size-when-parsing-.patc
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
   echo "CONFIG_RESET_RASPBERRY=y" >> debian/config/config
   echo "CONFIG_RESET_BRCMSTB_RESCAL=y" >> debian/config/config
   echo "CONFIG_NO_HZ_FULL=y" >> debian/config/featureset-rt/config
-  rm -f debian/abi/6.6.0-*/arm*
+  rm -f debian/abi/6.8.0-*/arm*
 fi
-rm -fr debian/abi/6.6.0-*
+rm -fr debian/abi/6.8.0-*
 
 if test $CROSS = 0 ; then
 
