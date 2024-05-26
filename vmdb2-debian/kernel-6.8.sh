@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.8.10
-KVERR=6.8.10
+KVER=6.8.11
+KVERR=6.8.11
 CDIR=linux-$KVERR
-RVER=6.8.9
+RVER=6.8.10
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER f3d61438b613b87afb63118bea6fb18c50ba7a6b
+  git format-patch -o ../rpi-patches-$RVER a0c69a570e420e86c7569b8c052913213eef2b45
   cd ..
   rm -fr $RDIR
 fi
@@ -79,11 +79,10 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.8.9-/6.8.10-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.8.11-/6.8.11-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/all/tipc-fix-UAF-in-error-path.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/tipc-fix-a-possible-memleak-in-tipc_buf_append.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/tipc-fix-UAF-in-error-path.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,powerpc-imc-pmu-Use-the-correct-spinlock-initializer.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -102,12 +101,8 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0260-net-bcmgenet-Reset-RBUF-on-first-open.patch
-    rm -f bugfix/rpi/0260-net-bcmgenet-Reset-RBUF-on-first-open.patc
-    rm -f bugfix/rpi/0436-cfg80211-ship-debian-certificates-as-hex-files.patch
-    rm -f bugfix/rpi/0654-module-Avoid-ABI-changes-when-debug-info-is-disabled.patch
-    rm -f bugfix/rpi/0657-usb-gadget-uvc-use-correct-buffer-size-when-parsing-.patch
-    rm -f bugfix/rpi/0657-usb-gadget-uvc-use-correct-buffer-size-when-parsing-.patc
+    rm -f bugfix/rpi/0435-cfg80211-ship-debian-certificates-as-hex-files.patch
+    rm -f bugfix/rpi/0653-module-Avoid-ABI-changes-when-debug-info-is-disabled.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
