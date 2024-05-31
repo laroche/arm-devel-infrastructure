@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.8.11
-KVERR=6.8.11
+KVER=6.8.12
+KVERR=6.8.12
 CDIR=linux-$KVERR
-RVER=6.8.10
+RVER=6.8.11
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER a0c69a570e420e86c7569b8c052913213eef2b45
+  git format-patch -o ../rpi-patches-$RVER f610c358956229b7e5180f8c1147725d989f6b0d
   cd ..
   rm -fr $RDIR
 fi
@@ -79,7 +79,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.8.11-/6.8.11-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.8.12-/6.8.12-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/tipc-fix-UAF-in-error-path.patch,,g' $CDIR/debian/patches/series
@@ -101,6 +101,8 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
+    rm -f bugfix/rpi/0069-smsx95xx-fix-crimes-against-truesize.patch
+    rm -f bugfix/rpi/0421-drm-vc4-Use-phys-addresses-for-slave-DMA-config.patch
     rm -f bugfix/rpi/0435-cfg80211-ship-debian-certificates-as-hex-files.patch
     rm -f bugfix/rpi/0653-module-Avoid-ABI-changes-when-debug-info-is-disabled.patch
     ls bugfix/rpi/*.patch >> series
