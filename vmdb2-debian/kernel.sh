@@ -83,6 +83,7 @@ sed -i -e '1 s/6.1.95-/6.1.96-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/net-sched-taprio-always-validate-TCA_TAPRIO_ATTR_PRI.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/firmware-remove-redundant-log-messages-from-drivers.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0028-drm-i915-gt-Queue-and-wait-for-the-irq_work-item.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
