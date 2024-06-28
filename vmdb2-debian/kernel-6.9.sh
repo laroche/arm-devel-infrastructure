@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.9.6
-KVERR=6.9.6
+KVER=6.9.7
+KVERR=6.9.7
 CDIR=linux-$KVERR
-RVER=6.9.5
+RVER=6.9.6
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 380df7b7938d3c3ba1d0d0b472a810fd38061329
+  git format-patch -o ../rpi-patches-$RVER 9c5a72fbc90d829ffb761da64a73c23cd4e0503f
   cd ..
   rm -fr $RDIR
 fi
@@ -80,7 +80,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.9.6-/6.9.6-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.9.7-/6.9.7-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/tipc-fix-UAF-in-error-path.patch,,g' $CDIR/debian/patches/series
@@ -103,8 +103,9 @@ if test "$RPIPATCHES" = 1 ; then
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     rm -f bugfix/rpi/0434-cfg80211-ship-debian-certificates-as-hex-files.patch
+    rm -f bugfix/rpi/0461-dmaengine-dw-axi-dmac-Fixes-for-RP1.patch
     rm -f bugfix/rpi/0663-module-Avoid-ABI-changes-when-debug-info-is-disabled.patch
-    rm -f bugfix/rpi/0759-ax25-Fix-refcount-imbalance-on-inbound-connections.patch
+    #rm -f bugfix/rpi/0759-ax25-Fix-refcount-imbalance-on-inbound-connections.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
