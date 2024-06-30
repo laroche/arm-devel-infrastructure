@@ -22,7 +22,7 @@ fi
 KVER=6.9.7
 KVERR=6.9.7
 CDIR=linux-$KVERR
-RVER=6.9.6
+RVER=6.9.7
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 9c5a72fbc90d829ffb761da64a73c23cd4e0503f
+  git format-patch -o ../rpi-patches-$RVER 12c740d50d4e74e6b97d879363b85437dc895dde
   cd ..
   rm -fr $RDIR
 fi
@@ -103,9 +103,7 @@ if test "$RPIPATCHES" = 1 ; then
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     rm -f bugfix/rpi/0434-cfg80211-ship-debian-certificates-as-hex-files.patch
-    rm -f bugfix/rpi/0461-dmaengine-dw-axi-dmac-Fixes-for-RP1.patch
     rm -f bugfix/rpi/0663-module-Avoid-ABI-changes-when-debug-info-is-disabled.patch
-    #rm -f bugfix/rpi/0759-ax25-Fix-refcount-imbalance-on-inbound-connections.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
