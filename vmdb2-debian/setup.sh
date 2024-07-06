@@ -807,7 +807,7 @@ EOM
 	# https://zero.bs/new-ddos-attack-vector-via-ws-discoverysoapoverudp-port-3702.html
 	-A INPUT -d 239.255.255.250/32 -p udp -m udp --dport 3702 -j DROP
 	# https://en.wikipedia.org/wiki/Simple_Service_Discovery_Protocol
-	-A INPUT -d 239.255.255.250/32 -p udp -m udp --dport 1900 -j ACCEPT
+	#-A INPUT -d 239.255.255.250/32 -p udp -m udp --dport 1900 -j ACCEPT
 	-A INPUT -d 224.0.0.0/8 -j ACCEPT
 	-A INPUT -p udp -m udp --dport 137:138 -j DROP
 	-A INPUT -p udp -m udp --dport 161 -j DROP
@@ -816,12 +816,15 @@ EOM
 	# https://wiki.debian.org/SaneOverNetwork
 	-A INPUT -p udp -m udp --dport 8610:8612 -j DROP
 	# Epson ENPC printer discovery: --dst-type BROADCAST
-	-A INPUT -d 255.255.255.255/32 -p udp -m udp --dport 3289 -j DROP
+	#-A INPUT -d 255.255.255.255/32 -p udp -m udp --dport 3289 -j DROP
+	# WIIM
+	-A INPUT -d 255.255.255.255/32 -p udp -m udp --dport 3483 -j DROP
+	-A INPUT -p udp -m udp --dport 9003 -j DROP
 	# 53805 AVM Mesh Discovery
 	-A INPUT -p udp -m udp --dport 53805 -j DROP
 	# Spotify Connect
 	-A INPUT -p udp -m udp --dport 57621 -j DROP
-	-A INPUT -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[REJECT-INPUT]:"
+	-A INPUT -m limit --limit 6/min --limit-burst 15 -j NFLOG --nflog-prefix "[REJECT-INPUT]:"
 EOM
     fi
     cat <<-EOM
@@ -834,7 +837,7 @@ EOM
 EOM
     if test "X$3" = "Xdebug" ; then
       cat <<-EOM
-	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[DROP-FORWARD]:"
+	-A FORWARD -m limit --limit 6/min --limit-burst 15 -j NFLOG --nflog-prefix "[DROP-FORWARD]:"
 	-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 EOM
     fi
@@ -846,7 +849,8 @@ EOM
       cat <<-EOM
 	-A OUTPUT -d 224.0.0.22/32 -j ACCEPT
 	-A OUTPUT -d 224.0.0.251/32 -j ACCEPT
-	-A OUTPUT -d 239.255.255.250/32 -p udp -m udp --dport 1900 -j ACCEPT
+	#-A OUTPUT -d 239.255.255.250/32 -p udp -m udp --dport 1900 -j ACCEPT
+	#-A OUTPUT -d 239.255.255.250/32 -p udp -m udp --dport 3702 -j DROP
 	# virt-inst new network checks:
 	-A OUTPUT -d 10.0.0.0/8 -p udp -m udp --dport 7 -j ACCEPT
 	-A OUTPUT -p udp -m udp --dport 123 -j ACCEPT
@@ -872,8 +876,8 @@ EOM
 	-A OUTPUT -o lo -j ACCEPT
 	-A OUTPUT -p udp -m udp --dport 53 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 53 -j ACCEPT
-	-A OUTPUT -p udp -m udp --sport 67 --dport 68 -j ACCEPT
-	-A OUTPUT -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[UNKNOWN-OUTPUT]:"
+	-A OUTPUT -p udp -m udp --sport 68 --dport 67 -j ACCEPT
+	-A OUTPUT -m limit --limit 6/min --limit-burst 15 -j NFLOG --nflog-prefix "[UNKNOWN-OUTPUT]:"
 EOM
     fi
     cat <<-EOM
@@ -906,7 +910,7 @@ EOM
 EOM
     if test "X$3" = "Xdebug" ; then
       cat <<-EOM
-	-A FORWARD -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-prefix "[DROP-FORWARD]:"
+	-A FORWARD -m limit --limit 6/min --limit-burst 15 -j NFLOG --nflog-prefix "[DROP-FORWARD]:"
 	-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 EOM
     fi
