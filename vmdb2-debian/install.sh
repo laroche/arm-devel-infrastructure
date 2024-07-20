@@ -4,9 +4,9 @@
 #
 
 # release date to use:
-RDATE="20231103"
+RDATE="20240720"
 # Select either "stable", "testing" or "unstable":
-TYPE="testing"
+TYPE="stable"
 # Should we package the image up?
 ZIP=0
 EFI=0
