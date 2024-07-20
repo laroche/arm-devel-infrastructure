@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.9.9
-KVERR=6.9.9
+KVER=6.9.10
+KVERR=6.9.10
 CDIR=linux-$KVERR
 RVER=6.9.9
 
@@ -80,7 +80,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.9.9-/6.9.9-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.9.9-/6.9.10-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/tipc-fix-UAF-in-error-path.patch,,g' $CDIR/debian/patches/series
@@ -103,6 +103,7 @@ if test "$RPIPATCHES" = 1 ; then
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     rm -f bugfix/rpi/0434-cfg80211-ship-debian-certificates-as-hex-files.patch
+    rm -f bugfix/rpi/0626-overlays-Use-dtbs-list-for-overlay-installation.patch
     rm -f bugfix/rpi/0663-module-Avoid-ABI-changes-when-debug-info-is-disabled.patch
     ls bugfix/rpi/*.patch >> series
   popd
