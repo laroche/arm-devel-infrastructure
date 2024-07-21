@@ -22,7 +22,7 @@ fi
 KVER=6.9.10
 KVERR=6.9.10
 CDIR=linux-$KVERR
-RVER=6.9.9
+RVER=6.9.10
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 28fdf45184830d0b87aaa678e2c7667dbdf07db8
+  git format-patch -o ../rpi-patches-$RVER 73c962ea6ded55e53a3412771bcafbe4d651f115
   cd ..
   rm -fr $RDIR
 fi
