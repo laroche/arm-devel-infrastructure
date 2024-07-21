@@ -685,12 +685,9 @@ if false && test "$DEVELOPER" = 1 ; then
   if ! test -d /home/$NEWUSER/data/arm-devel-infrastructure ; then
     su $NEWUSER -c "cd ~/data && git clone https://github.com/laroche/arm-devel-infrastructure"
   fi
-  # Note that binfmt-support is not installed within lxc guest systems:
-  if test "X$SYSTYPE" = Xlxc ; then
-    $apt install vmdb2 dosfstools qemu qemu-user-static make zip binfmt-support-
-    rm -f /lib/systemd/system/sysinit.target.wants/systemd-binfmt.service
-  else
-    $apt install vmdb2 dosfstools qemu qemu-user-static make zip
+  if test "X$SYSTYPE" != Xlxc ; then
+    # ansible is disabled from installation:
+    $apt install vmdb2 make zip zerofree ansible- # qemu qemu-user-static ???
   fi
 fi
 if false && ! test -d /opt/ltp ; then
@@ -947,6 +944,94 @@ config_snapd()
   systemctl start snapd.service
 }
 
+config_incus()
+{
+  $apt install incus incus-client
+  # To list all current settings: incus admin init --dump
+  if ! test -d /var/lib/incus/storage-pools/default ; then
+    PUBKEY=""
+    if test -f /home/$NEWUSER/.ssh/id_ed25519.pub ; then
+      PUBKEY="`cat /home/$NEWUSER/.ssh/id_ed25519.pub`"
+    fi
+    # limits.memory: 8GiB
+    cat <<EOF | incus admin init --preseed
+config: {}
+storage_pools:
+- name: default
+  description: default storage
+  driver: dir
+  config:
+    source: /var/lib/incus/storage-pools/default
+profiles:
+- name: default
+  description: default profile
+  config:
+    security.idmap.isolated: true
+    cloud-init.user-data: |
+      #cloud-config
+      write_files:
+      - content: |
+          alias ..='cd ..'
+          alias ...='cd ../..'
+          alias o=less
+          alias l='ls -la'
+        path: /etc/skel/.bash_aliases
+      packages:
+        - apt-utils
+        - openssh-server
+        - less
+        - locales
+        - vim
+        - rsync
+        - htop
+        - screen
+        - tmux
+      runcmd:
+        - cp /etc/skel/.bash_aliases /root/
+        - useradd -D -s /bin/bash
+        - update-alternatives --set editor /usr/bin/vim.basic
+        - apt update
+        - apt -y -qq dist-upgrade
+        - apt -y -qq autoremove
+        - apt clean
+      timezone: Europe/Berlin
+      #locale: de_DE.UTF-8
+      #locale_configfile: /etc/default/locale
+      #swap:
+      #  filename: /swapfile
+      #  size: "auto"
+      #  maxsize: 2147483648
+      disable_root: false
+      users: ""
+      ssh_authorized_keys:
+        - $PUBKEY
+  devices:
+    eth0:
+      type: nic
+      name: eth0
+      nictype: bridged
+      parent: br0
+    root:
+      type: disk
+      path: /
+      pool: default
+projects:
+- name: default
+  description: default project
+  config:
+    features.images: "true"
+    features.networks: "true"
+    features.networks.zones: "true"
+    features.profiles: "true"
+    features.storage.buckets: "true"
+    features.storage.volumes: "true"
+EOF
+  fi
+  #incus launch images:debian/12/cloud debian-12 --config boot.autostart=true
+  #incus config set debian-12 raw.lxc "lxc.apparmor.profile=unconfined"
+  #incus launch images:debian/trixie/cloud debian-13 --config boot.autostart=true
+}
+
 config_lxd()
 {
   config_snapd
@@ -1004,7 +1089,7 @@ ssh_authorized_keys:
 """
   lxc profile set default "$CLOUDINIT"
   #lxc profile device add default root disk path=/ pool=default
-  lxc profile device set default eth0 security.mac_filtering=true
+  #lxc profile device set default eth0 security.mac_filtering=true
 
   #lxc profile copy default vm
   lxc profile create vm
@@ -1012,7 +1097,7 @@ ssh_authorized_keys:
   lxc profile set vm limits.memory 2GB
   lxc profile set vm "$CLOUDINIT"
   lxc profile device add vm root disk path=/ pool=default size=20GB
-  lxc profile device add vm eth0 bridged name=eth0 network=lxdbr0 type=nic security.mac_filtering=true
+  lxc profile device add vm eth0 bridged name=eth0 network=lxdbr0 type=nic # security.mac_filtering=true
 }
 
 config_lxd_example()
@@ -1142,8 +1227,9 @@ if test "X$DEMOSETUP" = X1 ; then
     if ! test -f /home/$NEWUSER/.ssh/id_ed25519.pub ; then
       su - $NEWUSER -c "ssh-keygen -q -t ed25519 -N '' -f /home/$NEWUSER/.ssh/id_ed25519"
     fi
-    config_lxd
-    config_lxd_example
+    config_incus
+    #config_lxd
+    #config_lxd_example
   else
     config_firewall "" ""
   fi
@@ -1172,6 +1258,7 @@ fi
 # - Port 3128 should be added for a squid proxy.
 #config_firewall "443 80 22" "443 80 22"
 
+#config_incus
 #config_lxc
 #config_lxd
 #config_lxd_example
