@@ -48,7 +48,9 @@ fi
 # Build requirements:
 if true ; then
 sudo apt-get -qq -y install build-essential fakeroot rsync git quilt python3-debian libcap-dev g++-12
-sudo apt-get -y install -t bookworm-backports kernel-wedge
+if grep -q bookworm /etc/os-release ; then
+  sudo apt-get -y install -t bookworm-backports kernel-wedge
+fi
 sudo apt-get -qq -y build-dep linux
 if test $CROSS = 1 ; then
   sudo apt-get -qq -y install kernel-wedge quilt flex bison libssl-dev ccache
