@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.100
-KVERR=6.1.100
+KVER=6.1.101
+KVERR=6.1.101
 CDIR=linux-$KVERR
 RVER=6.1.66
 
@@ -47,7 +47,8 @@ fi
 
 # Build requirements:
 if true ; then
-sudo apt-get -qq -y install build-essential fakeroot rsync git quilt kernel-wedge libelf-dev python3-debian libcap-dev g++-12
+sudo apt-get -qq -y install build-essential fakeroot rsync git quilt python3-debian libcap-dev g++-12
+sudo apt-get -y install -t bookworm-backports kernel-wedge
 sudo apt-get -qq -y build-dep linux
 if test $CROSS = 1 ; then
   sudo apt-get -qq -y install kernel-wedge quilt flex bison libssl-dev ccache
@@ -79,7 +80,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.98-/6.1.100-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.100-/6.1.101-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/net-sched-taprio-always-validate-TCA_TAPRIO_ATTR_PRI.patch,,g' $CDIR/debian/patches/series
