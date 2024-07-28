@@ -1015,6 +1015,61 @@ profiles:
       type: disk
       path: /
       pool: default
+- name: vm
+  description: vm profile
+  config:
+    cloud-init.user-data: |
+      #cloud-config
+      write_files:
+      - content: |
+          alias ..='cd ..'
+          alias ...='cd ../..'
+          alias o=less
+          alias l='ls -la'
+        path: /etc/skel/.bash_aliases
+      packages:
+        - apt-utils
+        - openssh-server
+        - less
+        - locales
+        - vim
+        - rsync
+        - htop
+        - screen
+        - tmux
+      runcmd:
+        - cp /etc/skel/.bash_aliases /root/
+        - useradd -D -s /bin/bash
+        - update-alternatives --set editor /usr/bin/vim.basic
+        - apt update
+        - apt -y -qq dist-upgrade
+        - apt -y -qq autoremove
+        - apt clean
+      timezone: Europe/Berlin
+      #locale: de_DE.UTF-8
+      #locale_configfile: /etc/default/locale
+      #swap:
+      #  filename: /swapfile
+      #  size: "auto"
+      #  maxsize: 2147483648
+      disable_root: false
+      users: ""
+      ssh_authorized_keys:
+        - $PUBKEY
+    limits.cpu: "4"
+    limits.memory: 8GB
+    security.idmap.isolated: "true"
+  devices:
+    eth0:
+      type: nic
+      name: eth0
+      nictype: bridged
+      parent: br0
+    root:
+      path: /
+      pool: default
+      type: disk
+      size: 40GB
 projects:
 - name: default
   description: default project
@@ -1027,9 +1082,12 @@ projects:
     features.storage.volumes: "true"
 EOF
   fi
+  # example commands to list images and start container/vm:
+  #incus image list images: debian amd64
   #incus launch images:debian/12/cloud debian-12 --config boot.autostart=true
   #incus config set debian-12 raw.lxc "lxc.apparmor.profile=unconfined"
   #incus launch images:debian/trixie/cloud debian-13 --config boot.autostart=true
+  #incus launch images:debian/12/cloud debian-12-vm --vm -p vm
 }
 
 config_lxd()
