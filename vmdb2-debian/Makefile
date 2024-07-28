@@ -9,10 +9,10 @@ all: debian-amd64.img debian-amd64-efi.img debian-rpi3-arm64.img debian-rpi3-arm
 #release: debian-stable-amd64-$(DATE).zip debian-stable-amd64-efi-$(DATE).zip debian-stable-rpi3-arm64-$(DATE).zip debian-stable-rpi3-armhf-$(DATE).zip \
 #    debian-testing-amd64-$(DATE).zip debian-testing-amd64-efi-$(DATE).zip debian-testing-rpi3-arm64-$(DATE).zip debian-testing-rpi3-armhf-$(DATE).zip \
 #    debian-unstable-amd64-$(DATE).zip debian-unstable-amd64-efi-$(DATE).zip debian-unstable-rpi3-arm64-$(DATE).zip debian-unstable-rpi3-armhf-$(DATE).zip
-#
+
 release: debian-stable-amd64-$(DATE).zip debian-stable-amd64-efi-$(DATE).zip \
     debian-testing-amd64-$(DATE).zip debian-testing-amd64-efi-$(DATE).zip \
-    debian-unstable-amd64-$(DATE).zip debian-unstable-amd64-efi-$(DATE).zip
+    #debian-unstable-amd64-$(DATE).zip debian-unstable-amd64-efi-$(DATE).zip
 
 define vmdb2
 	sudo env -i http_proxy=$(http_proxy) LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-$(1).tar.gz --output debian-$(1).img debian-$(1).yaml --log debian-$(1).log
