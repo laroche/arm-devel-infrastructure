@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.10.3
-KVERR=6.10.3
+KVER=6.10.4
+KVERR=6.10.4
 CDIR=linux-$KVERR
-RVER=6.10.2
+RVER=6.10.3
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 2d002356c3bb628937e0fb5d72a91dc493a984fe
+  git format-patch -o ../rpi-patches-$RVER d29de02effd4e8816333582ed8230d41e14a73dc
   cd ..
   rm -fr $RDIR
 fi
@@ -79,7 +79,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.10.2-/6.10.3-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.10.4-/6.10.4-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/tipc-fix-UAF-in-error-path.patch,,g' $CDIR/debian/patches/series
@@ -101,6 +101,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
+    rm -f bugfix/rpi/0323-spi-spidev-Restore-loading-from-Device-Tree.patch
     rm -f bugfix/rpi/0429-mfd-Add-rp1-driver.patch
     rm -f bugfix/rpi/0412-cfg80211-ship-debian-certificates-as-hex-files.patch
     sed -i -e 's/ README$//g' bugfix/rpi/0048-BCM2708-Add-core-Device-Tree-support.patch
