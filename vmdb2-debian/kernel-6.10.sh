@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.10.4
-KVERR=6.10.4
+KVER=6.10.5
+KVERR=6.10.5
 CDIR=linux-$KVERR
 RVER=6.10.3
 
@@ -79,10 +79,11 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.10.4-/6.10.4-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.10.4-/6.10.5-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/all/tipc-fix-UAF-in-error-path.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/net-drop-bad-gso-csum_start-and-offset-in-virtio_net.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/spi-spidev-Add-missing-spi_device_id-for-bh2228fv.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,powerpc-imc-pmu-Use-the-correct-spinlock-initializer.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
