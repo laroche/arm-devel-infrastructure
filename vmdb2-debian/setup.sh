@@ -802,7 +802,7 @@ EOM
 	-A INPUT -d 224.0.0.251/32 -j ACCEPT
 	# https://www.it-administrator.de/lexikon/ws-discovery.html
 	# https://zero.bs/new-ddos-attack-vector-via-ws-discoverysoapoverudp-port-3702.html
-	-A INPUT -d 239.255.255.250/32 -p udp -m udp --dport 3702 -j DROP
+	#-A INPUT -d 239.255.255.250/32 -p udp -m udp --dport 3702 -j DROP
 	# https://en.wikipedia.org/wiki/Simple_Service_Discovery_Protocol
 	#-A INPUT -d 239.255.255.250/32 -p udp -m udp --dport 1900 -j ACCEPT
 	-A INPUT -d 224.0.0.0/8 -j ACCEPT
