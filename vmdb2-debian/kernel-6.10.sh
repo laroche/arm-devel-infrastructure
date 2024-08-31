@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.10.5
-KVERR=6.10.5
+KVER=6.10.7
+KVERR=6.10.7
 CDIR=linux-$KVERR
-RVER=6.10.3
+RVER=6.10.7
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER d29de02effd4e8816333582ed8230d41e14a73dc
+  git format-patch -o ../rpi-patches-$RVER 24873d2e5fe32f4635cf8406ff3b8d16f6e47505
   cd ..
   rm -fr $RDIR
 fi
@@ -79,11 +79,11 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.10.4-/6.10.5-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.10.7-/6.10.7-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/all/net-drop-bad-gso-csum_start-and-offset-in-virtio_net.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/spi-spidev-Add-missing-spi_device_id-for-bh2228fv.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/net-drop-bad-gso-csum_start-and-offset-in-virtio_net.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/spi-spidev-Add-missing-spi_device_id-for-bh2228fv.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,powerpc-imc-pmu-Use-the-correct-spinlock-initializer.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -102,12 +102,9 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0323-spi-spidev-Restore-loading-from-Device-Tree.patch
-    rm -f bugfix/rpi/0429-mfd-Add-rp1-driver.patch
-    rm -f bugfix/rpi/0412-cfg80211-ship-debian-certificates-as-hex-files.patch
-    sed -i -e 's/ README$//g' bugfix/rpi/0048-BCM2708-Add-core-Device-Tree-support.patch
-    #rm -f bugfix/rpi/0592-overlays-Use-dtbs-list-for-overlay-installation.patch
-    rm -f bugfix/rpi/0610-module-Avoid-ABI-changes-when-debug-info-is-disabled.patch
+    sed -i -e 's/ README$//g' bugfix/rpi/0046-BCM2708-Add-core-Device-Tree-support.patch
+    rm -f bugfix/rpi/0410-cfg80211-ship-debian-certificates-as-hex-files.patch
+    rm -f bugfix/rpi/0608-module-Avoid-ABI-changes-when-debug-info-is-disabled.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
