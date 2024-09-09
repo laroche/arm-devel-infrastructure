@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.10.8
-KVERR=6.10.8
+KVER=6.10.9
+KVERR=6.10.9
 CDIR=linux-$KVERR
-RVER=6.10.7
+RVER=6.10.8
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 24873d2e5fe32f4635cf8406ff3b8d16f6e47505
+  git format-patch -o ../rpi-patches-$RVER 560ed1386571c54598065fb9e80ff54855e2236d
   cd ..
   rm -fr $RDIR
 fi
@@ -79,12 +79,11 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.10.8-/6.10.8-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.10.8-/6.10.9-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/net-drop-bad-gso-csum_start-and-offset-in-virtio_net.patch,,g' $CDIR/debian/patches/series
-#sed -i -e 's,^bugfix/all/spi-spidev-Add-missing-spi_device_id-for-bh2228fv.patch,,g' $CDIR/debian/patches/series
-#sed -i -e 's,powerpc-imc-pmu-Use-the-correct-spinlock-initializer.patch,,g' $CDIR/debian/patches-rt/series
+sed -i -e 's,0001-net-tcp-dccp-prepare-for-tw_timer-un-pinning.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
 cd $CDIR || exit 1
