@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 049be94099ea5ba8338526c5a4f4f404b9dcaf54
+  git format-patch -o ../rpi-patches-$RVER 98f7e32f20d28ec452afb208f9cffc08448a2652
   cd ..
   rm -fr $RDIR
 fi
@@ -101,9 +101,9 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    sed -i -e 's/ README$//g' bugfix/rpi/0046-BCM2708-Add-core-Device-Tree-support.patch
-    rm -f bugfix/rpi/0410-cfg80211-ship-debian-certificates-as-hex-files.patch
-    rm -f bugfix/rpi/0607-module-Avoid-ABI-changes-when-debug-info-is-disabled.patch
+    sed -i -e 's/ README$//g' bugfix/rpi/0043-BCM2708-Add-core-Device-Tree-support.patch
+    rm -f bugfix/rpi/0385-cfg80211-ship-debian-certificates-as-hex-files.patch
+    #rm -f bugfix/rpi/0607-module-Avoid-ABI-changes-when-debug-info-is-disabled.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
