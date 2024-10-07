@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.11
-KVERR=6.11
+KVER=6.11.2
+KVERR=6.11.2
 CDIR=linux-$KVERR
-RVER=6.11.0
+RVER=6.11.1
 
 CROSS=0
 ARCH=
@@ -48,7 +48,7 @@ fi
 # Build requirements:
 if true ; then
 sudo apt-get -qq -y install build-essential fakeroot rsync git python3-debian libcap-dev g++-13
-sudo apt-get -qq -y build-dep linux
+sudo apt-get -qq -y build-dep linux devscripts
 if test $CROSS = 1 ; then
   sudo apt-get -qq -y install kernel-wedge quilt flex bison libssl-dev ccache
   sudo apt-get -qq -y install crossbuild-essential-arm64 crossbuild-essential-armhf
@@ -68,18 +68,18 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 98f7e32f20d28ec452afb208f9cffc08448a2652
+  git format-patch -o ../rpi-patches-$RVER 7424ab40896c2af234a185e13529fbc048835d24
   cd ..
   rm -fr $RDIR
 fi
 
 if ! test -d $CDIR ; then
-  #git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git $CDIR
-  git clone --single-branch --depth 1 -b 6.11-update https://salsa.debian.org/carnil/linux.git $CDIR
+  git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
+  #git clone --single-branch --depth 1 -b 6.11-update https://salsa.debian.org/carnil/linux.git $CDIR
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.11.0-/6.11.0-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.11.2-/6.11.2-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/net-drop-bad-gso-csum_start-and-offset-in-virtio_net.patch,,g' $CDIR/debian/patches/series
@@ -87,10 +87,11 @@ sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #exit 0
 mkdir -p orig
 cd $CDIR || exit 1
-test -f ../orig/linux_$KVER.orig.tar.xz || XZ_DEFAULTS="-T 0" debian/bin/genorig.py https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+test -f ../linux_$KVER.orig.tar.xz || uscan --download-current-version --vcs-export-uncompressed
+rm -f ../linux-$KVER.tar
 # Just to safe disk space and have a faster compile:
 export DEBIAN_KERNEL_DISABLE_DEBUG=yes
-sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
+#sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
 sed -i -e 's/^CONFIG_DEBUG_INFO=y/# CONFIG_DEBUG_INFO is not set/g' debian/config/config
 # Disable RT kernel:
 #if test $CROSS = 1 ; then
