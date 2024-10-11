@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.11.2
-KVERR=6.11.2
+KVER=6.11.3
+KVERR=6.11.3
 CDIR=linux-$KVERR
-RVER=6.11.1
+RVER=6.11.3
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 7424ab40896c2af234a185e13529fbc048835d24
+  git format-patch -o ../rpi-patches-$RVER 8e24a758d14c0b1cd42ab0aea980a1030eea811f
   cd ..
   rm -fr $RDIR
 fi
@@ -79,10 +79,11 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.11.2-/6.11.2-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.11.2-/6.11.3-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/all/net-drop-bad-gso-csum_start-and-offset-in-virtio_net.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^features/all/security-perf-allow-further-restriction-of-perf_event_open.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/tools-rtla-fix-installation-from-out-of-tree-build.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0001-net-tcp-dccp-prepare-for-tw_timer-un-pinning.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
