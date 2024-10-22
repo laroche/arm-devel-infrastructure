@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.11.4
-KVERR=6.11.4
+KVER=6.11.5
+KVERR=6.11.5
 CDIR=linux-$KVERR
 RVER=6.11.4
 
@@ -79,11 +79,10 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.11.3-/6.11.4-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.11.4-/6.11.5-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^features/all/security-perf-allow-further-restriction-of-perf_event_open.patch,,g' $CDIR/debian/patches/series
-#sed -i -e 's,^bugfix/all/tools-rtla-fix-installation-from-out-of-tree-build.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0001-net-tcp-dccp-prepare-for-tw_timer-un-pinning.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -105,7 +104,6 @@ if test "$RPIPATCHES" = 1 ; then
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     sed -i -e 's/ README$//g' bugfix/rpi/0043-BCM2708-Add-core-Device-Tree-support.patch
     rm -f bugfix/rpi/0385-cfg80211-ship-debian-certificates-as-hex-files.patch
-    #rm -f bugfix/rpi/0607-module-Avoid-ABI-changes-when-debug-info-is-disabled.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
