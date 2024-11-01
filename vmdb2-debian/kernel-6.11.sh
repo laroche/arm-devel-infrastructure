@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.11.5
-KVERR=6.11.5
+KVER=6.11.6
+KVERR=6.11.6
 CDIR=linux-$KVERR
-RVER=6.11.4
+RVER=6.11.5
 
 CROSS=0
 ARCH=
@@ -47,12 +47,12 @@ fi
 
 # Build requirements:
 if true ; then
-sudo apt-get -qq -y install build-essential fakeroot rsync git python3-debian libcap-dev g++-13
+sudo apt-get -qq -y install build-essential fakeroot rsync git python3-debian libcap-dev g++-14
 sudo apt-get -qq -y build-dep linux devscripts
 if test $CROSS = 1 ; then
   sudo apt-get -qq -y install kernel-wedge quilt flex bison libssl-dev ccache
   sudo apt-get -qq -y install crossbuild-essential-arm64 crossbuild-essential-armhf
-  sudo apt-get -qq -y install g++-13-aarch64-linux-gnu g++-13-arm-linux-gnueabihf
+  sudo apt-get -qq -y install g++-14-aarch64-linux-gnu g++-14-arm-linux-gnueabihf
 fi
 fi
 
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 17365d66f1c6aa6bf4f4cb9842f5edeac027bcfb
+  git format-patch -o ../rpi-patches-$RVER 05b1367d372aca98a4e09c1a0e7ff0b9d721b2bc
   cd ..
   rm -fr $RDIR
 fi
@@ -79,7 +79,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.11.4-/6.11.5-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.11.5-/6.11.6-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^features/all/security-perf-allow-further-restriction-of-perf_event_open.patch,,g' $CDIR/debian/patches/series

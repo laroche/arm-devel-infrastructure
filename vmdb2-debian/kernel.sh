@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.114
-KVERR=6.1.114
+KVER=6.1.115
+KVERR=6.1.115
 CDIR=linux-$KVERR
 RVER=6.1.66
 
@@ -83,11 +83,11 @@ fi
 sed -i -e '/cplus_demangle/d' $CDIR/debian/rules.d/tools/perf/Makefile
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.113-/6.1.114-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.114-/6.1.115-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/all/wifi-mt76-do-not-run-mt76_unregister_device-on-unregistered-hw.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^features/all/security-perf-allow-further-restriction-of-perf_event_open.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/wifi-mt76-do-not-run-mt76_unregister_device-on-unregistered-hw.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^features/all/security-perf-allow-further-restriction-of-perf_event_open.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0028-drm-i915-gt-Queue-and-wait-for-the-irq_work-item.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
