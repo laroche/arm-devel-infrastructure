@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.11.7
-KVERR=6.11.7
+KVER=6.11.8
+KVERR=6.11.8
 CDIR=linux-$KVERR
 RVER=6.11.7
 
@@ -79,7 +79,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.11.6-/6.11.7-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.11.7-/6.11.8-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^features/all/security-perf-allow-further-restriction-of-perf_event_open.patch,,g' $CDIR/debian/patches/series
@@ -104,6 +104,7 @@ if test "$RPIPATCHES" = 1 ; then
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     sed -i -e 's/ README$//g' bugfix/rpi/0043-BCM2708-Add-core-Device-Tree-support.patch
     rm -f bugfix/rpi/0385-cfg80211-ship-debian-certificates-as-hex-files.patch
+    rm -f bugfix/rpi/0566-i2c-designware-Add-support-for-bus-clear-feature.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
