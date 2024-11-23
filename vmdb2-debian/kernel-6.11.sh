@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.11.9
-KVERR=6.11.9
+KVER=6.11.10
+KVERR=6.11.10
 CDIR=linux-$KVERR
-RVER=6.11.7
+RVER=6.11.9
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER b1cbf9151204cd222ac09efa193a02d0dc9f6ce3
+  git format-patch -o ../rpi-patches-$RVER a2316c84887afe399bf463ce356d4f69e88113a2
   cd ..
   rm -fr $RDIR
 fi
@@ -79,10 +79,10 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.11.8-/6.11.9-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.11.10-/6.11.10-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^features/all/security-perf-allow-further-restriction-of-perf_event_open.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/Revert-mmc-dw_mmc-Fix-IDMAC-operation-with-pages-big.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0001-net-tcp-dccp-prepare-for-tw_timer-un-pinning.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -104,7 +104,7 @@ if test "$RPIPATCHES" = 1 ; then
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     sed -i -e 's/ README$//g' bugfix/rpi/0043-BCM2708-Add-core-Device-Tree-support.patch
     rm -f bugfix/rpi/0385-cfg80211-ship-debian-certificates-as-hex-files.patch
-    rm -f bugfix/rpi/0566-i2c-designware-Add-support-for-bus-clear-feature.patch
+    #rm -f bugfix/rpi/0566-i2c-designware-Add-support-for-bus-clear-feature.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
