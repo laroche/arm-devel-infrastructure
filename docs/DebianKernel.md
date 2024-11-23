@@ -44,6 +44,7 @@ archive of older debian packages
 --------------------------------
 
 If you want to download older debian software packages, please look at <https://snapshot.debian.org/>.
+The Linux kernel is available here: <https://snapshot.debian.org/package/linux/>.
 
 
 openocd and JTAG
