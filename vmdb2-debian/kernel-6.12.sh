@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.11.10
-KVERR=6.11.10
+KVER=6.12.5
+KVERR=6.12.5
 CDIR=linux-$KVERR
-RVER=6.11.9
+RVER=6.12.5
 
 CROSS=0
 ARCH=
@@ -60,29 +60,29 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   # Extract the raspberry-pi patches into a subdirectory:
   RDIR=rpi-linux-$RVER
   if test ! -d $RDIR ; then
-    git clone -b rpi-6.11.y https://github.com/raspberrypi/linux/ $RDIR
+    git clone -b rpi-6.12.y https://github.com/raspberrypi/linux/ $RDIR
     test -d $RDIR || exit 1
   else
     pushd $RDIR
-    git checkout rpi-6.11.y
+    git checkout rpi-6.12.y
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER a2316c84887afe399bf463ce356d4f69e88113a2
+  git format-patch -o ../rpi-patches-$RVER 7143efb58e33b6b1ebb32556e1fcdee03c7ed6a7
   cd ..
   rm -fr $RDIR
 fi
 
 if ! test -d $CDIR ; then
-  #git clone --single-branch --depth 1 -b sid https://salsa.debian.org/kernel-team/linux.git $CDIR
-  git clone --single-branch --depth 1 -b 6.11-stable-updates https://salsa.debian.org/carnil/linux.git $CDIR
+  #git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git $CDIR
+  git clone --single-branch --depth 1 -b 6.12-stable-updates https://salsa.debian.org/carnil/linux.git $CDIR
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.11.10-/6.11.10-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.12.5-/6.12.5-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/all/Revert-mmc-dw_mmc-Fix-IDMAC-operation-with-pages-big.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/Revert-mmc-dw_mmc-Fix-IDMAC-operation-with-pages-big.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0001-net-tcp-dccp-prepare-for-tw_timer-un-pinning.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -103,17 +103,16 @@ if test "$RPIPATCHES" = 1 ; then
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     sed -i -e 's/ README$//g' bugfix/rpi/0043-BCM2708-Add-core-Device-Tree-support.patch
-    rm -f bugfix/rpi/0385-cfg80211-ship-debian-certificates-as-hex-files.patch
-    #rm -f bugfix/rpi/0566-i2c-designware-Add-support-for-bus-clear-feature.patch
+    rm -f bugfix/rpi/0338-cfg80211-ship-debian-certificates-as-hex-files.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
   echo "CONFIG_RESET_RASPBERRY=y" >> debian/config/config
   echo "CONFIG_RESET_BRCMSTB_RESCAL=y" >> debian/config/config
   echo "CONFIG_NO_HZ_FULL=y" >> debian/config/featureset-rt/config
-  rm -f debian/abi/6.11.0-*/arm*
+  rm -f debian/abi/6.12.0-*/arm*
 fi
-rm -fr debian/abi/6.11.0-*
+rm -fr debian/abi/6.12.0-*
 
 if test $CROSS = 0 ; then
 
