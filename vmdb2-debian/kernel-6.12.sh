@@ -102,8 +102,12 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    sed -i -e 's/ README$//g' bugfix/rpi/0043-BCM2708-Add-core-Device-Tree-support.patch
+    sed -i -e 's/ README$//g' bugfix/rpi/0019-BCM2708-Add-core-Device-Tree-support.patch
     rm -f bugfix/rpi/0338-cfg80211-ship-debian-certificates-as-hex-files.patch
+    rm -f bugfix/rpi/0416-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
+    rm -f bugfix/rpi/0417-i2c-designware-Support-non-standard-bus-speeds.patch
+    rm -f bugfix/rpi/0448-i2c-designware-Add-support-for-bus-clear-feature.patch
+    rm -f bugfix/rpi/0449-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
