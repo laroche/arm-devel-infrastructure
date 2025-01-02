@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.12.7
-KVERR=6.12.7
+KVER=6.12.8
+KVERR=6.12.8
 CDIR=linux-$KVERR
-RVER=6.12.6
+RVER=6.12.8
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER e9d65b48ce1aba50e9ec7eab6d9f73d1ba88420e
+  git format-patch -o ../rpi-patches-$RVER 77f85ccd3618f324d221f0faaed6d9cdc118c74a
   cd ..
   rm -fr $RDIR
 fi
@@ -79,7 +79,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.12.6-/6.12.7-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.12.8-/6.12.8-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/Revert-mmc-dw_mmc-Fix-IDMAC-operation-with-pages-big.patch,,g' $CDIR/debian/patches/series
