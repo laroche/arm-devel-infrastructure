@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.12.11
-KVERR=6.12.11
+KVER=6.12.12
+KVERR=6.12.12
 CDIR=linux-$KVERR
-RVER=6.12.10
+RVER=6.12.11
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER a6ad5510dbb5f55cd2d1b44b11a18120bf79a5a3
+  git format-patch -o ../rpi-patches-$RVER 62b2447ec6cf3f8ce4b768cacd7b787a04f54a14
   cd ..
   rm -fr $RDIR
 fi
@@ -108,6 +108,8 @@ if test "$RPIPATCHES" = 1 ; then
     rm -f bugfix/rpi/0417-i2c-designware-Support-non-standard-bus-speeds.patch
     rm -f bugfix/rpi/0448-i2c-designware-Add-support-for-bus-clear-feature.patch
     rm -f bugfix/rpi/0449-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
+    #rm -f bugfix/rpi/0732-filemap-avoid-truncating-64-bit-offset-to-32-bits.patch
+    #rm -f bugfix/rpi/0759-iomap-avoid-avoid-truncating-64-bit-offset-to-32-bit.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
