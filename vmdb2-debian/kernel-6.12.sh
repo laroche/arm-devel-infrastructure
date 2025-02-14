@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.12.12
-KVERR=6.12.12
+KVER=6.12.13
+KVERR=6.12.13
 CDIR=linux-$KVERR
-RVER=6.12.11
+RVER=6.12.13
 
 CROSS=0
 ARCH=
@@ -68,21 +68,21 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 62b2447ec6cf3f8ce4b768cacd7b787a04f54a14
+  git format-patch -o ../rpi-patches-$RVER 4b07fe4a044d863926707e1106ff142427ec6e02
   cd ..
   rm -fr $RDIR
 fi
 
 if ! test -d $CDIR ; then
-  #git clone --single-branch --depth 1 -b master https://salsa.debian.org/kernel-team/linux.git $CDIR
-  git clone --single-branch --depth 1 -b 6.12-stable-updates https://salsa.debian.org/carnil/linux.git $CDIR
+  git clone --single-branch --depth 1 -b debian/6.12/trixie https://salsa.debian.org/kernel-team/linux.git $CDIR
+  #git clone --single-branch --depth 1 -b 6.12-stable-updates https://salsa.debian.org/carnil/linux.git $CDIR
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.12.10-/6.12.11-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.12.13-/6.12.13-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/all/Revert-mmc-dw_mmc-Fix-IDMAC-operation-with-pages-big.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/kbuild-switch-from-lz4c-to-lz4-for-compression.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0001-net-tcp-dccp-prepare-for-tw_timer-un-pinning.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -108,8 +108,6 @@ if test "$RPIPATCHES" = 1 ; then
     rm -f bugfix/rpi/0417-i2c-designware-Support-non-standard-bus-speeds.patch
     rm -f bugfix/rpi/0448-i2c-designware-Add-support-for-bus-clear-feature.patch
     rm -f bugfix/rpi/0449-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
-    rm -f bugfix/rpi/0769-drm-v3d-Fix-race-condition-between-DRM-scheduler-and.patch
-    rm -f bugfix/rpi/0796-Enable-CONFIG_NETKIT.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
