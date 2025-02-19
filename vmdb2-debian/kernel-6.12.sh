@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.12.13
-KVERR=6.12.13
+KVER=6.12.15
+KVERR=6.12.15
 CDIR=linux-$KVERR
-RVER=6.12.13
+RVER=6.12.14
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 4b07fe4a044d863926707e1106ff142427ec6e02
+  git format-patch -o ../rpi-patches-$RVER 6b8aa7944351be4a846649b2790521240a432d4b
   cd ..
   rm -fr $RDIR
 fi
@@ -79,7 +79,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.12.13-/6.12.13-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.12.15-/6.12.15-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/kbuild-switch-from-lz4c-to-lz4-for-compression.patch,,g' $CDIR/debian/patches/series
@@ -103,11 +103,11 @@ if test "$RPIPATCHES" = 1 ; then
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     sed -i -e 's/ README$//g' bugfix/rpi/0019-BCM2708-Add-core-Device-Tree-support.patch
-    rm -f bugfix/rpi/0338-cfg80211-ship-debian-certificates-as-hex-files.patch
-    rm -f bugfix/rpi/0416-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
-    rm -f bugfix/rpi/0417-i2c-designware-Support-non-standard-bus-speeds.patch
-    rm -f bugfix/rpi/0448-i2c-designware-Add-support-for-bus-clear-feature.patch
-    rm -f bugfix/rpi/0449-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
+    rm -f bugfix/rpi/0337-cfg80211-ship-debian-certificates-as-hex-files.patch
+    rm -f bugfix/rpi/0415-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
+    rm -f bugfix/rpi/0416-i2c-designware-Support-non-standard-bus-speeds.patch
+    rm -f bugfix/rpi/0447-i2c-designware-Add-support-for-bus-clear-feature.patch
+    rm -f bugfix/rpi/0448-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
