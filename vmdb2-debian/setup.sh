@@ -753,6 +753,13 @@ if false && test "$HOSTTYPE" = "x86_64" && ! test -d /lib/modules/${KABI}-amd64 
   rm -fr $KERNEL kernel-amd64-$KVER
 fi
 
+disable_apparmor()
+{
+  if ! grep -q "^GRUB_CMDLINE_LINUX_DEFAULT=.*apparmor=0" /etc/default/grub ; then
+    sed -i -e "s,^GRUB_CMDLINE_LINUX_DEFAULT=\",GRUB_CMDLINE_LINUX_DEFAULT=\"apparmor=0 ," /etc/default/grub
+  fi
+}
+
 firewall_stop()
 {
   iptables -P INPUT ACCEPT
@@ -1085,7 +1092,7 @@ EOF
   # example commands to list images and start container/vm:
   #incus image list images: debian amd64
   #incus launch images:debian/12/cloud debian-12 --config boot.autostart=true
-  #incus config set debian-12 raw.lxc "lxc.apparmor.profile=unconfined"
+  # not needed: incus config set debian-12 raw.lxc "lxc.apparmor.profile=unconfined"
   #incus launch images:debian/trixie/cloud debian-13 --config boot.autostart=true
   #incus launch images:debian/12/cloud debian-12-vm --vm -p vm
 }
