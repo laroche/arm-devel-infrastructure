@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.12.16
-KVERR=6.12.16
+KVER=6.12.17
+KVERR=6.12.17
 CDIR=linux-$KVERR
-RVER=6.12.15
+RVER=6.12.16
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 984391de59a1d6918ac9ba63c095decbcfc85c71
+  git format-patch -o ../rpi-patches-$RVER 19b4657de424f48a588eb379fe3214d317f46cd7
   cd ..
   rm -fr $RDIR
 fi
@@ -79,7 +79,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.12.15-/6.12.16-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.12.16-/6.12.17-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/kbuild-switch-from-lz4c-to-lz4-for-compression.patch,,g' $CDIR/debian/patches/series

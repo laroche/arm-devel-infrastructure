@@ -47,7 +47,7 @@ fi
 
 # Build requirements:
 if true ; then
-sudo apt-get -qq -y install build-essential fakeroot rsync git quilt python3-debian libcap-dev g++-12
+sudo apt-get -qq -y install build-essential fakeroot rsync git quilt python3-debian libcap-dev g++-12 dh-exec
 if grep -q bookworm /etc/os-release ; then
   sudo apt-get -y install -t bookworm-backports kernel-wedge
 fi
