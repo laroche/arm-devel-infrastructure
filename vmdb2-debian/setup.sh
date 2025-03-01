@@ -641,16 +641,6 @@ EOM
     rm -f teams.deb
   fi
 
-  # Skype (disabled by default):
-  if false && test "$HOSTTYPE" = "x86_64" -a ! -x /usr/bin/skypeforlinux ; then
-    if ! test -f /etc/apt/trusted.gpg.d/skype.asc ; then
-      wget -qO /etc/apt/trusted.gpg.d/skype.asc https://repo.skype.com/data/SKYPE-GPG-KEY
-    fi
-    wget -q https://go.skype.com/skypeforlinux-64.deb
-    apt install ./skypeforlinux-64.deb
-    rm -f skypeforlinux-64.deb
-  fi
-
   # Teamviewer
   if false && test "$HOSTTYPE" = "x86_64" -a ! -f /etc/apt/sources.list.d/teamviewer.list ; then
     wget -q https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
