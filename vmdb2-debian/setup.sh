@@ -795,16 +795,22 @@ EOM
 	# https://en.wikipedia.org/wiki/Multicast_address
 	# all IP hosts
 	-A INPUT -d 224.0.0.1/32 -j ACCEPT
-	# https://en.wikipedia.org/wiki/Internet_Group_Management_Protocol
+	# https://en.wikipedia.org/wiki/Internet_Group_Management_Protocol (IGMP)
 	-A INPUT -d 224.0.0.22/32 -j ACCEPT
-	# multicast mDNS for service discovery
+	# multicast mDNS for service discovery (port 5353)
 	-A INPUT -d 224.0.0.251/32 -j ACCEPT
+	# https://de.wikipedia.org/wiki/Link-local_Multicast_Name_Resolution
+	# Link-Local Multicast Name Resolutioan (LLMNR) RFC4795 (port 5355)
+	-A INPUT -d 224.0.0.252/32 -j ACCEPT
+	# https://en.wikipedia.org/wiki/Simple_Service_Discovery_Protocol
+	#-A INPUT -d 239.255.255.250/32 -p udp -m udp --dport 1900 -j ACCEPT
 	# https://www.it-administrator.de/lexikon/ws-discovery.html
 	# https://zero.bs/new-ddos-attack-vector-via-ws-discoverysoapoverudp-port-3702.html
 	#-A INPUT -d 239.255.255.250/32 -p udp -m udp --dport 3702 -j DROP
-	# https://en.wikipedia.org/wiki/Simple_Service_Discovery_Protocol
-	#-A INPUT -d 239.255.255.250/32 -p udp -m udp --dport 1900 -j ACCEPT
 	-A INPUT -d 224.0.0.0/8 -j ACCEPT
+	# Wake On LAN:
+	-A INPUT -m limit --limit 6/min --limit-burst 10 -d 255.255.255.255/32 -p udp -m udp --dport 9 -j NFLOG --nflog-prefix "[DROP-WOL-INPUT]:"
+	-A INPUT -d 255.255.255.255/32 -p udp -m udp --dport 9 -j DROP
 	-A INPUT -p udp -m udp --dport 137:138 -j DROP
 	-A INPUT -p udp -m udp --dport 161 -j DROP
 	# https://gitlab.com/sane-project/backends/-/issues/130 and https://bugs.freedesktop.org/show_bug.cgi?id=104465
@@ -812,7 +818,7 @@ EOM
 	# https://wiki.debian.org/SaneOverNetwork
 	-A INPUT -p udp -m udp --dport 8610:8612 -j DROP
 	# Epson ENPC printer discovery: --dst-type BROADCAST
-	#-A INPUT -d 255.255.255.255/32 -p udp -m udp --dport 3289 -j DROP
+	-A INPUT -d 255.255.255.255/32 -p udp -m udp --dport 3289 -j DROP
 	# WIIM
 	-A INPUT -d 255.255.255.255/32 -p udp -m udp --dport 3483 -j DROP
 	-A INPUT -p udp -m udp --dport 9003 -j DROP
@@ -841,10 +847,13 @@ EOM
 	-A OUTPUT -m state --state INVALID -j DROP
 EOM
     if test "X$3" = "Xdebug" ; then
-      if test "X$SYSTYPE" != Xlxc ; then
       cat <<-EOM
 	-A OUTPUT -d 224.0.0.22/32 -j ACCEPT
 	-A OUTPUT -d 224.0.0.251/32 -j ACCEPT
+	-A OUTPUT -d 224.0.0.252/32 -j ACCEPT
+EOM
+      if test "X$SYSTYPE" != Xlxc ; then
+      cat <<-EOM
 	#-A OUTPUT -d 239.255.255.250/32 -p udp -m udp --dport 1900 -j ACCEPT
 	#-A OUTPUT -d 239.255.255.250/32 -p udp -m udp --dport 3702 -j DROP
 	# virt-inst new network checks:
@@ -870,6 +879,8 @@ EOM
 	-A OUTPUT -p tcp -m tcp --dport 3128 -j ACCEPT
 	-A OUTPUT -o lo -p icmp -j ACCEPT
 	-A OUTPUT -o lo -j ACCEPT
+	-A OUTPUT -p udp -m udp --dport 5355 -j ACCEPT
+	-A OUTPUT -p tcp -m tcp --dport 5355 -j ACCEPT
 	-A OUTPUT -p udp -m udp --dport 53 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 53 -j ACCEPT
 	-A OUTPUT -p udp -m udp --sport 68 --dport 67 -j ACCEPT
