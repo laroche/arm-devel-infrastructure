@@ -1192,6 +1192,7 @@ config_lxd_example()
 
   #lxc launch images:debian/12/cloud debian-12 --config boot.autostart=true
   #lxc config set debian-12 raw.lxc "lxc.apparmor.profile=unconfined"
+  #lxc launch images:debian/12/cloud debian-12 --network br0 --config boot.autostart=true
 
   #lxc image copy ubuntu:20.04 local: --copy-aliases --auto-update
 
