@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.12.17
-KVERR=6.12.17
+KVER=6.12.18
+KVERR=6.12.18
 CDIR=linux-$KVERR
-RVER=6.12.16
+RVER=6.12.17
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 19b4657de424f48a588eb379fe3214d317f46cd7
+  git format-patch -o ../rpi-patches-$RVER 41b222412985dc8410b88fb7a0fda87e6640d4df
   cd ..
   rm -fr $RDIR
 fi
@@ -79,10 +79,10 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.12.16-/6.12.17-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.12.17-/6.12.18-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/all/kbuild-switch-from-lz4c-to-lz4-for-compression.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/arm64/phy-rockchip-naneng-combphy-compatible-reset-with-ol.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0001-net-tcp-dccp-prepare-for-tw_timer-un-pinning.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -108,6 +108,7 @@ if test "$RPIPATCHES" = 1 ; then
     rm -f bugfix/rpi/0416-i2c-designware-Support-non-standard-bus-speeds.patch
     rm -f bugfix/rpi/0447-i2c-designware-Add-support-for-bus-clear-feature.patch
     rm -f bugfix/rpi/0448-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
+    rm -f bugfix/rpi/0850-dts-remove-README-from-Makefile.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
