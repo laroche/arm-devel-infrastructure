@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.130
-KVERR=6.1.130
+KVER=6.1.131
+KVERR=6.1.131
 CDIR=linux-$KVERR
 RVER=6.1.66
 
@@ -77,13 +77,13 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
 fi
 
 if ! test -d $CDIR ; then
-  #git clone --single-branch --depth 1 -b bookworm https://salsa.debian.org/kernel-team/linux.git $CDIR
+  #git clone --single-branch --depth 1 -b debian/6.1/bookworm bookworm https://salsa.debian.org/kernel-team/linux.git $CDIR
   git clone --single-branch --depth 1 -b 6.1-stable-updates https://salsa.debian.org/carnil/linux.git $CDIR
 fi
 sed -i -e '/cplus_demangle/d' $CDIR/debian/rules.d/tools/perf/Makefile
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.129-/6.1.130-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.130-/6.1.131-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/firmware-remove-redundant-log-messages-from-drivers.patch,,g' $CDIR/debian/patches/series
