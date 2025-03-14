@@ -10,10 +10,19 @@ TYPE="stable"
 # Should we package the image up?
 ZIP=0
 EFI=0
-if test $EFI = 0 ; then
-  IMG=debian-amd64.img
+
+if test $TYPE = stable ; then
+  if test $EFI = 0 ; then
+    IMG=debian-amd64.img
+  else
+    IMG=debian-amd64-efi.img
+  fi
 else
-  IMG=debian-amd64-efi.img
+  if test $EFI = 0 ; then
+    IMG=debian-testing-amd64.img
+  else
+    IMG=debian-testing-amd64-efi.img
+  fi
 fi
 
 # This is the name of the new system as well as the name of the hard disk for it:
@@ -66,10 +75,18 @@ if ! test -f "$DISK" ; then
   #sudo rm -fr /var/tmp/.guestfs-*
 fi
 
-if test $EFI = 0 ; then
-  OUT=debian-12-desktop-amd64
+if test $TYPE = stable ; then
+  if test $EFI = 0 ; then
+    OUT=debian-12-desktop-amd64
+  else
+    OUT=debian-12-desktop-amd64-efi
+  fi
 else
-  OUT=debian-12-desktop-amd64-efi
+  if test $EFI = 0 ; then
+    OUT=debian-13-desktop-amd64
+  else
+    OUT=debian-13-desktop-amd64-efi
+  fi
 fi
 if test $ZIP = 1 && ! test -f $OUT.zip && ! test -d $OUT ; then
   mkdir -p $OUT
