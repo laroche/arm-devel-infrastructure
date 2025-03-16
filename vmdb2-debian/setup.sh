@@ -822,6 +822,7 @@ EOM
 	# WIIM
 	-A INPUT -d 255.255.255.255/32 -p udp -m udp --dport 3483 -j DROP
 	-A INPUT -p udp -m udp --dport 9003 -j DROP
+	-A INPUT -p udp -m udp --dport 40777 -j DROP
 	# 53805 AVM Mesh Discovery
 	-A INPUT -p udp -m udp --dport 53805 -j DROP
 	# Spotify Connect
@@ -956,6 +957,9 @@ config_snapd()
 
 config_incus()
 {
+  if test -f /etc/debian_version && grep -q '^12' /etc/debian_version ; then
+    $apt install -t bookworm-backports qemu-system-x86
+  fi
   $apt install incus incus-client
   # To list all current settings: incus admin init --dump
   if ! test -d /var/lib/incus/storage-pools/default ; then
