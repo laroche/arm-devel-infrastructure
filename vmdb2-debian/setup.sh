@@ -737,7 +737,7 @@ KVER=6.5.10-1
 # Disabled by default as check for KABI is not enough:
 if false && test "$HOSTTYPE" = "x86_64" && ! test -d /lib/modules/${KABI}-amd64 ; then
   KERNEL=kernel-amd64-$KVER.tar.gz
-  wget -q https://github.com/laroche/arm-devel-infrastructure/releases/download/v20250310/$KERNEL
+  wget -q https://github.com/laroche/arm-devel-infrastructure/releases/download/v20250323/$KERNEL
   tar xzf $KERNEL
   dpkg -i kernel-amd64-$KVER/linux-image-${KABI}-amd64-unsigned_${KVER}_amd64.deb
   rm -fr $KERNEL kernel-amd64-$KVER
