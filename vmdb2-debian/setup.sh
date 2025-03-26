@@ -747,8 +747,8 @@ disable_apparmor()
 {
   if ! grep -q "^GRUB_CMDLINE_LINUX_DEFAULT=.*apparmor=0" /etc/default/grub ; then
     sed -i -e "s,^GRUB_CMDLINE_LINUX_DEFAULT=\",GRUB_CMDLINE_LINUX_DEFAULT=\"apparmor=0 ," /etc/default/grub
-    # re-create initrds now?
-    #update-initramfs -u -k all
+    # re-create initrds:
+    update-initramfs -u -k all
   fi
 }
 
