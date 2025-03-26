@@ -92,6 +92,9 @@ if test $ZIP = 1 && ! test -f $OUT.zip && ! test -d $OUT ; then
   mkdir -p $OUT
   cp setup.sh install.sh $OUT
   qemu-img convert -O raw debian01.qcow2 $OUT/$OUT.img
+  pushd $OUT
+    md5sum $OUT.img > $OUT.img.md5
+  popd
   zip -r $OUT.zip $OUT
   rm -fr $OUT
 fi
