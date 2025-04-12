@@ -747,8 +747,24 @@ disable_apparmor()
 {
   if ! grep -q "^GRUB_CMDLINE_LINUX_DEFAULT=.*apparmor=0" /etc/default/grub ; then
     sed -i -e "s,^GRUB_CMDLINE_LINUX_DEFAULT=\",GRUB_CMDLINE_LINUX_DEFAULT=\"apparmor=0 ," /etc/default/grub
-    # re-create initrds:
-    update-initramfs -u -k all
+    update-grub
+  fi
+}
+
+disable_selinux()
+{
+  if ! test -f /etc/selinux/config ; then
+    mkdir -p /etc/selinux
+    cat > /etc/selinux/config <<-EOM
+SELINUX=disabled
+SELINUXTYPE=default
+SETLOCALDEFS=0
+EOM
+  fi
+  sed -i -e "s,^SELINUX=.*,SELINUX=disabled," /etc/selinux/config
+  if ! grep -q "^GRUB_CMDLINE_LINUX_DEFAULT=.*selinux=0" /etc/default/grub ; then
+    sed -i -e "s,^GRUB_CMDLINE_LINUX_DEFAULT=\",GRUB_CMDLINE_LINUX_DEFAULT=\"selinux=0 ," /etc/default/grub
+    update-grub
   fi
 }
 
