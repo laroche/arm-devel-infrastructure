@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.12.21
-KVERR=6.12.21
+KVER=6.12.22
+KVERR=6.12.22
 CDIR=linux-$KVERR
-RVER=6.12.19
+RVER=6.12.22
 
 CROSS=0
 ARCH=
@@ -68,22 +68,21 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER e9cc806c0152fa9993f817cebf42989a3e2530bb
+  git format-patch -o ../rpi-patches-$RVER 55767d6e74ef155f43fff978ad4e2f69f3f8fad7
   cd ..
   rm -fr $RDIR
 fi
 
 if ! test -d $CDIR ; then
-  git clone --single-branch --depth 1 -b debian/6.12/trixie https://salsa.debian.org/kernel-team/linux.git $CDIR
-  #git clone --single-branch --depth 1 -b 6.12-stable-updates https://salsa.debian.org/carnil/linux.git $CDIR
+  #git clone --single-branch --depth 1 -b debian/6.12/trixie https://salsa.debian.org/kernel-team/linux.git $CDIR
+  git clone --single-branch --depth 1 -b 6.12-stable-updates https://salsa.debian.org/carnil/linux.git $CDIR
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.12.20-/6.12.21-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.12.22-/6.12.22-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/all/drm-amdkfd-Fix-user-queue-validation-on-Gfx7-8.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/ata-libata-core-Add-ATA_QUIRK_NO_LPM_ON_ATI-for-cert.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/drm-amdkfd-Fix-user-queue-validation-on-Gfx7-8.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0001-net-tcp-dccp-prepare-for-tw_timer-un-pinning.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
