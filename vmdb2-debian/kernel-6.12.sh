@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.12.25
-KVERR=6.12.25
+KVER=6.12.27
+KVERR=6.12.27
 CDIR=linux-$KVERR
-RVER=6.12.22
+RVER=6.12.27
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 55767d6e74ef155f43fff978ad4e2f69f3f8fad7
+  git format-patch -o ../rpi-patches-$RVER b801eaa96a5a2f2a8fe0b5982ffe4a1fba3c1e93
   cd ..
   rm -fr $RDIR
 fi
@@ -79,7 +79,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.12.24-/6.12.25-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.12.27-/6.12.27-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/drm-amdkfd-Fix-user-queue-validation-on-Gfx7-8.patch,,g' $CDIR/debian/patches/series
