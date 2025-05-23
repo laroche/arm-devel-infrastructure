@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.137
-KVERR=6.1.137
+KVER=6.1.140
+KVERR=6.1.140
 CDIR=linux-$KVERR
 RVER=6.1.66
 
@@ -83,7 +83,7 @@ fi
 sed -i -e '/cplus_demangle/d' $CDIR/debian/rules.d/tools/perf/Makefile
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.136-/6.1.137-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.139-/6.1.140-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/radeon-amdgpu-firmware-is-required-for-drm-and-kms-on-r600-onward.patch,,g' $CDIR/debian/patches/series
