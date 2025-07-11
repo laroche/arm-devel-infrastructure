@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.12.36
-KVERR=6.12.36
+KVER=6.12.37
+KVERR=6.12.37
 CDIR=linux-$KVERR
 RVER=6.12.27
 
@@ -79,10 +79,10 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.12.35-/6.12.36-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.12.36-/6.12.37-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/all/drm-amdkfd-Fix-user-queue-validation-on-Gfx7-8.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/Revert-mmc-sdhci-Disable-SD-card-clock-before-changi.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0001-net-tcp-dccp-prepare-for-tw_timer-un-pinning.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig

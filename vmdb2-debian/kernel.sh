@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.143
-KVERR=6.1.143
+KVER=6.1.144
+KVERR=6.1.144
 CDIR=linux-$KVERR
 RVER=6.1.66
 
@@ -83,10 +83,10 @@ fi
 sed -i -e '/cplus_demangle/d' $CDIR/debian/rules.d/tools/perf/Makefile
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.142-/6.1.143-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.143-/6.1.144-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/all/radeon-amdgpu-firmware-is-required-for-drm-and-kms-on-r600-onward.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/Revert-mmc-sdhci-Disable-SD-card-clock-before-changi.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0028-drm-i915-gt-Queue-and-wait-for-the-irq_work-item.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
