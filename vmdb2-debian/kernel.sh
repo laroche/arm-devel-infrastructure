@@ -87,7 +87,7 @@ sed -i -e '1 s/6.1.145-/6.1.146-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/Revert-mmc-sdhci-Disable-SD-card-clock-before-changi.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,0067-x86-boot-Compile-boot-code-with-std-gnu11-too.patch,,g' $CDIR/debian/patches-rt/series
+#sed -i -e 's,0067-x86-boot-Compile-boot-code-with-std-gnu11-too.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
 cd $CDIR || exit 1
