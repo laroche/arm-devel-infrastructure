@@ -476,6 +476,10 @@ rm -f /vmlinuz{,.old} /initrd.img{,.old}
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=864074
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=837761#76
 if test $DISTRO = debian ; then
+  vim="/usr/share/vim/vim91/defaults.vim"
+  if test -f $vim ; then
+    sed -i -e '/has.*mouse/,+6s/^/"/' $vim
+  fi
   vim="/usr/share/vim/vim90/defaults.vim"
   if test -f $vim ; then
     sed -i -e '/has.*mouse/,+6s/^/"/' $vim
