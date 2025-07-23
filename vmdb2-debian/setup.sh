@@ -541,7 +541,7 @@ if test "$INSTALLGUI" = 1 ; then
   $apt install simple-scan gnome-screenshot dbus-x11
   $apt remove gnome-initial-setup
   $apt install libreoffice libreoffice-help-de libreoffice-l10n-de
-  $apt install remmina dconf-editor imagemagick mesa-utils inxi
+  $apt install remmina dconf-editor imagemagick mesa-utils inxi gparted
   $apt install network-manager-openconnect-gnome openvpn mtr
 
   # Allow X11 apps over ssh to work:
