@@ -43,6 +43,18 @@ if test "X$1" = "Xincusall" ; then
   exit 0
 fi
 
+# Use the ethernet MAC address to autodetect certain hostnames:
+check_hostname()
+{
+  if ip a | grep -q $1 && ! grep -q $2 /etc/hostname ; then
+    # Set new hostname:
+    echo $2 > /etc/hostname
+    hostname $2
+    HOSTNAME=$2
+  fi
+}
+#check_hostname 60:12:34:56:78:a0 myserverhost
+
 # New user to setup:
 NEWUSER=max
 GECOS="Max Mustermann"
