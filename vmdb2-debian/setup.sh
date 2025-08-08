@@ -1106,7 +1106,7 @@ profiles:
       path: /
       pool: default
       type: disk
-      size: 40GB
+      size: 80GB
 projects:
 - name: default
   description: default project
