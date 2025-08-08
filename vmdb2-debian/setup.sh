@@ -775,6 +775,18 @@ EOM
   fi
 }
 
+config_locale()
+{
+  if test -f /etc/locale.gen ; then
+    if ! grep -q "^de_DE.UTF-8" /etc/locale.gen ; then
+      sed -i -e "s/^# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/g" /etc/locale.gen
+      sed -i -e "s/^# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g" /etc/locale.gen
+      locale-gen
+      # check available locales with: locale -a
+    fi
+  fi
+}
+
 firewall_stop()
 {
   iptables -P INPUT ACCEPT
@@ -1315,8 +1327,12 @@ if test "X$SYSTYPE" = Xlxc ; then
   fi
 fi
 
+config_locale
+
 if test "X$DEMOSETUP" = X1 ; then
   config_swapfile
+  disable_apparmor
+  disable_selinux
   systemctl disable ssh.service
   if test "$DEVELOPER" = 1 ; then
     config_firewall "" "" debug
