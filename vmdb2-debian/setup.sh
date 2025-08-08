@@ -18,9 +18,30 @@
 # - Add hostname to /etc/hosts if no DNS is available (otherwise sudo is too slow, though seems fixed now).
 # - If on a virtualized setup, maybe set screen size to 1600x900.
 # - Setup printers (duplex printing).
-# - Run "fstrim -a -v" if installed on a SSD via image/"dd".
-#   (Optional, done weekly on an installed system anyway.)
 #
+# If you use config_incus (lxd), here some examples on how to setup new guest systems:
+# incus launch images:debian/12/cloud debian-12 --config boot.autostart=true
+# incus launch images:debian/12/cloud debian-12-vm --vm -p vm --config boot.autostart=true
+# incus launch images:debian/trixie/cloud debian-13 --config boot.autostart=true
+# incus launch images:debian/trixie/cloud debian-13-vm --vm -p vm --config boot.autostart=true
+# incus launch images:ubuntu/jammy/cloud u22 --config boot.autostart=true
+# incus launch images:ubuntu/jammy/cloud u22-vm --vm -p vm --config boot.autostart=true
+# incus launch images:ubuntu/24.10/cloud u24 --config boot.autostart=true # noble
+# incus launch images:ubuntu/24.10/cloud u24-vm --vm -p vm --config boot.autostart=true
+#
+
+if test "X$1" = "Xincusall" ; then
+  # Copy setup.sh to all guest systems and execute it to update their configurations:
+  #GUESTVMS="debian-12 debian-12-vm debian-13 debian-13-vm u22 u22-vm u24 u24-vm"
+  GUESTVMS="debian-12 debian-12-vm debian-13 debian-13-vm u22 u24 u24"
+  for host in $GUESTVMS ; do
+    echo "--------------------------------------------------------------------------------"
+    echo "host $host"
+    incus file push /root/setup.sh $host/root/
+    incus exec $host /root/setup.sh
+  done
+  exit 0
+fi
 
 # New user to setup:
 NEWUSER=max
