@@ -451,7 +451,10 @@ if test $FIRSTRUN = 1 ; then
     tree man parted lvm2 dosfstools vim sudo net-tools traceroute nmap \
     wakeonlan bind9-host dnsutils whois tcpdump iptables-persistent ulogd2 ssh openssh-server \
     screen tmux rsync curl wget git-core unzip zip xz-utils reportbug \
-    ncal less apt-utils borgbackup borgbackup2
+    ncal less apt-utils borgbackup
+  if ! grep -q 22.04 /etc/os-release ; then
+    $apt install borgbackup2
+  fi
   # TODO: why less and apt-utils, they are already included in vmdb2
   #
   # Real hardware dependent packages we don't need within lxc:
