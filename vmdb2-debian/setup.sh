@@ -22,18 +22,22 @@
 # If you use config_incus (lxd), here some examples on how to setup new guest systems:
 # incus launch images:debian/12/cloud debian-12 --config boot.autostart=true
 # incus launch images:debian/12/cloud debian-12-vm --vm -p vm --config boot.autostart=true
-# incus launch images:debian/trixie/cloud debian-13 --config boot.autostart=true
-# incus launch images:debian/trixie/cloud debian-13-vm --vm -p vm --config boot.autostart=true
+# incus launch images:debian/13/cloud debian-13 --config boot.autostart=true
+# incus launch images:debian/13/cloud debian-13-vm --vm -p vm --config boot.autostart=true
+# incus launch images:debian/forky-14/cloud debian-14 --config boot.autostart=true
+# incus launch images:debian/forky-14/cloud debian-14-vm --vm -p vm --config boot.autostart=true
 # incus launch images:ubuntu/jammy/cloud u22 --config boot.autostart=true
 # incus launch images:ubuntu/jammy/cloud u22-vm --vm -p vm --config boot.autostart=true
 # incus launch images:ubuntu/24.10/cloud u24 --config boot.autostart=true # noble
 # incus launch images:ubuntu/24.10/cloud u24-vm --vm -p vm --config boot.autostart=true
+# incus launch images:ubuntu/plucky/cloud u25 --config boot.autostart=true
+# incus launch images:ubuntu/plucky/cloud u25-vm --vm -p vm --config boot.autostart=true
 #
 
 if test "X$1" = "Xincusall" ; then
   # Copy setup.sh to all guest systems and execute it to update their configurations:
-  #GUESTVMS="debian-12 debian-12-vm debian-13 debian-13-vm u22 u22-vm u24 u24-vm"
-  GUESTVMS="debian-12 debian-12-vm debian-13 debian-13-vm u22 u24 u24"
+  #GUESTVMS="debian-12 debian-12-vm debian-13 debian-13-vm u22 u22-vm u24 u24-vm u25 25-vm"
+  GUESTVMS="debian-12 debian-12-vm debian-13 debian-13-vm u22 u24 u25"
   for host in $GUESTVMS ; do
     echo "--------------------------------------------------------------------------------"
     echo "host $host"
@@ -163,7 +167,7 @@ if grep -q unstable /etc/apt/sources.list || grep -qw sid /etc/apt/sources.list 
   unstable="1"
 fi
 testing="0"
-if grep -q testing /etc/apt/sources.list || grep -q trixie /etc/apt/sources.list ; then
+if grep -q testing /etc/apt/sources.list || grep -q forky /etc/apt/sources.list ; then
   testing="1"
 fi
 
@@ -433,19 +437,33 @@ EOM
 	deb http://security.debian.org/debian-security bookworm-security main contrib non-free-firmware non-free
 	deb-src http://security.debian.org/debian-security bookworm-security main contrib non-free-firmware non-free
 EOM
+  elif test -f /etc/debian_version && grep -q '^13' /etc/debian_version ; then
+      cat > /etc/apt/sources.list <<-EOM
+	deb http://deb.debian.org/debian/ trixie main contrib non-free-firmware non-free
+	deb-src http://deb.debian.org/debian/ trixie main contrib non-free-firmware non-free
+
+	deb http://deb.debian.org/debian/ trixie-updates main contrib non-free-firmware non-free
+	deb-src http://deb.debian.org/debian/ trixie-updates main contrib non-free-firmware non-free
+
+	deb http://deb.debian.org/debian/ trixie-backports main contrib non-free-firmware non-free
+	deb-src http://deb.debian.org/debian/ trixie-backports main contrib non-free-firmware non-free
+
+	deb http://security.debian.org/debian-security trixie-security main contrib non-free-firmware non-free
+	deb-src http://security.debian.org/debian-security trixie-security main contrib non-free-firmware non-free
+EOM
   else
       cat > /etc/apt/sources.list <<-EOM
-	deb http://deb.debian.org/debian/ bookworm main contrib non-free-firmware non-free
-	deb-src http://deb.debian.org/debian/ bookworm main contrib non-free-firmware non-free
+	deb http://deb.debian.org/debian/ trixie main contrib non-free-firmware non-free
+	deb-src http://deb.debian.org/debian/ trixie main contrib non-free-firmware non-free
 
-	deb http://deb.debian.org/debian/ bookworm-updates main contrib non-free-firmware non-free
-	deb-src http://deb.debian.org/debian/ bookworm-updates main contrib non-free-firmware non-free
+	deb http://deb.debian.org/debian/ trixie-updates main contrib non-free-firmware non-free
+	deb-src http://deb.debian.org/debian/ trixie-updates main contrib non-free-firmware non-free
 
-	deb http://deb.debian.org/debian/ bookworm-backports main contrib non-free-firmware non-free
-	deb-src http://deb.debian.org/debian/ bookworm-backports main contrib non-free-firmware non-free
+	deb http://deb.debian.org/debian/ trixie-backports main contrib non-free-firmware non-free
+	deb-src http://deb.debian.org/debian/ trixie-backports main contrib non-free-firmware non-free
 
-	deb http://security.debian.org/debian-security bookworm-security main contrib non-free-firmware non-free
-	deb-src http://security.debian.org/debian-security bookworm-security main contrib non-free-firmware non-free
+	deb http://security.debian.org/debian-security trixie-security main contrib non-free-firmware non-free
+	deb-src http://security.debian.org/debian-security trixie-security main contrib non-free-firmware non-free
 EOM
   fi
   # Keep experimental commented out:
@@ -1168,7 +1186,7 @@ EOF
   #incus image list images: debian amd64
   #incus launch images:debian/12/cloud debian-12 --config boot.autostart=true
   # not needed: incus config set debian-12 raw.lxc "lxc.apparmor.profile=unconfined"
-  #incus launch images:debian/trixie/cloud debian-13 --config boot.autostart=true
+  #incus launch images:debian/13/cloud debian-13 --config boot.autostart=true
   #incus launch images:debian/12/cloud debian-12-vm --vm -p vm
 }
 
