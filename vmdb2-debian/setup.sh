@@ -353,7 +353,7 @@ EOM
 	http_proxy=http://$HTTP_PROXY/
 	https_proxy=http://$HTTP_PROXY/
 	ftp_proxy=http://$HTTP_PROXY/
-	no_proxy=localhost
+	no_proxy=localhost,127.0.0.0/8,::1,10.0.0.0/8,192.168.0.0/16,172.16.0.0/12,*.localdomain.com
 EOM
     fi
   elif ! grep -q http_proxy /etc/environment ; then
@@ -361,7 +361,7 @@ EOM
 	http_proxy=http://$HTTP_PROXY/
 	https_proxy=http://$HTTP_PROXY/
 	ftp_proxy=http://$HTTP_PROXY/
-	no_proxy=localhost
+	no_proxy=localhost,127.0.0.0/8,::1,10.0.0.0/8,192.168.0.0/16,172.16.0.0/12,*.localdomain.com
 EOM
   fi
 fi
