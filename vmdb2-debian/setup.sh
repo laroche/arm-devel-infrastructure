@@ -549,6 +549,15 @@ if test $DISTRO = debian ; then
   fi
 fi
 
+if test $DISTRO = ubuntu ; then
+  pro config set apt_news=false
+  if ! test -f /etc/default/motd-news ; then
+    echo ENABLED=0 > /etc/default/motd-news
+  fi
+  sed -i -e 's/^ENABLED=.*/ENABLED=0/g' /etc/default/motd-news
+  systemctl disable ubuntu-advantage.service
+fi
+
 update-alternatives --set editor /usr/bin/vim.basic
 
 sed -i -e 's,^SHELL=/bin/sh,SHELL=/bin/bash,g' /etc/default/useradd
