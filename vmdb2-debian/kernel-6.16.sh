@@ -103,13 +103,13 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    sed -i -e 's/ README$//g' bugfix/rpi/0019-BCM2708-Add-core-Device-Tree-support.patch
-    rm -f bugfix/rpi/0008-Revert-ARM-dts-bcm2711-Add-BCM2711-xHCI-support.patch
+    #sed -i -e 's/ README$//g' bugfix/rpi/0019-BCM2708-Add-core-Device-Tree-support.patch
+    #rm -f bugfix/rpi/0005-Revert-ARM-dts-bcm2711-Add-BCM2711-xHCI-support.patch
     rm -f bugfix/rpi/0316-cfg80211-ship-debian-certificates-as-hex-files.patch
-    #rm -f bugfix/rpi/0414-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
-    #rm -f bugfix/rpi/0415-i2c-designware-Support-non-standard-bus-speeds.patch
-    #rm -f bugfix/rpi/0446-i2c-designware-Add-support-for-bus-clear-feature.patch
-    #rm -f bugfix/rpi/0447-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
+    rm -f bugfix/rpi/0379-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
+    rm -f bugfix/rpi/0380-i2c-designware-Support-non-standard-bus-speeds.patch
+    rm -f bugfix/rpi/0407-i2c-designware-Add-support-for-bus-clear-feature.patch
+    rm -f bugfix/rpi/0408-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
     #rm -f bugfix/rpi/0734-dts-bcm2711-PL011-UARTs-are-actually-r1p5.patch
     #rm -f bugfix/rpi/0753-dts-bcm2711-Don-t-mark-timer-regs-unconfigured.patch
     #rm -f bugfix/rpi/0848-dts-remove-README-from-Makefile.patch
