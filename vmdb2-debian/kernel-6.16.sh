@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER b801eaa96a5a2f2a8fe0b5982ffe4a1fba3c1e93
+  git format-patch -o ../rpi-patches-$RVER fd590381da18a801b7fea1a258e1760335607b10
   cd ..
   rm -fr $RDIR
 fi
@@ -105,15 +105,15 @@ if test "$RPIPATCHES" = 1 ; then
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     sed -i -e 's/ README$//g' bugfix/rpi/0019-BCM2708-Add-core-Device-Tree-support.patch
     rm -f bugfix/rpi/0008-Revert-ARM-dts-bcm2711-Add-BCM2711-xHCI-support.patch
-    rm -f bugfix/rpi/0336-cfg80211-ship-debian-certificates-as-hex-files.patch
-    rm -f bugfix/rpi/0414-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
-    rm -f bugfix/rpi/0415-i2c-designware-Support-non-standard-bus-speeds.patch
-    rm -f bugfix/rpi/0446-i2c-designware-Add-support-for-bus-clear-feature.patch
-    rm -f bugfix/rpi/0447-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
-    rm -f bugfix/rpi/0734-dts-bcm2711-PL011-UARTs-are-actually-r1p5.patch
-    rm -f bugfix/rpi/0753-dts-bcm2711-Don-t-mark-timer-regs-unconfigured.patch
-    rm -f bugfix/rpi/0848-dts-remove-README-from-Makefile.patch
-    rm -f bugfix/rpi/0858-drm-v3d-Don-t-run-jobs-that-have-errors-flagged-in-i.patch
+    rm -f bugfix/rpi/0316-cfg80211-ship-debian-certificates-as-hex-files.patch
+    #rm -f bugfix/rpi/0414-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
+    #rm -f bugfix/rpi/0415-i2c-designware-Support-non-standard-bus-speeds.patch
+    #rm -f bugfix/rpi/0446-i2c-designware-Add-support-for-bus-clear-feature.patch
+    #rm -f bugfix/rpi/0447-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
+    #rm -f bugfix/rpi/0734-dts-bcm2711-PL011-UARTs-are-actually-r1p5.patch
+    #rm -f bugfix/rpi/0753-dts-bcm2711-Don-t-mark-timer-regs-unconfigured.patch
+    #rm -f bugfix/rpi/0848-dts-remove-README-from-Makefile.patch
+    #rm -f bugfix/rpi/0858-drm-v3d-Don-t-run-jobs-that-have-errors-flagged-in-i.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
