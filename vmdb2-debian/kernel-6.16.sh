@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.16.4
-KVERR=6.16.4
+KVER=6.16.7
+KVERR=6.16.7
 CDIR=linux-$KVERR
-RVER=6.16.3
+RVER=6.16.5
 
 CROSS=0
 ARCH=
@@ -68,22 +68,22 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER fd590381da18a801b7fea1a258e1760335607b10
+  git format-patch -o ../rpi-patches-$RVER 4645fefac0b24d509b962c096b0327e87f34b1d2
   cd ..
   rm -fr $RDIR
 fi
 
 if ! test -d $CDIR ; then
-  git clone --single-branch --depth 1 -b debian/latest https://salsa.debian.org/kernel-team/linux.git $CDIR
-  #git clone --single-branch --depth 1 -b debian/6.16/trixie https://salsa.debian.org/kernel-team/linux.git $CDIR
-  #git clone --single-branch --depth 1 -b 6.16-stable-updates https://salsa.debian.org/carnil/linux.git $CDIR
+  #git clone --single-branch --depth 1 -b debian/latest https://salsa.debian.org/kernel-team/linux.git $CDIR
+  #git clone --single-branch --depth 1 -b debian/6.16/forky https://salsa.debian.org/kernel-team/linux.git $CDIR
+  git clone --single-branch --depth 1 -b 6.16-stable-updates https://salsa.debian.org/carnil/linux.git $CDIR
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.16.3-/6.16.4-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.16.7-/6.16.7-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/all/Revert-mmc-sdhci-Disable-SD-card-clock-before-changi.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/ext4-don-t-try-to-clear-the-orphan_present-feature-b.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0001-net-tcp-dccp-prepare-for-tw_timer-un-pinning.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -106,6 +106,7 @@ if test "$RPIPATCHES" = 1 ; then
     #sed -i -e 's/ README$//g' bugfix/rpi/0019-BCM2708-Add-core-Device-Tree-support.patch
     #rm -f bugfix/rpi/0005-Revert-ARM-dts-bcm2711-Add-BCM2711-xHCI-support.patch
     rm -f bugfix/rpi/0316-cfg80211-ship-debian-certificates-as-hex-files.patch
+    rm -f bugfix/rpi/0325-net-macb-Also-set-DMA-coherent-mask.patch
     rm -f bugfix/rpi/0379-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
     rm -f bugfix/rpi/0380-i2c-designware-Support-non-standard-bus-speeds.patch
     rm -f bugfix/rpi/0407-i2c-designware-Add-support-for-bus-clear-feature.patch
