@@ -28,8 +28,8 @@
 # incus launch images:debian/forky/cloud debian-14-vm --vm -p vm --config boot.autostart=true
 # incus launch images:ubuntu/jammy/cloud u22 --config boot.autostart=true
 # incus launch images:ubuntu/jammy/cloud u22-vm --vm -p vm --config boot.autostart=true
-# incus launch images:ubuntu/24.10/cloud u24 --config boot.autostart=true # noble
-# incus launch images:ubuntu/24.10/cloud u24-vm --vm -p vm --config boot.autostart=true
+# incus launch images:ubuntu/noble/cloud u24 --config boot.autostart=true
+# incus launch images:ubuntu/noble/cloud u24-vm --vm -p vm --config boot.autostart=true
 # incus launch images:ubuntu/plucky/cloud u25 --config boot.autostart=true
 # incus launch images:ubuntu/plucky/cloud u25-vm --vm -p vm --config boot.autostart=true
 #
