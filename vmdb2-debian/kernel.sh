@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.152
-KVERR=6.1.152
+KVER=6.1.153
+KVERR=6.1.153
 CDIR=linux-$KVERR
 RVER=6.1.66
 
@@ -83,10 +83,10 @@ fi
 sed -i -e '/cplus_demangle/d' $CDIR/debian/rules.d/tools/perf/Makefile
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.150-/6.1.152-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.152-/6.1.153-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/all/proc-fix-missing-pde_set_flags-for-net-proc-files.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/proc-fix-missing-pde_set_flags-for-net-proc-files.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0067-x86-boot-Compile-boot-code-with-std-gnu11-too.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
