@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.16.8
-KVERR=6.16.8
+KVER=6.16.9
+KVERR=6.16.9
 CDIR=linux-$KVERR
-RVER=6.16.7
+RVER=6.16.9
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 131e2001572ba68b6728bcba91c58647168d237f
+  git format-patch -o ../rpi-patches-$RVER b0d8acc711981d712a59ee20b073cbc52a4109c5
   cd ..
   rm -fr $RDIR
 fi
@@ -80,7 +80,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.16.7-/6.16.8-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.16.8-/6.16.9-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/ext4-don-t-try-to-clear-the-orphan_present-feature-b.patch,,g' $CDIR/debian/patches/series
