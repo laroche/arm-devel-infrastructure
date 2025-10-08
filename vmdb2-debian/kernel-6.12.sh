@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.12.50
-KVERR=6.12.50
+KVER=6.12.51
+KVERR=6.12.51
 CDIR=linux-$KVERR
 RVER=6.12.27
 
@@ -79,7 +79,7 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.12.49-/6.12.50-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.12.50-/6.12.51-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/Revert-mmc-sdhci-Disable-SD-card-clock-before-changi.patch,,g' $CDIR/debian/patches/series
