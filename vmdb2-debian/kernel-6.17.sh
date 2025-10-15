@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.17.2
-KVERR=6.17.2
+KVER=6.17.3
+KVERR=6.17.3
 CDIR=linux-$KVERR
 RVER=6.17.2
 
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 683320aeb0e83deac1b6c6794b0567969de09548
+  git format-patch -o ../rpi-patches-$RVER 449d48b1b99fdaa076166e200132705ac2bee711
   cd ..
   rm -fr $RDIR
 fi
@@ -79,8 +79,8 @@ if ! test -d $CDIR ; then
   #git clone --single-branch --depth 1 -b 6.17-stable-updates https://salsa.debian.org/carnil/linux.git $CDIR
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
-# Change Debian source to new version:
-sed -i -e '1 s/6.17.1-/6.17.2-/' $CDIR/debian/changelog
+ Change Debian source to new version:
+sed -i -e '1 s/6.17.2-/6.17.3-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/ext4-don-t-try-to-clear-the-orphan_present-feature-b.patch,,g' $CDIR/debian/patches/series
@@ -103,24 +103,18 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #sed -i -e 's/ README$//g' bugfix/rpi/0019-BCM2708-Add-core-Device-Tree-support.patch
-    #rm -f bugfix/rpi/0005-Revert-ARM-dts-bcm2711-Add-BCM2711-xHCI-support.patch
-    rm -f bugfix/rpi/0316-cfg80211-ship-debian-certificates-as-hex-files.patch
-    rm -f bugfix/rpi/0325-net-macb-Also-set-DMA-coherent-mask.patch
-    rm -f bugfix/rpi/0379-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
-    rm -f bugfix/rpi/0380-i2c-designware-Support-non-standard-bus-speeds.patch
-    rm -f bugfix/rpi/0407-i2c-designware-Add-support-for-bus-clear-feature.patch
-    rm -f bugfix/rpi/0408-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
-    #rm -f bugfix/rpi/0734-dts-bcm2711-PL011-UARTs-are-actually-r1p5.patch
-    #rm -f bugfix/rpi/0753-dts-bcm2711-Don-t-mark-timer-regs-unconfigured.patch
-    #rm -f bugfix/rpi/0848-dts-remove-README-from-Makefile.patch
-    #rm -f bugfix/rpi/0858-drm-v3d-Don-t-run-jobs-that-have-errors-flagged-in-i.patch
+    rm -f bugfix/rpi/0285-cfg80211-ship-debian-certificates-as-hex-files.patch
+    rm -f bugfix/rpi/0301-i2c-designware-Add-SMBUS-quick-command-support.patch
+    rm -f bugfix/rpi/0345-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
+    rm -f bugfix/rpi/0346-i2c-designware-Support-non-standard-bus-speeds.patch
+    rm -f bugfix/rpi/0373-i2c-designware-Add-support-for-bus-clear-feature.patch
+    rm -f bugfix/rpi/0374-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
   echo "CONFIG_RESET_RASPBERRY=y" >> debian/config/config
   echo "CONFIG_RESET_BRCMSTB_RESCAL=y" >> debian/config/config
-  echo "CONFIG_NO_HZ_FULL=y" >> debian/config/featureset-rt/config
+  #echo "CONFIG_NO_HZ_FULL=y" >> debian/config/featureset-rt/config
   rm -f debian/abi/6.17.0-*/arm*
 fi
 rm -fr debian/abi/6.17.0-*
