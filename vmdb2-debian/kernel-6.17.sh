@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.17.4
-KVERR=6.17.4
+KVER=6.17.5
+KVERR=6.17.5
 CDIR=linux-$KVERR
 RVER=6.17.4
 
@@ -80,10 +80,10 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.17.3-/6.17.4-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.17.4-/6.17.5-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/all/ext4-don-t-try-to-clear-the-orphan_present-feature-b.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/docs-kdoc-handle-the-obsolescensce-of-docutils.Error.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0001-net-tcp-dccp-prepare-for-tw_timer-un-pinning.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
