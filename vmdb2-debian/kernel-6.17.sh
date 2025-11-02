@@ -78,12 +78,12 @@ if ! test -d $CDIR ; then
   git clone --single-branch --depth 1 -b debian/6.17/forky https://salsa.debian.org/kernel-team/linux.git $CDIR
   #git clone --single-branch --depth 1 -b 6.17-stable-updates https://salsa.debian.org/carnil/linux.git $CDIR
 fi
-sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
+#sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
 sed -i -e '1 s/6.17.5-/6.17.6-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/all/docs-kdoc-handle-the-obsolescensce-of-docutils.Error.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/docs-kdoc-handle-the-obsolescensce-of-docutils.Error.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0001-net-tcp-dccp-prepare-for-tw_timer-un-pinning.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -93,7 +93,7 @@ rm -f ../linux-$KVER.tar
 # Just to safe disk space and have a faster compile:
 export DEBIAN_KERNEL_DISABLE_DEBUG=yes
 #sed -i -e 's/^debug-info: true/debug-info: false/g' debian/config/defines
-sed -i -e 's/^CONFIG_DEBUG_INFO=y/# CONFIG_DEBUG_INFO is not set/g' debian/config/config
+#sed -i -e 's/^CONFIG_DEBUG_INFO=y/# CONFIG_DEBUG_INFO is not set/g' debian/config/config
 # Disable RT kernel:
 #if test $CROSS = 1 ; then
 #  sed -i -e 's/^enabled: true/enabled: false/g' debian/config/defines
