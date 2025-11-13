@@ -32,13 +32,15 @@
 # incus launch images:ubuntu/noble/cloud u24-vm --vm -p vm --config boot.autostart=true
 # incus launch images:ubuntu/plucky/cloud u25 --config boot.autostart=true
 # incus launch images:ubuntu/plucky/cloud u25-vm --vm -p vm --config boot.autostart=true
+# incus launch images:ubuntu/25.10/cloud u2510 --config boot.autostart=true
+# incus launch images:ubuntu/25.10/cloud u2510-vm --vm -p vm --config boot.autostart=true
 #
 
 if test "X$1" = "Xincusall" ; then
   # Copy setup.sh to all guest systems and execute it to update their configurations:
   #GUESTVMS="debian-12 debian-12-vm debian-13 debian-13-vm debian-14 debian-14-vm"
-  #GUESTVMS="$GUSTVMS u22 u22-vm u24 u24-vm u25 25-vm"
-  GUESTVMS="debian-12 debian-12-vm debian-13 debian-13-vm debian-14 debian-14-vm u22 u24 u25"
+  #GUESTVMS="$GUSTVMS u22 u22-vm u24 u24-vm u25 25-vm u2510 u2510-vm"
+  GUESTVMS="debian-12 debian-12-vm debian-13 debian-13-vm debian-14 debian-14-vm u22 u24 u2510"
   for host in $GUESTVMS ; do
     echo "--------------------------------------------------------------------------------"
     echo "host $host"
