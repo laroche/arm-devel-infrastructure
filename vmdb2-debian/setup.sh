@@ -503,9 +503,12 @@ if test $FIRSTRUN = 1 ; then
   # My own definition of a small Debian system:
   $apt install unattended-upgrades debsums locales locate psmisc strace htop \
     tree man parted lvm2 dosfstools vim sudo net-tools traceroute nmap \
-    wakeonlan bind9-host dnsutils whois tcpdump iptables-persistent ulogd2 ssh openssh-server \
+    wakeonlan bind9-host dnsutils whois tcpdump iptables-persistent ssh openssh-server \
     screen tmux rsync curl wget git-core unzip zip xz-utils reportbug \
     ncal less apt-utils
+  if ! grep -q "Ubuntu 25.10" /etc/os-release ; then
+    $apt install ulogd2
+  fi
   if test -f /etc/debian_version && grep -q '^12' /etc/debian_version ; then
     $apt install -t bookworm-backports borgbackup
   else
