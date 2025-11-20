@@ -39,7 +39,7 @@
 if test "X$1" = "Xincusall" ; then
   # Copy setup.sh to all guest systems and execute it to update their configurations:
   #GUESTVMS="debian-12 debian-12-vm debian-13 debian-13-vm debian-14 debian-14-vm"
-  #GUESTVMS="$GUSTVMS u22 u22-vm u24 u24-vm u25 u25-vm u2510 u2510-vm"
+  #GUESTVMS="$GUESTVMS u22 u22-vm u24 u24-vm u25 u25-vm u2510 u2510-vm"
   GUESTVMS="debian-12 debian-12-vm debian-13 debian-13-vm debian-14 debian-14-vm u22 u24 u2510"
   for host in $GUESTVMS ; do
     echo "--------------------------------------------------------------------------------"
