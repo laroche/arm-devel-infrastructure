@@ -2,25 +2,35 @@ DATE := $(shell date +%Y%m%d)
 
 .PHONY: all release clean distclean tag
 
-all: debian-amd64.img debian-amd64-legacy.img debian-rpi3-arm64.img debian-rpi3-armhf.img \
-    debian-testing-amd64.img debian-testing-amd64-legacy.img debian-testing-rpi3-arm64.img debian-testing-rpi3-armhf.img
+all: debian-12-amd64.img debian-12-amd64-legacy.img \
+    debian-testing-amd64.img debian-testing-amd64-legacy.img \
+    #debian-rpi3-arm64.img debian-rpi3-armhf.img \
+    #debian-testing-rpi3-arm64.img debian-testing-rpi3-armhf.img
 
-#release: debian-stable-amd64-$(DATE).zip debian-stable-amd64-legacy-$(DATE).zip debian-stable-rpi3-arm64-$(DATE).zip debian-stable-rpi3-armhf-$(DATE).zip \
-#    debian-testing-amd64-$(DATE).zip debian-testing-amd64-legacy-$(DATE).zip debian-testing-rpi3-arm64-$(DATE).zip debian-testing-rpi3-armhf-$(DATE).zip
-
-release: debian-stable-amd64-$(DATE).zip debian-stable-amd64-legacy-$(DATE).zip \
-    debian-testing-amd64-$(DATE).zip debian-testing-amd64-legacy-$(DATE).zip
+release: debian-12-amd64-$(DATE).zip debian-12-amd64-legacy-$(DATE).zip \
+    debian-testing-amd64-$(DATE).zip debian-testing-amd64-legacy-$(DATE).zip \
+    #debian-12-rpi3-arm64-$(DATE).zip debian-12-rpi3-armhf-$(DATE).zip \
+    #debian-testing-rpi3-arm64-$(DATE).zip debian-testing-rpi3-armhf-$(DATE).zip
 
 define vmdb2
 	sudo env -i http_proxy=$(http_proxy) LC_CTYPE=C.UTF-8 PATH="/usr/sbin:/sbin:$$PATH" vmdb2 --rootfs-tarball debian-$(1).tar.gz --output debian-$(1).img debian-$(1).yaml --log debian-$(1).log
 	sudo chown $(USER):$(USER) debian-$(1).img debian-$(1).log
 endef
 
-debian-amd64-legacy.img: debian-amd64-legacy.yaml
-	$(call vmdb2,amd64-legacy)
+debian-12-amd64.img: debian-12-amd64.yaml
+	$(call vmdb2,12-amd64)
+
+debian-12-amd64-legacy.img: debian-12-amd64-legacy.yaml
+	$(call vmdb2,12-amd64-legacy)
 	sudo parted -s $@ toggle 1 boot
 
-debian-testing-amd64-legacy.yaml: debian-amd64-legacy.yaml
+debian-testing-amd64.yaml: debian-12-amd64.yaml
+	sed 's/debootstrap: bookworm/debootstrap: testing/g' < $^ > $@
+
+debian-testing-amd64.img: debian-testing-amd64.yaml
+	$(call vmdb2,testing-amd64)
+
+debian-testing-amd64-legacy.yaml: debian-12-amd64-legacy.yaml
 	sed 's/debootstrap: bookworm/debootstrap: testing/g' < $^ > $@
 
 debian-testing-amd64-legacy.img: debian-testing-amd64-legacy.yaml
@@ -28,15 +38,6 @@ debian-testing-amd64-legacy.img: debian-testing-amd64-legacy.yaml
 	#test "X$$(sudo losetup -a)" = "X"
 	$(call vmdb2,testing-amd64-legacy)
 	sudo parted -s $@ toggle 1 boot
-
-debian-amd64.img: debian-amd64.yaml
-	$(call vmdb2,amd64)
-
-debian-testing-amd64.yaml: debian-amd64.yaml
-	sed 's/debootstrap: bookworm/debootstrap: testing/g' < $^ > $@
-
-debian-testing-amd64.img: debian-testing-amd64.yaml
-	$(call vmdb2,testing-amd64)
 
 debian-rpi3-arm64.img: debian-rpi3-arm64.yaml
 	$(call vmdb2,rpi3-arm64)
