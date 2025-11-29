@@ -271,6 +271,7 @@ steps:
       dd if=/dev/zero of=/ZERO || rm -f /ZERO # zero unused filesystem
       sync
       sleep 5
+      sync
 
   - shell: |
       rm "${ROOT?}/etc/resolv.conf"

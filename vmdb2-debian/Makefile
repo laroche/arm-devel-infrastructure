@@ -2,13 +2,15 @@ DATE := $(shell date +%Y%m%d)
 
 .PHONY: all release clean distclean tag
 
-all: debian-12-amd64.img debian-12-amd64-legacy.img \
+all: \
+    debian-12-amd64.img debian-12-amd64-legacy.img \
     debian-13-amd64.img debian-13-amd64-legacy.img \
     debian-testing-amd64.img debian-testing-amd64-legacy.img \
     #debian-12-rpi3-arm64.img debian-12-rpi3-armhf.img \
     #debian-testing-rpi3-arm64.img debian-testing-rpi3-armhf.img
 
-release: debian-12-amd64-$(DATE).zip debian-12-amd64-legacy-$(DATE).zip \
+release: \
+    debian-12-amd64-$(DATE).zip debian-12-amd64-legacy-$(DATE).zip \
     debian-13-amd64-$(DATE).zip debian-13-amd64-legacy-$(DATE).zip \
     debian-testing-amd64-$(DATE).zip debian-testing-amd64-legacy-$(DATE).zip \
     #debian-12-rpi3-arm64-$(DATE).zip debian-12-rpi3-armhf-$(DATE).zip \
