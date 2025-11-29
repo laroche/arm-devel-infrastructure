@@ -5,7 +5,7 @@ DATE := $(shell date +%Y%m%d)
 all: debian-12-amd64.img debian-12-amd64-legacy.img \
     debian-13-amd64.img debian-13-amd64-legacy.img \
     debian-testing-amd64.img debian-testing-amd64-legacy.img \
-    #debian-rpi3-arm64.img debian-rpi3-armhf.img \
+    #debian-12-rpi3-arm64.img debian-12-rpi3-armhf.img \
     #debian-testing-rpi3-arm64.img debian-testing-rpi3-armhf.img
 
 release: debian-12-amd64-$(DATE).zip debian-12-amd64-legacy-$(DATE).zip \
@@ -54,8 +54,8 @@ debian-testing-amd64-legacy.img: debian-testing-amd64-legacy.yaml
 	$(call vmdb2,testing-amd64-legacy)
 	sudo parted -s $@ toggle 1 boot
 
-debian-rpi3-arm64.img: debian-rpi3-arm64.yaml
-	$(call vmdb2,rpi3-arm64)
+debian-12-rpi3-arm64.img: debian-12-rpi3-arm64.yaml
+	$(call vmdb2,12-rpi3-arm64)
 
 debian-testing-rpi3-arm64.yaml: debian-rpi3-arm64.yaml
 	sed 's/debootstrap: bookworm/debootstrap: testing/g' < $^ | sed -e "s/#- non-free-firmware/- non-free-firmware/g" > $@
@@ -63,8 +63,8 @@ debian-testing-rpi3-arm64.yaml: debian-rpi3-arm64.yaml
 debian-testing-rpi3-arm64.img: debian-testing-rpi3-arm64.yaml
 	$(call vmdb2,testing-rpi3-arm64)
 
-debian-rpi3-armhf.img: debian-rpi3-armhf.yaml
-	$(call vmdb2,rpi3-armhf)
+debian-12-rpi3-armhf.img: debian-12-rpi3-armhf.yaml
+	$(call vmdb2,12-rpi3-armhf)
 
 debian-testing-rpi3-armhf.yaml: debian-rpi3-armhf.yaml
 	sed 's/debootstrap: bookworm/debootstrap: testing/g' < $^ | sed -e "s/#- non-free-firmware/- non-free-firmware/g" > $@
@@ -89,10 +89,10 @@ $(eval $(call pack,13-amd64-legacy))
 $(eval $(call pack,testing-amd64))
 $(eval $(call pack,testing-amd64-legacy))
 
-$(eval $(call pack,13-rpi3-arm64))
+$(eval $(call pack,12-rpi3-arm64))
 $(eval $(call pack,testing-rpi3-arm64))
 
-$(eval $(call pack,13-rpi3-armhf))
+$(eval $(call pack,12-rpi3-armhf))
 $(eval $(call pack,testing-rpi3-armhf))
 
 clean:
