@@ -73,33 +73,36 @@ debian-testing-rpi3-armhf.img: debian-testing-rpi3-armhf.yaml
 	$(call vmdb2,testing-rpi3-armhf)
 
 define pack
-debian-$(1)-$(DATE).zip: debian-$(2).img README.md
+debian-$(1)-$(DATE).zip: debian-$(1).img README.md
 	mkdir debian-$(1)-$(DATE)
 	ln README.md debian-$(1)-$(DATE)/README-$(DATE).md
-	ln debian-$(2).img debian-$(1)-$(DATE)/debian-$(1)-$(DATE).img
+	ln debian-$(1).img debian-$(1)-$(DATE)/debian-$(1)-$(DATE).img
 	cd debian-$(1)-$(DATE) && md5sum debian-$(1)-$(DATE).img > debian-$(1)-$(DATE).img.md5
 	zip -r debian-$(1)-$(DATE).zip debian-$(1)-$(DATE)
 	rm -fr debian-$(1)-$(DATE)
 endef
 
-$(eval $(call pack,stable-amd64,amd64))
-$(eval $(call pack,testing-amd64,testing-amd64))
+$(eval $(call pack,12-amd64))
+$(eval $(call pack,12-amd64-legacy))
+$(eval $(call pack,13-amd64))
+$(eval $(call pack,13-amd64-legacy))
+$(eval $(call pack,testing-amd64))
+$(eval $(call pack,testing-amd64-legacy))
 
-$(eval $(call pack,stable-amd64-legacy,amd64-legacy))
-$(eval $(call pack,testing-amd64-legacy,testing-amd64-legacy))
+$(eval $(call pack,13-rpi3-arm64))
+$(eval $(call pack,testing-rpi3-arm64))
 
-$(eval $(call pack,stable-rpi3-arm64,rpi3-arm64))
-$(eval $(call pack,testing-rpi3-arm64,testing-rpi3-arm64))
-
-$(eval $(call pack,stable-rpi3-armhf,rpi3-armhf))
-$(eval $(call pack,testing-rpi3-armhf,testing-rpi3-armhf))
+$(eval $(call pack,13-rpi3-armhf))
+$(eval $(call pack,testing-rpi3-armhf))
 
 clean:
 	rm -f debian-*.img debian-*.log debian-*.zip wget-log*
 
 distclean: clean
 	rm -f debian-*.tar.gz #debian-testing-*.yaml
-	rm -f debian-testing-amd64.yaml debian-testing-amd64-legacy.yaml debian-testing-rpi3-arm64.yaml debian-testing-rpi3-armhf.yaml
+	rm -f debian-13-amd64.yaml debian-13-amd64-legacy.yaml
+	rm -f debian-testing-amd64.yaml debian-testing-amd64-legacy.yaml
+	rm -f debian-testing-rpi3-arm64.yaml debian-testing-rpi3-armhf.yaml
 
 tag:
 	git tag -m "release v$(DATE)" v$(DATE)
