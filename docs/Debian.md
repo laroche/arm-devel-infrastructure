@@ -4,9 +4,9 @@ General notes about Debian
 [Debian](https://www.debian.org/) is a community driven Linux distribution.
 [Ubuntu Linux](https://ubuntu.com/) is based on Debian.
 
-Debian 12 is the newest stable release and is named 'bookworm'.
+Debian 13 is the newest stable release and is named 'trixie'.
 See [https://www.debian.org/releases/](https://www.debian.org/releases/) for more details.
-'testing' refers to the next stable release (named trixie, Debian 13).
+'testing' refers to the next stable release (named forky, Debian 14).
 The 'unstable' distribution is always named 'sid'.
 
 If you are a developer and interested in the newest developments, I recommend
