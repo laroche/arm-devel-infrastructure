@@ -3,11 +3,13 @@ DATE := $(shell date +%Y%m%d)
 .PHONY: all release clean distclean tag
 
 all: debian-12-amd64.img debian-12-amd64-legacy.img \
+    debian-13-amd64.img debian-13-amd64-legacy.img \
     debian-testing-amd64.img debian-testing-amd64-legacy.img \
     #debian-rpi3-arm64.img debian-rpi3-armhf.img \
     #debian-testing-rpi3-arm64.img debian-testing-rpi3-armhf.img
 
 release: debian-12-amd64-$(DATE).zip debian-12-amd64-legacy-$(DATE).zip \
+    debian-13-amd64-$(DATE).zip debian-13-amd64-legacy-$(DATE).zip \
     debian-testing-amd64-$(DATE).zip debian-testing-amd64-legacy-$(DATE).zip \
     #debian-12-rpi3-arm64-$(DATE).zip debian-12-rpi3-armhf-$(DATE).zip \
     #debian-testing-rpi3-arm64-$(DATE).zip debian-testing-rpi3-armhf-$(DATE).zip
@@ -22,6 +24,19 @@ debian-12-amd64.img: debian-12-amd64.yaml
 
 debian-12-amd64-legacy.img: debian-12-amd64-legacy.yaml
 	$(call vmdb2,12-amd64-legacy)
+	sudo parted -s $@ toggle 1 boot
+
+debian-13-amd64.yaml: debian-12-amd64.yaml
+	sed 's/debootstrap: bookworm/debootstrap: trixie/g' < $^ > $@
+
+debian-13-amd64.img: debian-13-amd64.yaml
+	$(call vmdb2,13-amd64)
+
+debian-13-amd64-legacy.yaml: debian-12-amd64-legacy.yaml
+	sed 's/debootstrap: bookworm/debootstrap: trixie/g' < $^ > $@
+
+debian-13-amd64-legacy.img: debian-13-amd64-legacy.yaml
+	$(call vmdb2,13-amd64-legacy)
 	sudo parted -s $@ toggle 1 boot
 
 debian-testing-amd64.yaml: debian-12-amd64.yaml
