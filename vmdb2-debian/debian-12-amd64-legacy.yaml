@@ -269,6 +269,8 @@ steps:
       #adduser max sudo
 
       dd if=/dev/zero of=/ZERO || rm -f /ZERO # zero unused filesystem
+      sync
+      sleep 5
 
   - shell: |
       rm "${ROOT?}/etc/resolv.conf"
