@@ -5,24 +5,16 @@
 
 # release date to use:
 RDATE="20251129"
-# Select either "stable", "testing" or "unstable":
-TYPE="stable"
+# Select either "12", "13" or "testing":
+TYPE="13"
 # Should we package the image up?
 ZIP=0
-EFI=0
+EFI=1
 
-if test $TYPE = stable ; then
-  if test $EFI = 0 ; then
-    IMG=debian-amd64.img
-  else
-    IMG=debian-amd64-efi.img
-  fi
+if test $EFI = 0 ; then
+  IMG=debian-$TYPE-amd64-legacy.img
 else
-  if test $EFI = 0 ; then
-    IMG=debian-testing-amd64.img
-  else
-    IMG=debian-testing-amd64-efi.img
-  fi
+  IMG=debian-$TYPE-amd64.img
 fi
 
 # This is the name of the new system as well as the name of the hard disk for it:
@@ -37,10 +29,10 @@ DISK="$TARGET.qcow2"
 #sudo apt-get -qq -y install virtinst virt-manager
 
 # Download newest release and unpack:
-if ! test -f debian-amd64.img ; then
+if ! test -f $IMG ; then
   wget -q https://github.com/laroche/arm-devel-infrastructure/releases/download/v$RDATE/debian-${TYPE}-amd64-$RDATE.zip
   unzip debian-${TYPE}-amd64-$RDATE.zip
-  mv debian-${TYPE}-amd64-$RDATE/debian-${TYPE}-amd64-$RDATE.img debian-amd64.img
+  mv debian-${TYPE}-amd64-$RDATE/debian-${TYPE}-amd64-$RDATE.img debian-$TYPE.amd64.img
   rm -fr debian-${TYPE}-amd64-$RDATE
   #rm -f debian-${TYPE}-amd64-$RDATE.zip
 fi
@@ -60,6 +52,7 @@ if ! test -f "$DISK" ; then
       virt-copy-in -a "$DISK" setup.sh /root/
     else
       virt-copy-in -a "$DISK" -m /dev/sda2:/ setup.sh /root/
+      #virt-copy-in -m /dev/sda2:/ -a "$DISK" setup.sh /root/
     fi
   fi
   # If you later on want to use virt-copy and the command does not recognize the
@@ -75,18 +68,10 @@ if ! test -f "$DISK" ; then
   #sudo rm -fr /var/tmp/.guestfs-*
 fi
 
-if test $TYPE = stable ; then
-  if test $EFI = 0 ; then
-    OUT=debian-12-desktop-amd64
-  else
-    OUT=debian-12-desktop-amd64-efi
-  fi
+if test $EFI = 0 ; then
+  OUT=debian-$TYPE-desktop-amd64-legacy
 else
-  if test $EFI = 0 ; then
-    OUT=debian-13-desktop-amd64
-  else
-    OUT=debian-13-desktop-amd64-efi
-  fi
+  OUT=debian-$TYPE-desktop-amd64
 fi
 if test $ZIP = 1 && ! test -f $OUT.zip && ! test -d $OUT ; then
   mkdir -p $OUT
