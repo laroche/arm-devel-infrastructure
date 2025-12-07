@@ -19,8 +19,8 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.17.10
-KVERR=6.17.10
+KVER=6.17.11
+KVERR=6.17.11
 CDIR=linux-$KVERR
 RVER=6.17.10
 
@@ -80,7 +80,7 @@ if ! test -d $CDIR ; then
 fi
 #sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.17.9-/6.17.10-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.17.10-/6.17.11-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/docs-kdoc-handle-the-obsolescensce-of-docutils.Error.patch,,g' $CDIR/debian/patches/series
