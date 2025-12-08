@@ -104,6 +104,7 @@ if test "$RPIPATCHES" = 1 ; then
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     rm -f bugfix/rpi/0284-cfg80211-ship-debian-certificates-as-hex-files.patch
+    rm -f bugfix/rpi/0298-mmc-sdhci-of-dwcmshc-define-sdio-timeout-clocks.patch
     rm -f bugfix/rpi/0300-i2c-designware-Add-SMBUS-quick-command-support.patch
     rm -f bugfix/rpi/0344-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
     rm -f bugfix/rpi/0345-i2c-designware-Support-non-standard-bus-speeds.patch
