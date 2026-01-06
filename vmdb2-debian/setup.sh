@@ -840,9 +840,11 @@ SETLOCALDEFS=0
 EOM
   fi
   sed -i -e "s,^SELINUX=.*,SELINUX=disabled," /etc/selinux/config
-  if ! grep -q "^GRUB_CMDLINE_LINUX_DEFAULT=.*selinux=0" /etc/default/grub ; then
-    sed -i -e "s,^GRUB_CMDLINE_LINUX_DEFAULT=\",GRUB_CMDLINE_LINUX_DEFAULT=\"selinux=0 ," /etc/default/grub
-    update-grub
+  if test -f /etc/default/grub ; then
+    if ! grep -q "^GRUB_CMDLINE_LINUX_DEFAULT=.*selinux=0" /etc/default/grub ; then
+      sed -i -e "s,^GRUB_CMDLINE_LINUX_DEFAULT=\",GRUB_CMDLINE_LINUX_DEFAULT=\"selinux=0 ," /etc/default/grub
+      update-grub
+    fi
   fi
 }
 
@@ -910,9 +912,15 @@ EOM
 	-A INPUT -d 224.0.0.252/32 -j ACCEPT
 	# https://en.wikipedia.org/wiki/Simple_Service_Discovery_Protocol
 	#-A INPUT -d 239.255.255.250/32 -p udp -m udp --dport 1900 -j ACCEPT
+EOM
+      if test "X$INSTALLGUI" = "X1" ; then
+      cat <<-EOM
 	# https://www.it-administrator.de/lexikon/ws-discovery.html
 	# https://zero.bs/new-ddos-attack-vector-via-ws-discoverysoapoverudp-port-3702.html
-	#-A INPUT -d 239.255.255.250/32 -p udp -m udp --dport 3702 -j DROP
+	-A INPUT -d 239.255.255.250/32 -p udp -m udp --dport 3702 -j DROP
+EOM
+      fi
+      cat <<-EOM
 	-A INPUT -d 224.0.0.0/8 -j ACCEPT
 	# Wake On LAN:
 	-A INPUT -m limit --limit 6/min --limit-burst 10 -d 255.255.255.255/32 -p udp -m udp --dport 9 -j NFLOG --nflog-prefix "[DROP-WOL-INPUT]:"
@@ -959,10 +967,14 @@ EOM
 	-A OUTPUT -d 224.0.0.251/32 -j ACCEPT
 	-A OUTPUT -d 224.0.0.252/32 -j ACCEPT
 EOM
+      if test "X$INSTALLGUI" = "X1" ; then
+      cat <<-EOM
+	-A OUTPUT -d 239.255.255.250/32 -p udp -m udp --dport 1900 -j ACCEPT
+	-A OUTPUT -d 239.255.255.250/32 -p udp -m udp --dport 3702 -j ACCEPT
+EOM
+      fi
       if test "X$SYSTYPE" != Xlxc ; then
       cat <<-EOM
-	#-A OUTPUT -d 239.255.255.250/32 -p udp -m udp --dport 1900 -j ACCEPT
-	#-A OUTPUT -d 239.255.255.250/32 -p udp -m udp --dport 3702 -j DROP
 	# virt-inst new network checks:
 	-A OUTPUT -d 10.0.0.0/8 -p udp -m udp --dport 7 -j ACCEPT
 	-A OUTPUT -p udp -m udp --dport 123 -j ACCEPT
