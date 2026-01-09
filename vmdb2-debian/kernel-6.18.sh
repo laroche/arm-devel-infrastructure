@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.18.3
+KVER=6.18.4
 KVERR=$KVER
 CDIR=linux-$KVERR
-RVER=6.18.1
+RVER=6.18.4
 
 CROSS=0
 ARCH=
@@ -68,22 +68,24 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 25442251cbda7590d87d8203a8dc1ddf2c93de61
+  git format-patch -o ../rpi-patches-$RVER 3aa9aac0e8b767a7c6fac33ae626a332c2ba1389
   cd ..
   rm -fr $RDIR
 fi
 
 if ! test -d $CDIR ; then
-  git clone --single-branch --depth 1 -b debian/latest https://salsa.debian.org/kernel-team/linux.git $CDIR
-  #git clone --single-branch --depth 1 -b debian/6.18/forky https://salsa.debian.org/kernel-team/linux.git $CDIR
+  #git clone --single-branch --depth 1 -b debian/latest https://salsa.debian.org/kernel-team/linux.git $CDIR
+  git clone --single-branch --depth 1 -b debian/6.18/forky https://salsa.debian.org/kernel-team/linux.git $CDIR
   #git clone --single-branch --depth 1 -b 6.18-stable-updates https://salsa.debian.org/carnil/linux.git $CDIR
 fi
 #sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.18.3-/6.18.3-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.18.3-/6.18.4-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/all/docs-kdoc-handle-the-obsolescensce-of-docutils.Error.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/clk-samsung-exynos-clkout-Assign-.num-before-accessi.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/drm-amdgpu-don-t-attach-the-tlb-fence-for-SI.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/sched-proxy-Yield-the-donor-task.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0001-net-tcp-dccp-prepare-for-tw_timer-un-pinning.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -160,7 +162,7 @@ if test $CROSS = 0 ; then
   L=kernel-amd64-$KVERR-1
   mkdir -p $L
   mv $CDIR/LOG *$KVERR*amd64.deb $L
-  rm *$KVERR*amd64.udeb
+  rm -f *$KVERR*amd64.udeb
   tar cplf - $L | gzip -9 > $L.tar.gz
   rm -fr $L
 else
