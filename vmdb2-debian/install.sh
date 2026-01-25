@@ -4,7 +4,7 @@
 #
 
 # release date to use:
-RDATE="20251129"
+RDATE="20260125"
 # Select either "12", "13" or "testing":
 TYPE="13"
 # Should we package the image up?
