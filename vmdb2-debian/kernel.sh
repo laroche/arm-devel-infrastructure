@@ -19,7 +19,7 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.163
+KVER=6.1.164
 KVERR=$KVER
 CDIR=linux-$KVERR
 RVER=6.1.66
@@ -83,7 +83,7 @@ fi
 sed -i -e '/cplus_demangle/d' $CDIR/debian/rules.d/tools/perf/Makefile
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.162-/6.1.163-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.163-/6.1.164-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/firmware-remove-redundant-log-messages-from-drivers.patch,,g' $CDIR/debian/patches/series
