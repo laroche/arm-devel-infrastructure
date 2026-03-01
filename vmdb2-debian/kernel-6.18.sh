@@ -19,7 +19,7 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.18.13
+KVER=6.18.15
 KVERR=$KVER
 CDIR=linux-$KVERR
 RVER=6.18.12
@@ -80,12 +80,10 @@ if ! test -d $CDIR ; then
 fi
 #sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.18.12-/6.18.13-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.18.14-/6.18.15-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/all/clk-samsung-exynos-clkout-Assign-.num-before-accessi.patch,,g' $CDIR/debian/patches/series
-#sed -i -e 's,^bugfix/all/drm-amdgpu-don-t-attach-the-tlb-fence-for-SI.patch,,g' $CDIR/debian/patches/series
-#sed -i -e 's,^bugfix/all/sched-proxy-Yield-the-donor-task.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/ovpn-tcp-don-t-deref-NULL-sk_socket-member-after-tcp.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0001-net-tcp-dccp-prepare-for-tw_timer-un-pinning.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
