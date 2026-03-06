@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.19.5
+KVER=6.19.6
 KVERR=$KVER
 CDIR=linux-$KVERR
-RVER=6.19.2
+RVER=6.19.6
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER aa95a019990986bee50ff2bcede0185035b2e1e0
+  git format-patch -o ../rpi-patches-$RVER 6a753907865e35ae986b7b2ad48daa1eab4bcf3a
   cd ..
   rm -fr $RDIR
 fi
@@ -80,7 +80,7 @@ if ! test -d $CDIR ; then
 fi
 #sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.19.4-/6.19.5-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.19.5-/6.19.6-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/clk-samsung-exynos-clkout-Assign-.num-before-accessi.patch,,g' $CDIR/debian/patches/series
@@ -105,14 +105,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0006-OV5647.patch
-    rm -f bugfix/rpi/0020-VC4-Destage.patch
-    rm -f bugfix/rpi/0021-staging-Destage-VCHIQ-interface-and-MMAL.patch
-    rm -f bugfix/rpi/0022-VC-SM-CMA.patch
-    rm -f bugfix/rpi/0037-BCM2835-ISP.patch
-    rm -f bugfix/rpi/0038-media-Raspberry-Pi-4-ISP-support.patch
-    rm -f bugfix/rpi/0023-platform-raspberrypi-Add-Broadcom-Videocore-shared-m.patch
-    rm -f bugfix/rpi/0306-cfg80211-ship-debian-certificates-as-hex-files.patch
+    rm -f bugfix/rpi/0302-cfg80211-ship-debian-certificates-as-hex-files.patch
     rm -f bugfix/rpi/0320-i2c-designware-Add-SMBUS-quick-command-support.patch
     rm -f bugfix/rpi/0360-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
     rm -f bugfix/rpi/0361-i2c-designware-Support-non-standard-bus-speeds.patch
