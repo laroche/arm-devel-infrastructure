@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.19.6
+KVER=6.19.8
 KVERR=$KVER
 CDIR=linux-$KVERR
-RVER=6.19.6
+RVER=6.19.7
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 6a753907865e35ae986b7b2ad48daa1eab4bcf3a
+  git format-patch -o ../rpi-patches-$RVER 0d87da0c7e74868a63d2b856454122b5fb30d341
   cd ..
   rm -fr $RDIR
 fi
@@ -80,12 +80,10 @@ if ! test -d $CDIR ; then
 fi
 #sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.19.5-/6.19.6-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.19.6-/6.19.8-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/clk-samsung-exynos-clkout-Assign-.num-before-accessi.patch,,g' $CDIR/debian/patches/series
-#sed -i -e 's,^bugfix/all/drm-amdgpu-don-t-attach-the-tlb-fence-for-SI.patch,,g' $CDIR/debian/patches/series
-#sed -i -e 's,^bugfix/all/sched-proxy-Yield-the-donor-task.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0001-net-tcp-dccp-prepare-for-tw_timer-un-pinning.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -106,11 +104,11 @@ if test "$RPIPATCHES" = 1 ; then
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     rm -f bugfix/rpi/0302-cfg80211-ship-debian-certificates-as-hex-files.patch
-    rm -f bugfix/rpi/0320-i2c-designware-Add-SMBUS-quick-command-support.patch
-    rm -f bugfix/rpi/0360-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
-    rm -f bugfix/rpi/0361-i2c-designware-Support-non-standard-bus-speeds.patch
-    rm -f bugfix/rpi/0388-i2c-designware-Add-support-for-bus-clear-feature.patch
-    rm -f bugfix/rpi/0389-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
+    rm -f bugfix/rpi/0316-i2c-designware-Add-SMBUS-quick-command-support.patch
+    rm -f bugfix/rpi/0356-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
+    rm -f bugfix/rpi/0357-i2c-designware-Support-non-standard-bus-speeds.patch
+    rm -f bugfix/rpi/0384-i2c-designware-Add-support-for-bus-clear-feature.patch
+    rm -f bugfix/rpi/0385-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
