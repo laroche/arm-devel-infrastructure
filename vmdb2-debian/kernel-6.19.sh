@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.19.8
+KVER=6.19.9
 KVERR=$KVER
 CDIR=linux-$KVERR
-RVER=6.19.7
+RVER=6.19.8
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 0d87da0c7e74868a63d2b856454122b5fb30d341
+  git format-patch -o ../rpi-patches-$RVER 86818b2e7d9c22225b15f2ae91d3f35c4a07dfd9
   cd ..
   rm -fr $RDIR
 fi
@@ -80,7 +80,7 @@ if ! test -d $CDIR ; then
 fi
 #sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.19.6-/6.19.8-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.19.6-/6.19.9-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/clk-samsung-exynos-clkout-Assign-.num-before-accessi.patch,,g' $CDIR/debian/patches/series
