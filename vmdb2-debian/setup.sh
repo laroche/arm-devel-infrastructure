@@ -628,7 +628,10 @@ if test "$INSTALLGUI" = 1 ; then
 
     $apt install meld
 
-    $apt install qemu-system-arm qemu-efi minicom
+    $apt install qemu-system-arm minicom
+    if ! grep -q trixie /etc/os-release ; then
+      $apt install qemu-efi
+    fi
   fi
 
   # Google chrome browser: (https://wiki.debian.org/DebianRepository/Unofficial)
