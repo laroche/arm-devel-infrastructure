@@ -1436,8 +1436,11 @@ if test "X$DEMOSETUP" = X1 ; then
     config_git_default
   fi
   # Remove old Linux kernel:
-  if test -d /lib/modules/6.1.0-48-amd64 ; then
-    dpkg -P linux-image-6.1.0-48-amd64
+  if test -d /lib/modules/6.1.0-42-amd64 ; then
+    dpkg -P linux-image-6.1.0-42-amd64
+  fi
+  if test -d /lib/modules/6.12.73+deb13-amd64 ; then
+    dpkg -P linux-image-6.12.73+deb13-amd64
   fi
   # Set new hostname:
   #echo debian01 > /etc/hostname
