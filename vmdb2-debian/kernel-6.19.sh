@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.19.9
+KVER=6.19.10
 KVERR=$KVER
 CDIR=linux-$KVERR
-RVER=6.19.8
+RVER=6.19.10
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 86818b2e7d9c22225b15f2ae91d3f35c4a07dfd9
+  git format-patch -o ../rpi-patches-$RVER 271f8eab9590b57a2ff0c8c9eee357723c4a85cb
   cd ..
   rm -fr $RDIR
 fi
@@ -80,10 +80,10 @@ if ! test -d $CDIR ; then
 fi
 #sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.19.6-/6.19.9-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.19.6-/6.19.10-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/all/clk-samsung-exynos-clkout-Assign-.num-before-accessi.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/rpi/0001-NFSD-Defer-sub-object-cleanup-in-export-put-callback.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0001-net-tcp-dccp-prepare-for-tw_timer-un-pinning.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
