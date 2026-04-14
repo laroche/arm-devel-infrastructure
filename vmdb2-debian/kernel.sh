@@ -19,7 +19,7 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.167
+KVER=6.1.168
 KVERR=$KVER
 CDIR=linux-$KVERR
 RVER=6.1.66
@@ -83,7 +83,7 @@ fi
 sed -i -e '/cplus_demangle/d' $CDIR/debian/rules.d/tools/perf/Makefile
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.166-/6.1.167-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.167-/6.1.168-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^features/all/ethernet-microsoft/0021-net-mana-Check-if-netdev-napi_alloc_frag-returns-sin.patch,,g' $CDIR/debian/patches/series

@@ -19,7 +19,7 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.19.11
+KVER=6.19.12
 KVERR=$KVER
 CDIR=linux-$KVERR
 RVER=6.19.10
@@ -80,7 +80,7 @@ if ! test -d $CDIR ; then
 fi
 #sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.19.10-/6.19.11-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.19.11-/6.19.12-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/rpi/0001-NFSD-Defer-sub-object-cleanup-in-export-put-callback.patch,,g' $CDIR/debian/patches/series
