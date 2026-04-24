@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER b9dbb4576bc8c69e87b4ca4caa2fb1c0db47d722
+  git format-patch -o ../rpi-patches-$RVER 3cb1fb7a56d2fd8011f5282bc170c0d23dc1f4b5
   cd ..
   rm -fr $RDIR
 fi
@@ -103,12 +103,12 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0302-cfg80211-ship-debian-certificates-as-hex-files.patch
-    rm -f bugfix/rpi/0316-i2c-designware-Add-SMBUS-quick-command-support.patch
-    rm -f bugfix/rpi/0356-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
-    rm -f bugfix/rpi/0357-i2c-designware-Support-non-standard-bus-speeds.patch
-    rm -f bugfix/rpi/0384-i2c-designware-Add-support-for-bus-clear-feature.patch
-    rm -f bugfix/rpi/0385-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
+    rm -f bugfix/rpi/0285-cfg80211-ship-debian-certificates-as-hex-files.patch
+    #rm -f bugfix/rpi/0316-i2c-designware-Add-SMBUS-quick-command-support.patch
+    #rm -f bugfix/rpi/0356-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
+    #rm -f bugfix/rpi/0357-i2c-designware-Support-non-standard-bus-speeds.patch
+    #rm -f bugfix/rpi/0384-i2c-designware-Add-support-for-bus-clear-feature.patch
+    #rm -f bugfix/rpi/0385-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
