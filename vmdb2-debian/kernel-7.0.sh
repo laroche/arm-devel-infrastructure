@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=7.0.6
+KVER=7.0.8
 KVERR=$KVER
 CDIR=linux-$KVERR
-RVER=7.0.5
+RVER=7.0.6
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 3fd2ca34a3e7d1f52e7deaa27016379935ae0845
+  git format-patch -o ../rpi-patches-$RVER 5d83f95062a860326fd9c69a9d7a1f01063270c1
   cd ..
   rm -fr $RDIR
 fi
@@ -80,10 +80,10 @@ if ! test -d $CDIR ; then
 fi
 #sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/7.0.5-/7.0.6-/' $CDIR/debian/changelog
+sed -i -e '1 s/7.0.7-/7.0.8-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/all/rxrpc-Also-unshare-DATA-RESPONSE-packets-when-paged-.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/rxrpc-Also-unshare-DATA-RESPONSE-packets-when-paged-.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0001-net-tcp-dccp-prepare-for-tw_timer-un-pinning.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
@@ -103,12 +103,15 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
+    rm -f bugfix/rpi/0100-mmc-bcm2835-mmc-added-alternative-MMC-driver.patch
     rm -f bugfix/rpi/0285-cfg80211-ship-debian-certificates-as-hex-files.patch
     rm -f bugfix/rpi/0299-i2c-designware-Add-SMBUS-quick-command-support.patch
     rm -f bugfix/rpi/0339-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
     rm -f bugfix/rpi/0340-i2c-designware-Support-non-standard-bus-speeds.patch
     rm -f bugfix/rpi/0367-i2c-designware-Add-support-for-bus-clear-feature.patch
     rm -f bugfix/rpi/0368-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
+    rm -f bugfix/rpi/0498-mmc-sd-filter-card-CQ-support-based-on-an-allow-list.patch
+    rm -f bugfix/rpi/0500-mmc-use-downstream-DT-property-to-modify-CQE-and-or-.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
