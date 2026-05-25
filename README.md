@@ -16,7 +16,7 @@ A fairly generic x86_64/amd64 desktop image is available from
 [Debian-12-Desktop-LegacyBoot](https://drive.google.com/file/d/1JfyKxd_X1RSg0jI7p6XFXRO1-dIXwrZX/view?usp=drive_link) and
 [Debian-13-Desktop-LegacyBoot](https://drive.google.com/file/d/1bhthP4ve-SjHAfn6qRokjXoxYQkt8knk/view?usp=drive_link)
 (older hardware with BIOS legacy boot and MSDOS partitioning).
-For newer hardare an UEFI-image is available at
+For newer hardware an UEFI-image is available at
 [Debian-12-Desktop-SecureBoot](https://drive.google.com/file/d/1F3UicklztS9bVhxdNvqjM_IYyYyVkDQP/view?usp=drive_link) and
 [Debian-13-Desktop-SecureBoot](https://drive.google.com/file/d/1KbSRYj4FQVvO7sgA8ZlfPmTASgVDC0ZU/view?usp=drive_link)
 (newer hardware with UEFI secure boot and GPT partitioning).
