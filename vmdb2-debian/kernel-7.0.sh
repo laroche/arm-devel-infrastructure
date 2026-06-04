@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=7.0.10
+KVER=7.0.11
 KVERR=$KVER
 CDIR=linux-$KVERR
-RVER=7.0.9
+RVER=7.0.11
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 9021cc14f7d98b4a1d2c932f52c5343d4d0f6b92
+  git format-patch -o ../rpi-patches-$RVER bb532bfaf7919c7c98caab81864e9ce2646e11e3
   cd ..
   rm -fr $RDIR
 fi
@@ -80,13 +80,10 @@ if ! test -d $CDIR ; then
 fi
 #sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/7.0.9-/7.0.10-/' $CDIR/debian/changelog
+sed -i -e '1 s/7.0.10-/7.0.11-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/all/Bluetooth-btmtk-accept-too-short-WMT-FUNC_CTRL-event.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/net-skbuff-preserve-shared-frag-marker-during-coales.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/net-skbuff-propagate-shared-frag-marker-through-frag.patch,,g' $CDIR/debian/patches/series
-#sed -i -e 's,^bugfix/all/rxrpc-Also-unshare-DATA-RESPONSE-packets-when-paged-.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/smb-client-reject-userspace-cifs.spnego-descriptions.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0001-net-tcp-dccp-prepare-for-tw_timer-un-pinning.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
