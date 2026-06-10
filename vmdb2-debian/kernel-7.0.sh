@@ -19,7 +19,7 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=7.0.11
+KVER=7.0.12
 KVERR=$KVER
 CDIR=linux-$KVERR
 RVER=7.0.11
@@ -80,10 +80,10 @@ if ! test -d $CDIR ; then
 fi
 #sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/7.0.10-/7.0.11-/' $CDIR/debian/changelog
+sed -i -e '1 s/7.0.11-/7.0.12-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/all/smb-client-reject-userspace-cifs.spnego-descriptions.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/parport-Fix-race-between-port-and-client-registratio.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0001-net-tcp-dccp-prepare-for-tw_timer-un-pinning.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
