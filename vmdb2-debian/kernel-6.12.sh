@@ -19,7 +19,7 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.12.93
+KVER=6.12.94
 KVERR=$KVER
 CDIR=linux-$KVERR
 RVER=6.12.27
@@ -79,12 +79,10 @@ if ! test -d $CDIR ; then
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.12.92-/6.12.93-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.12.93-/6.12.94-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/all/Bluetooth-btmtk-accept-too-short-WMT-FUNC_CTRL-event.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/net-skbuff-preserve-shared-frag-marker-during-coales.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/net-skbuff-propagate-shared-frag-marker-through-frag.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/Bluetooth-btmtk-accept-too-short-WMT-FUNC_CTRL-event.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0001-net-tcp-dccp-prepare-for-tw_timer-un-pinning.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig

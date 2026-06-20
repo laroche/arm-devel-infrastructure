@@ -19,7 +19,7 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.175
+KVER=6.1.176
 KVERR=$KVER
 CDIR=linux-$KVERR
 RVER=6.1.66
@@ -83,13 +83,17 @@ fi
 sed -i -e '/cplus_demangle/d' $CDIR/debian/rules.d/tools/perf/Makefile
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.174-/6.1.175-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.174-/6.1.176-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e 's,^bugfix/all/revert-wifi-cfg80211-stop-nan-and-p2p-in-cfg80211_leave.patch,,g' $CDIR/debian/patches/series
 sed -i -e 's,^bugfix/all/net-Fix-icmp-host-relookup-triggering-ip_rt_bug.patch,,g' $CDIR/debian/patches/series
 sed -i -e 's,^bugfix/all/rxrpc-Fix-conn-level-packet-handling-to-unshare-RESP.patch,,g' $CDIR/debian/patches/series
 sed -i -e 's,^bugfix/all/rxrpc-Also-unshare-DATA-RESPONSE-packets-when-paged-.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/x86/x86-CPU-Only-try-to-mitigate-FPDSS-on-Zen1.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/Revert-RDMA-rxe-Fix-double-free-in-rxe_srq_from_init.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/RDMA-rxe-Fix-double-free-in-rxe_srq_from_init.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/apparmor-validate-default-DFA-states-are-in-bounds.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0067-x86-boot-Compile-boot-code-with-std-gnu11-too.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
