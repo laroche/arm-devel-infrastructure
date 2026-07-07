@@ -41,14 +41,14 @@ debian-13-amd64-legacy.img: debian-13-amd64-legacy.yaml
 	$(call vmdb2,13-amd64-legacy)
 	sudo parted -s $@ toggle 1 boot
 
-debian-testing-amd64.yaml: debian-12-amd64.yaml
-	sed 's/debootstrap: bookworm/debootstrap: testing/g' < $^ > $@
+#debian-testing-amd64.yaml: debian-12-amd64.yaml
+#	sed 's/debootstrap: bookworm/debootstrap: testing/g' < $^ > $@
 
 debian-testing-amd64.img: debian-testing-amd64.yaml
 	$(call vmdb2,testing-amd64)
 
-debian-testing-amd64-legacy.yaml: debian-12-amd64-legacy.yaml
-	sed 's/debootstrap: bookworm/debootstrap: testing/g' < $^ > $@
+#debian-testing-amd64-legacy.yaml: debian-12-amd64-legacy.yaml
+#	sed 's/debootstrap: bookworm/debootstrap: testing/g' < $^ > $@
 
 debian-testing-amd64-legacy.img: debian-testing-amd64-legacy.yaml
 	# XXX: TODO: due to hardcoded /dev/loop0:

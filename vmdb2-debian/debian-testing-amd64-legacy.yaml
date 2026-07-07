@@ -1,0 +1,287 @@
+
+steps:
+  - mkimg: "{{ output }}"
+    size: 3072M
+
+  - mklabel: msdos
+    device: "{{ output }}"
+
+  - mkpart: primary
+    device: "{{ output }}"
+    start: 1MiB
+    end: 100%
+    tag: rootfs
+
+  - kpartx: "{{ output }}"
+
+  - mkfs: ext4
+    partition: rootfs
+
+  - mount: rootfs
+
+  - unpack-rootfs: rootfs
+
+  - debootstrap: testing
+    mirror: http://deb.debian.org/debian
+    arch: amd64
+    target: rootfs
+    components:
+    - main
+    - contrib
+    - non-free-firmware
+    - non-free
+    unless: rootfs_unpacked
+
+  - chroot: rootfs
+    shell: |
+      mount -t proc proc /proc
+
+  - apt: install
+    packages:
+    - unattended-upgrades
+    - debsums
+    - irqbalance
+    - linux-cpupower
+    - lm-sensors
+    - haveged
+    - locales
+    - keyboard-configuration
+    - console-setup
+    #- locate
+    - psmisc
+    - strace
+    - htop
+    - tree
+    - gpm
+    - man
+    - parted
+    - lvm2
+    - dosfstools
+    - vim
+    - sudo
+    - net-tools
+    - ethtool
+    - traceroute
+    - nmap
+    #- mtr
+    - wakeonlan
+    - bind9-host
+    - dnsutils
+    - whois
+    - tcpdump
+    - iptables-persistent
+    - ulogd2
+    - chrony
+    - ssh
+    - openssh-server
+    - screen
+    - tmux
+    - rsync
+    - curl
+    - wget
+    - git-core
+    - unzip
+    - zip
+    - xz-utils
+    #- ansible
+    - reportbug
+    # wifi:
+    - wireless-tools
+    - wpasupplicant
+    # amd64:
+    - grub-pc
+    - pciutils
+    #- memtest86+
+    - firmware-linux
+    - firmware-iwlwifi
+    - firmware-realtek
+    - firmware-atheros
+    - firmware-sof-signed
+    - linux-image-amd64
+    #- linux-image-rt-amd64
+    tag: rootfs
+    unless: rootfs_unpacked
+
+  - chroot: rootfs
+    shell: |
+      umount /proc
+
+  - cache-rootfs: rootfs
+    unless: rootfs_unpacked
+
+  - shell: |
+      echo "debian01" > "${ROOT?}/etc/hostname"
+
+      # Unset the root password:
+      sed -i -e 's/^root:[^:]*:/root::/g' "${ROOT?}/etc/shadow"
+
+      #sed -i -e 's,#PermitRootLogin prohibit-password,PermitRootLogin yes,g' "${ROOT?}/etc/ssh/sshd_config"
+
+      install -m 700 -o root -g root setup.sh "${ROOT?}/root/setup.sh"
+
+      # The following config line is still commented out:
+      echo "#LABEL=DEBSWAP swap swap defaults 0 0" >> "${ROOT?}/etc/fstab"
+
+      # This is only used for non-GUI server installs, for GUI this is again
+      # removed in setup.sh:
+      echo "auto eth0" > "${ROOT?}/etc/network/interfaces.d/eth0"
+      echo "iface eth0 inet dhcp" >> "${ROOT?}/etc/network/interfaces.d/eth0"
+
+      # Note: Disabling IPv6 is prepared, but the config file still has it commented out:
+      echo "#net.ipv6.conf.all.disable_ipv6 = 1" > "${ROOT?}/etc/sysctl.d/01-disable-ipv6.conf"
+      echo "#net.ipv6.conf.default.disable_ipv6 = 1" >> "${ROOT?}/etc/sysctl.d/01-disable-ipv6.conf"
+
+      rm -f ${ROOT?}/etc/iptables/rules.v4 ${ROOT?}/etc/iptables/rules.v6
+
+      if grep -q testing ${ROOT?}/etc/apt/sources.list ; then
+        echo "deb http://deb.debian.org/debian/ testing main contrib non-free-firmware non-free" > "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ testing main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo >> ${ROOT?}/etc/apt/sources.list
+        echo "#deb http://deb.debian.org/debian/ testing-updates main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "#deb-src http://deb.debian.org/debian/ testing-updates main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo >> ${ROOT?}/etc/apt/sources.list
+        echo "#deb http://deb.debian.org/debian-security testing-security main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "#deb-src http://deb.debian.org/debian-security testing-security main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo >> ${ROOT?}/etc/apt/sources.list
+        echo "#deb http://security.debian.org testing-security main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+      elif grep -q unstable ${ROOT?}/etc/apt/sources.list ; then
+        echo "deb http://deb.debian.org/debian/ unstable main contrib non-free-firmware non-free" > "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ unstable main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+      elif grep -q bookworm ${ROOT?}/etc/apt/sources.list ; then
+        echo "deb http://deb.debian.org/debian/ bookworm main contrib non-free-firmware non-free" > "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ bookworm main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo >> ${ROOT?}/etc/apt/sources.list
+        echo "deb http://deb.debian.org/debian/ bookworm-updates main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ bookworm-updates main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo >> ${ROOT?}/etc/apt/sources.list
+        echo "deb http://deb.debian.org/debian/ bookworm-backports main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ bookworm-backports main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo >> ${ROOT?}/etc/apt/sources.list
+        echo "deb http://security.debian.org/debian-security bookworm-security main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://security.debian.org/debian-security bookworm-security main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+      else
+        echo "deb http://deb.debian.org/debian/ trixie main contrib non-free-firmware non-free" > "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ trixie main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo >> ${ROOT?}/etc/apt/sources.list
+        echo "deb http://deb.debian.org/debian/ trixie-updates main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ trixie-updates main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo >> ${ROOT?}/etc/apt/sources.list
+        echo "deb http://deb.debian.org/debian/ trixie-backports main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://deb.debian.org/debian/ trixie-backports main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo >> ${ROOT?}/etc/apt/sources.list
+        echo "deb http://security.debian.org/debian-security trixie-security main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+        echo "deb-src http://security.debian.org/debian-security trixie-security main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list"
+      fi
+
+      # Keep experimental commented out:
+      echo "#deb http://deb.debian.org/debian/ experimental main contrib non-free-firmware non-free" > "${ROOT?}/etc/apt/sources.list.d/experimental.list"
+      echo "#deb-src http://deb.debian.org/debian/ experimental main contrib non-free-firmware non-free" >> "${ROOT?}/etc/apt/sources.list.d/experimental.list"
+
+      install -m 644 -o root -g root ssh-generate-host-keys.service "${ROOT?}/etc/systemd/system"
+      mkdir -p "${ROOT?}/etc/systemd/system/multi-user.target.requires/"
+      ln -s /etc/systemd/system/ssh-generate-host-keys.service "${ROOT?}/etc/systemd/system/multi-user.target.requires/ssh-generate-host-keys.service"
+      rm -f ${ROOT?}/etc/ssh/ssh_host_*_key*
+
+      echo "do_symlinks = 0" > "${ROOT?}/etc/kernel-img.conf"
+      rm -f ${ROOT?}/vmlinuz ${ROOT?}/vmlinuz.old ${ROOT?}/initrd.img ${ROOT?}/initrd.img.old
+
+      echo "alias ..='cd ..'"      > "${ROOT?}/root/.bash_aliases"
+      echo "alias ...='cd ../..'" >> "${ROOT?}/root/.bash_aliases"
+      echo "alias o=less"         >> "${ROOT?}/root/.bash_aliases"
+      echo "alias l='ls -la'"     >> "${ROOT?}/root/.bash_aliases"
+
+      cp "${ROOT?}/root/.bash_aliases" "${ROOT?}/etc/skel/.bash_aliases"
+
+      echo                                                    >> "${ROOT?}/root/.bashrc"
+      echo "HISTCONTROL=ignoreboth"                           >> "${ROOT?}/root/.bashrc"
+      echo "# append to the history file, don't overwrite it" >> "${ROOT?}/root/.bashrc"
+      echo "shopt -s histappend"                              >> "${ROOT?}/root/.bashrc"
+      echo "HISTSIZE=1000"                                    >> "${ROOT?}/root/.bashrc"
+      echo "HISTFILESIZE=2000"                                >> "${ROOT?}/root/.bashrc"
+      echo                                                    >> "${ROOT?}/root/.bashrc"
+      echo ". ~/.bash_aliases"                                >> "${ROOT?}/root/.bashrc"
+
+    root-fs: rootfs
+
+  - chroot: rootfs
+    shell: |
+      apt-get update
+      systemctl enable ssh.service
+      #mv /etc/grub.d/30_os-prober /30_os-prober
+      mount -t proc proc /proc
+
+  - grub: bios
+    quiet: yes
+    timeout: 5
+    tag: rootfs
+    device: "{{ output }}"
+
+  - chroot: rootfs
+    shell: |
+      umount /proc
+      #cat /boot/grub/grub.cfg
+      #mv /30_os-prober /etc/grub.d/30_os-prober
+
+  - chroot: rootfs
+    shell: |
+      echo "tzdata tzdata/Areas select Europe" | debconf-set-selections
+      echo "tzdata tzdata/Zones/Europe select Berlin" | debconf-set-selections
+      echo "Europe/Berlin" > /etc/timezone
+      ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+      dpkg-reconfigure --frontend=noninteractive tzdata
+
+      echo "locales locales/default_environment_locale select de_DE.UTF-8" | debconf-set-selections
+      echo "locales locales/locales_to_be_generated multiselect de_DE.UTF-8 UTF-8" | debconf-set-selections
+      rm -f /etc/locale.gen
+      dpkg-reconfigure --frontend noninteractive locales
+
+      echo "console-setup console-setup/charmap47 select UTF-8" | debconf-set-selections
+      sed -i -e 's/^CHARMAP=.*/CHARMAP="UTF-8"/g' /etc/default/console-setup
+      # This errors on the output file that /proc is not mounted:
+      dpkg-reconfigure --frontend noninteractive console-setup
+
+      sed -i -e 's/^XKBLAYOUT=.*/XKBLAYOUT="de"/g' /etc/default/keyboard
+      sed -i -e 's/^XKBVARIANT=.*/XKBVARIANT="nodeadkeys"/g' /etc/default/keyboard
+      sed -i -e 's/^XKBOPTIONS=.*/XKBOPTIONS="terminate:ctrl_alt_bksp"/g' /etc/default/keyboard
+      #d-i console-keymaps-at/keymap select de-latin1-nodeadkeys
+      #echo "keyboard-configuration keyboard-configuration/layoutcode string de" | debconf-set-selections
+      #echo "keyboard-configuration keyboard-configuration/layout select German" | debconf-set-selections
+      #echo "keyboard-configuration keyboard-configuration/variantcode string nodeadkeys" | debconf-set-selections
+      #echo "keyboard-configuration keyboard-configuration/toggle select No toggling" | debconf-set-selections
+      #echo "keyboard-configuration keyboard-configuration/xkb-keymap select de" | debconf-set-selections
+      dpkg-reconfigure --frontend noninteractive keyboard-configuration
+
+      sed -i -e 's,^SHELL=/bin/sh,SHELL=/bin/bash,g' /etc/default/useradd
+
+      update-initramfs -u -k all
+
+      apt-get clean
+      rm -rf /var/lib/apt/lists
+
+      # https://unix.stackexchange.com/questions/318824/vim-cutpaste-not-working-in-stretch-debian-9
+      # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=864074
+      # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=837761#76
+      vim="/usr/share/vim/vim91/defaults.vim"
+      if test -f $vim ; then
+        sed -i -e '/has.*mouse/,+6s/^/"/' $vim
+      fi
+      vim="/usr/share/vim/vim90/defaults.vim"
+      if test -f $vim ; then
+        sed -i -e '/has.*mouse/,+6s/^/"/' $vim
+      fi
+
+      update-alternatives --set editor /usr/bin/vim.basic
+
+      #adduser --gecos "Max Mustermann" --add_extra_groups --disabled-password max
+      #sed -i -e 's/^max:[^:]*:/max::/g' /etc/shadow
+      #adduser max sudo
+
+      dd if=/dev/zero of=/ZERO || rm -f /ZERO # zero unused filesystem
+      sync
+      sleep 5
+      sync
+
+  - shell: |
+      rm "${ROOT?}/etc/resolv.conf"
+    root-fs: rootfs
+
