@@ -101,9 +101,9 @@ clean:
 	rm -f debian-*.img debian-*.log debian-*.zip wget-log*
 
 distclean: clean
-	rm -f debian-*.tar.gz #debian-testing-*.yaml
+	rm -f debian-*.tar.gz
 	rm -f debian-13-amd64.yaml debian-13-amd64-legacy.yaml
-	rm -f debian-testing-amd64.yaml debian-testing-amd64-legacy.yaml
+	#rm -f debian-testing-amd64.yaml debian-testing-amd64-legacy.yaml
 	rm -f debian-testing-rpi3-arm64.yaml debian-testing-rpi3-armhf.yaml
 
 tag:
