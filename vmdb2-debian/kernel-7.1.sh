@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=7.1.3
+KVER=7.1.5
 KVERR=$KVER
 CDIR=linux-$KVERR
-RVER=7.1.2
+RVER=7.1.4
 
 CROSS=0
 ARCH=
@@ -68,19 +68,19 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 03e2778d1f11de9260543f969e9e888a1c2bf830
+  git format-patch -o ../rpi-patches-$RVER 7a5cef0db4795d9d453a12e0f61b5b7634fc4d40
   cd ..
   rm -fr $RDIR
 fi
 
 if ! test -d $CDIR ; then
-  git clone --single-branch --depth 1 -b debian/latest https://salsa.debian.org/kernel-team/linux.git $CDIR
-  #git clone --single-branch --depth 1 -b debian/7.1/forky https://salsa.debian.org/kernel-team/linux.git $CDIR
+  #git clone --single-branch --depth 1 -b debian/latest https://salsa.debian.org/kernel-team/linux.git $CDIR
+  git clone --single-branch --depth 1 -b debian/7.1/forky https://salsa.debian.org/kernel-team/linux.git $CDIR
   #git clone --single-branch --depth 1 -b 7.1-stable-updates https://salsa.debian.org/carnil/linux.git $CDIR
 fi
 #sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/7.1.2-/7.1.3-/' $CDIR/debian/changelog
+sed -i -e '1 s/7.1.4-/7.1.5-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/bpf-Free-reuseport-cBPF-prog-after-RCU-grace-period.patch,,g' $CDIR/debian/patches/series
