@@ -104,11 +104,13 @@ if test "$RPIPATCHES" = 1 ; then
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     rm -f bugfix/rpi/0267-cfg80211-ship-debian-certificates-as-hex-files.patch
+    rm -f bugfix/rpi/0279-mmc-sdhci-of-dwcmshc-define-sdio-timeout-clocks.patch
     rm -f bugfix/rpi/0281-i2c-designware-Add-SMBUS-quick-command-support.patch
     rm -f bugfix/rpi/0321-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
     rm -f bugfix/rpi/0322-i2c-designware-Support-non-standard-bus-speeds.patch
     rm -f bugfix/rpi/0349-i2c-designware-Add-support-for-bus-clear-feature.patch
     rm -f bugfix/rpi/0350-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
+    rm -f bugfix/rpi/0690-net-macb-add-TX-stall-timeout-callback-to-recover-fr.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config

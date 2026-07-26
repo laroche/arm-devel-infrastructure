@@ -19,7 +19,7 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.12.97
+KVER=6.12.98
 KVERR=$KVER
 CDIR=linux-$KVERR
 RVER=6.12.27
@@ -76,10 +76,11 @@ fi
 if ! test -d $CDIR ; then
   #git clone --single-branch --depth 1 -b debian/6.12/trixie https://salsa.debian.org/kernel-team/linux.git $CDIR
   git clone --single-branch --depth 1 -b 6.12-stable-updates https://salsa.debian.org/carnil/linux.git $CDIR
+  test -d $CDIR || exit 1
 fi
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.12.96-/6.12.97-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.12.97-/6.12.98-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/Bluetooth-btmtk-accept-too-short-WMT-FUNC_CTRL-event.patch,,g' $CDIR/debian/patches/series
