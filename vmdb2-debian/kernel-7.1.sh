@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=7.1.8
+KVER=7.1.9
 KVERR=$KVER
 CDIR=linux-$KVERR
-RVER=7.1.6
+RVER=7.1.8
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 2609d60e2f6d0b8a96563baa08b56482962cebaa
+  git format-patch -o ../rpi-patches-$RVER 25c76bea853d0db65b51fb4697a47cbfd9e35e76
   cd ..
   rm -fr $RDIR
 fi
@@ -80,7 +80,7 @@ if ! test -d $CDIR ; then
 fi
 #sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/7.1.7-/7.1.8-/' $CDIR/debian/changelog
+sed -i -e '1 s/7.1.8-/7.1.9-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/bpf-Free-reuseport-cBPF-prog-after-RCU-grace-period.patch,,g' $CDIR/debian/patches/series
