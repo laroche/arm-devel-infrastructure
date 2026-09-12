@@ -22,7 +22,7 @@ fi
 KVER=7.2.5
 KVERR=$KVER
 CDIR=linux-$KVERR
-RVER=7.2.4
+RVER=7.2.5
 
 CROSS=0
 ARCH=
@@ -47,12 +47,12 @@ fi
 
 # Build requirements:
 if true ; then
-sudo apt-get -qq -y install build-essential devscripts fakeroot rsync git python3-debian libcap-dev g++-15
+sudo apt-get -qq -y install build-essential devscripts fakeroot rsync git python3-debian libcap-dev g++-16
 sudo apt-get -qq -y build-dep linux
 if test $CROSS = 1 ; then
   sudo apt-get -qq -y install kernel-wedge quilt flex bison libssl-dev ccache
   sudo apt-get -qq -y install crossbuild-essential-arm64 crossbuild-essential-armhf
-  sudo apt-get -qq -y install g++-15-aarch64-linux-gnu g++-15-arm-linux-gnueabihf
+  sudo apt-get -qq -y install g++-16-aarch64-linux-gnu g++-16-arm-linux-gnueabihf
 fi
 fi
 
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 5015d0d945b3d3f2b038d2667880d5762f7d9437
+  git format-patch -o ../rpi-patches-$RVER a300e35c0a4b4a38fb53742ea6e2a203c98ee523
   cd ..
   rm -fr $RDIR
 fi
@@ -103,17 +103,16 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0019-media-platform-broadcom-Move-unicam-driver-to-subdir.patch
-    rm -f bugfix/rpi/0020-media-platform-broadcom-Add-bcm2835-isp-driver.patch
+    rm -f bugfix/rpi/0051-drm-atomic-helpers-remove-legacy_cursor_update-hacks.patch
     rm -f bugfix/rpi/0255-cfg80211-ship-debian-certificates-as-hex-files.patch
-    rm -f bugfix/rpi/0270-i2c-designware-Add-SMBUS-quick-command-support.patch
-    rm -f bugfix/rpi/0307-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
-    rm -f bugfix/rpi/0308-i2c-designware-Support-non-standard-bus-speeds.patch
-    rm -f bugfix/rpi/0333-i2c-designware-Add-support-for-bus-clear-feature.patch
-    rm -f bugfix/rpi/0334-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
-    rm -f bugfix/rpi/0520-media-platform-Move-bcm2835-unicam-compatible-to-dow.patch
-    rm -f bugfix/rpi/0622-media-i2c-vd55g1-Fix-media-bus-code-initialization.patch
-    rm -f bugfix/rpi/0624-media-i2c-vd55g1-Fix-manual-digital-gain-on-color-va.patch
+    armhf
+    if test $ARCH = armhf ; then
+      rm -f bugfix/rpi/0270-i2c-designware-Add-SMBUS-quick-command-support.patch
+      rm -f bugfix/rpi/0307-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
+      rm -f bugfix/rpi/0308-i2c-designware-Support-non-standard-bus-speeds.patch
+      rm -f bugfix/rpi/0333-i2c-designware-Add-support-for-bus-clear-feature.patch
+      rm -f bugfix/rpi/0334-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
+    fi
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
