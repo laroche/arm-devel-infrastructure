@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=7.2.5
+KVER=7.2.6
 KVERR=$KVER
 CDIR=linux-$KVERR
-RVER=7.2.5
+RVER=7.2.6
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER a300e35c0a4b4a38fb53742ea6e2a203c98ee523
+  git format-patch -o ../rpi-patches-$RVER 500df175a7f9e6bc1a9c328590ca5150f84f9ff0
   cd ..
   rm -fr $RDIR
 fi
@@ -80,7 +80,7 @@ if ! test -d $CDIR ; then
 fi
 #sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/7.2.4-/7.2.5-/' $CDIR/debian/changelog
+sed -i -e '1 s/7.2.5-/7.2.6-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/bpf-Free-reuseport-cBPF-prog-after-RCU-grace-period.patch,,g' $CDIR/debian/patches/series
@@ -105,7 +105,6 @@ if test "$RPIPATCHES" = 1 ; then
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
     rm -f bugfix/rpi/0051-drm-atomic-helpers-remove-legacy_cursor_update-hacks.patch
     rm -f bugfix/rpi/0255-cfg80211-ship-debian-certificates-as-hex-files.patch
-    armhf
     if test $ARCH = armhf ; then
       rm -f bugfix/rpi/0270-i2c-designware-Add-SMBUS-quick-command-support.patch
       rm -f bugfix/rpi/0307-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
