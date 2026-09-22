@@ -19,7 +19,7 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=7.2.6
+KVER=7.2.7
 KVERR=$KVER
 CDIR=linux-$KVERR
 RVER=7.2.6
@@ -74,13 +74,13 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
 fi
 
 if ! test -d $CDIR ; then
-  git clone --single-branch --depth 1 -b debian/latest https://salsa.debian.org/kernel-team/linux.git $CDIR
+  #git clone --single-branch --depth 1 -b debian/latest https://salsa.debian.org/kernel-team/linux.git $CDIR
   #git clone --single-branch --depth 1 -b debian/7.2/forky https://salsa.debian.org/kernel-team/linux.git $CDIR
-  #git clone --single-branch --depth 1 -b 7.2-stable-updates https://salsa.debian.org/carnil/linux.git $CDIR
+  git clone --single-branch --depth 1 -b 7.2-stable-updates https://salsa.debian.org/carnil/linux.git $CDIR
 fi
 #sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/7.2.5-/7.2.6-/' $CDIR/debian/changelog
+sed -i -e '1 s/7.2.7-/7.2.7-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/bpf-Free-reuseport-cBPF-prog-after-RCU-grace-period.patch,,g' $CDIR/debian/patches/series

@@ -84,7 +84,7 @@ sed -i -e '1 s/6.12.109-/6.12.110-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/Bluetooth-btmtk-accept-too-short-WMT-FUNC_CTRL-event.patch,,g' $CDIR/debian/patches/series
-#sed -i -e 's,0001-net-tcp-dccp-prepare-for-tw_timer-un-pinning.patch,,g' $CDIR/debian/patches-rt/series
+#sed -i -e 's,0020-sched-x86-Enable-Lazy-preemption.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
 cd $CDIR || exit 1
