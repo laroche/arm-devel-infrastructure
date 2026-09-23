@@ -22,7 +22,7 @@ fi
 KVER=7.2.7
 KVERR=$KVER
 CDIR=linux-$KVERR
-RVER=7.2.6
+RVER=7.2.7
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER 500df175a7f9e6bc1a9c328590ca5150f84f9ff0
+  git format-patch -o ../rpi-patches-$RVER f42acb3678424d1e08f6ed27c0d8ba8a125e14d6
   cd ..
   rm -fr $RDIR
 fi
@@ -111,6 +111,7 @@ if test "$RPIPATCHES" = 1 ; then
       rm -f bugfix/rpi/0308-i2c-designware-Support-non-standard-bus-speeds.patch
       rm -f bugfix/rpi/0333-i2c-designware-Add-support-for-bus-clear-feature.patch
       rm -f bugfix/rpi/0334-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
+      rm -f bugfix/rpi/0673-fixup-i2c-designware-Add-support-for-bus-clear-featu.patch
     fi
     ls bugfix/rpi/*.patch >> series
   popd
