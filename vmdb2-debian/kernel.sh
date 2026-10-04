@@ -19,7 +19,7 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.188
+KVER=6.1.189
 KVERR=$KVER
 CDIR=linux-$KVERR
 RVER=6.1.66
@@ -83,10 +83,13 @@ fi
 sed -i -e '/cplus_demangle/d' $CDIR/debian/rules.d/tools/perf/Makefile
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.187-/6.1.188-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.188-/6.1.189-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-#sed -i -e 's,^bugfix/all/firmware-remove-redundant-log-messages-from-drivers.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/bpftool-remove-duplicate-free_btf_vmlinux-definition.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/Revert-perf-cs-etm-Avoid-truncating-AUX-buffer-sizes.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/Revert-perf-cs-etm-Flush-thread-stacks-after-decoder.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/all/perf-tests-Change-shebang-for-stat_bpf_counters.sh-t.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0056-debugobjects-locking-Annotate-debug_object_fill_pool.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig

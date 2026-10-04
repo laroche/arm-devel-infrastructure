@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=7.2.8
+KVER=7.2.9
 KVERR=$KVER
 CDIR=linux-$KVERR
-RVER=7.2.7
+RVER=7.2.8
 
 CROSS=0
 ARCH=
@@ -68,7 +68,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
     popd
   fi
   cd $RDIR || exit 1
-  git format-patch -o ../rpi-patches-$RVER f42acb3678424d1e08f6ed27c0d8ba8a125e14d6
+  git format-patch -o ../rpi-patches-$RVER 9a66fdc0d7fd55f54235524a73435af99051e46f
   cd ..
   rm -fr $RDIR
 fi
@@ -80,7 +80,7 @@ if ! test -d $CDIR ; then
 fi
 #sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/7.2.8-/7.2.8-/' $CDIR/debian/changelog
+sed -i -e '1 s/7.2.8-/7.2.9-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/bpf-Free-reuseport-cBPF-prog-after-RCU-grace-period.patch,,g' $CDIR/debian/patches/series
@@ -103,6 +103,7 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
+    rm -f bugfix/rpi/0051-drm-atomic-helpers-remove-legacy_cursor_update-hacks.patch
     rm -f bugfix/rpi/0255-cfg80211-ship-debian-certificates-as-hex-files.patch
     rm -f bugfix/rpi/0565-brcmfmac-use-a-valid-cookie-for-management-frames.patch
     if test $ARCH = armhf ; then
