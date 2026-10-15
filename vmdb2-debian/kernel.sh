@@ -19,7 +19,7 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.189
+KVER=6.1.190
 KVERR=$KVER
 CDIR=linux-$KVERR
 RVER=6.1.66
@@ -78,18 +78,16 @@ fi
 
 if ! test -d $CDIR ; then
   #git clone --single-branch --depth 1 -b debian/6.1/bookworm bookworm https://salsa.debian.org/kernel-team/linux.git $CDIR
+  # https://salsa.debian.org/carnil/linux/-/commits/6.1-stable-updates/?ref_type=heads
   git clone --single-branch --depth 1 -b 6.1-stable-updates https://salsa.debian.org/carnil/linux.git $CDIR
 fi
 sed -i -e '/cplus_demangle/d' $CDIR/debian/rules.d/tools/perf/Makefile
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.188-/6.1.189-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.190-/6.1.190-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^bugfix/all/bpftool-remove-duplicate-free_btf_vmlinux-definition.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/Revert-perf-cs-etm-Avoid-truncating-AUX-buffer-sizes.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/Revert-perf-cs-etm-Flush-thread-stacks-after-decoder.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^bugfix/all/perf-tests-Change-shebang-for-stat_bpf_counters.sh-t.patch,,g' $CDIR/debian/patches/series
+#sed -i -e 's,^bugfix/all/perf-tests-Change-shebang-for-stat_bpf_counters.sh-t.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0056-debugobjects-locking-Annotate-debug_object_fill_pool.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig

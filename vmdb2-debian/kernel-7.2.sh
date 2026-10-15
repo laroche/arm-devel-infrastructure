@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=7.2.10
+KVER=7.2.11
 KVERR=$KVER
 CDIR=linux-$KVERR
-RVER=7.2.9
+RVER=7.2.10
 
 CROSS=0
 ARCH=
@@ -69,7 +69,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   fi
   cd $RDIR || exit 1
   # https://github.com/raspberrypi/linux/commits/rpi-7.2.y/Makefile
-  git format-patch -o ../rpi-patches-$RVER 5fce161649b4d779d1b76d9fcd52dc77779774b8
+  git format-patch -o ../rpi-patches-$RVER 7b20d05fd38de8e0be168956f6fd241d750c7d69
   cd ..
   rm -fr $RDIR
 fi
@@ -81,7 +81,7 @@ if ! test -d $CDIR ; then
 fi
 #sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/7.2.9-/7.2.10-/' $CDIR/debian/changelog
+sed -i -e '1 s/7.2.10-/7.2.11-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/bpf-Free-reuseport-cBPF-prog-after-RCU-grace-period.patch,,g' $CDIR/debian/patches/series
@@ -104,16 +104,15 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    rm -f bugfix/rpi/0042-of-overlay-Correct-symbol-path-fixups.patch
-    rm -f bugfix/rpi/0132-bcmgenet-Better-coalescing-parameter-defaults.patch
-    rm -f bugfix/rpi/0051-drm-atomic-helpers-remove-legacy_cursor_update-hacks.patch
-    rm -f bugfix/rpi/0255-cfg80211-ship-debian-certificates-as-hex-files.patch
+    #rm -f bugfix/rpi/0131-bcmgenet-Better-coalescing-parameter-defaults.patch
+    rm -f bugfix/rpi/0050-drm-atomic-helpers-remove-legacy_cursor_update-hacks.patch
+    rm -f bugfix/rpi/0254-cfg80211-ship-debian-certificates-as-hex-files.patch
     if test $ARCH = armhf ; then
-      rm -f bugfix/rpi/0270-i2c-designware-Add-SMBUS-quick-command-support.patch
-      rm -f bugfix/rpi/0307-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
-      rm -f bugfix/rpi/0308-i2c-designware-Support-non-standard-bus-speeds.patch
-      rm -f bugfix/rpi/0333-i2c-designware-Add-support-for-bus-clear-feature.patch
-      rm -f bugfix/rpi/0334-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
+      rm -f bugfix/rpi/0269-i2c-designware-Add-SMBUS-quick-command-support.patch
+      rm -f bugfix/rpi/0306-i2c-designware-Use-SCL-rise-and-fall-times-in-DT.patch
+      rm -f bugfix/rpi/0307-i2c-designware-Support-non-standard-bus-speeds.patch
+      rm -f bugfix/rpi/0332-i2c-designware-Add-support-for-bus-clear-feature.patch
+      rm -f bugfix/rpi/0333-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
     fi
     ls bugfix/rpi/*.patch >> series
   popd
