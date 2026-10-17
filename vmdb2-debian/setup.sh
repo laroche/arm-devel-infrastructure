@@ -904,25 +904,26 @@ EOM
 	# https://en.wikipedia.org/wiki/Multicast_address
 	# all IP hosts
 	-A INPUT -d 224.0.0.1/32 -j ACCEPT
+EOM
+      if test "X$INSTALLGUI" = "X1" ; then
+      cat <<-EOM
 	# https://en.wikipedia.org/wiki/Internet_Group_Management_Protocol (IGMP)
 	-A INPUT -d 224.0.0.22/32 -j ACCEPT
 	# multicast mDNS for service discovery (port 5353)
 	-A INPUT -d 224.0.0.251/32 -j ACCEPT
-	# https://de.wikipedia.org/wiki/Link-local_Multicast_Name_Resolution
-	# Link-Local Multicast Name Resolutioan (LLMNR) RFC4795 (port 5355)
-	-A INPUT -d 224.0.0.252/32 -j ACCEPT
 	# https://en.wikipedia.org/wiki/Simple_Service_Discovery_Protocol
 	#-A INPUT -d 239.255.255.250/32 -p udp -m udp --dport 1900 -j ACCEPT
-EOM
-      if test "X$INSTALLGUI" = "X1" ; then
-      cat <<-EOM
 	# https://www.it-administrator.de/lexikon/ws-discovery.html
 	# https://zero.bs/new-ddos-attack-vector-via-ws-discoverysoapoverudp-port-3702.html
 	-A INPUT -d 239.255.255.250/32 -p udp -m udp --dport 3702 -j DROP
 EOM
       fi
       cat <<-EOM
+	# https://de.wikipedia.org/wiki/Link-local_Multicast_Name_Resolution
+	# Link-Local Multicast Name Resolutioan (LLMNR) RFC4795 (port 5355)
+	-A INPUT -d 224.0.0.252/32 -j ACCEPT
 	-A INPUT -d 224.0.0.0/8 -j ACCEPT
+	-A INPUT -p tcp -m tcp --dport 5355 -j ACCEPT
 	# Wake On LAN:
 	-A INPUT -m limit --limit 6/min --limit-burst 10 -d 255.255.255.255/32 -p udp -m udp --dport 9 -j NFLOG --nflog-prefix "[DROP-WOL-INPUT]:"
 	-A INPUT -d 255.255.255.255/32 -p udp -m udp --dport 9 -j DROP
@@ -935,8 +936,8 @@ EOM
 	# Epson ENPC printer discovery: --dst-type BROADCAST
 	-A INPUT -d 255.255.255.255/32 -p udp -m udp --dport 3289 -j DROP
 	# WIIM
-	-A INPUT -d 255.255.255.255/32 -p udp -m udp --dport 3483 -j DROP
 	-A INPUT -p udp -m udp --dport 9003 -j DROP
+	# unknown
 	-A INPUT -p udp -m udp --dport 40777 -j DROP
 	# 53805 AVM Mesh Discovery
 	-A INPUT -p udp -m udp --dport 53805 -j DROP
@@ -965,11 +966,11 @@ EOM
     if test "X$3" = "Xdebug" ; then
       cat <<-EOM
 	-A OUTPUT -d 224.0.0.22/32 -j ACCEPT
-	-A OUTPUT -d 224.0.0.251/32 -j ACCEPT
 	-A OUTPUT -d 224.0.0.252/32 -j ACCEPT
 EOM
       if test "X$INSTALLGUI" = "X1" ; then
       cat <<-EOM
+	-A OUTPUT -d 224.0.0.251/32 -j ACCEPT
 	-A OUTPUT -d 239.255.255.250/32 -p udp -m udp --dport 1900 -j ACCEPT
 	-A OUTPUT -d 239.255.255.250/32 -p udp -m udp --dport 3702 -j ACCEPT
 EOM
@@ -982,6 +983,8 @@ EOM
 	-A OUTPUT -p udp -m udp --dport 443 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 22 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 631 -j ACCEPT
+	-A OUTPUT -p tcp -m tcp --dport 3478 -j ACCEPT
+	-A OUTPUT -p tcp -m tcp --dport 4000 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 4460 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 5228 -j ACCEPT
 	-A OUTPUT -p tcp -m tcp --dport 8080 -j ACCEPT
@@ -1078,6 +1081,8 @@ config_incus()
 {
   if test -f /etc/debian_version && grep -q '^12' /etc/debian_version ; then
     $apt install -t bookworm-backports qemu-system-x86
+  else
+    $apt install qemu-system-x86
   fi
   $apt install incus incus-client
   # To list all current settings: incus admin init --dump
