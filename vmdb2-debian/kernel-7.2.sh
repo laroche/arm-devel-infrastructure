@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=7.2.13
+KVER=7.2.14
 KVERR=$KVER
 CDIR=linux-$KVERR
-RVER=7.2.12
+RVER=7.2.13
 
 CROSS=0
 ARCH=
@@ -69,7 +69,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   fi
   cd $RDIR || exit 1
   # https://github.com/raspberrypi/linux/commits/rpi-7.2.y/Makefile
-  git format-patch -o ../rpi-patches-$RVER cc9de5d4b5ab6459f5774946aa3195ad51236fa8
+  git format-patch -o ../rpi-patches-$RVER 3c172eede0d6b889ead876f45cc843070209208f
   cd ..
   rm -fr $RDIR
 fi
@@ -82,7 +82,7 @@ if ! test -d $CDIR ; then
 fi
 #sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/7.2.12-/7.2.13-/' $CDIR/debian/changelog
+sed -i -e '1 s/7.2.14-/7.2.14-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/bpf-Free-reuseport-cBPF-prog-after-RCU-grace-period.patch,,g' $CDIR/debian/patches/series
@@ -105,7 +105,6 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0131-bcmgenet-Better-coalescing-parameter-defaults.patch
     rm -f bugfix/rpi/0050-drm-atomic-helpers-remove-legacy_cursor_update-hacks.patch
     rm -f bugfix/rpi/0254-cfg80211-ship-debian-certificates-as-hex-files.patch
     if test $ARCH = armhf ; then
@@ -115,7 +114,7 @@ if test "$RPIPATCHES" = 1 ; then
       rm -f bugfix/rpi/0332-i2c-designware-Add-support-for-bus-clear-feature.patch
       rm -f bugfix/rpi/0333-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
     fi
-    rm -f bugfix/rpi/0556-drm-vc4-hdmi-Move-packet-RAM-enable-to-pm_runtime.patch
+    #rm -f bugfix/rpi/0556-drm-vc4-hdmi-Move-packet-RAM-enable-to-pm_runtime.patch
     ls bugfix/rpi/*.patch >> series
   popd
   echo "CONFIG_PCIE_BRCMSTB=y" >> debian/config/config
