@@ -1442,8 +1442,8 @@ if test "X$DEMOSETUP" = X1 ; then
   if test -d /lib/modules/6.1.0-50-amd64 ; then
     dpkg -P linux-image-6.1.0-50-amd64
   fi
-  if test -d /lib/modules/6.12.86+deb13-amd64 ; then
-    dpkg -P linux-image-6.12.86+deb13-amd64
+  if test -d /lib/modules/6.12.107+deb13-amd64 ; then
+    dpkg -P linux-image-6.12.107+deb13-amd64
   fi
   # Set new hostname:
   #echo debian01 > /etc/hostname
