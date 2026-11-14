@@ -19,10 +19,10 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=7.3.3
+KVER=7.3.4
 KVERR=$KVER
 CDIR=linux-$KVERR
-RVER=7.3.1
+RVER=7.3.3
 
 CROSS=0
 ARCH=
@@ -69,7 +69,7 @@ if test "$RPIPATCHES" = 1 -a ! -d rpi-patches-$RVER ; then
   fi
   cd $RDIR || exit 1
   # https://github.com/raspberrypi/linux/commits/rpi-7.3.y/Makefile
-  git format-patch -o ../rpi-patches-$RVER 79a907609d53d5cd645b42c11550d295d43abf99
+  git format-patch -o ../rpi-patches-$RVER d50d994bffa3c7c6db2d8bc4c5f0c55e3f46b0cd
   cd ..
   rm -fr $RDIR
 fi
@@ -82,7 +82,7 @@ if ! test -d $CDIR ; then
 fi
 #sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/7.3.3-/7.3.3-/' $CDIR/debian/changelog
+sed -i -e '1 s/7.3.4-/7.3.4-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
 #sed -i -e 's,^bugfix/all/bpf-Free-reuseport-cBPF-prog-after-RCU-grace-period.patch,,g' $CDIR/debian/patches/series
@@ -105,7 +105,6 @@ if test "$RPIPATCHES" = 1 ; then
   pushd debian/patches
     mkdir bugfix/rpi
     cp ../../../rpi-patches-$RVER/*.patch bugfix/rpi/
-    #rm -f bugfix/rpi/0050-drm-atomic-helpers-remove-legacy_cursor_update-hacks.patch
     rm -f bugfix/rpi/0253-cfg80211-ship-debian-certificates-as-hex-files.patch
     if test $ARCH = armhf ; then
       rm -f bugfix/rpi/0268-i2c-designware-Add-SMBUS-quick-command-support.patch
@@ -113,7 +112,7 @@ if test "$RPIPATCHES" = 1 ; then
       rm -f bugfix/rpi/0305-i2c-designware-Support-non-standard-bus-speeds.patch
       rm -f bugfix/rpi/0330-i2c-designware-Add-support-for-bus-clear-feature.patch
       rm -f bugfix/rpi/0331-i2c-designware-Make-the-SDA-hold-time-half-LCNT.patch
-      #rm -f bugfix/rpi/0616-i2c-designware-Fix-SDA-hold-default-being-computed-b.patch
+      rm -f bugfix/rpi/0615-i2c-designware-Fix-SDA-hold-default-being-computed-b.patch
     fi
     ls bugfix/rpi/*.patch >> series
   popd
