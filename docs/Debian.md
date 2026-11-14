@@ -17,7 +17,7 @@ Other resources you might want to check out:
 - [Debian documentation](https://www.debian.org/doc/)
 - Many discussions take place via email on the [Debian mailing lists](https://lists.debian.org/).
 - The [Debian gitlab server](https://salsa.debian.org/) with e.g.
-  the [Debian Linux kernel source repository](https://salsa.debian.org/kernel-team/linux/commits/master).
+  the [Debian Linux kernel source repository](https://salsa.debian.org/kernel-team/linux/-/commits/debian/latest).
 - The [Debian bug database](https://www.debian.org/Bugs/).
 - For individual Debian packages, a nice overview page e.g. for the Linux kernel is available
   at [https://tracker.debian.org/pkg/linux](https://tracker.debian.org/pkg/linux).
