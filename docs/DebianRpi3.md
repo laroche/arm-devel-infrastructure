@@ -7,7 +7,7 @@ or a SD-card.
 Disk images can be downloaded from the [release-page](https://github.com/laroche/arm-devel-infrastructure/releases).
 
 To understand all details of this disk image, please look at the vmdb2
-configuration file for this image: [debian-rpi3-arm64.yaml](https://github.com/laroche/arm-devel-infrastructure/blob/master/vmdb2-debian/debian-rpi3-arm64.yaml).
+configuration file for this image: [debian-12-rpi3-arm64.yaml](https://github.com/laroche/arm-devel-infrastructure/blob/master/vmdb2-debian/debian-12-rpi3-arm64.yaml).
 It contains a list of all software packages to include and a few configuration changes
 done with shell scripting.
 
