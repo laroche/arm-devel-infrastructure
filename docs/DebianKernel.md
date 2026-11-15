@@ -7,7 +7,7 @@ Please read the reference [Debian Linux Kernel Handbook](https://kernel-team.pag
 How to compile your own kernel from current Debian git sources
 --------------------------------------------------------------
 
-The source code for the Debian Linux kernel is maintained within the [salsa gitlab server](https://salsa.debian.org/kernel-team/linux/commits/master).
+The source code for the Debian Linux kernel is maintained within the [salsa gitlab server](https://salsa.debian.org/kernel-team/linux/-/commits/debian/latest).
 The [debian/latest](https://salsa.debian.org/kernel-team/linux/-/commits/debian/latest) branch currently is based on linux-7.4.y,
 the [forky](https://salsa.debian.org/kernel-team/linux/-/commits/debian%2F7.3%2Fforky/) branch is based on linux-7.3.y and
 the [trixie](https://salsa.debian.org/kernel-team/linux/-/commits/debian%2F6.12%2Ftrixie/) branch is based on linux-6.12.y and
