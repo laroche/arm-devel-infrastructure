@@ -19,7 +19,7 @@ if test "X$HOSTTYPE" != "Xx86_64" ; then
   RPIPATCHES=1
 fi
 
-KVER=6.1.192
+KVER=6.1.193
 KVERR=$KVER
 CDIR=linux-$KVERR
 RVER=6.1.66
@@ -84,14 +84,11 @@ fi
 sed -i -e '/cplus_demangle/d' $CDIR/debian/rules.d/tools/perf/Makefile
 sed -i -e '/install-rtla)/d' $CDIR/debian/rules.real
 # Change Debian source to new version:
-sed -i -e '1 s/6.1.191-/6.1.192-/' $CDIR/debian/changelog
+sed -i -e '1 s/6.1.192-/6.1.193-/' $CDIR/debian/changelog
 sed -i -e '1 s/unstable/UNRELEASED/' $CDIR/debian/changelog
 sed -i -e '1 s/experimental/UNRELEASED/' $CDIR/debian/changelog
-sed -i -e 's,^features/all/ethernet-microsoft/0038-net-mana-Add-support-for-page-sizes-other-than-4KB-o.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^features/all/ethernet-microsoft/0044-net-mana-Allow-variable-size-indirection-table.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^features/all/ethernet-microsoft/0045-net-mana-Support-holes-in-device-list-reply-msg.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^features/all/ethernet-microsoft/0052-net-mana-Implement-get_ringparam-set_ringparam-for-m.patch,,g' $CDIR/debian/patches/series
-sed -i -e 's,^features/all/ethernet-microsoft/0053-net-mana-Improve-mana_set_channels-in-low-mem-condit.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^bugfix/arm64/arm64-dts-rockchip-fix-spdif-fe460000-ordering-on-rk.patch,,g' $CDIR/debian/patches/series
+sed -i -e 's,^features/arm64/quartz64/arm64-dts-rockchip-RK356x-Add-I2S2-device-node.patch,,g' $CDIR/debian/patches/series
 #sed -i -e 's,0056-debugobjects-locking-Annotate-debug_object_fill_pool.patch,,g' $CDIR/debian/patches-rt/series
 #exit 0
 mkdir -p orig
